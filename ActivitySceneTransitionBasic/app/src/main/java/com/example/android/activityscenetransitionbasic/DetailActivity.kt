@@ -30,9 +30,41 @@ import com.squareup.picasso.Picasso
  * which has a large banner image, title and body text.
  */
 class DetailActivity : AppCompatActivity() {
-    private var mHeaderImageView: ImageView? = null
-    private var mHeaderTitle: TextView? = null
-    private var mItem: Item? = null
+    /**
+     * The [ImageView] with ID [R.id.imageview_header] in our layout file layout/details.xml which
+     * holds the large banner image.
+     */
+    private lateinit var  mHeaderImageView: ImageView
+
+    /**
+     * The [TextView] with ID [R.id.textview_title] in our layout file layout/details.xml which
+     * holds the title.
+     */
+    private lateinit var mHeaderTitle: TextView
+
+    /**
+     * The [Item] object whose details we are to display, its ID is passed us as an extra in the
+     * `Intent` that launched us stored under the key [EXTRA_PARAM_ID] ("detail:_id")
+     */
+    private lateinit var mItem: Item
+
+    /**
+     * Called when the activity is starting. First we call our super's implementation of `onCreate`,
+     * then we set our content view to our layout file [R.layout.details]. First we initialize our
+     * [Item] field [mItem] by calling the [Item.getItem] static method to retrieve the [Item] in
+     * the dataset [Item.ITEMS] which has the ID that was passed us as an extra in the `Intent` that
+     * launched us stored under the key [EXTRA_PARAM_ID] ("detail:_id"). We then initialize our
+     * [ImageView] field [mHeaderImageView] by finding the view with ID [R.id.imageview_header], and
+     * initialize our [TextView] field [mHeaderTitle] by finding the view with ID [R.id.textview_title].
+     * We then set the name of [mHeaderImageView] to be used to identify Views in Transitions to
+     * [VIEW_NAME_HEADER_IMAGE] ("detail:header:image"), and set the name of [mHeaderTitle] to be
+     * used to identify Views in Transitions to [VIEW_NAME_HEADER_TITLE] ("detail:header:title").
+     * Finally we call our method [loadItem] to have it set the text of [mHeaderTitle] and to call
+     * either [loadThumbnail] or [loadFullSizeImage] as appropriate to load the correct image into
+     * [mHeaderImageView].
+     *
+     * @param savedInstanceState We do not call [onSaveInstanceState] so do not use.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.details)
@@ -48,15 +80,25 @@ class DetailActivity : AppCompatActivity() {
          * This could be done in the layout XML, but exposing it via static variables allows easy
          * querying from other Activities
          */
-        ViewCompat.setTransitionName(mHeaderImageView!!, VIEW_NAME_HEADER_IMAGE)
-        ViewCompat.setTransitionName(mHeaderTitle!!, VIEW_NAME_HEADER_TITLE)
+        ViewCompat.setTransitionName(mHeaderImageView, VIEW_NAME_HEADER_IMAGE)
+        ViewCompat.setTransitionName(mHeaderTitle, VIEW_NAME_HEADER_TITLE)
         // END_INCLUDE(detail_set_view_name)
         loadItem()
     }
 
+    /**
+     * Sets the text of the title [TextView] field [mHeaderTitle] to the name and author of the [Item]
+     * field [mItem], then loads the appropriate image into [ImageView] field [mHeaderImageView]
+     * depending on whether the SDK version is `LOLLIPOP` or greater and whether our method
+     * [addTransitionListener] can add a [Transition.TransitionListener] to the entering shared
+     * element [Transition]. If these are both true we call our method [loadThumbnail] to load the
+     * thumbnail of [mItem] (the listener [addTransitionListener] added will load the full-size image
+     * when the transition is complete), otherwise we call our method [loadFullSizeImage] to just
+     * load the full-size image of [mItem] now.
+     */
     private fun loadItem() {
         // Set the title TextView to the item's name and author
-        mHeaderTitle!!.text = getString(R.string.image_header, mItem!!.name, mItem!!.author)
+        mHeaderTitle.text = getString(R.string.image_header, mItem.name, mItem.author)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && addTransitionListener()) {
             // If we're running on Lollipop and we have added a listener to the shared element
             // transition, load the thumbnail. The listener will load the full-size image when
@@ -72,8 +114,8 @@ class DetailActivity : AppCompatActivity() {
      * Load the item's thumbnail image into our [ImageView].
      */
     private fun loadThumbnail() {
-        Picasso.with(mHeaderImageView!!.context)
-                .load(mItem!!.thumbnailUrl)
+        Picasso.with(mHeaderImageView.context)
+                .load(mItem.thumbnailUrl)
                 .noFade()
                 .into(mHeaderImageView)
     }
@@ -82,8 +124,8 @@ class DetailActivity : AppCompatActivity() {
      * Load the item's full-size image into our [ImageView].
      */
     private fun loadFullSizeImage() {
-        Picasso.with(mHeaderImageView!!.context)
-                .load(mItem!!.photoUrl)
+        Picasso.with(mHeaderImageView.context)
+                .load(mItem.photoUrl)
                 .noFade()
                 .noPlaceholder()
                 .into(mHeaderImageView)
