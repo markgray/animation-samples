@@ -111,7 +111,11 @@ class DetailActivity : AppCompatActivity() {
     }
 
     /**
-     * Load the item's thumbnail image into our [ImageView].
+     * Load the item's thumbnail image into our [ImageView]. We use the global default Picasso instance
+     * passing it the context of our [ImageView] field [mHeaderImageView] to start an image request
+     * using the path specified by the `thumbnailUrl` property of [Item] field [mItem], disable the
+     * brief fade in of images loaded from the disk cache or network, and request if to asynchronously
+     * fulfill the request into the [ImageView] field [mHeaderImageView].
      */
     private fun loadThumbnail() {
         Picasso.with(mHeaderImageView.context)
@@ -121,7 +125,12 @@ class DetailActivity : AppCompatActivity() {
     }
 
     /**
-     * Load the item's full-size image into our [ImageView].
+     * Load the item's full-size image into our [ImageView]. We use the global default Picasso instance
+     * passing it the context of our [ImageView] field [mHeaderImageView] to start an image request
+     * using the path specified by the `photoUrl` property of [Item] field [mItem], disable the brief
+     * fade in of images loaded from the disk cache or network, explicitly opt-out to having a placeholder
+     * set while waiting, and request if to asynchronously fulfill the request into the [ImageView]
+     * field [mHeaderImageView].
      */
     private fun loadFullSizeImage() {
         Picasso.with(mHeaderImageView.context)
@@ -136,7 +145,7 @@ class DetailActivity : AppCompatActivity() {
      * [Transition]. We do this so that we can load the full-size image after the transition
      * has completed.
      *
-     * @return true if we were successful in adding a listener to the enter transition
+     * @return `true` if we were successful in adding a listener to the enter transition
      */
     @RequiresApi(21)
     private fun addTransitionListener(): Boolean {
@@ -144,6 +153,16 @@ class DetailActivity : AppCompatActivity() {
         if (transition != null) {
             // There is an entering shared element transition so add a listener to it
             transition.addListener(object : Transition.TransitionListener {
+                /**
+                 * Notification about the end of the transition. Canceled transitions will always
+                 * notify listeners of both the cancellation and end events. That is, [onTransitionEnd]
+                 * is always called, regardless of whether the transition was canceled or played
+                 * through to completion. We call our method [loadFullSizeImage] to load the item's
+                 * full-size image into our [ImageView] field [mHeaderImageView], then call the
+                 * `removeListener` method of [transition] to remove `this` as a listener.
+                 *
+                 * @param transition The [Transition] which reached its end.
+                 */
                 override fun onTransitionEnd(transition: Transition) {
                     // As the transition has ended, we can now load the full-size image
                     loadFullSizeImage()
@@ -152,19 +171,40 @@ class DetailActivity : AppCompatActivity() {
                     transition.removeListener(this)
                 }
 
+                /**
+                 * Notification about the start of the transition. We do nothing.
+                 *
+                 * @param transition The started [Transition].
+                 */
                 override fun onTransitionStart(transition: Transition) {
                     // No-op
                 }
 
+                /**
+                 * Notification about the cancellation of the transition. We just call the
+                 * `removeListener` method of [transition] to remove `this` as a listener.
+                 *
+                 * @param transition The [Transition] which was canceled.
+                 */
                 override fun onTransitionCancel(transition: Transition) {
                     // Make sure we remove ourselves as a listener
                     transition.removeListener(this)
                 }
 
+                /**
+                 * Notification when a transition is paused. We do nothing.
+                 *
+                 * @param transition The [Transition] which was paused.
+                 */
                 override fun onTransitionPause(transition: Transition) {
                     // No-op
                 }
 
+                /**
+                 * Notification when a transition is resumed. We do nothing.
+                 *
+                 * @param transition The [Transition] which was resumed.
+                 */
                 override fun onTransitionResume(transition: Transition) {
                     // No-op
                 }
@@ -177,13 +217,19 @@ class DetailActivity : AppCompatActivity() {
     }
 
     companion object {
-        // Extra name for the ID parameter
+        /**
+         * Key of the ID of the [Item] passed us in our extra [Bundle] that we are to display
+         */
         const val EXTRA_PARAM_ID = "detail:_id"
 
-        // View name of the header image. Used for activity scene transitions
+        /**
+         * View name of the header image. Used for activity scene transitions.
+         */
         const val VIEW_NAME_HEADER_IMAGE = "detail:header:image"
 
-        // View name of the header title. Used for activity scene transitions
+        /**
+         * View name of the header title. Used for activity scene transitions
+         */
         const val VIEW_NAME_HEADER_TITLE = "detail:header:title"
     }
 }
