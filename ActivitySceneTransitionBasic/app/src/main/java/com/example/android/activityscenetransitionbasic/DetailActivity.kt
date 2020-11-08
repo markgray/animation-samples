@@ -70,7 +70,7 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.details)
 
         // Retrieve the correct Item instance, using the ID provided in the Intent
-        mItem = Item.getItem(intent.getIntExtra(EXTRA_PARAM_ID, 0))
+        mItem = Item.getItem(intent.getIntExtra(EXTRA_PARAM_ID, 0))!!
         mHeaderImageView = findViewById(R.id.imageview_header)
         mHeaderTitle = findViewById(R.id.textview_title)
 
