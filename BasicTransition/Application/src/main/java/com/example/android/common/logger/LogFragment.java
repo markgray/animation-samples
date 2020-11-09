@@ -33,7 +33,7 @@ package com.example.android.common.logger;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -43,7 +43,7 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 
 /**
- * Simple fraggment which contains a LogView and uses is to output log data it receives
+ * Simple fragment which contains a LogView and uses is to output log data it receives
  * through the LogNode interface.
  */
 public class LogFragment extends Fragment {

@@ -33,9 +33,8 @@ take place.
 Pre-requisites
 --------------
 
-- Android SDK 28
-- Android Build Tools v28.0.3
-- Android Support Repository
+- Android SDK 30
+- minSdkVersion 21
 
 Screenshots
 -------------
