@@ -144,16 +144,22 @@ class MainActivity : SampleActivityBase() {
      * `SampleActivityBase`.
      */
     override fun initializeLogging() {
-        // Wraps Android's native log framework.
+        /**
+         * Wraps Android's native log framework.
+         */
         val logWrapper = LogWrapper()
-        // Using Log, front-end to the logging chain, emulates android.util.log method signatures.
+        /**
+         * Using Log, front-end to the logging chain, emulates android.util.log method signatures.
+         */
         Log.setLogNode(logWrapper)
-
-        // Filter strips out everything except the message text.
+        /**
+         * Filter strips out everything except the message text.
+         */
         val msgFilter = MessageOnlyLogFilter()
         logWrapper.next = msgFilter
-
-        // On screen logging via a fragment with a TextView.
+        /**
+         * On screen logging via a fragment with a TextView.
+         */
         val logFragment = supportFragmentManager
                 .findFragmentById(R.id.log_fragment) as LogFragment?
         msgFilter.next = logFragment!!.logView
@@ -161,6 +167,9 @@ class MainActivity : SampleActivityBase() {
     }
 
     companion object {
+        /**
+         * TAG used for logging
+         */
         const val TAG = "MainActivity"
     }
 }
