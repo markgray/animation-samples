@@ -20,7 +20,7 @@ import com.example.android.common.logger.Log;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.transition.Scene;
 import android.transition.Transition;
 import android.transition.TransitionManager;
