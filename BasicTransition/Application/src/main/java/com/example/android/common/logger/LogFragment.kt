@@ -31,6 +31,7 @@
 package com.example.android.common.logger
 
 import android.R.style.TextAppearance_Holo_Medium
+import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
@@ -56,7 +57,7 @@ class LogFragment : Fragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT)
         mScrollView!!.layoutParams = scrollParams
-        logView = LogView(activity)
+        logView = LogView(activity as Context)
         val logParams = ViewGroup.LayoutParams(scrollParams)
         logParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         logView!!.layoutParams = logParams
