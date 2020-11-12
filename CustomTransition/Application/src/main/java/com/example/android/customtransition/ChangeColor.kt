@@ -24,22 +24,51 @@ import android.transition.Transition
 import android.transition.TransitionValues
 import android.view.ViewGroup
 
+/**
+ * The custom [Transition] used by `CustomTransitionFragment` to transition between scenes.
+ */
 class ChangeColor : Transition() {
     // BEGIN_INCLUDE (capture_values)
     /**
-     * Convenience method: Add the background Drawable property value
-     * to the TransitionsValues.value Map for a target.
+     * Convenience method: Add the background Drawable property value to the TransitionsValues.value
+     * Map for a target under the key [PROPNAME_BACKGROUND].
+     *
+     * @param values The holder for any values that the [Transition] wishes to store.
      */
     private fun captureValues(values: TransitionValues) {
         // Capture the property values of views for later use
         values.values[PROPNAME_BACKGROUND] = values.view.background
     }
 
+    /**
+     * Captures the values in the start scene for the properties that this transition monitors.
+     * These values are then passed as the `startValues` structure in a later call to [createAnimator].
+     * The main concern for an implementation is what the properties are that the transition cares
+     * about and what the values are for all of those properties. The start and end values will be
+     * compared later during the [createAnimator] method to determine what, if any, animations,
+     * should be run.
+     *
+     * Subclasses must implement this method. The method should only be called by the
+     * transition system; it is not intended to be called from external classes.
+     *
+     * We just call our convenience method [captureValues] to add the background Drawable property
+     * value of the `view` field of [transitionValues] to the `TransitionsValues.value` Map for a
+     * target under the key [PROPNAME_BACKGROUND].
+     *
+     * @param transitionValues The holder for any values that the [Transition] wishes to store.
+     * Values are stored in the `values` field of this [TransitionValues] object and are keyed from
+     * a String value. For example, to store a view's rotation value, a transition might call
+     * `transitionValues.values.put("appname:transitionname:rotation", view.getRotation())`.
+     * The target view will already be stored in the [transitionValues] structure when this method
+     * is called.
+     */
     override fun captureStartValues(transitionValues: TransitionValues) {
         captureValues(transitionValues)
     }
 
-    // Capture the value of the background drawable property for a target in the ending Scene.
+    /**
+     * Capture the value of the background drawable property for a target in the ending Scene.
+     */
     override fun captureEndValues(transitionValues: TransitionValues) {
         captureValues(transitionValues)
     }
