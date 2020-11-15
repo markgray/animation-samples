@@ -27,6 +27,13 @@ import com.example.android.drawableanimations.demo.animated.AnimatedFragment
 import com.example.android.drawableanimations.demo.seekable.SeekableFragment
 import com.example.android.drawableanimations.viewBindings
 
+/**
+ * This is the starting [Fragment] of our demo, its UI consists of just a `RecyclerView` whose
+ * child view's `ViewHolder` loads either [AnimatedFragment] or [SeekableFragment] when the view
+ * is clicked. We used the alternate constructor of our [Fragment] super class to have it inflate
+ * our layout file [R.layout.home_fragment] in its [onCreateView] method and set it to be our
+ * content view.
+ */
 class HomeFragment : Fragment(R.layout.home_fragment) {
 
     private val binding by viewBindings(HomeFragmentBinding::bind)
