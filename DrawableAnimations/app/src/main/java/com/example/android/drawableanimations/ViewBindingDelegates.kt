@@ -26,6 +26,8 @@ import androidx.viewbinding.ViewBinding
  * Retrieves a view binding handle in a Fragment. The field is available only after
  * [Fragment.onViewCreated].
  *
+ * TODO: Comment this thoroughly!
+ *
  * ```
  *     private val binding by dataBindings(HomeFragmentBinding::bind)
  *

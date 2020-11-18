@@ -18,6 +18,16 @@ package com.example.android.drawableanimations.demo
 
 import androidx.fragment.app.Fragment
 
+/**
+ * This is the datum type used as the dataset of the `DemoListAdapter` for the `RecyclerView` in the
+ * `HomeFragment` fragment UI which allows the user to select between the demo fragments loaded.
+ *
+ * @param title The title to be displayed for this choice in the `RecyclerView` of the `HomeFragment`
+ * fragment UI, as well as the title associated with the activity once the demo fragment is loaded.
+ * @param createFragment a function which takes no arguments and returns a [Fragment], in our case
+ * the constructors for the fragments `AnimatedFragment` and `SeekableFragment` are used in the
+ * [Demo] instances that load these fragments.
+ */
 data class Demo(
     val title: String,
     val createFragment: () -> Fragment
