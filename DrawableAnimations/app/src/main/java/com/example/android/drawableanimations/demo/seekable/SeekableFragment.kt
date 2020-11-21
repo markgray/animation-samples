@@ -89,24 +89,56 @@ class SeekableFragment : Fragment(R.layout.seekable_fragment) {
         // SeekableAnimatedVectorDrawable offers more callback events including pause/resume and
         // update.
         icon.registerAnimationCallback(object : SeekableAnimatedVectorDrawable.AnimationCallback() {
+            /**
+             * Called when the animation starts. We change the text of the button with ID `start` to
+             * "Pause", and enable the button with ID `stop`.
+             *
+             * @param drawable The drawable that started its animation.
+             */
             override fun onAnimationStart(drawable: SeekableAnimatedVectorDrawable) {
                 binding.start.setText(R.string.pause)
                 binding.stop.isEnabled = true
             }
 
+            /**
+             * Called when the animation is paused. We change the text of the button with ID `start`
+             * to "Resume".
+             *
+             * @param drawable The drawable that paused.
+             */
             override fun onAnimationPause(drawable: SeekableAnimatedVectorDrawable) {
                 binding.start.setText(R.string.resume)
             }
 
+            /**
+             * Called when the animation is resumed. We change the text of the button with ID `start`
+             * to "Pause"
+             *
+             * @param drawable The drawable that resumed.
+             */
             override fun onAnimationResume(drawable: SeekableAnimatedVectorDrawable) {
                 binding.start.setText(R.string.pause)
             }
 
+            /**
+             * Called when the animation ends. We change the text of the button with ID `start` to
+             * "Start", and disable the button with ID `stop`.
+             *
+             * @param drawable The drawable that finished its animation.
+             */
             override fun onAnimationEnd(drawable: SeekableAnimatedVectorDrawable) {
                 binding.start.setText(R.string.start)
                 binding.stop.isEnabled = false
             }
 
+            /**
+             * Called on every frame while the animation is running. The implementation must not
+             * register or unregister any `AnimationCallback`` here. We set the `progress` of the
+             * `SeekBar` with ID `seek` to a position corresponding to the current elapsed time of
+             * the animation with respect to the total duration of the animation.
+             *
+             * @param drawable The drawable that is being updated.
+             */
             override fun onAnimationUpdate(drawable: SeekableAnimatedVectorDrawable) {
                 binding.seek.progress = (binding.seek.max * (drawable.currentPlayTime.toFloat() /
                         drawable.totalDuration.toFloat())).toInt()
@@ -123,6 +155,18 @@ class SeekableFragment : Fragment(R.layout.seekable_fragment) {
         }
         binding.stop.setOnClickListener { icon.stop() }
         binding.seek.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            /**
+             * Notification that the progress level has changed. Clients can use the [fromUser]
+             * parameter to distinguish user-initiated changes from those that occurred
+             * programmatically. We set the position of the animation of `icon` to the point
+             * in time corresponding to the relative position of the [SeekBar].
+             *
+             * @param seekBar The [SeekBar] whose progress has changed
+             * @param progress The current progress level. This will be in the range min..max where
+             * min and max were set by `ProgressBar.setMin` and `ProgressBar.setMax` respectively.
+             * (The default values for min is 0 and max is 100.)
+             * @param fromUser `true` if the progress change was initiated by the user.
+             */
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
                     // With SeekableAnimatedVectorDrawable#setCurrentPlayTime, you can set the
@@ -132,10 +176,22 @@ class SeekableFragment : Fragment(R.layout.seekable_fragment) {
                 }
             }
 
+            /**
+             * Notification that the user has started a touch gesture. Clients may want to use this
+             * to disable advancing the seekbar. We ignore.
+             *
+             * @param seekBar The SeekBar in which the touch gesture began
+             */
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
                 // Do nothing.
             }
 
+            /**
+             * Notification that the user has finished a touch gesture. Clients may want to use this
+             * to re-enable advancing the seekbar. We ignore.
+             *
+             * @param seekBar The [SeekBar] in which the touch gesture began
+             */
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 // Do nothing.
             }

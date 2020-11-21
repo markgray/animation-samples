@@ -69,11 +69,23 @@ class AnimatedFragment : Fragment(R.layout.animated_fragment) {
             R.drawable.ic_hourglass_animated
         )!!
         icon.registerAnimationCallback(object: Animatable2Compat.AnimationCallback() {
+            /**
+             * Called when the animation starts. We disable the button with ID `start`, and enable
+             * the button with ID `stop`.
+             *
+             * @param drawable The [Drawable] which started its animation.
+             */
             override fun onAnimationStart(drawable: Drawable?) {
                 binding.start.isEnabled = false
                 binding.stop.isEnabled = true
             }
 
+            /**
+             * Called when the animation ends. We enable the button with ID `start`, and disable
+             * the button with ID `stop`.
+             *
+             * @param drawable The [Drawable] which finished its animation.
+             */
             override fun onAnimationEnd(drawable: Drawable?) {
                 binding.start.isEnabled = true
                 binding.stop.isEnabled = false
