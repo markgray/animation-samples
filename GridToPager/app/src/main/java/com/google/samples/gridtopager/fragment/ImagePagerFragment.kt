@@ -32,9 +32,37 @@ import com.google.samples.gridtopager.adapter.ImagePagerAdapter
  * A fragment for displaying a pager of images.
  */
 class ImagePagerFragment : Fragment() {
+    /**
+     * The [ViewPager] we use for our UI, our [onCreateView] override inflates it from the layout
+     * file with ID [R.layout.fragment_pager] (the file layout/fragment_pager.xml). Its ID in that
+     * file is [R.id.view_pager]
+     */
     private lateinit var viewPager: ViewPager
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+
+    /**
+     * Called to have the fragment instantiate its user interface view. We use our [LayoutInflater]
+     * parameter [inflater] to inflate the layout file with ID [R.layout.fragment_pager] using our
+     * [ViewGroup] parameter [container] for its LayoutParams and set our [ViewPager] field
+     * [viewPager] to the [View] it creates. We then set the `adapter` of [viewPager] to a new
+     * instance of [ImagePagerAdapter], set its current item to [MainActivity.currentPosition],
+     * and add a [SimpleOnPageChangeListener] to it whose `onPageSelected` override sets
+     * [MainActivity.currentPosition] to the position index of the newly selected page.
+     *
+     * @param inflater The [LayoutInflater] object that can be used to inflate any
+     * views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI will be attached to. The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return Return the [View] for the fragment's UI, or null.
+     */
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View {
         viewPager = inflater.inflate(R.layout.fragment_pager, container, false) as ViewPager
         viewPager.adapter = ImagePagerAdapter(this)
         // Set the current position and add a listener that will update the selection coordinator when
