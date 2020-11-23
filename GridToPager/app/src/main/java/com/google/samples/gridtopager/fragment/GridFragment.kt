@@ -16,6 +16,7 @@
 package com.google.samples.gridtopager.fragment
 
 import android.os.Bundle
+import android.transition.Transition
 import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
@@ -62,7 +63,7 @@ class GridFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         recyclerView = inflater.inflate(
                 R.layout.fragment_grid,
                 container,
@@ -156,7 +157,16 @@ class GridFragment : Fragment() {
 
     /**
      * Prepares the shared element transition to the pager fragment, as well as the other transitions
-     * that affect the flow.
+     * that affect the flow. First we set the Transition that will be used to move Views out of the
+     * scene when the fragment is removed, hidden, or detached when not popping the back stack to
+     * the [Transition] that the [TransitionInflater] from the the `Context` this fragment is currently
+     * associated with inflates from the resource file [R.transition.grid_exit_transition] (it is a
+     * `fade` transition using the fast out slow in interpolator with a duration of 375 and a start
+     * delay of 25 whose target ID is the `CardView` with ID [R.id.card_view] in the layout file
+     * layout/image_card.xml which is the layout file that `GridAdapter` uses for its item views).
+     * Then we set the exit transition callback that is called when this [Fragment] is attached or
+     * detached when popping the back stack to an anonymous [SharedElementCallback] whose
+     * `onMapSharedElements` override sets its [RecyclerView.ViewHolder] variable 
      */
     private fun prepareTransitions() {
         exitTransition = TransitionInflater.from(context)
