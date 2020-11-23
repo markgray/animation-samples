@@ -166,7 +166,10 @@ class GridFragment : Fragment() {
      * layout/image_card.xml which is the layout file that `GridAdapter` uses for its item views).
      * Then we set the exit transition callback that is called when this [Fragment] is attached or
      * detached when popping the back stack to an anonymous [SharedElementCallback] whose
-     * `onMapSharedElements` override sets its [RecyclerView.ViewHolder] variable 
+     * `onMapSharedElements` override sets its [RecyclerView.ViewHolder] variable `val selectedViewHolder`
+     * to the view holder in the position [MainActivity.currentPosition], returning if it is `null`.
+     * If it is not `null` it sets the first shared element name in its `sharedElements` map parameter
+     * to the child ImageView with ID [R.id.card_image] in the item view of `selectedViewHolder`.
      */
     private fun prepareTransitions() {
         exitTransition = TransitionInflater.from(context)
@@ -175,10 +178,22 @@ class GridFragment : Fragment() {
         // A similar mapping is set at the ImagePagerFragment with a setEnterSharedElementCallback.
         setExitSharedElementCallback(
                 object : SharedElementCallback() {
+                    /**
+                     * Lets the SharedElementCallback adjust the mapping of shared element names to
+                     * Views. We set our [RecyclerView.ViewHolder] variable `val selectedViewHolder`
+                     * to the view holder in the position [MainActivity.currentPosition], returning
+                     * if it is `null`. If it is not `null` we set the first shared element name in
+                     * the [sharedElements] map parameter to the child ImageView we find with ID
+                     * [R.id.card_image] in the item view of `selectedViewHolder`.
+                     *
+                     * @param names The names of all shared elements transferred from the calling
+                     * Activity or Fragment in the order they were provided.
+                     * @param sharedElements The mapping of shared element names to Views. The best
+                     * guess will be filled into sharedElements based on the transitionNames.
+                     */
                     override fun onMapSharedElements(
                             names: List<String>,
-                            sharedElements: MutableMap<String,
-                                    View>
+                            sharedElements: MutableMap<String, View>
                     ) {
                         // Locate the ViewHolder for the clicked position.
                         val selectedViewHolder: RecyclerView.ViewHolder
