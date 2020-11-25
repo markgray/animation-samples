@@ -16,6 +16,7 @@
 package com.google.samples.gridtopager.fragment
 
 import android.os.Bundle
+import android.transition.Transition
 import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +48,14 @@ class ImagePagerFragment : Fragment() {
      * instance of [ImagePagerAdapter], set its current item to [MainActivity.currentPosition],
      * and add a [SimpleOnPageChangeListener] to it whose `onPageSelected` override sets
      * [MainActivity.currentPosition] to the position index of the newly selected page.
+     *
+     * Next we call our [prepareSharedElementTransition] to prepare the shared element transition
+     * from and back to the grid fragment. If our [Bundle] parameter [savedInstanceState] is `null`
+     * (this is the first time we were called) we cal the [postponeEnterTransition] to postpone the
+     * entering Fragment transition until [startPostponedEnterTransition] or the method
+     * `executePendingTransactions` of `FragmentManager` has been called (if [savedInstanceState] is
+     * not `null` we just had an orientation change so want to skip [postponeEnterTransition]).
+     * Finally we return [viewPager] to the caller.
      *
      * @param inflater The [LayoutInflater] object that can be used to inflate any
      * views in the fragment,
@@ -83,27 +92,53 @@ class ImagePagerFragment : Fragment() {
     }
 
     /**
-     * Prepares the shared element transition from and back to the grid fragment.
+     * Prepares the shared element transition from and back to the grid fragment. We initialize our
+     * [Transition] variable `val transition` to the instance that the [TransitionInflater] from the
+     * the `Context` this fragment is currently associated with inflates from the resource file
+     * [R.transition.image_shared_element_transition]. It is a `transitionSet` with a duration of
+     * 375, a fast out slow in interpolator which runs together a `changeClipBounds` (captures the
+     * View.getClipBounds() before and after the scene change and animates those changes during the
+     * transition), `changeTransform` (captures scale and rotation for Views before and after the
+     * scene change and animates those changes during the transition) and a `changeBounds` (captures
+     * the layout bounds of target views before and after the scene change and animates those changes
+     * during the transition). Then we set the Transition that will be used for shared elements
+     * transferred into the content Scene (`sharedElementEnterTransition` property) to `transition`.
+     * Next we call [setEnterSharedElementCallback] to set the enter transition callback to an
+     * anonymous [SharedElementCallback] whose `onMapSharedElements` override locates the [ImageFragment]
+     * that is currently visible and maps the first shared element name to the child ImageView.
      */
     private fun prepareSharedElementTransition() {
-        val transition = TransitionInflater.from(context)
+        val transition: Transition = TransitionInflater.from(context)
                 .inflateTransition(R.transition.image_shared_element_transition)
         sharedElementEnterTransition = transition
 
         // A similar mapping is set at the GridFragment with a setExitSharedElementCallback.
         setEnterSharedElementCallback(
-                object : SharedElementCallback() {
-                    override fun onMapSharedElements(names: List<String>, sharedElements: MutableMap<String, View>) {
-                        // Locate the image view at the primary fragment (the ImageFragment that is currently
-                        // visible). To locate the fragment, call instantiateItem with the selection position.
-                        // At this stage, the method will simply return the fragment at the position and will
-                        // not create a new one.
-                        val currentFragment = viewPager.adapter!!
-                                .instantiateItem(viewPager, MainActivity.currentPosition) as Fragment
-                        val view = currentFragment.view ?: return
+            object : SharedElementCallback() {
+                /**
+                 * Lets the SharedElementCallback adjust the mapping of shared element names to
+                 * Views. We initialize our [Fragment] variable `val currentFragment` by having
+                 * the `adapter` of our [ViewPager] field [viewPager] create the page for the
+                 * position [MainActivity.currentPosition]. If the view of `currentFragment` is
+                 * `null` we return having done nothing, otherwise we set the first shared element
+                 * name in our [names] parameter to the `ImageView` with ID [R.id.image] in `view`.
+                 *
+                 * @param names The names of all shared elements transferred from the calling Activity
+                 * or Fragment in the order they were provided.
+                 * @param sharedElements The mapping of shared element names to Views. The best guess
+                 * will be filled into [sharedElements] based on the transitionNames.
+                 */
+                override fun onMapSharedElements(names: List<String>, sharedElements: MutableMap<String, View>) {
+                    // Locate the image view at the primary fragment (the ImageFragment that is currently
+                    // visible). To locate the fragment, call instantiateItem with the selection position.
+                    // At this stage, the method will simply return the fragment at the position and will
+                    // not create a new one.
+                    val currentFragment = viewPager.adapter!!
+                            .instantiateItem(viewPager, MainActivity.currentPosition) as Fragment
+                    val view = currentFragment.view ?: return
 
-                        // Map the first shared element name to the child ImageView.
-                        sharedElements[names[0]] = view.findViewById(R.id.image)
+                    // Map the first shared element name to the child ImageView.
+                    sharedElements[names[0]] = view.findViewById(R.id.image)
                     }
                 })
     }
