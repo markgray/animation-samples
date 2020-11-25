@@ -34,14 +34,33 @@ import com.google.samples.gridtopager.R
  * A fragment for displaying an image.
  */
 class ImageFragment : Fragment() {
+    /**
+     * Called to have the fragment instantiate its user interface view. We initialize our [View]
+     * variable `val view` by using our [LayoutInflater] parameter [inflater] to inflate our layout
+     * file [R.layout.fragment_image] with our [ViewGroup] parameter [container] supplying the
+     * `LayoutParams` (the [View] consists of a single [ImageView] with ID [R.id.image]). We
+     * initialize our [Bundle] variable `val arguments` to the arguments supplied when the fragment
+     * was instantiated. We initialize our variable `val imageRes` to the [Int] stored under the key
+     * [KEY_IMAGE_RES] in `arguments`.
+     *
+     * @param inflater The [LayoutInflater] object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI will be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the `LayoutParams` of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     * @return Return the [View] for the fragment's UI, or `null`.
+     */
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_image, container, false)
-        val arguments = arguments
-        @DrawableRes val imageRes = arguments!!.getInt(KEY_IMAGE_RES)
+        val arguments: Bundle? = arguments
+        @DrawableRes
+        val imageRes = arguments!!.getInt(KEY_IMAGE_RES)
 
         // Just like we do when binding views at the grid, we set the transition name to be the string
         // value of the image res.
