@@ -13,34 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.google.samples.gridtopager.adapter
 
-package com.google.samples.gridtopager.adapter;
-
-import androidx.annotation.DrawableRes;
-import com.google.samples.gridtopager.R;
+import androidx.annotation.DrawableRes
+import com.google.samples.gridtopager.R
 
 /**
  * Holds the image resource references used by the grid and the pager fragments.
  */
-abstract class ImageData {
-
-  // Image assets (free for commercial use, no attribution required, from pixabay.com)
-  @DrawableRes
-  static final int[] IMAGE_DRAWABLES = {
-      R.drawable.animal_2024172,
-      R.drawable.beetle_562035,
-      R.drawable.bug_189903,
-      R.drawable.butterfly_417971,
-      R.drawable.butterfly_dolls_363342,
-      R.drawable.dragonfly_122787,
-      R.drawable.dragonfly_274059,
-      R.drawable.dragonfly_689626,
-      R.drawable.grasshopper_279532,
-      R.drawable.hover_fly_61682,
-      R.drawable.hoverfly_546692,
-      R.drawable.insect_278083,
-      R.drawable.morpho_43483,
-      R.drawable.nature_95365
-  };
-
+internal object ImageData {
+    // Image assets (free for commercial use, no attribution required, from pixabay.com)
+    /**
+     * The `@JvmField` annotation instructs the Kotlin compiler not to generate getters/setters for
+     * this property and to expose it as a field, and the `@DrawableRes` annotation denotes that an
+     * integer parameter, field or method return value is expected to be a drawable resource reference.
+     */
+    @JvmField
+    @DrawableRes
+    val IMAGE_DRAWABLES = intArrayOf(
+            R.drawable.animal_2024172,
+            R.drawable.beetle_562035,
+            R.drawable.bug_189903,
+            R.drawable.butterfly_417971,
+            R.drawable.butterfly_dolls_363342,
+            R.drawable.dragonfly_122787,
+            R.drawable.dragonfly_274059,
+            R.drawable.dragonfly_689626,
+            R.drawable.grasshopper_279532,
+            R.drawable.hover_fly_61682,
+            R.drawable.hoverfly_546692,
+            R.drawable.insect_278083,
+            R.drawable.morpho_43483,
+            R.drawable.nature_95365
+    )
 }

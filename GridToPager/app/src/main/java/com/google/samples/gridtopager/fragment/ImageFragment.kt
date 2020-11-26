@@ -41,7 +41,24 @@ class ImageFragment : Fragment() {
      * `LayoutParams` (the [View] consists of a single [ImageView] with ID [R.id.image]). We
      * initialize our [Bundle] variable `val arguments` to the arguments supplied when the fragment
      * was instantiated. We initialize our variable `val imageRes` to the [Int] stored under the key
-     * [KEY_IMAGE_RES] in `arguments`.
+     * [KEY_IMAGE_RES] in `arguments`. We set the name of the View to be used to identify Views in
+     * Transitions of the [View] in `view` with ID [R.id.image] to be the string value of the image
+     * resource value `imageRes` (name of the View to uniquely identify it for Transitions, which is
+     * the same name used when binding views in the grid).
+     *
+     * We then begin a load of `imageRes` with [Glide] that will be tied to the given Fragment's
+     * lifecycle and that uses `this` Fragment's default options. We set the [RequestListener] of
+     * this load to an anonymous instance whose `onLoadFailed` override calls the method
+     * [startPostponedEnterTransition] of the parent Fragment containing this Fragment to get the
+     * transition going in case of a failure and returns `false` to to allow `onLoadFailed`` to be
+     * called on the target [Drawable], and whose `onResourceReady` override also calls the method
+     * [startPostponedEnterTransition] of the parent Fragment containing this Fragment to get the
+     * transition going in case of a failure and returns `false` to to allow `onLoadFailed`` to be
+     * called on the target [Drawable]. The final method called in the [Glide] is `into` which
+     * will set the [ImageView] that the resource will be loaded into to be the [View] in `view`
+     * with ID [R.id.image].
+     *
+     * Finally we return `view` to the caller.
      *
      * @param inflater The [LayoutInflater] object that can be used to inflate
      * any views in the fragment,
@@ -102,7 +119,24 @@ class ImageFragment : Fragment() {
     }
 
     companion object {
+        /**
+         * The key to the value of the image resource ID which is passed us in our argument [Bundle].
+         */
         private const val KEY_IMAGE_RES = "com.google.samples.gridtopager.key.imageRes"
+
+        /**
+         * Factory method used by the `getItem` method of `ImagePagerAdapter` to create a new instance
+         * of [ImageFragment] to fetch and display the `Drawable` with resource ID [drawableRes]. We
+         * initialize our [ImageFragment] variable `val fragment` with a new instance and our [Bundle]
+         * variable `val argument` with a new instance. We store our parameter [drawableRes] under the
+         * key [KEY_IMAGE_RES] in `argument` and set the construction arguments of `fragment` to
+         * `argument`. Finally we return `fragment` to the caller.
+         *
+         * @param drawableRes the resource ID of the `Drawable` which the new [ImageFragment] should
+         * display.
+         * @return a new instance of [ImageFragment] whose construction arguments [Bundle] contains
+         * our parameter [drawableRes] stored under the key [KEY_IMAGE_RES].
+         */
         @JvmStatic
         fun newInstance(@DrawableRes drawableRes: Int): ImageFragment {
             val fragment = ImageFragment()
