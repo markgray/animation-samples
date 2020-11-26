@@ -38,11 +38,14 @@ import com.google.samples.gridtopager.fragment.ImagePagerFragment
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- * A fragment for displaying a grid of images.
+ * A [RecyclerView.Adapter] for a fragment that displays a grid of images in its [RecyclerView].
  */
 class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() {
     /**
      * A listener that is attached to all ViewHolders to handle image loading events and clicks.
+     * The [onLoadCompleted] override is called when [Glide] finishes loading the resource image
+     * or fails to load it, and the [onItemClicked] override is called when the view in the grid
+     * is clicked by the user.
      */
     interface ViewHolderListener {
         fun onLoadCompleted(view: ImageView?, adapterPosition: Int)
