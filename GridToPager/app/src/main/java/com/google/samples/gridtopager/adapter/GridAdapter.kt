@@ -48,22 +48,76 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
      * is clicked by the user.
      */
     interface ViewHolderListener {
+        /**
+         * This is called when [Glide] either gives up a failed load and calls the `onLoadFailed`
+         * override of its listener, or has successfully loaded the image and calls the override
+         * of `onResourceReady` of its listener.
+         *
+         * @param view the [ImageView] which is being loaded into
+         * @param adapterPosition the position in our dataset whose drawable was being loaded
+         */
         fun onLoadCompleted(view: ImageView?, adapterPosition: Int)
+
+        /**
+         * This is called by the `onClick` override of [ImageViewHolder] (it implements the
+         * [View.OnClickListener] interface) when the view with ID [R.id.card_view] in the
+         * item view of the view holder is clicked.
+         *
+         * @param view the [View] that was clicked.
+         * @param adapterPosition the position in our [IMAGE_DRAWABLES] dataset that was clicked.
+         */
         fun onItemClicked(view: View, adapterPosition: Int)
     }
 
+    /**
+     * The [Glide] instance of [RequestManager] we use to fetch drawables from our resources.
+     */
     private val requestManager: RequestManager = Glide.with(fragment)
+
+    /**
+     * The [ViewHolderListener] that every [ImageViewHolder] we create will use. In our case it is
+     * an instance of [ViewHolderListenerImpl].
+     */
     private val viewHolderListener: ViewHolderListener
+
+    /**
+     * Called when [RecyclerView] needs a new [ImageViewHolder] to represent an item. We initialize
+     * our [View] variable `val view` by using the [LayoutInflater] of the context of our [ViewGroup]
+     * parameter [parent] to inflate our layout file [R.layout.image_card] using [parent] for its
+     * layout params. Then we return a new instance of [ImageViewHolder] constructed to hold `view`,
+     * use [requestManager] to fetch the correct resource drawable, and to use [viewHolderListener]
+     * as its [ViewHolderListener].
+     *
+     * @param parent The [ViewGroup] into which the new [View] will be added after it is bound to
+     * an adapter position.
+     * @param viewType The view type of the new [View].
+     * @return A new [ViewHolder] that holds a [View] of the given view type.
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.image_card, parent, false)
         return ImageViewHolder(view, requestManager, viewHolderListener)
     }
 
+    /**
+     * Called by [RecyclerView] to display the data at the specified position. This method should
+     * update the contents of the [ImageViewHolder]} to reflect the item at the given position.
+     * We just call the `onBind` method of our [ImageViewHolder] parameter [holder].
+     *
+     * @param holder The [ImageViewHolder] which should be updated to represent the contents of the
+     * item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         holder.onBind()
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter. We just return the
+     * `size` of our dataset array [IMAGE_DRAWABLES].
+     *
+     * @return The total number of items in this adapter.
+     */
     override fun getItemCount(): Int {
         return IMAGE_DRAWABLES.size
     }
@@ -101,13 +155,16 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
             (fragment.exitTransition as TransitionSet?)!!.excludeTarget(view, true)
             val transitioningView = view.findViewById<ImageView>(R.id.card_image)
             fragment.fragmentManager!!
-                    .beginTransaction()
-                    .setReorderingAllowed(true) // Optimize for shared element transition
-                    .addSharedElement(transitioningView, transitioningView.transitionName)
-                    .replace(R.id.fragment_container, ImagePagerFragment(), ImagePagerFragment::class.java
-                            .simpleName)
-                    .addToBackStack(null)
-                    .commit()
+                .beginTransaction()
+                .setReorderingAllowed(true) // Optimize for shared element transition
+                .addSharedElement(transitioningView, transitioningView.transitionName)
+                .replace(
+                    R.id.fragment_container,
+                    ImagePagerFragment(),
+                    ImagePagerFragment::class.java.simpleName
+                )
+                .addToBackStack(null)
+                .commit()
         }
 
     }
@@ -116,9 +173,9 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
      * ViewHolder for the grid's images.
      */
     class ImageViewHolder(
-            itemView: View,
-            private val requestManager: RequestManager,
-            private val viewHolderListener: ViewHolderListener
+        itemView: View,
+        private val requestManager: RequestManager,
+        private val viewHolderListener: ViewHolderListener
     ) : ViewHolder(itemView), View.OnClickListener {
         private val image: ImageView = itemView.findViewById(R.id.card_image)
 
@@ -138,20 +195,30 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
         private fun setImage(adapterPosition: Int) {
             // Load the image with Glide to prevent OOM error when the image drawables are very large.
             requestManager
-                    .load(IMAGE_DRAWABLES[adapterPosition])
-                    .listener(object : RequestListener<Drawable?> {
-                        override fun onLoadFailed(e: GlideException?, model: Any,
-                                                  target: Target<Drawable?>, isFirstResource: Boolean): Boolean {
-                            viewHolderListener.onLoadCompleted(image, adapterPosition)
-                            return false
-                        }
+                .load(IMAGE_DRAWABLES[adapterPosition])
+                .listener(object : RequestListener<Drawable?> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any,
+                        target: Target<Drawable?>,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        viewHolderListener.onLoadCompleted(image, adapterPosition)
+                        return false
+                    }
 
-                        override fun onResourceReady(resource: Drawable?, model: Any, target: Target<Drawable?>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
-                            viewHolderListener.onLoadCompleted(image, adapterPosition)
-                            return false
-                        }
-                    })
-                    .into(image)
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any,
+                        target: Target<Drawable?>,
+                        dataSource: DataSource,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        viewHolderListener.onLoadCompleted(image, adapterPosition)
+                        return false
+                    }
+                })
+                .into(image)
         }
 
         override fun onClick(view: View) {
