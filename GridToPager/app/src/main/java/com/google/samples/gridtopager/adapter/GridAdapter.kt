@@ -76,7 +76,7 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
 
     /**
      * The [ViewHolderListener] that every [ImageViewHolder] we create will use. In our case it is
-     * an instance of [ViewHolderListenerImpl].
+     * an instance of [ViewHolderListenerImpl] which is constructed in our `init` block.
      */
     private val viewHolderListener: ViewHolderListener
 
@@ -95,7 +95,7 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.image_card, parent, false)
+            .inflate(R.layout.image_card, parent, false)
         return ImageViewHolder(view, requestManager, viewHolderListener)
     }
 
@@ -126,7 +126,25 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
      * Default [ViewHolderListener] implementation.
      */
     private class ViewHolderListenerImpl(private val fragment: Fragment) : ViewHolderListener {
+        /**
+         * Flag we use to make sure we only call `startPostponedEnterTransition` once. Its initial
+         * value is `false`, and it is set to `true` when the selected image loading is completed.
+         */
         private val enterTransitionStarted: AtomicBoolean = AtomicBoolean()
+
+        /**
+         * This is called when [Glide] either gives up a failed load and calls the `onLoadFailed`
+         * override of its listener, or has successfully loaded the image and calls the override
+         * of `onResourceReady` of its listener. If [MainActivity.currentPosition] is not equal to
+         * our parameter [adapterPosition] we return having done nothing. We then Atomically set
+         * [enterTransitionStarted] to `true` and return if it was already `true`. Otherwise we call
+         * the `startPostponedEnterTransition` method of our [Fragment] field [fragment] to begin
+         * postponed transitions after `postponeEnterTransition` was called. `postponeEnterTransition`
+         * is called in the `onCreateView` override of `GridFragment`.
+         *
+         * @param view the [ImageView] which is being loaded into
+         * @param adapterPosition the position in our dataset whose drawable was being loaded
+         */
         override fun onLoadCompleted(view: ImageView?, adapterPosition: Int) {
             // Call startPostponedEnterTransition only when the 'selected' image loading is completed.
             if (MainActivity.currentPosition != adapterPosition) {
@@ -139,8 +157,23 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
         }
 
         /**
-         * Handles a view click by setting the current position to the given `position` and
-         * starting a [ImagePagerFragment] which displays the image at the position.
+         * Handles a view click by setting the current position to the given `position` and starting
+         * a [ImagePagerFragment] which displays the image at the position. First we set the current
+         * image position [MainActivity.currentPosition] to our parameter [adapterPosition]. Then we
+         * fetch the Transition that will be used to move Views out of the scene when the fragment
+         * is removed, hidden, or detached of our [Fragment] field [fragment] as a [TransitionSet],
+         * and exclude our [View] parameter [view] from the transition (e.g. the card will disappear
+         * immediately instead of fading out with the rest to prevent an overlapping animation of
+         * fade and move). Then we set our [ImageView] variable `val transitioningView` to the [View]
+         * in [view] with ID [R.id.card_image]. We fetch the `FragmentManager` for interacting with
+         * fragments associated with our [Fragment] field [fragment] and use it to start a
+         * `FragmentTransaction`, enable it to optimize operations within and across transactions,
+         * add the shared element [View] `transitioningView` for our disappearing [Fragment] to match
+         * with the transition name of `transitioningView` for the [View] in the appearing Fragment,
+         * then have it replace our existing [Fragment] in the container with ID [R.id.fragment_container]
+         * with a new instance of [ImagePagerFragment] whose TAG is the simple name of the class
+         * [ImagePagerFragment], add the `FragmentTransaction` to the back stack with a `null` name,
+         * and then schedule a commit of this transaction.
          *
          * @param view the clicked [ImageView] (the shared element view will be re-mapped at the
          * GridFragment's SharedElementCallback)
@@ -171,12 +204,24 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
 
     /**
      * ViewHolder for the grid's images.
+     *
+     * @param itemView the [View] inflated from our layout file [R.layout.image_card] which we use
+     * to display our [ImageView].
+     * @param requestManager the [RequestManager] we use to have [Glide] load our drawable, always
+     * the [GridAdapter] field [requestManager] in our case.
+     * @param viewHolderListener the [ViewHolderListener] implementation whose overrides are called
+     * when [Glide] finishes loading, or our [ImageView] is clicked, always [ViewHolderListenerImpl]
+     * in our case.
      */
     class ImageViewHolder(
         itemView: View,
         private val requestManager: RequestManager,
         private val viewHolderListener: ViewHolderListener
     ) : ViewHolder(itemView), View.OnClickListener {
+        /**
+         * The [ImageView] in our [View] field [itemView] with ID [R.id.card_image] into which we
+         * load our drawable.
+         */
         private val image: ImageView = itemView.findViewById(R.id.card_image)
 
         /**
