@@ -225,10 +225,12 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
         private val image: ImageView = itemView.findViewById(R.id.card_image)
 
         /**
-         * Binds this view holder to the given adapter position.
-         *
-         * The binding will load the image into the image view, as well as set its transition name for
-         * later.
+         * Binds this view holder to the given adapter position. The binding will load the image
+         * into the image view, as well as set its transition name for later. We set our variable
+         * `val adapterPosition` to the Adapter position of the item represented by this ViewHolder,
+         * then call our [setImage] method to have it use [Glide] to load the drawable corresponding
+         * to `adapterPosition` into our [ImageView] field [image]. We then set the string value of
+         * the image resource in [IMAGE_DRAWABLES] as the unique transition name for [image].
          */
         fun onBind() {
             val adapterPosition = adapterPosition
@@ -237,6 +239,12 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
             image.transitionName = IMAGE_DRAWABLES[adapterPosition].toString()
         }
 
+        /**
+         * Loads [ImageView] field [image] with the image resource in [IMAGE_DRAWABLES] corresponding
+         * to our [adapterPosition] parameter using [Glide].
+         *
+         * @param adapterPosition the Adapter position of the item represented by this ViewHolder.
+         */
         private fun setImage(adapterPosition: Int) {
             // Load the image with Glide to prevent OOM error when the image drawables are very large.
             requestManager
