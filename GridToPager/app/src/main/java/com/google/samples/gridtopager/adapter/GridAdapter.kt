@@ -241,7 +241,16 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
 
         /**
          * Loads [ImageView] field [image] with the image resource in [IMAGE_DRAWABLES] corresponding
-         * to our [adapterPosition] parameter using [Glide].
+         * to our [adapterPosition] parameter using [Glide]. We use our Glide [RequestManager] field
+         * [requestManager] to load the the [Drawable] with the resource ID in [IMAGE_DRAWABLES] at
+         * index [adapterPosition], set an anonymous [RequestListener] whose `onLoadFailed` override
+         * calls the `onLoadCompleted` override of [viewHolderListener] with the [ImageView] field
+         * [image] and [adapterPosition] then returns `false` to allow `onLoadFailed` to be called on
+         * the [Target]. Its `onResourceReady` also calls the `onLoadCompleted` override of
+         * [viewHolderListener] with the [ImageView] field [image] and [adapterPosition] then returns
+         * `false` to allow `onLoadFailed` to be called on the [Target]. We then call the `into`
+         * method of the `RequestBuilder` to set the [ImageView] the resource will be loaded into to
+         * be our field [image].
          *
          * @param adapterPosition the Adapter position of the item represented by this ViewHolder.
          */
@@ -250,6 +259,24 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
             requestManager
                 .load(IMAGE_DRAWABLES[adapterPosition])
                 .listener(object : RequestListener<Drawable?> {
+                    /**
+                     * Called when an exception occurs during a load, immediately before `onLoadFailed`.
+                     * Will only be called if we currently want to display an image for the given model
+                     * in the given target. We call the `onLoadCompleted` override of [viewHolderListener]
+                     * with the [ImageView] field [image] and [adapterPosition] (the Adapter position
+                     * of the item represented by this ViewHolder) then return `false` to allow
+                     * `onLoadFailed` to be called on [Target] parameter [target].
+                     *
+                     * @param e The maybe {@code null} exception containing information about why the
+                     * request failed.
+                     * @param model The model we were trying to load when the exception occurred.
+                     * @param target The [Target] we were trying to load the image into.
+                     * @param isFirstResource `true` if this exception is for the first resource to load.
+                     * @return `true` to prevent `onLoadFailed` from being called on [target],
+                     * typically because the listener wants to update the [target] or the object the
+                     * [target] wraps itself or `false` to allow `onLoadFailed` to be called on
+                     * [target].
+                     */
                     override fun onLoadFailed(
                         e: GlideException?,
                         model: Any,
@@ -260,6 +287,27 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
                         return false
                     }
 
+                    /**
+                     * Called when a load completes successfully, immediately before calling the
+                     * method [onResourceReady] of the [Target] parameter [target]. We call the
+                     * `onLoadCompleted` override of [viewHolderListener] with the [ImageView] field
+                     * [image] and [adapterPosition] (the Adapter position of the item represented
+                     * by this ViewHolder) then return `false` to allow `onLoadFailed` to be called
+                     * on [Target] parameter [target].
+                     *
+                     * @param resource The resource [Drawable] that was loaded for the target.
+                     * @param model The specific model that was used to load the image.
+                     * @param target The [Target] the model was loaded into.
+                     * @param dataSource The [DataSource] the resource was loaded from.
+                     * @param isFirstResource `true` if this is the first resource to in this load
+                     * to be loaded into the target. For example when loading a thumbnail and a
+                     * full-sized image, this will be `true` for the first image to load and `false`
+                     * for the second.
+                     * @return `true` to prevent the `onLoadFailed` method of [Target] from being
+                     * called on [target], typically because the listener wants to update the [target]
+                     * or the  object the [target] wraps itself or `false` to allow the `onLoadFailed`
+                     * method of [Target] parameter [target] to be called.
+                     */
                     override fun onResourceReady(
                         resource: Drawable?,
                         model: Any,
@@ -274,11 +322,22 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
                 .into(image)
         }
 
+        /**
+         * Called when our [ImageView] field [image] is clicked. We just call the `onItemClicked`
+         * override of our [ViewHolderListener] field [viewHolderListener] with our [View] parameter
+         * [view] and the Adapter position of the item represented by this ViewHolder.
+         *
+         * @param view the [View] that was clicked.
+         */
         override fun onClick(view: View) {
             // Let the listener start the ImagePagerFragment.
             viewHolderListener.onItemClicked(view, adapterPosition)
         }
 
+        /**
+         * Our `init` block: Sets the `OnClickListener` of the view with ID `R.id.card_view` of
+         * the View inflated from our layout file R.layout.image_card to `this`.
+         */
         init {
             itemView.findViewById<View>(R.id.card_view).setOnClickListener(this)
         }
