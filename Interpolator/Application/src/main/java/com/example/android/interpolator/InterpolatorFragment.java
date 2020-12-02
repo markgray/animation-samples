@@ -20,8 +20,8 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.graphics.Path;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +62,7 @@ public class InterpolatorFragment extends Fragment {
     /**
      * Interpolators used for animation.
      */
-    private Interpolator mInterpolators[];
+    private Interpolator[] mInterpolators;
     /**
      * Path for in (shrinking) animation, from 100% scale to 20%.
      */
@@ -117,12 +117,12 @@ public class InterpolatorFragment extends Fragment {
         initAnimateButton(view);
 
         // Get the label to display the selected duration
-        mDurationLabel = (TextView) view.findViewById(R.id.durationLabel);
+        mDurationLabel = view.findViewById(R.id.durationLabel);
 
         // Set up the Spinner with the names of interpolators.
-        mInterpolatorSpinner = (Spinner) view.findViewById(R.id.interpolatorSpinner);
+        mInterpolatorSpinner = view.findViewById(R.id.interpolatorSpinner);
         ArrayAdapter<String> spinnerAdapter =
-                new ArrayAdapter<String>(getActivity(),
+                new ArrayAdapter<>(getActivity(),
                         android.R.layout.simple_spinner_dropdown_item, mInterpolatorNames);
         mInterpolatorSpinner.setAdapter(spinnerAdapter);
         initSeekbar(view);
