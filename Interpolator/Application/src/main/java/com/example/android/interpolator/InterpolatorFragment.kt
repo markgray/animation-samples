@@ -13,125 +13,116 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+package com.example.android.interpolator
 
-package com.example.android.interpolator;
-
-import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
-import android.graphics.Path;
-import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
-import android.widget.ArrayAdapter;
-import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-import com.example.android.common.logger.Log;
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
+import android.graphics.Path
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.view.animation.Interpolator
+import android.widget.ArrayAdapter
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.Spinner
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import com.example.android.common.logger.Log
 
 /**
  * This sample demonstrates the use of animation interpolators and path animations for
  * Material Design.
- * It shows how an {@link android.animation.ObjectAnimator} is used to animate two properties of a
+ * It shows how an [android.animation.ObjectAnimator] is used to animate two properties of a
  * view (scale X and Y) along a path.
  */
-public class InterpolatorFragment extends Fragment {
-
+class InterpolatorFragment : Fragment() {
     /**
      * View that is animated.
      */
-    private View mView;
+    private var mView: View? = null
+
     /**
      * Spinner for selection of interpolator.
      */
-    private Spinner mInterpolatorSpinner;
+    private var mInterpolatorSpinner: Spinner? = null
+
     /**
      * SeekBar for selection of duration of animation.
      */
-    private SeekBar mDurationSeekbar;
+    private var mDurationSeekbar: SeekBar? = null
+
     /**
      * TextView that shows animation selected in SeekBar.
      */
-    private TextView mDurationLabel;
-
+    private var mDurationLabel: TextView? = null
+    /**
+     * Return the array of loaded Interpolators available in this Fragment.
+     *
+     * @return Interpolators
+     */
     /**
      * Interpolators used for animation.
      */
-    private Interpolator[] mInterpolators;
+    lateinit var interpolators: Array<Interpolator>
+        private set
+    /**
+     * @return The animation path for the 'in' (shrinking) animation.
+     */
     /**
      * Path for in (shrinking) animation, from 100% scale to 20%.
      */
-    private Path mPathIn;
+    var pathIn: Path? = null
+        private set
+    /**
+     * @return The animation path for the 'out' (growing) animation.
+     */
     /**
      * Path for out (growing) animation, from 20% to 100%.
      */
-    private Path mPathOut;
+    var pathOut: Path? = null
+        private set
 
     /**
      * Set to true if View is animated out (is shrunk).
      */
-    private boolean mIsOut = false;
-
-    /**
-     * Default duration of animation in ms.
-     */
-    private static final int INITIAL_DURATION_MS = 750;
-
-    /**
-     * String used for logging.
-     */
-    public static final String TAG = "InterpolatorPlaygroundFragment";
+    private var mIsOut = false
 
     /**
      * Names of the available interpolators.
      */
-    private String[] mInterpolatorNames;
-
-    public InterpolatorFragment() {
-        // Required empty public constructor
+    private lateinit var mInterpolatorNames: Array<String>
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initInterpolators()
+        mInterpolatorNames = resources.getStringArray(R.array.interpolator_names)
+        initPaths()
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        initInterpolators();
-        mInterpolatorNames = getResources().getStringArray(R.array.interpolator_names);
-        initPaths();
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.interpolator_fragment, container, false)
     }
 
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.interpolator_fragment, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        initAnimateButton(view);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initAnimateButton(view)
 
         // Get the label to display the selected duration
-        mDurationLabel = view.findViewById(R.id.durationLabel);
+        mDurationLabel = view.findViewById(R.id.durationLabel)
 
         // Set up the Spinner with the names of interpolators.
-        mInterpolatorSpinner = view.findViewById(R.id.interpolatorSpinner);
-        ArrayAdapter<String> spinnerAdapter =
-                new ArrayAdapter<>(getActivity(),
-                        android.R.layout.simple_spinner_dropdown_item, mInterpolatorNames);
-        mInterpolatorSpinner.setAdapter(spinnerAdapter);
-        initSeekbar(view);
+        mInterpolatorSpinner = view.findViewById(R.id.interpolatorSpinner)
+        val spinnerAdapter = ArrayAdapter(activity!!,
+            android.R.layout.simple_spinner_dropdown_item, mInterpolatorNames)
+        mInterpolatorSpinner!!.adapter = spinnerAdapter
+        initSeekbar(view)
 
 
         // Get the view that will be animated
-        mView = view.findViewById(R.id.square);
-
-        super.onViewCreated(view, savedInstanceState);
+        mView = view.findViewById(R.id.square)
+        super.onViewCreated(view, savedInstanceState)
     }
 
     /**
@@ -140,32 +131,32 @@ public class InterpolatorFragment extends Fragment {
      *
      * @param view The view holding the button.
      */
-    private void initAnimateButton(View view) {
-        View button = view.findViewById(R.id.animateButton);
-        button.setOnClickListener(new View.OnClickListener() {
+    @Suppress("ObjectLiteralToLambda")
+    private fun initAnimateButton(view: View) {
+        val button = view.findViewById<View>(R.id.animateButton)
+        button.setOnClickListener(object : View.OnClickListener {
             @SuppressLint("DefaultLocale")
-            @Override
-            public void onClick(View view) {
+            override fun onClick(view: View) {
                 // Interpolator selected in the spinner
-                int selectedItemPosition = mInterpolatorSpinner.getSelectedItemPosition();
-                Interpolator interpolator = mInterpolators[selectedItemPosition];
+                val selectedItemPosition = mInterpolatorSpinner!!.selectedItemPosition
+                val interpolator = interpolators[selectedItemPosition]
                 // Duration selected in SeekBar
-                long duration = mDurationSeekbar.getProgress();
+                val duration = mDurationSeekbar!!.progress.toLong()
                 // Animation path is based on whether animating in or out
-                Path path = mIsOut ? mPathIn : mPathOut;
+                val path: Path = if (mIsOut) pathIn!! else pathOut!!
 
                 // Log animation details
                 Log.i(TAG, String.format("Starting animation: [%d ms, %s, %s]",
-                        duration, (String) mInterpolatorSpinner.getSelectedItem(),
-                        ((mIsOut) ? "Out (growing)" : "In (shrinking)")));
+                    duration, mInterpolatorSpinner!!.selectedItem as String,
+                    if (mIsOut) "Out (growing)" else "In (shrinking)"))
 
                 // Start the animation with the selected options
-                startAnimation(interpolator, duration, path);
+                startAnimation(interpolator, duration, path)
 
                 // Toggle direction of animation (path)
-                mIsOut = !mIsOut;
+                mIsOut = !mIsOut
             }
-        });
+        })
     }
 
     /**
@@ -173,108 +164,89 @@ public class InterpolatorFragment extends Fragment {
      *
      * @param view The view holding the button.
      */
-    private void initSeekbar(View view) {
-        mDurationSeekbar = (SeekBar) view.findViewById(R.id.durationSeek);
+    private fun initSeekbar(view: View) {
+        mDurationSeekbar = view.findViewById<View>(R.id.durationSeek) as SeekBar
 
         // Register listener to update the text label when the SeekBar value is updated
-        mDurationSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                mDurationLabel.setText(getResources().getString(R.string.animation_duration, i));
+        mDurationSeekbar!!.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+                mDurationLabel!!.text = resources.getString(R.string.animation_duration, i)
             }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        })
 
         // Set initial progress to trigger SeekBarChangeListener and update UI
-        mDurationSeekbar.setProgress(INITIAL_DURATION_MS);
+        mDurationSeekbar!!.progress = INITIAL_DURATION_MS
     }
 
     /**
      * Start an animation on the sample view.
-     * The view is animated using an {@link android.animation.ObjectAnimator} on the
-     * {@link View#SCALE_X} and {@link View#SCALE_Y} properties, with its animation based on a
+     * The view is animated using an [android.animation.ObjectAnimator] on the
+     * [View.SCALE_X] and [View.SCALE_Y] properties, with its animation based on a
      * path.
-     * The only two paths defined here ({@link #mPathIn} and {@link #mPathOut}) scale the view
+     * The only two paths defined here ([.mPathIn] and [.mPathOut]) scale the view
      * uniformly.
      *
      * @param interpolator The interpolator to use for the animation.
      * @param duration Duration of the animation in ms.
      * @param path Path of the animation
      * @return The ObjectAnimator used for this animation
-     * @see android.animation.ObjectAnimator#ofFloat(Object, String, String, android.graphics.Path)
+     * @see android.animation.ObjectAnimator.ofFloat
      */
-    public ObjectAnimator startAnimation(Interpolator interpolator, long duration, Path path) {
+    fun startAnimation(interpolator: Interpolator?, duration: Long, path: Path?): ObjectAnimator {
         // This ObjectAnimator uses the path to change the x and y scale of the mView object.
-        ObjectAnimator animator = ObjectAnimator.ofFloat(mView, View.SCALE_X, View.SCALE_Y, path);
+        val animator = ObjectAnimator.ofFloat(mView, View.SCALE_X, View.SCALE_Y, path)
 
         // Set the duration and interpolator for this animation
-        animator.setDuration(duration);
-        animator.setInterpolator(interpolator);
-
-        animator.start();
-
-        return animator;
-    }
-
-    /**
-     * Return the array of loaded Interpolators available in this Fragment.
-     *
-     * @return Interpolators
-     */
-    public Interpolator[] getInterpolators() {
-        return mInterpolators;
-    }
-
-    /**
-     * @return The animation path for the 'in' (shrinking) animation.
-     */
-    public Path getPathIn() {
-        return mPathIn;
-    }
-
-    /**
-     * @return The animation path for the 'out' (growing) animation.
-     */
-    public Path getPathOut() {
-        return mPathOut;
+        animator.duration = duration
+        animator.interpolator = interpolator
+        animator.start()
+        return animator
     }
 
     /**
      * Initialize interpolators programmatically by loading them from their XML definitions
      * provided by the framework.
      */
-    private void initInterpolators() {
-        mInterpolators = new Interpolator[]{
-                AnimationUtils.loadInterpolator(getActivity(),
-                        android.R.interpolator.linear),
-                AnimationUtils.loadInterpolator(getActivity(),
-                        android.R.interpolator.fast_out_linear_in),
-                AnimationUtils.loadInterpolator(getActivity(),
-                        android.R.interpolator.fast_out_slow_in),
-                AnimationUtils.loadInterpolator(getActivity(),
-                        android.R.interpolator.linear_out_slow_in)
-        };
+    private fun initInterpolators() {
+        interpolators = arrayOf(
+            AnimationUtils.loadInterpolator(activity,
+                android.R.interpolator.linear),
+            AnimationUtils.loadInterpolator(activity,
+                android.R.interpolator.fast_out_linear_in),
+            AnimationUtils.loadInterpolator(activity,
+                android.R.interpolator.fast_out_slow_in),
+            AnimationUtils.loadInterpolator(activity,
+                android.R.interpolator.linear_out_slow_in)
+        )
     }
 
     /**
      * Initializes the paths that are used by the ObjectAnimator to scale the view.
      */
-    private void initPaths() {
+    private fun initPaths() {
         // Path for 'in' animation: growing from 20% to 100%
-        mPathIn = new Path();
-        mPathIn.moveTo(0.2f, 0.2f);
-        mPathIn.lineTo(1f, 1f);
+        pathIn = Path()
+        pathIn!!.moveTo(0.2f, 0.2f)
+        pathIn!!.lineTo(1f, 1f)
 
         // Path for 'out' animation: shrinking from 100% to 20%
-        mPathOut = new Path();
-        mPathOut.moveTo(1f, 1f);
-        mPathOut.lineTo(0.2f, 0.2f);
+        pathOut = Path()
+        pathOut!!.moveTo(1f, 1f)
+        pathOut!!.lineTo(0.2f, 0.2f)
+    }
+
+    companion object {
+        /**
+         * Default duration of animation in ms.
+         */
+        private const val INITIAL_DURATION_MS = 750
+
+        /**
+         * String used for logging.
+         */
+        const val TAG = "InterpolatorPlaygroundFragment"
     }
 }
