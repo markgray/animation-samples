@@ -113,6 +113,22 @@ class MainActivity : SampleActivityBase() {
         return super.onPrepareOptionsMenu(menu)
     }
 
+    /**
+     * This hook is called whenever an item in your options menu is selected. When the item ID of our
+     * [MenuItem] parameter [item] is [R.id.menu_toggle_log] ("Show Log" or "Hide Log" item) we toggle
+     * the value of our [Boolean] field [mLogShown], then we initialize our [ViewAnimator] variable
+     * `val output` by finding the [View] in our UI with ID [R.id.sample_output]. If [mLogShown] is
+     * `true` we set the child view in `output` that will be displayed to 1, if it is `false` we set
+     * the child view in `output` that will be displayed to 0. We then call [invalidateOptionsMenu]
+     * to declare that the options menu has changed, so should be recreated ([onCreateOptionsMenu]
+     * will be called the next time it needs to be displayed), and return `true` to consume the
+     * event. If on the other hand the item ID of [item] is not one of ours we return the value
+     * returned by our super's implementation of `onOptionsItemSelected`.
+     *
+     * @param item The [MenuItem] that was selected.
+     * @return boolean Return `false` to allow normal menu processing to proceed, `true` to consume
+     * it here.
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_toggle_log -> {
@@ -130,18 +146,29 @@ class MainActivity : SampleActivityBase() {
         return super.onOptionsItemSelected(item)
     }
 
-    /** Create a chain of targets that will receive log data  */
+    /**
+     * Create a chain of targets that will receive log data, called by the `onStart` override of
+     * `SampleActivityBase`.
+     */
     override fun initializeLogging() {
-        // Wraps Android's native log framework.
+        /**
+         * Wraps Android's native log framework.
+         */
         val logWrapper = LogWrapper()
-        // Using Log, front-end to the logging chain, emulates android.util.log method signatures.
+        /**
+         * Using Log, front-end to the logging chain, emulates android.util.log method signatures.
+         */
         Log.setLogNode(logWrapper)
 
-        // Filter strips out everything except the message text.
+        /**
+         * Filter strips out everything except the message text.
+         */
         val msgFilter = MessageOnlyLogFilter()
         logWrapper.next = msgFilter
 
-        // On screen logging via a fragment with a TextView.
+        /**
+         * On screen logging via a fragment with a TextView.
+         */
         val logFragment = supportFragmentManager
             .findFragmentById(R.id.log_fragment) as LogFragment?
         msgFilter.next = logFragment!!.logView
@@ -149,6 +176,9 @@ class MainActivity : SampleActivityBase() {
     }
 
     companion object {
+        /**
+         * TAG used for logging.
+         */
         const val TAG = "MainActivity"
     }
 }
