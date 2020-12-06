@@ -42,22 +42,22 @@ class InterpolatorFragment : Fragment() {
     /**
      * View that is animated.
      */
-    private var mView: View? = null
+    private lateinit var mView: View
 
     /**
      * Spinner for selection of interpolator.
      */
-    private var mInterpolatorSpinner: Spinner? = null
+    private lateinit var mInterpolatorSpinner: Spinner
 
     /**
      * SeekBar for selection of duration of animation.
      */
-    private var mDurationSeekbar: SeekBar? = null
+    private lateinit var mDurationSeekbar: SeekBar
 
     /**
      * TextView that shows animation selected in SeekBar.
      */
-    private var mDurationLabel: TextView? = null
+    private lateinit var mDurationLabel: TextView
     /**
      * Return the array of loaded Interpolators available in this Fragment.
      *
@@ -74,7 +74,7 @@ class InterpolatorFragment : Fragment() {
     /**
      * Path for in (shrinking) animation, from 100% scale to 20%.
      */
-    var pathIn: Path? = null
+    lateinit var pathIn: Path
         private set
     /**
      * @return The animation path for the 'out' (growing) animation.
@@ -82,7 +82,7 @@ class InterpolatorFragment : Fragment() {
     /**
      * Path for out (growing) animation, from 20% to 100%.
      */
-    var pathOut: Path? = null
+    lateinit var pathOut: Path
         private set
 
     /**
@@ -116,7 +116,7 @@ class InterpolatorFragment : Fragment() {
         mInterpolatorSpinner = view.findViewById(R.id.interpolatorSpinner)
         val spinnerAdapter = ArrayAdapter(activity!!,
             android.R.layout.simple_spinner_dropdown_item, mInterpolatorNames)
-        mInterpolatorSpinner!!.adapter = spinnerAdapter
+        mInterpolatorSpinner.adapter = spinnerAdapter
         initSeekbar(view)
 
 
@@ -138,16 +138,16 @@ class InterpolatorFragment : Fragment() {
             @SuppressLint("DefaultLocale")
             override fun onClick(view: View) {
                 // Interpolator selected in the spinner
-                val selectedItemPosition = mInterpolatorSpinner!!.selectedItemPosition
+                val selectedItemPosition = mInterpolatorSpinner.selectedItemPosition
                 val interpolator = interpolators[selectedItemPosition]
                 // Duration selected in SeekBar
-                val duration = mDurationSeekbar!!.progress.toLong()
+                val duration = mDurationSeekbar.progress.toLong()
                 // Animation path is based on whether animating in or out
-                val path: Path = if (mIsOut) pathIn!! else pathOut!!
+                val path: Path = if (mIsOut) pathIn else pathOut
 
                 // Log animation details
                 Log.i(TAG, String.format("Starting animation: [%d ms, %s, %s]",
-                    duration, mInterpolatorSpinner!!.selectedItem as String,
+                    duration, mInterpolatorSpinner.selectedItem as String,
                     if (mIsOut) "Out (growing)" else "In (shrinking)"))
 
                 // Start the animation with the selected options
@@ -168,9 +168,9 @@ class InterpolatorFragment : Fragment() {
         mDurationSeekbar = view.findViewById<View>(R.id.durationSeek) as SeekBar
 
         // Register listener to update the text label when the SeekBar value is updated
-        mDurationSeekbar!!.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+        mDurationSeekbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                mDurationLabel!!.text = resources.getString(R.string.animation_duration, i)
+                mDurationLabel.text = resources.getString(R.string.animation_duration, i)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -178,7 +178,7 @@ class InterpolatorFragment : Fragment() {
         })
 
         // Set initial progress to trigger SeekBarChangeListener and update UI
-        mDurationSeekbar!!.progress = INITIAL_DURATION_MS
+        mDurationSeekbar.progress = INITIAL_DURATION_MS
     }
 
     /**
@@ -229,13 +229,13 @@ class InterpolatorFragment : Fragment() {
     private fun initPaths() {
         // Path for 'in' animation: growing from 20% to 100%
         pathIn = Path()
-        pathIn!!.moveTo(0.2f, 0.2f)
-        pathIn!!.lineTo(1f, 1f)
+        pathIn.moveTo(0.2f, 0.2f)
+        pathIn.lineTo(1f, 1f)
 
         // Path for 'out' animation: shrinking from 100% to 20%
         pathOut = Path()
-        pathOut!!.moveTo(1f, 1f)
-        pathOut!!.lineTo(0.2f, 0.2f)
+        pathOut.moveTo(1f, 1f)
+        pathOut.lineTo(0.2f, 0.2f)
     }
 
     companion object {
