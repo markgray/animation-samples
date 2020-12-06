@@ -33,52 +33,44 @@ import androidx.fragment.app.Fragment
 import com.example.android.common.logger.Log
 
 /**
- * This sample demonstrates the use of animation interpolators and path animations for
- * Material Design.
- * It shows how an [android.animation.ObjectAnimator] is used to animate two properties of a
- * view (scale X and Y) along a path.
+ * This sample demonstrates the use of animation interpolators and path animations for Material
+ * Design. It shows how an [android.animation.ObjectAnimator] is used to animate two properties
+ * of a [View] (scale X and Y) along a path using the user selected animation interpolator.
  */
 class InterpolatorFragment : Fragment() {
     /**
-     * View that is animated.
+     * [View] that is animated.
      */
     private lateinit var mView: View
 
     /**
-     * Spinner for selection of interpolator.
+     * [Spinner] for selection of interpolator.
      */
     private lateinit var mInterpolatorSpinner: Spinner
 
     /**
-     * SeekBar for selection of duration of animation.
+     * [SeekBar] for selection of duration of animation.
      */
     private lateinit var mDurationSeekbar: SeekBar
 
     /**
-     * TextView that shows animation selected in SeekBar.
+     * [TextView] that shows animation selected in SeekBar.
      */
     private lateinit var mDurationLabel: TextView
+
     /**
-     * Return the array of loaded Interpolators available in this Fragment.
-     *
-     * @return Interpolators
-     */
-    /**
-     * Interpolators used for animation.
+     * The array of Interpolators available to be used for animation, the one used is selected by
+     * the [Spinner] field [mInterpolatorSpinner].
      */
     lateinit var interpolators: Array<Interpolator>
         private set
-    /**
-     * @return The animation path for the 'in' (shrinking) animation.
-     */
+
     /**
      * Path for in (shrinking) animation, from 100% scale to 20%.
      */
     lateinit var pathIn: Path
         private set
-    /**
-     * @return The animation path for the 'out' (growing) animation.
-     */
+
     /**
      * Path for out (growing) animation, from 20% to 100%.
      */
@@ -86,7 +78,7 @@ class InterpolatorFragment : Fragment() {
         private set
 
     /**
-     * Set to true if View is animated out (is shrunk).
+     * Set to `true` if View is animated out (is shrunk).
      */
     private var mIsOut = false
 
@@ -94,6 +86,26 @@ class InterpolatorFragment : Fragment() {
      * Names of the available interpolators.
      */
     private lateinit var mInterpolatorNames: Array<String>
+
+    /**
+     * Called to do initial creation of a fragment. This is called after [onAttach] and before
+     * [onCreateView]. Note that this can be called while the fragment's activity is still in the
+     * process of being created. As such, you can not rely on things like the activity's content
+     * view hierarchy being initialized at this point.  If you want to do work once the activity
+     * itself is created, see [onActivityCreated]. Any restored child fragments will be created
+     * before the base [Fragment.onCreate] method returns.
+     *
+     * First we call our super's implementation of `onCreate` then we call our [initInterpolators]
+     * method to have it load our [interpolators] array with [Interpolator] objects loaded from
+     * `android.R.interpolator.*` resource IDs. We load our array of strings [mInterpolatorNames]
+     * from our resource string array [R.array.interpolator_names], with each string naming the
+     * corresponding entry in [interpolators]. Finally we call our method [initPaths] to have it
+     * initialize the paths ([pathIn] and [pathOut]) that are used by the [ObjectAnimator] to scale
+     * the view.
+     *
+     * @param savedInstanceState If the fragment is being re-created from a previous saved state,
+     * this is the state.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initInterpolators()
@@ -101,11 +113,43 @@ class InterpolatorFragment : Fragment() {
         initPaths()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    /**
+     * Called to have the fragment instantiate its user interface view. This will be called between
+     * [onCreate] and [onActivityCreated]. It is recommended to _only_ inflate the layout in this
+     * method and move logic that operates on the returned [View] to [onViewCreated].
+     *
+     * We just return the [View] that our [LayoutInflater] parameter [inflater] inflates from our
+     * layout file [R.layout.interpolator_fragment] with our [ViewGroup] parameter [container]
+     * supplying the LayoutParams of the view.
+     *
+     * @param inflater The [LayoutInflater] object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI will be attached to. The fragment should not add the view itself, but this
+     * can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     * @return Return the [View] for the fragment's UI, or `null`. In our case we always
+     * return a [View] inflated from our layout file [R.layout.interpolator_fragment].
+     */
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.interpolator_fragment, container, false)
     }
 
+    /**
+     * Called immediately after [onCreateView] has returned, but before any saved state has been
+     * restored in to the view. This gives subclasses a chance to initialize themselves once they
+     * know their view hierarchy has been completely created.  The fragment's view hierarchy is not
+     * however attached to its parent at this point.
+     *
+     * @param view The [View] returned by [onCreateView].
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initAnimateButton(view)
 
@@ -114,11 +158,13 @@ class InterpolatorFragment : Fragment() {
 
         // Set up the Spinner with the names of interpolators.
         mInterpolatorSpinner = view.findViewById(R.id.interpolatorSpinner)
-        val spinnerAdapter = ArrayAdapter(activity!!,
-            android.R.layout.simple_spinner_dropdown_item, mInterpolatorNames)
+        val spinnerAdapter = ArrayAdapter(
+            activity!!,
+            android.R.layout.simple_spinner_dropdown_item,
+            mInterpolatorNames
+        )
         mInterpolatorSpinner.adapter = spinnerAdapter
         initSeekbar(view)
-
 
         // Get the view that will be animated
         mView = view.findViewById(R.id.square)
