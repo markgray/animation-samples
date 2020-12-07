@@ -146,6 +146,24 @@ class InterpolatorFragment : Fragment() {
      * know their view hierarchy has been completely created.  The fragment's view hierarchy is not
      * however attached to its parent at this point.
      *
+     * First we call our method [initAnimateButton] with our [View] parameter [view] to have it set
+     * up the 'animate' button so that when it is clicked the [View] field [mView] is animated with
+     * the options currently selected (the Interpolator, duration and animation path). Then we
+     * initialize our [TextView] field [mDurationLabel] by finding the [View] in [view] with ID
+     * [R.id.durationLabel] (displays the duration selected by the [SeekBar]), and initialize our
+     * [Spinner] field [mInterpolatorSpinner] by finding the [View] in [view] with ID
+     * [R.id.interpolatorSpinner] (allows the user to select which kind of [Interpolator] is used
+     * to animate our [View] field [mView]). We initialize our [ArrayAdapter] variable
+     * `val spinnerAdapter` to an instance constructed to display our string array [mInterpolatorNames]
+     * using the system layout file [android.R.layout.simple_spinner_dropdown_item] for each of the
+     * strings in [mInterpolatorNames]. We then set the adapter of [mInterpolatorSpinner] to
+     * `spinnerAdapter`. We call our method [initSeekbar] with [view] to have it set up the [SeekBar]
+     * in [view] with ID [R.id.durationSeek] (our field [mDurationSeekbar]) to use an
+     * [OnSeekBarChangeListener] which updates the text in [mDurationLabel] when the user uses the
+     * [SeekBar] to change the duration of the animation. Finally we initialize our [View] field
+     * [mView] (the [View] that is animated) by finding the [View] in [view] with ID [R.id.square],
+     * and then call our super's implementation of `onViewCreated`.
+     *
      * @param view The [View] returned by [onCreateView].
      * @param savedInstanceState If non-null, this fragment is being re-constructed
      * from a previous saved state as given here.
@@ -172,8 +190,16 @@ class InterpolatorFragment : Fragment() {
     }
 
     /**
-     * Set up the 'animate' button, when it is clicked the view is animated with the options
-     * selected: the Interpolator, duration and animation path
+     * Set up the 'animate' button, so that when it is clicked the view is animated with the options
+     * selected: the Interpolator (selected by the [Spinner] field [mInterpolatorSpinner]), duration
+     * (selected by the [SeekBar] field [mDurationSeekbar]) and animation path (toggles between
+     * the [Path] field [pathOut] and the [Path] field [pathIn] depending on the current value of
+     * the [Boolean] field [mIsOut]). First we initialize our [View] variable `val button` by finding
+     * the [View] in our [View] parameter [view] with ID [R.id.animateButton] then we set the
+     * [View.OnClickListener] of `button` to an anonymous class whose `onClick` override animates
+     * our [View] field [mView] according to the current setting of [mInterpolatorSpinner],
+     * [mDurationSeekbar], and our in/out toggle field [mIsOut] then toggles the value of [mIsOut]
+     * to get ready for the next click of `button`.
      *
      * @param view The view holding the button.
      */
@@ -181,6 +207,15 @@ class InterpolatorFragment : Fragment() {
     private fun initAnimateButton(view: View) {
         val button = view.findViewById<View>(R.id.animateButton)
         button.setOnClickListener(object : View.OnClickListener {
+            /**
+             * Called when the button with ID [R.id.animateButton] is clicked. First we initialize
+             * our [Int] variable `val selectedItemPosition` to the position of the currently selected
+             * item within the adapter's data set of our [Spinner] field [mInterpolatorSpinner]. Then
+             * we initialize our [Interpolator] variable `val interpolator` to the entry in our array
+             * [interpolators] with index `selectedItemPosition`.
+             *
+             * @param view the [View] that was clicked.
+             */
             @SuppressLint("DefaultLocale")
             override fun onClick(view: View) {
                 // Interpolator selected in the spinner
