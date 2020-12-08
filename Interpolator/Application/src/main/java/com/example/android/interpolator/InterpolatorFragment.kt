@@ -212,7 +212,10 @@ class InterpolatorFragment : Fragment() {
              * our [Int] variable `val selectedItemPosition` to the position of the currently selected
              * item within the adapter's data set of our [Spinner] field [mInterpolatorSpinner]. Then
              * we initialize our [Interpolator] variable `val interpolator` to the entry in our array
-             * [interpolators] with index `selectedItemPosition`.
+             * [interpolators] with index `selectedItemPosition`. We then set our [Long] variable
+             * `val duration` to the current level of progress of our [SeekBar] field [mDurationSeekbar].
+             * We set [Path] variable `val path` to [pathIn] if [mIsOut] is `true` or to [pathOut] if
+             * it is `false`
              *
              * @param view the [View] that was clicked.
              */
