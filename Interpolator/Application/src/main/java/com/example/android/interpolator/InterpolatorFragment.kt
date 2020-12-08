@@ -215,7 +215,11 @@ class InterpolatorFragment : Fragment() {
              * [interpolators] with index `selectedItemPosition`. We then set our [Long] variable
              * `val duration` to the current level of progress of our [SeekBar] field [mDurationSeekbar].
              * We set [Path] variable `val path` to [pathIn] if [mIsOut] is `true` or to [pathOut] if
-             * it is `false`
+             * it is `false`. We then log that we are starting the animation and call our method
+             * [startAnimation] to have it start the animation using `interpolator` as the interpolator
+             * to use for the animation, `duration` as the duration of the animation in ms, and
+             * `path` as the [Path] of the animation. Finally we toggle the value of [mIsOut] to
+             * toggle the direction of the animation (the [Path] used).
              *
              * @param view the [View] that was clicked.
              */
@@ -244,9 +248,14 @@ class InterpolatorFragment : Fragment() {
     }
 
     /**
-     * Set up SeekBar that defines the duration of the animation
+     * Set up [SeekBar] that defines the duration of the animation. We initialize our [SeekBar] field
+     * [mDurationSeekbar] by finding the [View] in our [View] parameter [view] with the resource ID
+     * [R.id.durationSeek] and set its [OnSeekBarChangeListener] to an anonymous class whose override
+     * of `onProgressChanged` updates the text of the [TextView] field [mDurationLabel] depending on
+     * current progress level (which runs from 0 to 5,000 milliseconds), and whose overrides of
+     * `onStartTrackingTouch` and `onStopTrackingTouch` do nothing.
      *
-     * @param view The view holding the button.
+     * @param view The [View] holding our UI.
      */
     private fun initSeekbar(view: View) {
         mDurationSeekbar = view.findViewById<View>(R.id.durationSeek) as SeekBar
@@ -266,16 +275,18 @@ class InterpolatorFragment : Fragment() {
     }
 
     /**
-     * Start an animation on the sample view.
-     * The view is animated using an [android.animation.ObjectAnimator] on the
-     * [View.SCALE_X] and [View.SCALE_Y] properties, with its animation based on a
-     * path.
-     * The only two paths defined here ([.mPathIn] and [.mPathOut]) scale the view
-     * uniformly.
+     * Start an animation on the sample view. The view is animated using an
+     * [android.animation.ObjectAnimator] on the [View.SCALE_X] and [View.SCALE_Y] properties,
+     * with its animation based on a path. The only two paths defined here ([pathIn] and [pathOut])
+     * scale the view uniformly. We initialize our [ObjectAnimator] variable `val animator` to an
+     * instance which will animate the `SCALE_X` and `SCALE_Y` properties of our [View] field
+     * [mView] along the [Path] specified by our parameter [path]. We set the `duration` of
+     * `animator` to our parameter [duration] milliseconds and its [Interpolator] to our parameter
+     * [interpolator] then start `animator` running. Finally we return `animator` to the caller.
      *
-     * @param interpolator The interpolator to use for the animation.
+     * @param interpolator The [Interpolator] to use for the animation.
      * @param duration Duration of the animation in ms.
-     * @param path Path of the animation
+     * @param path [Path] of the animation
      * @return The ObjectAnimator used for this animation
      * @see android.animation.ObjectAnimator.ofFloat
      */
@@ -291,24 +302,25 @@ class InterpolatorFragment : Fragment() {
     }
 
     /**
-     * Initialize interpolators programmatically by loading them from their XML definitions
-     * provided by the framework.
+     * Initializes interpolators programmatically by loading them from their XML definitions
+     * provided by the framework into our array field [interpolators].
      */
     private fun initInterpolators() {
         interpolators = arrayOf(
-            AnimationUtils.loadInterpolator(activity,
-                android.R.interpolator.linear),
-            AnimationUtils.loadInterpolator(activity,
-                android.R.interpolator.fast_out_linear_in),
-            AnimationUtils.loadInterpolator(activity,
-                android.R.interpolator.fast_out_slow_in),
-            AnimationUtils.loadInterpolator(activity,
-                android.R.interpolator.linear_out_slow_in)
+            AnimationUtils.loadInterpolator(activity, android.R.interpolator.linear),
+            AnimationUtils.loadInterpolator(activity, android.R.interpolator.fast_out_linear_in),
+            AnimationUtils.loadInterpolator(activity, android.R.interpolator.fast_out_slow_in),
+            AnimationUtils.loadInterpolator(activity, android.R.interpolator.linear_out_slow_in)
         )
     }
 
     /**
-     * Initializes the paths that are used by the ObjectAnimator to scale the view.
+     * Initializes the paths that are used by the [ObjectAnimator] to scale the view. We initialize
+     * our [Path] field [pathIn] to an instance which starts from the point (0.2, 0.2) and goes to
+     * the point (1.0, 1.0), and our [Path] field [pathOut] to an instance which starts from the
+     * point (1.0, 1.0) and goes to the point (0.2, 0.2). Our [startAnimation] method will use these
+     * paths as the endpoints when it animates the `SCALE_X` and `SCALE_Y` properties of our [View]
+     * field [mView].
      */
     private fun initPaths() {
         // Path for 'in' animation: growing from 20% to 100%
