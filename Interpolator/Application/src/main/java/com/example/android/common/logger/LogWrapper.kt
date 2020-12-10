@@ -39,7 +39,7 @@ class LogWrapper : LogNode {
      * @param tr If an exception was thrown, this can be sent along for the logging facilities
      * to extract and print useful information.
      */
-    override fun println(priority: Int, tag: String?, msg: String, tr: Throwable?) {
+    override fun println(priority: Int, tag: String?, msg: String?, tr: Throwable?) {
         // There actually are log methods that don't take a msg parameter.  For now,
         // if that's the case, just convert null to the empty string and move on.
         var msgLocal: String? = msg

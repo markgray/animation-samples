@@ -44,7 +44,7 @@ class LogView : AppCompatTextView, LogNode {
      * @param tr If an exception was thrown, this can be sent along for the logging facilities
      * to extract and print useful information.
      */
-    override fun println(priority: Int, tag: String?, msg: String, tr: Throwable?) {
+    override fun println(priority: Int, tag: String?, msg: String?, tr: Throwable?) {
         var priorityStr: String? = null
         when (priority) {
             Log.VERBOSE -> priorityStr = "VERBOSE"
