@@ -22,14 +22,39 @@ import android.util.AttributeSet
 import android.util.Log
 import java.lang.StringBuilder
 
-/** Simple TextView which is used to output log data received through the LogNode interface.
+/**
+ * Simple [AppCompatTextView] which is used to output log data received through the LogNode interface.
  */
 class LogView : AppCompatTextView, LogNode {
+    /**
+     * Our 1 parameter constructor.
+     *
+     * @param context The [Context] the view is running in, through which it can access the current
+     * theme, resources, etc.
+     */
     constructor(context: Context?) : super(context!!)
+
+    /**
+     * Our 2 parameter constructor.
+     *
+     * @param context The [Context] the view is running in, through which it can access the current
+     * theme, resources, etc.
+     * @param attrs The attributes of the XML tag that is inflating the view.
+     */
     constructor(
         context: Context?,
         attrs: AttributeSet?
     ) : super(context!!, attrs)
+
+    /**
+     * Our 3 parameter constructor.
+     *
+     * @param context The [Context] the view is running in, through which it can access the current
+     * theme, resources, etc.
+     * @param attrs The attributes of the XML tag that is inflating the view.
+     * @param defStyle An attribute in the current theme that contains a reference to a style
+     * resource that supplies default values for the view. Can be 0 to not look for defaults.
+     */
     constructor(
         context: Context?,
         attrs: AttributeSet?,
@@ -38,6 +63,7 @@ class LogView : AppCompatTextView, LogNode {
 
     /**
      * Formats the log data and prints it out to the LogView.
+     *
      * @param priority Log level of the data being logged.  Verbose, Error, etc.
      * @param tag Tag for for the log data.  Can be used to organize log statements.
      * @param msg The actual message to be logged. The actual message to be logged.
@@ -85,6 +111,7 @@ class LogView : AppCompatTextView, LogNode {
     /** Takes a string and adds to it, with a separator, if the bit to be added isn't null. Since
      * the logger takes so many arguments that might be null, this method helps cut out some of the
      * agonizing tedium of writing the same 3 lines over and over.
+     *
      * @param source StringBuilder containing the text to append to.
      * @param addStr The String to append
      * @param delimiter The String to separate the source and appended strings. A tab or comma,
@@ -92,7 +119,11 @@ class LogView : AppCompatTextView, LogNode {
      * @return The fully concatenated String as a StringBuilder
      */
     @Suppress("SameParameterValue")
-    private fun appendIfNotNull(source: StringBuilder, addStr: String?, delimiter: String): StringBuilder {
+    private fun appendIfNotNull(
+        source: StringBuilder,
+        addStr: String?,
+        delimiter: String
+    ): StringBuilder {
         var delimiterLocal: String? = delimiter
         if (addStr != null) {
             if (addStr.isEmpty()) {

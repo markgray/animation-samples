@@ -21,18 +21,16 @@ package com.example.android.common.logger
  * just easy-to-read message updates as they're happening.
  */
 class MessageOnlyLogFilter : LogNode {
+
     /**
-     * Returns the next LogNode in the chain.
-     */
-    /**
-     * Sets the LogNode data will be sent to..
+     * The LogNode that data will be sent to..
      */
     var next: LogNode? = null
 
     /**
      * Takes the "next" LogNode as a parameter, to simplify chaining.
      *
-     * @param next The next LogNode in the pipeline.
+     * @param next The next [LogNode] in the pipeline.
      */
     @Suppress("unused")
     constructor(next: LogNode?) {

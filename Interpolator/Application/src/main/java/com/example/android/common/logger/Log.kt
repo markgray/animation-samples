@@ -20,11 +20,9 @@ import android.util.Log
 /**
  * Helper class for a list (or tree) of LoggerNodes.
  *
- *
- * When this is set as the head of the list,
- * an instance of it can function as a drop-in replacement for [android.util.Log].
- * Most of the methods in this class server only to map a method call in Log to its equivalent
- * in LogNode.
+ * When this is set as the head of the list, an instance of it can function as a drop-in replacement
+ * for [android.util.Log]. Most of the methods in this class serve only to map a method call in
+ * `Log` to its equivalent in [LogNode].
  */
 @Suppress("unused")
 object Log {
@@ -37,18 +35,15 @@ object Log {
     private const val WARN = Log.WARN
     private const val ERROR = Log.ERROR
     private const val ASSERT = Log.ASSERT
+
     /**
-     * Returns the next LogNode in the linked list.
+     * The beginning of the [LogNode] topology.
      */
-    /**
-     * Sets the LogNode data will be sent to.
-     */
-    // Stores the beginning of the LogNode topology.
     var logNode: LogNode? = null
 
     /**
-     * Instructs the LogNode to print the log data provided. Other LogNodes can
-     * be chained to the end of the LogNode as desired.
+     * Instructs the [LogNode] to print the log data provided. Other LogNodes can
+     * be chained to the end of the [LogNode] as desired.
      *
      * @param priority Log level of the data being logged. Verbose, Error, etc.
      * @param tag Tag for for the log data. Can be used to organize log statements.
@@ -106,7 +101,7 @@ object Log {
     }
 
     /**
-     * Prints a message at WARN priority.
+     * Prints an empty message at WARN priority.
      *
      * @param tag Tag for for the log data. Can be used to organize log statements.
      * @param tr If an exception was thrown, this can be sent along for the logging facilities
