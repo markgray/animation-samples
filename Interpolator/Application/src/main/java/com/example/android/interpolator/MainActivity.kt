@@ -158,7 +158,7 @@ class MainActivity : SampleActivityBase() {
         /**
          * Using Log, front-end to the logging chain, emulates android.util.log method signatures.
          */
-        Log.setLogNode(logWrapper)
+        Log.logNode = logWrapper
 
         /**
          * Filter strips out everything except the message text.
