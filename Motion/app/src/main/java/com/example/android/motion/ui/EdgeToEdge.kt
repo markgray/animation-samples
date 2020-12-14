@@ -19,6 +19,8 @@ package com.example.android.motion.ui
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
+import android.view.WindowInsetsController
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.updatePadding
@@ -30,7 +32,11 @@ import com.google.android.material.appbar.AppBarLayout
  * displayed edge-to-edge on Android Q with gestural navigation.
  */
 object EdgeToEdge
-    : EdgeToEdgeImpl by if (Build.VERSION.SDK_INT >= 21) EdgeToEdgeApi21() else EdgeToEdgeBase()
+    : EdgeToEdgeImpl by when {
+    Build.VERSION.SDK_INT >= 30 -> EdgeToEdgeApi30()
+    Build.VERSION.SDK_INT >= 21 -> EdgeToEdgeApi21()
+    else -> EdgeToEdgeBase()
+}
 
 private interface EdgeToEdgeImpl {
 
@@ -96,3 +102,41 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
         }
     }
 }
+
+@RequiresApi(30)
+private class EdgeToEdgeApi30 : EdgeToEdgeImpl {
+    override fun setUpRoot(root: ViewGroup) {
+        val controller: WindowInsetsController? = root.windowInsetsController
+        controller?.hide(WindowInsets.Type.navigationBars())
+    }
+
+    override fun setUpAppBar(appBar: AppBarLayout, toolbar: Toolbar) {
+        val toolbarPadding = toolbar.resources.getDimensionPixelSize(R.dimen.spacing_medium)
+        appBar.setOnApplyWindowInsetsListener { _, windowInsets ->
+            @Suppress("DEPRECATION")
+            appBar.updatePadding(top = windowInsets.systemWindowInsetTop)
+            @Suppress("DEPRECATION")
+            toolbar.updatePadding(
+                left = toolbarPadding + windowInsets.systemWindowInsetLeft,
+                right = windowInsets.systemWindowInsetRight
+            )
+            windowInsets
+        }
+    }
+
+    override fun setUpScrollingContent(scrollingContent: ViewGroup) {
+        val originalPaddingLeft = scrollingContent.paddingLeft
+        val originalPaddingRight = scrollingContent.paddingRight
+        val originalPaddingBottom = scrollingContent.paddingBottom
+        scrollingContent.setOnApplyWindowInsetsListener { _, windowInsets ->
+            @Suppress("DEPRECATION")
+            scrollingContent.updatePadding(
+                left = originalPaddingLeft + windowInsets.systemWindowInsetLeft,
+                right = originalPaddingRight + windowInsets.systemWindowInsetRight,
+                bottom = originalPaddingBottom + windowInsets.systemWindowInsetBottom
+            )
+            windowInsets
+        }
+    }
+}
+
