@@ -103,6 +103,10 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
     }
 }
 
+/**
+ * This will eventually remove all deprecated code for API 30 and greater.
+ * TODO: Update to latest methods and constants for API 30
+ */
 @RequiresApi(30)
 private class EdgeToEdgeApi30 : EdgeToEdgeImpl {
     override fun setUpRoot(root: ViewGroup) {

@@ -27,10 +27,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.motion.R
 import com.example.android.motion.model.Demo
 
+/**
+ * This is the [ListAdapter] used by `DemoListFragment` for the [RecyclerView] with ID [R.id.demo_list]
+ *
+ * @param onDemoSelected lambda which will be called with the [Demo] held by the [DemoViewHolder] of
+ * the item in the [RecyclerView] which has been clicked.
+ */
 internal class DemoListAdapter(
     private val onDemoSelected: (demo: Demo) -> Unit
 ) : ListAdapter<Demo, DemoViewHolder>(DIFF_CALLBACK) {
 
+    /**
+     * Called when RecyclerView needs a new [DemoViewHolder] of the given type to represent an item.
+     * We return a new instance of [DemoViewHolder] constructed to use our [ViewGroup] parameter
+     * [parent] for its layout params which we have configured to use a lambda which calls our
+     * [onDemoSelected] field as the `OnClickListener` for the item view held by the [DemoViewHolder],
+     * calling [onDemoSelected] with the [Demo] item held by the adapter position of the item clicked.
+     *
+     * @param parent The ViewGroup into which the new `View` will be added after it is bound to
+     * an adapter position.
+     * @param viewType The view type of the new View.
+     * @return A new [DemoViewHolder] that holds a View of the given view type.
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DemoViewHolder {
         return DemoViewHolder(parent).apply {
             itemView.setOnClickListener {
@@ -39,6 +57,18 @@ internal class DemoListAdapter(
         }
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position. This method should
+     * update the contents of the {@link ViewHolder#itemView} to reflect the item at the given
+     * position. We just call the [DemoViewHolder.bind] method of our [DemoViewHolder] parameter
+     * [holder] with the [Demo] object whose position within the adapter's data set is our
+     * parameter [position]. It will update all of the views in the item view's [ViewGroup]
+     * to display the [Demo] object it is passed.
+     *
+     * @param holder The ViewHolder which should be updated to represent the contents of the
+     * item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     override fun onBindViewHolder(holder: DemoViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
