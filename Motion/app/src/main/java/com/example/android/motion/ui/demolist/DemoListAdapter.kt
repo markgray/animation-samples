@@ -59,7 +59,7 @@ internal class DemoListAdapter(
 
     /**
      * Called by RecyclerView to display the data at the specified position. This method should
-     * update the contents of the {@link ViewHolder#itemView} to reflect the item at the given
+     * update the contents of the `itemView` of the [DemoViewHolder] to reflect the item at the given
      * position. We just call the [DemoViewHolder.bind] method of our [DemoViewHolder] parameter
      * [holder] with the [Demo] object whose position within the adapter's data set is our
      * parameter [position]. It will update all of the views in the item view's [ViewGroup]
@@ -74,26 +74,83 @@ internal class DemoListAdapter(
     }
 }
 
+/**
+ * Callback for calculating the diff between two non-null items in a list.
+ */
 private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Demo>() {
 
+    /**
+     * Called to check whether two objects represent the same item. For example, if your items have
+     * unique ids, this method should check their id equality.
+     *
+     * Note: `null` items in the list are assumed to be the same as another `null` item and are
+     * assumed to not be the same as a non-`null` item. This callback will not be invoked for
+     * either of those cases.
+     *
+     * We return `true` if the `packageName` and `name` properties of the two [Demo] objects are
+     * structurally equal.
+     *
+     * @param oldItem The [Demo] item in the old list.
+     * @param newItem The [Demo] item in the new list.
+     * @return `true` if the two items represent the same object or `false` if they are different
+     */
     override fun areItemsTheSame(oldItem: Demo, newItem: Demo): Boolean {
         return oldItem.packageName == newItem.packageName &&
                 oldItem.name == newItem.name
     }
 
+    /**
+     * Called to check whether two items have the same data. This information is used to detect if
+     * the contents of an item have changed. This method to check equality instead of [equals] so
+     * that you can change its behavior depending on your UI. This method is called only if
+     * [areItemsTheSame] returns `true` for these items. Note: Two `null` items are assumed to
+     * represent the same contents. This callback will not be invoked for this case.
+     *
+     * We return `true` if the two items are structurally equal.
+     *
+     * @param oldItem The item in the old list.
+     * @param newItem The item in the new list.
+     * @return `true` if the contents of the items are the same or `false` if they are different.
+     */
     override fun areContentsTheSame(oldItem: Demo, newItem: Demo): Boolean {
         return oldItem == newItem
     }
 }
 
+/**
+ * The [RecyclerView.ViewHolder] used to hold each of the items displayed by our [RecyclerView].
+ * We call our super's constructor with the [ViewGroup] that the [LayoutInflater] from the context
+ * of our [ViewGroup] parameter `parent` inflates from our layout file [R.layout.demo_item] using
+ * `parent` for the layout params.
+ *
+ * @param parent the [ViewGroup] which our item view will be added to.
+ */
 internal class DemoViewHolder(
     parent: ViewGroup
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.demo_item, parent, false)
 ) {
 
+    /**
+     * The [TextView] which displays the current user-legible textual label associated with our
+     * [Demo] item that is read from the `android:label` attribute of the `activity` element in
+     * the app's `AndroidManifest.xml` for the activity which demonstrates this [Demo].
+     */
     private val label: TextView = itemView.findViewById(R.id.label)
+
+    /**
+     * The [TextView] which displays the `android:value` of the `DESCRIPTION` meta-data attribute
+     * of the `activity` element in the app's `AndroidManifest.xml` for the activity which
+     * demonstrates this [Demo].
+     */
     private val description: TextView = itemView.findViewById(R.id.description)
+
+    /**
+     * The [List] of [TextView] widgets used in our UI to display the api's that this [Demo] uses
+     * which is read from the string array associated with the resource ID which is read from the
+     * optional `META_DATA_APIS` meta-data attribute of the `activity` element in the app's
+     * `AndroidManifest.xml` for the activity which demonstrates this [Demo].
+     */
     private val apis: List<TextView> = listOf(
         itemView.findViewById(R.id.api_1),
         itemView.findViewById(R.id.api_2),
@@ -102,6 +159,20 @@ internal class DemoViewHolder(
         itemView.findViewById(R.id.api_5)
     )
 
+    /**
+     * Called to have us update the content of the views in our [ViewGroup] to display the data that
+     * is in our [Demo] parameter [demo]. First we set the text of our [TextView] field [label] to
+     * the `label` property of [demo] (the user-legible textual label of the activity). Then we set
+     * the text of our [TextView] field [description] to the `description` property of [demo] and
+     * set the [TextView] to visible only if the `description` property of [demo] is not `null`.
+     * Next we loop over `i` through the indices of our [apis] list and if the size of the `apis`
+     * array of [demo] is greater than the current value of `i` we set the text of the [TextView]
+     * in [apis] at index `i` to the string in the `apis` array of [demo] and set the [TextView] to
+     * visible, and once the  size of the `apis` array of [demo] is no longer greater than `i` we
+     * set the [TextView] in [apis] at index `i` to invisible.
+     *
+     * @param demo the [Demo] object whose data we are supposed to display.
+     */
     fun bind(demo: Demo) {
         label.text = demo.label
         description.text = demo.description

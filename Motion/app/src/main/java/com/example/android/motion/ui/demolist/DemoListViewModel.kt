@@ -24,6 +24,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.android.motion.model.Demo
 
+/**
+ * The Application context aware `ViewModel` used by [DemoListFragment].
+ *
+ * @param application our activity's [Application] instance.
+ */
 class DemoListViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _demos = MutableLiveData<List<Demo>>()
