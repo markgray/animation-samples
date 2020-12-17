@@ -31,6 +31,15 @@ import com.example.android.motion.model.Demo
  */
 class DemoListViewModel(application: Application) : AndroidViewModel(application) {
 
+    /**
+     * The [MutableLiveData] wrapped [List] of [Demo] objects corresponding to each of the sample
+     * activities that the user can select using the `RecyclerView` displayed by [DemoListFragment].
+     * It is filled using a [PackageManager] instance to find global package information for all
+     * of the activities with an `ACTION_MAIN` action, and a [Demo.CATEGORY] category in its
+     * intent-filter. These are to be found in our AndroidManifest.xml file. This is private to
+     * avoid exposing a way to set this value to observers. Public read-only access is provided by
+     * our property [demos].
+     */
     private val _demos = MutableLiveData<List<Demo>>()
     val demos: LiveData<List<Demo>> = _demos
 
