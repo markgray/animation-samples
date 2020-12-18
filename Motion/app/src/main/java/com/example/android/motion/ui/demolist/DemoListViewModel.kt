@@ -19,6 +19,8 @@ package com.example.android.motion.ui.demolist
 import android.app.Application
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
+import android.content.res.Resources
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -41,15 +43,41 @@ class DemoListViewModel(application: Application) : AndroidViewModel(application
      * our property [demos].
      */
     private val _demos = MutableLiveData<List<Demo>>()
+
+    /**
+     * Public read-only access to our [MutableLiveData] wrapped [List] of [Demo] objects field
+     * [_demos]. An observer is added to it in the `onViewCreated` override of [DemoListFragment]
+     * whose lambda calls the `submitList` method of its [DemoListAdapter] to submit [demos] to be
+     * diffed, and displayed whenever it changes value.
+     */
     val demos: LiveData<List<Demo>> = _demos
 
     init {
-        val packageManager = getApplication<Application>().packageManager
-        val resolveInfoList = packageManager.queryIntentActivities(
+        /**
+         * The [PackageManager] instance we use to find global package information.
+         */
+        val packageManager: PackageManager = getApplication<Application>().packageManager
+
+        /**
+         * The list of [ResolveInfo] objects returned when we use `packageManager` to retrieve all
+         * activities whose `intent-filter` has an `action` [Intent] of `ACTION_MAIN` and `category`
+         * of [Demo.CATEGORY] including the `meta-data` Bundles that are associated with them.
+         */
+        val resolveInfoList: MutableList<ResolveInfo> = packageManager.queryIntentActivities(
             Intent(Intent.ACTION_MAIN).addCategory(Demo.CATEGORY),
             PackageManager.GET_META_DATA
         )
-        val resources = application.resources
+
+        /**
+         * [Resources] instance for the application's package.
+         */
+        val resources: Resources = application.resources
+
+        /**
+         * Here we fill our `MutableLiveData` wrapped `List` of `Demo` objects field `_demos` with
+         * new instances of `Demo` constructed using values parsed from each of the `ResolveInfo`
+         * objects in our list `resolveInfoList`.
+         */
         _demos.value = resolveInfoList.map { resolveInfo ->
             val activityInfo = resolveInfo.activityInfo
             val metaData = activityInfo.metaData
