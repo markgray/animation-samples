@@ -18,9 +18,11 @@ package com.example.android.motion.ui.demolist
 
 import android.app.Application
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.content.res.Resources
+import android.os.Bundle
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -76,11 +78,23 @@ class DemoListViewModel(application: Application) : AndroidViewModel(application
         /**
          * Here we fill our `MutableLiveData` wrapped `List` of `Demo` objects field `_demos` with
          * new instances of `Demo` constructed using values parsed from each of the `ResolveInfo`
-         * objects in our list `resolveInfoList`.
+         * objects in our list `resolveInfoList`:
+         *
+         *  - `packageName` property of `Demo` is the name of the package `activityInfo` is in, it
+         *  is used by the `toIntent` method of `Demo` to create an `Intent` that will launch  the
+         *  `packageName` activity. `toIntent` is called by the lambda passed to the constructor of
+         *  `DemoListAdapter` which is called when the `Demo` item of the adapter is clicked.
+         *  - `name` is the Public name of the `activityInfo`. From the "android:name" attribute.
+         *  - `label` is the current textual label associated with `activityInfo`
+         *  - `description` is the `String` (if any) specified by a `Demo.META_DATA_DESCRIPTION`
+         *  `meta-data` element of `activityInfo`.
+         *  - `apis` is an `emptyList` of `String` if a resource ID was not specified by a
+         *  `Demo.META_DATA_APIS` `meta-data` element of `activityInfo`, or the string array read
+         *  from our `Resources` with the non-zero resource ID.
          */
         _demos.value = resolveInfoList.map { resolveInfo ->
-            val activityInfo = resolveInfo.activityInfo
-            val metaData = activityInfo.metaData
+            val activityInfo: ActivityInfo = resolveInfo.activityInfo
+            val metaData: Bundle? = activityInfo.metaData
             val apisId = metaData?.getInt(Demo.META_DATA_APIS, 0) ?: 0
             Demo(
                 activityInfo.applicationInfo.packageName,
