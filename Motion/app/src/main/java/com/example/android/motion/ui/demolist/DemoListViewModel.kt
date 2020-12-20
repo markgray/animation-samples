@@ -81,10 +81,12 @@ class DemoListViewModel(application: Application) : AndroidViewModel(application
          * objects in our list `resolveInfoList`:
          *
          *  - `packageName` property of `Demo` is the name of the package `activityInfo` is in, it
-         *  is used by the `toIntent` method of `Demo` to create an `Intent` that will launch  the
-         *  `packageName` activity. `toIntent` is called by the lambda passed to the constructor of
-         *  `DemoListAdapter` which is called when the `Demo` item of the adapter is clicked.
-         *  - `name` is the Public name of the `activityInfo`. From the "android:name" attribute.
+         *  is used by the `toIntent` method of `Demo` along with the `name` property to create an
+         *  `Intent` that will launch the activity whose class is `name` in `packageName`. `toIntent`
+         *  is called by the lambda passed to the constructor of `DemoListAdapter` and the lambda is
+         *  called when the `Demo` item of the adapter is clicked.
+         *  - `name` is the Public name of the `activityInfo`. From the "android:name" attribute. It
+         *  is the name of the class inside of `packageName` that implements the activity.
          *  - `label` is the current textual label associated with `activityInfo`
          *  - `description` is the `String` (if any) specified by a `Demo.META_DATA_DESCRIPTION`
          *  `meta-data` element of `activityInfo`.

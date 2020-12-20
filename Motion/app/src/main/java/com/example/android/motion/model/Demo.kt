@@ -24,12 +24,13 @@ import com.example.android.motion.ui.demolist.DemoListAdapter
 /**
  * The class used to hold information about each of the demos available to the user.
  *
- * @param packageName name of the `Activity` that the [Demo] is in, it is used by our [toIntent]
- * method to create an [Intent] that will launch  the activity. [toIntent] is called by the lambda
- * passed to the constructor of [DemoListAdapter] which is called when the item holding our [Demo]
- * is clicked. It is specified in our `Activity` element by the "android:name" attribute and is the
- * `Activity` Class in our app that needs to be started to run the demonstration.
+ * @param packageName name of the `Package` that the [Demo] is in, it is used by our [toIntent]
+ * method along with the [name] property to create an [Intent] that will launch  the activity.
+ * [toIntent] is called by the lambda passed to the constructor of [DemoListAdapter] and is called
+ * when the item holding our [Demo] is clicked. It is specified by the `package` attribute of the
+ * `manifest` element in our AndroidManifest.xml file.
  * @param name Public name, the "android:name" attribute in the [ActivityInfo] our info is in.
+ * It is the name of the class inside of [packageName] that implements the demonstration activity
  * @param label the current textual label associated with the [ActivityInfo] our info is in (which
  * is specified for our `Activity` element by the "android:label" attribute in AndroidManifest.xml).
  * @param description is the [String] (if any) specified by a [Demo.META_DATA_DESCRIPTION] `meta-data`
@@ -69,7 +70,13 @@ data class Demo(
     }
 
     /**
-     * Creates an [Intent] which will launch the activity associated with this [Demo] instance.
+     * Creates an [Intent] which will launch the activity associated with this [Demo] instance. This
+     * is called by the lambda which is used in the `onViewCreated` override of `DemoListFragment`
+     * in its call to the constructor of its [DemoListAdapter]. This [Intent] is then passed to the
+     * `startActivity` method to start the demonstration activity when the item view associated
+     * with this [Demo] object is clicked.
+     *
+     * @return an [Intent] which will launch
      */
     fun toIntent() = Intent(Intent.ACTION_MAIN)
         .addCategory(CATEGORY)
