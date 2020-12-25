@@ -88,7 +88,9 @@ class DissolveActivity : AppCompatActivity() {
      * drawable is then handled by the transition API).
      *
      * Finally we set the `OnClickListener` of both `card` and `next` to lambdas which call the
-     * `nextImage` method of [viewModel].
+     * `nextImage` method of [viewModel] which increments its [MutableLiveData] wrapped property
+     * `position` which in turn causes its [LiveData] wrapped resource ID property `image` to
+     * advance to point to the next drawable to be displayed.
      *
      * @param savedInstanceState If the activity is being re-initialized after previously being shut
      * down then this [Bundle] contains the data it most recently supplied in [onSaveInstanceState].

@@ -18,6 +18,7 @@ package com.example.android.motion.demo.dissolve
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
@@ -42,23 +43,64 @@ import androidx.transition.TransitionValues
 class Dissolve : Transition() {
 
     companion object {
+        /**
+         * Key under which we store the [Bitmap] in the [TransitionValues] map passed to our method
+         * [captureValues]. Our [createAnimator] override is passed the [TransitionValues] for both
+         * the start and the end of the [Transition].
+         */
         private const val PROPNAME_BITMAP = "com.example.android.motion.demo.dissolve:bitmap"
 
         /**
          * This transition depends on [ViewOverlay] to show the animation. On older devices that
          * don't support it, this transition doesn't do anything.
          */
+        @SuppressLint("ObsoleteSdkInt")
         private val SUPPORTS_VIEW_OVERLAY = Build.VERSION.SDK_INT >= 18
     }
 
+    /**
+     * Captures the values in the start scene for the properties that this transition monitors.
+     * These values are then passed as the startValues structure in a later call to [createAnimator].
+     * The main concern for an implementation is what the properties are that the transition cares
+     * about and what the values are for all of those properties. The start and end values will be
+     * compared later during the [createAnimator] method to determine what, if any, animations,
+     * should be run. We just call our [captureValues] method with our [TransitionValues] parameter
+     * [transitionValues].
+     *
+     * @param transitionValues The holder for any values that the [Transition] wishes to store.
+     * Values are stored in the `values` field of this [TransitionValues] object and are keyed from
+     * a String value. The target view will already be stored in the [transitionValues] structure
+     * when this method is called.
+     */
     override fun captureStartValues(transitionValues: TransitionValues) {
         captureValues(transitionValues)
     }
 
+    /**
+     * Captures the values in the end scene for the properties that this transition monitors. These
+     * values are then passed as the `endValues` structure in a later call to [createAnimator]. The
+     * main concern for an implementation is what the properties are that the transition cares about
+     * and what the values are for all of those properties. The start and end values will be compared
+     * later during the [createAnimator] method to determine what, if any, animations, should be run.
+     * We just call our [captureValues] method with our [TransitionValues] parameter [transitionValues].
+     *
+     * @param transitionValues The holder for any values that the [Transition] wishes to store.
+     * Values are stored in the `values` field of this [TransitionValues] object and are keyed from
+     * a String value. The target view will already be stored in the [transitionValues] structure
+     * when this method is called.
+     */
     override fun captureEndValues(transitionValues: TransitionValues) {
         captureValues(transitionValues)
     }
 
+    /**
+     * Captures a [Bitmap] of the `view` field of the [TransitionValues] parameter [transitionValues]
+     * passed us, and stores it in the `values` field of [transitionValues] under the key
+     * [PROPNAME_BITMAP].
+     *
+     * @param transitionValues the [TransitionValues] in which we should store the [Bitmap] of the
+     * view that is being animated.
+     */
     private fun captureValues(transitionValues: TransitionValues) {
         if (SUPPORTS_VIEW_OVERLAY) {
             // Store the current appearance of the view as a Bitmap.
@@ -66,6 +108,18 @@ class Dissolve : Transition() {
         }
     }
 
+    /**
+     * This method creates an animation that will be run for this transition given the information
+     * in the [startValues] and [endValues] structures captured earlier for the start and end scenes.
+     * If either of our [TransitionValues] parameters [startValues] or [endValues] are `null` or
+     * [SUPPORTS_VIEW_OVERLAY] is `false` we return `null` having done nothing.
+     *
+     * @param sceneRoot   The root of the transition hierarchy.
+     * @param startValues The values for a specific target in the start scene.
+     * @param endValues   The values for the target in the end scene.
+     * @return An [Animator] to be started at the appropriate time in the overall transition for
+     * this scene change. A `null` value means no animation should be run.
+     */
     override fun createAnimator(
         sceneRoot: ViewGroup,
         startValues: TransitionValues?,
