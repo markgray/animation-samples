@@ -21,7 +21,9 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
+import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOverlay
 import androidx.core.animation.doOnEnd
@@ -112,7 +114,24 @@ class Dissolve : Transition() {
      * This method creates an animation that will be run for this transition given the information
      * in the [startValues] and [endValues] structures captured earlier for the start and end scenes.
      * If either of our [TransitionValues] parameters [startValues] or [endValues] are `null` or
-     * [SUPPORTS_VIEW_OVERLAY] is `false` we return `null` having done nothing.
+     * [SUPPORTS_VIEW_OVERLAY] is `false` we return `null` having done nothing. Otherwise we set our
+     * [Bitmap] variable `val startBitmap` to the [Bitmap] stored under the key [PROPNAME_BITMAP] in
+     * the `values` property of our [TransitionValues] parameter [startValues] and our [Bitmap]
+     * variable `val endBitmap` to the [Bitmap] stored under the key [PROPNAME_BITMAP] in the
+     * `values` property of our [TransitionValues] parameter [endValues]. If `startBitmap` is the
+     * same as `endBitmap` we also return `null` having done nothing. Otherwise we initialize our
+     * [View] variable `val view` to the `view` property of [endValues], and our [BitmapDrawable]
+     * variable `val startDrawable` to the drawable constructed from `startBitmap`, after we use
+     * the `apply` extension function to set the bounding rectangle for the [Drawable] to be the
+     * same width and height as `startBitmap`. We initialize our [ViewOverlay] variable `val overlay`
+     * to the overlay for `view`, creating it if it does not yet exist, and add `startDrawable` to
+     * the overlay (drawables added to the overlay will cause them to be displayed whenever the view
+     * itself is redrawn).
+     *
+     * Finally we return a new instance of [ObjectAnimator] that animates the "alpha" property of
+     * `startDrawable` between the int values 255 to 0, to which we add an action which will be
+     * invoked when the animation has ended whose purpose is to remove `startDrawable` from the
+     * [ViewOverlay] `overlay`.
      *
      * @param sceneRoot   The root of the transition hierarchy.
      * @param startValues The values for a specific target in the start scene.
@@ -136,14 +155,14 @@ class Dissolve : Transition() {
             return null
         }
 
-        val view = endValues.view
+        val view: View = endValues.view
         val startDrawable = BitmapDrawable(view.resources, startBitmap).apply {
             setBounds(0, 0, startBitmap.width, startBitmap.height)
         }
 
         // Use ViewOverlay to show the start bitmap on top of the view that is currently showing the
         // end state. This allows us to overlap the start and end states during the animation.
-        val overlay = view.overlay
+        val overlay: ViewOverlay = view.overlay
         overlay.add(startDrawable)
 
         // Fade out the start bitmap.

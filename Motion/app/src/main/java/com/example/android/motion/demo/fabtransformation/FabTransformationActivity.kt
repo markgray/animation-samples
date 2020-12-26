@@ -28,6 +28,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.android.motion.R
@@ -37,13 +38,29 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /**
  * FAB transformation is provided by Material Components. This activity demonstrates how to use
- * [FloatingActionButton.setExpanded] to transform the FAB into a sheet.
+ * [FloatingActionButton.setExpanded] to transform the FAB into a sheet. The AndroidManifest.xml
+ * "DESCRIPTION" is: A floating action button (FAB) can transform into a card by tweening FAB size
+ * and corner radius.
  */
 class FabTransformationActivity : AppCompatActivity() {
 
+    /**
+     * The [FabTransformationViewModel] which holds the [LiveData] wrapped dataset of 4 `cheeses`
+     * which we display in our [CircularRevealCardView] when the FAB button is clicked.
+     */
     private val viewModel: FabTransformationViewModel by viewModels()
 
+    /**
+     * The [FloatingActionButton] in our UI with ID [R.id.fab]. Its `OnClickListener` is set in our
+     * `onCreate` override, and sets its expanded state to `true`.
+     */
     private lateinit var fab: FloatingActionButton
+
+    /**
+     * The [TextView] in our UI with ID [R.id.message]. The [View.OnClickListener] field
+     * [cheeseOnClick] which is used on each of the cheeses displayed in our "sheet" sets its
+     * text to display the `name` of the cheese when the cheese item is clicked.
+     */
     private lateinit var message: TextView
 
     private class CheeseItemHolder(val parent: LinearLayout, listener: View.OnClickListener) {

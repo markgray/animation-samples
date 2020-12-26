@@ -21,7 +21,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.motion.model.Cheese
 
+/**
+ * [ViewModel] used by [FabTransformationActivity] to hold its dataset.
+ */
 class FabTransformationViewModel : ViewModel() {
 
+    /**
+     * [List] of 4 random [Cheese] objects chosen from the [Cheese.ALL] lazy [List]. An `Observer`
+     * is added to it in the `onCreate` override of [FabTransformationActivity] which will load its
+     * `cheeseHolders` list of `CheeseItemHolder` field with instances which will display each of
+     * the 4 [Cheese] objects in a "sheet" when required to do so.
+     */
     val cheeses: LiveData<List<Cheese>> = MutableLiveData(Cheese.ALL.shuffled().take(4))
 }
