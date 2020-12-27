@@ -63,9 +63,23 @@ class FabTransformationActivity : AppCompatActivity() {
      */
     private lateinit var message: TextView
 
+    /**
+     * This is used much like a `ViewHolder` to hold references to the [ImageView] and [TextView] in
+     * the [LinearLayout] parameter [parent] passed it, as well as to initialize the `OnClickListener`
+     * of the [parent] to the [View.OnClickListener] parameter `listener` passed it.
+     */
     private class CheeseItemHolder(val parent: LinearLayout, listener: View.OnClickListener) {
 
+        /**
+         * The [ImageView] in the layout file layout/cheese_list_item.xml which is used to display
+         * the picture of the cheese that is associated with the cheese displayed in the holder.
+         */
         val image: ImageView = parent.findViewById(R.id.image)
+
+        /**
+         * The [TextView] in the layout file layout/cheese_list_item.xml which is used to display
+         * the name of the cheese that is associated with the cheese displayed in the holder.
+         */
         val name: TextView = parent.findViewById(R.id.name)
 
         init {
@@ -73,12 +87,42 @@ class FabTransformationActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * This is the [View.OnClickListener] that is used as the `OnClickListener` for each of the 4
+     * `Cheese` items in our "sheet". We initialize our [String] variable `val name` to the tag
+     * associated with the [View] clicked that has the key [R.id.tag_name] (it is set to the `name`
+     * property of the cheese being displayed the the clicked [View] in our [onCreate] override).
+     * We then set the text of our [TextView] field [message] to a string informing the user that
+     * "You selected" `name`. Finally we set the expanded state of [FloatingActionButton] field
+     * [fab] to `false` causing our sheet to be replaced by the [FloatingActionButton].
+     */
     private val cheeseOnClick = View.OnClickListener { v ->
         val name = v.getTag(R.id.tag_name) as String
         message.text = getString(R.string.you_selected, name)
         fab.isExpanded = false
     }
 
+    /**
+     * Called when the activity is starting. First we call our super's implementation of `onCreate`,
+     * then we set our content view to our layout file [R.layout.fab_transformation_activity]. It
+     * consists of a `CoordinatorLayout` (ID "root") holding an `AppBarLayout` (ID "app_bar") with a
+     * `MaterialToolbar` child (ID "toolbar"), a `NestedScrollView` (ID "scroll") holding a
+     * `FrameLayout` (ID "content") with a `TextView` child (ID "message"). The `CoordinatorLayout`
+     * also holds a "scrim" [View] (ID "scrim") filling its entire space which starts out invisible
+     * and changes to visible when the [FloatingActionButton] is expanded in order to allow the user
+     * to click on it to collapse the [FloatingActionButton]. Next the `CoordinatorLayout` holds the
+     * [FloatingActionButton] (ID "fab") at the end|bottom, and a `CircularRevealCardView` (ID "sheet")
+     * holding a `LinearLayout` child which holds 4 "layout/cheese_list_item" included layouts with
+     * IDs "cheese_1", "cheese_2", "cheese_3", and "cheese_4" (the `CircularRevealCardView` starts
+     * out invisible and changes to visible when the [FloatingActionButton] is expanded).
+     *
+     * Having set up our UI we now proceed to fetch references to all the ViewGroups in the UI in
+     * order to configure them.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut
+     * down then this [Bundle] contains the data it most recently supplied in [onSaveInstanceState].
+     * We do not override [onSaveInstanceState] so do not use.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // See the layout file for how to set up the CoordinatorLayout behaviors.
