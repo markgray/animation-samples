@@ -117,7 +117,25 @@ class FabTransformationActivity : AppCompatActivity() {
      * out invisible and changes to visible when the [FloatingActionButton] is expanded).
      *
      * Having set up our UI we now proceed to fetch references to all the ViewGroups in the UI in
-     * order to configure them.
+     * order to configure them:
+     *  - We initialize our [CoordinatorLayout] variable `val root` by finding the view with ID
+     *  [R.id.root]
+     *  - We initialize our [Toolbar] variable `val toolbar` by finding the view with ID [R.id.toolbar]
+     *  - We initialize our [CircularRevealCardView] variable `val sheet` by finding the view with
+     *  ID [R.id.sheet]
+     *  - We initialize our [View] variable `val scrim` by finding the view with ID [R.id.scrim]
+     *
+     * We initialize our [List] of [CheeseItemHolder] variable `val cheeseHolders` to 4 instances
+     * constructed to be associated with the views with IDs [R.id.cheese_1], [R.id.cheese_2],
+     * [R.id.cheese_3] and [R.id.cheese_4] respectively and to use our [View.OnClickListener] field
+     * [cheeseOnClick] as its `OnClickListener`.
+     *
+     * We initialize our [TextView] field [message] to the view with ID [R.id.message] and our
+     * [FloatingActionButton] field [fab] to the view with ID [R.id.fab] then call the method
+     * [setSupportActionBar] to have it set `toolbar` to act as the ActionBar for our Activity's
+     * window.
+     *
+     * We next proceed to do what is necessary to set up for edge-to-edge display:
      *
      * @param savedInstanceState If the activity is being re-initialized after previously being shut
      * down then this [Bundle] contains the data it most recently supplied in [onSaveInstanceState].
