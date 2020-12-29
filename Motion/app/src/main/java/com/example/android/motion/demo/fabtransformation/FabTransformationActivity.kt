@@ -29,6 +29,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.android.motion.R
@@ -136,6 +137,43 @@ class FabTransformationActivity : AppCompatActivity() {
      * window.
      *
      * We next proceed to do what is necessary to set up for edge-to-edge display:
+     *  - We call our [EdgeToEdge.setUpRoot] method to configure our Acitiviy root view `root` to
+     *  use edge-to-edge display.
+     *  - We call our [EdgeToEdge.setUpAppBar] method to configure the app bar with ID [R.id.app_bar]
+     *  and our [Toolbar] in that app bar `toolbar` for edge-to-edge display.
+     *  - We initialize our variable `val fabMargin` to the resource value with ID
+     *  [R.dimen.spacing_medium] (16dp).
+     *  - We set an `OnApplyWindowInsetsListener` on `root` to take over the policy for applying
+     *  window insets to `root` whose lambda adds `fabMargin` to the current system window insets
+     *  for the left, right and bottom margins of both [FloatingActionButton] field [fab] and
+     *  [CircularRevealCardView] variable `sheet`.
+     *
+     * Next we set an [Observer] on the `cheeses` property of [FabTransformationViewModel] field
+     * [viewModel] which populates the sheet content when `cheeses` changes value by using the
+     * `forEachIndexed` extension function on our list of [CheeseItemHolder] variable `cheeseHolders`
+     * to loop over `i` for each of the [CheeseItemHolder] in `cheeseHolders` setting the parent
+     * [LinearLayout] to invisible if the size of `cheeses` is less than or equal to the current
+     * index into `cheeses`, (there are not enough `Cheese` objects in `cheeses` for the holders,
+     * so the remaining ones should be invisible) otherwise:
+     *  - We set our `Cheese` variable `val cheese` to the `Cheese` at index `i`
+     *  - We set the `parent` [LinearLayout] property of the current `holder` to visible.
+     *  - We set the tag with the key [R.id.tag_name] of the `parent` of the current `holder` to the
+     *  `name` property of `cheese`
+     *  - We set the text of the `name` [TextView] of of the current `holder` to the `name` property
+     *  of `cheese`.
+     *  - We begin a load with [Glide] that will load the drawable with the resource ID that is in
+     *  the `image` property of `cheese` into the [ImageView] property `image` of `holder` after
+     *  applying the Transformation [CircleCrop] to the drawable.
+     *
+     * Lastly we set the `OnClickListener` of [FloatingActionButton] field [fab] to a lambda which
+     * sets the `isExpanded` property of [fab] to `true` which causes the CoordinatorLayout to
+     * transform the FAB into the view whose "app:layout_behavior" is the  string (resource ID
+     * string/fab_transformation_sheet_behavior) FabTransformationSheetBehavior (the view in our
+     * layout with ID [R.id.sheet]). Also the view marked with FabTransformationScrimBehavior as
+     * its "app:layout_behavior" is faded in as a content scrim (our view with ID [R.id.scrim]
+     * uses string/fab_transformation_scrim_behavior for this). And we also set the `OnClickListener`
+     * of our [View] variable `scrim` to a lambda which sets the `isExpanded` property of [fab] to
+     * `false` which will shrink the menu sheet back into the FAB.
      *
      * @param savedInstanceState If the activity is being re-initialized after previously being shut
      * down then this [Bundle] contains the data it most recently supplied in [onSaveInstanceState].
@@ -208,6 +246,11 @@ class FabTransformationActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Called when the activity has detected the user's press of the back key. If our [FloatingActionButton]
+     * field [fab] is expanded we set its `isExpanded` property to `false`, otherwise we just call our
+     * super's implementation of `onBackPressed`.
+     */
     override fun onBackPressed() {
         if (fab.isExpanded) {
             fab.isExpanded = false
