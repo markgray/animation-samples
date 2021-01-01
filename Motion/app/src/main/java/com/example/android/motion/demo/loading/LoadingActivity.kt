@@ -22,6 +22,8 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.Transition
@@ -30,18 +32,42 @@ import androidx.transition.TransitionManager
 import com.example.android.motion.R
 import com.example.android.motion.demo.FAST_OUT_SLOW_IN
 import com.example.android.motion.demo.LARGE_EXPAND_DURATION
+import com.example.android.motion.demo.SequentialTransitionSet
 import com.example.android.motion.demo.plusAssign
 import com.example.android.motion.demo.transitionSequential
+import com.example.android.motion.model.Cheese
 import com.example.android.motion.ui.EdgeToEdge
 
 /**
- * Shows a list of cheeses. We use the Paging Library to load the list.
+ * Shows a list of cheeses. We use the Paging Library to load the list. Motion provides timely
+ * feedback and the status of user actions. An animated placeholder UI can indicate that content
+ * is loading. [PlaceholderAdapter] is used to animate the alpha of its [R.drawable.image_placeholder]
+ * drawable and the alpha of its [R.drawable.text_placeholder] text view background while it pretends
+ * to be delayed loading due to network delay.
  */
 class LoadingActivity : AppCompatActivity() {
 
+    /**
+     * The [LoadingViewModel] view model which holds our dataset in its `cheeses` [LiveData] wrapped
+     * [PagedList] of [Cheese] objects property.
+     */
     private val viewModel: LoadingViewModel by viewModels()
 
+    /**
+     * The [RecyclerView] in our layout file with ID [R.id.list] which is used to display our list
+     * of cheeses.
+     */
     private lateinit var list: RecyclerView
+
+    /**
+     * The [SequentialTransitionSet] which applies a [Fade.OUT] and [Fade.IN] transition to our
+     * [RecyclerView] field [list] when its adapter is first loading it. The lambda argument to
+     * [transitionSequential] sets the duration of [fade] to [LARGE_EXPAND_DURATION] (300ms), its
+     * interpolator to [FAST_OUT_SLOW_IN], adds a [Fade.OUT] fade followed by a [Fade.IN] fade and
+     * adds an [TransitionListenerAdapter] whose `onTransitionEnd` override sets the item Animator
+     * of [list] to the value saved in our [RecyclerView.ItemAnimator] field [savedItemAnimator] if
+     * it is not `null`.
+     */
     private val fade = transitionSequential {
         duration = LARGE_EXPAND_DURATION
         interpolator = FAST_OUT_SLOW_IN
