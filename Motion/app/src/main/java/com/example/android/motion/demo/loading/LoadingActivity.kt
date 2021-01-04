@@ -106,7 +106,11 @@ class LoadingActivity : AppCompatActivity() {
     private var savedItemAnimator: RecyclerView.ItemAnimator? = null
 
     /**
-     * Called when the activity is starting.
+     * Called when the activity is starting. First we call our super's implementation of `onCreate`,
+     * then we set our content view to our layout file [R.layout.loading_activity] which consists of
+     * a `CoordinatorLayout` holding an `AppBarLayout` (ID [R.id.app_bar]) which holds a
+     * `MaterialToolbar` (ID [R.id.toolbar]) and a [RecyclerView] (ID [R.id.list]) which will
+     * display our list of [Cheese] objects.
      *
      * @param savedInstanceState we do not override [onSaveInstanceState] so do not use.
      */
