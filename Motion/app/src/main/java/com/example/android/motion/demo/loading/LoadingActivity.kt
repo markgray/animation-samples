@@ -82,11 +82,34 @@ class LoadingActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * The [PlaceholderAdapter] used to fill our [RecyclerView] with "flashing" animated empty views
+     * while our dataset is being loaded into the `cheeses` property of our [LoadingViewModel] field
+     * [viewModel]. An Oberver of `cheeses` replaces it with the "real" [CheeseAdapter] field
+     * [cheeseAdapter] when it changes value.
+     */
     private val placeholderAdapter = PlaceholderAdapter()
+
+    /**
+     * The [CheeseAdapter] used to display our dataset the `cheeses` property of our [LoadingViewModel]
+     * field [viewModel] in our [RecyclerView].
+     */
     private val cheeseAdapter = CheeseAdapter()
 
+    /**
+     * Temporary storage for saving the animations that take place on items as changes are made to
+     * the adapter of the [RecyclerView] field [list]. It is saved to in the Observer of the `cheeses`
+     * property of our [LoadingViewModel] field [viewModel] created in our [onCreate] override, and
+     * restored to the `ItemAnimator` of [list] in the `onTransitionEnd` override of the
+     * [TransitionListenerAdapter] field [fade]
+     */
     private var savedItemAnimator: RecyclerView.ItemAnimator? = null
 
+    /**
+     * Called when the activity is starting.
+     *
+     * @param savedInstanceState we do not override [onSaveInstanceState] so do not use.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.loading_activity)
