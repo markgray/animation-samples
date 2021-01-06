@@ -18,6 +18,7 @@ package com.example.android.motion.demo.loading
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -110,7 +111,25 @@ class LoadingActivity : AppCompatActivity() {
      * then we set our content view to our layout file [R.layout.loading_activity] which consists of
      * a `CoordinatorLayout` holding an `AppBarLayout` (ID [R.id.app_bar]) which holds a
      * `MaterialToolbar` (ID [R.id.toolbar]) and a [RecyclerView] (ID [R.id.list]) which will
-     * display our list of [Cheese] objects.
+     * display our list of [Cheese] objects. We initialize our [Toolbar] variable `val toolbar` by
+     * finding the view with ID [R.id.toolbar], and our [RecyclerView] field [list] by finding the
+     * view with ID [R.id.list]. We call the [setSupportActionBar] method to set `toolbar` to act as
+     * the `ActionBar` for our Activity window. Then we call the various methods of [EdgeToEdge] to
+     * set up our UI for edge to edge display.
+     *
+     * We set the `adapter` of our [RecyclerView] field [list] to our [PlaceholderAdapter] field
+     * [placeholderAdapter] to have it display the initial "flashing empty placeholder views" while
+     * we pretent to load our dataset from the Internet. Then we add an `Observer` to the [LiveData]
+     * wrapped list of [Cheese] objects in the `cheeses` property of our [LoadingViewModel] field
+     * [viewModel]. The lambda of this `Observer` checks whether the `adapter` of [list] is not our
+     * [CheeseAdapter] field [cheeseAdapter] and when it is not we set the `adapter` of [list] to
+     * [cheeseAdapter], save the current [RecyclerView.ItemAnimator] of [list] in our field
+     * [savedItemAnimator] and set the [RecyclerView.ItemAnimator] of [list] to `null`. The lambda
+     * then uses the [TransitionManager.beginDelayedTransition] method to have it begin to animate
+     * to the new scene which is caused by the adapter change using our [SequentialTransitionSet]
+     * field [fade] as the transition to use for this change. Whether the adapter is changed or not
+     * the lambda then calls the `submitList` method of [cheeseAdapter] to set the new list to be
+     * displayed to the new value of the `cheeses` property of [viewModel].
      *
      * @param savedInstanceState we do not override [onSaveInstanceState] so do not use.
      */
@@ -139,11 +158,40 @@ class LoadingActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Initialize the contents of the Activity's standard options menu. You should place your menu
+     * items in [menu]. This is only called once, the first time the options menu is displayed.
+     * To update the menu every time it is displayed, see [onPrepareOptionsMenu]. We use a
+     * [MenuInflater] for this context to inflate our [Menu] layout file [R.menu.loading] into our
+     * [Menu] parameter [menu] (it consists of a single [MenuItem] with the title "Refresh" and
+     * ID [R.id.action_refresh]). Then we return the value returned by our super's implementation
+     * of `onCreateOptionsMenu`.
+     *
+     * @param menu The options [Menu] in which you place your items.
+     * @return You must return `true` for the menu to be displayed, if you return `false` it will
+     * not be shown.
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.loading, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
+    /**
+     * This hook is called whenever an item in your options menu is selected. When the item ID of
+     * our [MenuItem] parameter [item] is our [R.id.action_refresh] menu item we use the
+     * [TransitionManager.beginDelayedTransition] method to have it begin to animate to the new
+     * scene which is caused by our subsequent adapter change using our [SequentialTransitionSet]
+     * field [fade] as the transition to use for this change, set the adapter of our [RecyclerView]
+     * field [list] to our [PlaceholderAdapter] field [placeholderAdapter] (displays flashing empty
+     * views in [list]) and call the `refresh` method of our [LoadingViewModel] field [viewModel]
+     * to have it simulate a network reload of our dataset. Finally we return `true` to consume the
+     * event here. If the [MenuItem] is not one of ours we just return the value returned by our
+     * super's implementation of `onOptionsItemSelected`.
+     *
+     * @param item The menu item that was selected.
+     * @return boolean Return `false` to allow normal menu processing to proceed, `true` to consume
+     * it here.
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_refresh -> {
