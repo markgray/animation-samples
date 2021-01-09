@@ -153,8 +153,10 @@ internal class CheeseViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     val name: TextView = itemView.findViewById(R.id.name)
 
     /**
-     * This is the animation we apply to each of the list items. It animates the alpha value from 1
-     * to 0, then back to 1. The animation repeats infinitely until it is manually ended.
+     * This is the animation we apply to each of the empty list items if our [showPlaceholder]
+     * method is called for them. It animates the alpha value from 1 to 0, then back to 1. The
+     * animation repeats infinitely until it is manually ended. An action to be invoked when the
+     * animation has ended is added to it which sets the `alpha` to 1f when the animation is ended.
      */
     private val animation = ObjectAnimator.ofFloat(itemView, View.ALPHA, 1f, 0f, 1f).apply {
         repeatCount = ObjectAnimator.INFINITE
