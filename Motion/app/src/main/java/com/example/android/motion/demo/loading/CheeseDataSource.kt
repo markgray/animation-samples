@@ -21,6 +21,11 @@ import androidx.paging.DataSource
 import androidx.paging.PositionalDataSource
 import com.example.android.motion.model.Cheese
 
+/**
+ * Position-based data loader for our fixed-size, countable data set of [Cheese] objects, supporting
+ * fixed-size loads at arbitrary page positions. It simulates internet delay by sleeping for 3000ms
+ * every time it is asked to do a load in both our [loadInitial] and our [loadRange] overrides.
+ */
 class CheeseDataSource : PositionalDataSource<Cheese>() {
 
     companion object Factory : DataSource.Factory<Int, Cheese>() {
