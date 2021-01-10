@@ -154,15 +154,32 @@ internal class CheeseViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 
     /**
      * This is the animation we apply to each of the list items. It animates the alpha value from 1
-     * to 0, then back to 1. The animation repeats infinitely until it is manually ended.
+     * to 0, then back to 1. The animation repeats infinitely until it is manually ended. When the
+     * animation is ended the `alpha` value of [itemView] is set to 1.
      */
-    private val animation = ObjectAnimator.ofFloat(itemView, View.ALPHA, 1f, 0f, 1f).apply {
+    private val animation = ObjectAnimator.ofFloat(
+        itemView,
+        View.ALPHA,
+        1f,
+        0f,
+        1f
+    ).apply {
         repeatCount = ObjectAnimator.INFINITE
         duration = FADE_DURATION
         // Reset the alpha on animation end.
         doOnEnd { itemView.alpha = 1f }
     }
 
+    /**
+     * Shows an animated "flashing" empty [itemView] in our cell while we are "waiting" for the
+     * [Cheese] objects to be "downloaded" by the [CheeseDataSource] internet simulator. First we
+     * shift the timing of fade-in/out [animation] for our item depending on its adapter position
+     * by setting the position of the [animation] `currentPlayTime` to a time calculated from the
+     * `adapterPosition` of our cell. Then we start [animation], set the drawable with resource ID
+     * [R.drawable.image_placeholder] to be the content of [ImageView] field [image], set the text
+     * of [TextView] field [name] to `null` and its background to the drawable with resource ID
+     * [R.drawable.text_placeholder].
+     */
     fun showPlaceholder() {
         // Shift the timing of fade-in/out for each item by its adapter position. We use the
         // elapsed real time to make this independent from the timing of method call.
@@ -175,6 +192,16 @@ internal class CheeseViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         name.setBackgroundResource(R.drawable.text_placeholder)
     }
 
+    /**
+     * Updates the contents of the item View of our [CheeseViewHolder] to reflect the [Cheese]
+     * parameter [cheese]. First we end the "flashing" placeholder animation of our cell, then we
+     * begin a load with [Glide] which will load the drawable whose resource ID is the `image`
+     * property of [cheese] into our [ImageView] field [image] after applying a [CircleCrop]
+     * transformation to it. We then set the text of our [TextView] field [name] to the `name`
+     * property of [cheese] and remove the background of the [TextView].
+     *
+     * @param cheese the [Cheese] object we are supposed to display.
+     */
     fun bind(cheese: Cheese) {
         animation.end()
         Glide.with(image).load(cheese.image).transform(CircleCrop()).into(image)
