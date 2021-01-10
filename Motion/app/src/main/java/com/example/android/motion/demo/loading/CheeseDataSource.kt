@@ -28,7 +28,18 @@ import com.example.android.motion.model.Cheese
  */
 class CheeseDataSource : PositionalDataSource<Cheese>() {
 
+    /**
+     * Factory for DataSources. Data-loading systems of an application or library can implement this
+     * interface to allow LiveData<PagedList>s to be created.
+     */
     companion object Factory : DataSource.Factory<Int, Cheese>() {
+        /**
+         * Create a DataSource. The [DataSource] should invalidate itself if the snapshot is no
+         * longer valid. If a [DataSource] becomes invalid, the only way to query more data is to
+         * create a new [DataSource] from the Factory.
+         *
+         * @return the new DataSource.
+         */
         override fun create(): DataSource<Int, Cheese> = CheeseDataSource()
     }
 
