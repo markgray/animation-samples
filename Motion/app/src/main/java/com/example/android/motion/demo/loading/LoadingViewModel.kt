@@ -23,6 +23,9 @@ import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.example.android.motion.model.Cheese
 
+/**
+ * The [ViewModel] used by our [LoadingActivity] demo activity.
+ */
 class LoadingViewModel : ViewModel() {
 
     private var source: LiveData<PagedList<Cheese>>? = null
