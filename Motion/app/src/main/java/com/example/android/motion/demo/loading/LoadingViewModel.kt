@@ -21,6 +21,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
+import androidx.paging.PositionalDataSource
 import androidx.paging.toLiveData
 import com.example.android.motion.model.Cheese
 
@@ -61,7 +62,17 @@ class LoadingViewModel : ViewModel() {
     }
 
     /**
-     *
+     * Iniitializes or refreshes our dataset using our simulated network download [PositionalDataSource]
+     * subclass [CheeseDataSource]. If our [source] field is not `null` we calll the `removeSource`
+     * method of our [MediatorLiveData] wrapped field [_cheeses] to have it stop listening to our
+     * [source] field. We then initialize our variable `val s` to a [LiveData] wrapped [PagedList]
+     * of [Cheese] objects using the `DataSource.Factory` of our [PositionalDataSource] subclass
+     * [CheeseDataSource] with a `pageSize` of 15. We set our [source] field to `s` then add `s`
+     * to our [_cheeses] field to have it start listening to `s`, with a lambda which calls the
+     * `postValue` method of [_cheeses] with `s` to post a task to the main thread to set the value
+     * of [_cheeses] to `s` when `s` changes value. An observer is added to our [cheeses] field in
+     * the `onCreate` override of [LoadingActivity] will then update its UI to reflect the changed
+     * dataset.
      */
     fun refresh() {
         source?.let { _cheeses.removeSource(it) }
