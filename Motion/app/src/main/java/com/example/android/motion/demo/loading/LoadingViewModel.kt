@@ -18,6 +18,7 @@ package com.example.android.motion.demo.loading
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
@@ -28,14 +29,40 @@ import com.example.android.motion.model.Cheese
  */
 class LoadingViewModel : ViewModel() {
 
+    /**
+     * The [LiveData] wrapped [PagedList] of [Cheese] objects that the `DataSource.Factory` of
+     * our [CheeseDataSource] constructs. The creation of the first [PagedList] is deferred
+     * until the [LiveData] is observed. An observer is added to it in our [refresh] method
+     * which will when it changes value (when the simulated network download completes) post a
+     * task to the main thread to set [_cheeses] to the new value.
+     */
     private var source: LiveData<PagedList<Cheese>>? = null
+
+    /**
+     * Our [MutableLiveData] subclass which observes our [source] LiveData object and reacts to
+     * OnChanged events from it. It is private to prevent modification by other classes. Public
+     * read only access is provided by our [cheeses] field.
+     */
     private val _cheeses = MediatorLiveData<PagedList<Cheese>>()
+
+    /**
+     * Our dataset of [Cheese] objects. It is updated from our [source] field by an observer added
+     * to [source] in our [refresh] method, and an observer added to it in the `onCreate` override
+     * of [LoadingActivity] does what's needed to display the new data in its `RecyclerView` when
+     * it changes value.
+     */
     val cheeses: LiveData<PagedList<Cheese>> = _cheeses
 
     init {
+        /**
+         * Initialize our dataset.
+         */
         refresh()
     }
 
+    /**
+     *
+     */
     fun refresh() {
         source?.let { _cheeses.removeSource(it) }
         val s = CheeseDataSource.toLiveData(pageSize = 15)
