@@ -31,22 +31,49 @@ import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.transition.Fade
+import androidx.transition.Transition
 import com.example.android.motion.R
 import com.example.android.motion.demo.FAST_OUT_LINEAR_IN
 import com.example.android.motion.demo.LARGE_COLLAPSE_DURATION
 import com.example.android.motion.demo.LARGE_EXPAND_DURATION
 import com.example.android.motion.demo.LINEAR_OUT_SLOW_IN
 import com.example.android.motion.demo.sharedelement.MirrorView
+import com.example.android.motion.model.Cheese
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.card.MaterialCardView
 
+/**
+ * A [Fragment] which displays the name and image of the [Cheese] which is stored in the [LiveData]
+ * wrapped [Cheese] field [CheeseCardViewModel.cheese].
+ */
 class CheeseCardFragment : Fragment() {
 
+    /**
+     * Our [ViewModel] which contains the [LiveData] wrapped [Cheese] field
+     * [CheeseCardViewModel.cheese] whose name and image we display.
+     */
     private val viewModel: CheeseCardViewModel by viewModels()
 
+    /**
+     * Called to do initial creation of our fragment. This is called after [onAttach] and before
+     * [onCreateView]. First we call our super's implementation of `onCreate`. Then we set the
+     * [Transition] that will be used to move Views out of the scene when our fragment is removed,
+     * hidden, or detached when not popping the back stack (`exitTransition`) to a [Fade.OUT] fade
+     * transition whose duration is our constant [LARGE_EXPAND_DURATION] divided by 2 and whose
+     * interpolator is our [FAST_OUT_LINEAR_IN] `PathInterpolatorCompat` for a cubic Bezier curve.
+     * Finally we set the [Transition] that will be used to move Views in to our scene when
+     * returning due to popping a back stack (`reenterTransition`) to a [Fade.IN] fade transition
+     * whose duration is our constant [LARGE_COLLAPSE_DURATION] divided by 2, whose `startDelay` is
+     * also [LARGE_COLLAPSE_DURATION] divided by 2, and whose interpolator is our [LINEAR_OUT_SLOW_IN]
+     * `PathInterpolatorCompat` for a cubic Bezier curve.
+     *
+     * @param savedInstanceState we do not override [onSaveInstanceState] so do not use.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         exitTransition = Fade(Fade.OUT).apply {

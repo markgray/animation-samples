@@ -21,8 +21,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.motion.model.Cheese
 
+/**
+ * The [ViewModel] used by our [CheeseCardFragment] fragment.
+ */
 class CheeseCardViewModel : ViewModel() {
 
+    /**
+     * A random [Cheese] chosen from our [Cheese.ALL] list of cheeses.
+     */
     val cheese: LiveData<Cheese> = MutableLiveData(Cheese.ALL.random())
 
 }
