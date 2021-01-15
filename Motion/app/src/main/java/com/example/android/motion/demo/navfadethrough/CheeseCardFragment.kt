@@ -87,6 +87,24 @@ class CheeseCardFragment : Fragment() {
         }
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view. This is optional, and
+     * non-graphical fragments can return `null`. This will be called between [onCreate] and
+     * [onActivityCreated]. It is recommended to **only** inflate the layout in this method and
+     * move logic that operates on the returned View to [onViewCreated]. We just return the [View]
+     * that our [LayoutInflater] parameter [inflater] inflates from our [R.layout.cheese_card_fragment]
+     * layout file using our [ViewGroup] parameter [container] for its `LayoutParams`.
+     *
+     * @param inflater The [LayoutInflater] object that can be used to inflate
+     * any views in the fragment
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI will be attached to. The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-`null`, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return Return the [View] for the fragment's UI, or `null`.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -95,6 +113,22 @@ class CheeseCardFragment : Fragment() {
         return inflater.inflate(R.layout.cheese_card_fragment, container, false)
     }
 
+    /**
+     * Called immediately after [onCreateView] has returned, but before any saved state has been
+     * restored in to the view. First we locate all of the important widgets in our [View] parameter
+     * [view]:
+     *
+     *  - `val toolbar` the [Toolbar] in our UI with ID [R.id.toolbar] used for our `ActionBar`.
+     *  - `val content` the [FrameLayout] in our UI with ID [R.id.content] fills the rest of our
+     *  screen holding the [MaterialCardView] (subclass of [FrameLayout]) which holds our [MirrorView]
+     *  (used for transitioning) and the [ConstraintLayout] which displays our [Cheese].
+     *  - `val card` the [MaterialCardView] in our UI with ID [R.id.card] which holds our [MirrorView]
+     *  (used for transitioning) and the [ConstraintLayout] which displays our [Cheese].
+     *
+     * @param view The [View] returned by [onCreateView].
+     * @param savedInstanceState If non-`null`, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val toolbar: Toolbar = view.findViewById(R.id.toolbar)
         val content: FrameLayout = view.findViewById(R.id.content)
