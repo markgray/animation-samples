@@ -25,6 +25,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.ViewGroupCompat
 import androidx.core.view.updateLayoutParams
@@ -124,6 +125,21 @@ class CheeseCardFragment : Fragment() {
      *  (used for transitioning) and the [ConstraintLayout] which displays our [Cheese].
      *  - `val card` the [MaterialCardView] in our UI with ID [R.id.card] which holds our [MirrorView]
      *  (used for transitioning) and the [ConstraintLayout] which displays our [Cheese].
+     *  - `val cardContent` the [ConstraintLayout] in our UI with ID [R.id.card_content] which holds
+     *  an [ImageView] displaying a picture of our [Cheese], a [TextView] holding the name of the
+     *  [Cheese], and a [TextView] holding some fake "caption" text "describing" the [Cheese].
+     *  - `val image` the [ImageView] in our UI with ID [R.id.image] which holds a picture of our
+     *  [Cheese]. It is at left side of the [ConstraintLayout] `val cardContent` mentioned above.
+     *  - `val name` the [TextView] in our UI with ID [R.id.name] which holds the name of our [Cheese].
+     *  It is at right top side of the [ConstraintLayout] `val cardContent` mentioned above.
+     *  - `val mirror` the [MirrorView] in our UI with ID [R.id.article_mirror] which occupies the
+     *  same space as the above [ConstraintLayout] `val cardContent` inside of our [MaterialCardView]
+     *  `val card`. It is used for the shared element transition to the [CheeseArticleFragment] UI.
+     *
+     * Next we add an [OnApplyWindowInsetsListener] to the `parent` of our [View] parameter [view]
+     * to replace the `onApplyWindowInsets` of [view] with a lambda which updates the `topMargin`
+     * [AppBarLayout.LayoutParams] of `toolbar`, and the `left`, `right` and `bottom` padding of
+     * `content`.
      *
      * @param view The [View] returned by [onCreateView].
      * @param savedInstanceState If non-`null`, this fragment is being re-constructed
