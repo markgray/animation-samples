@@ -141,6 +141,27 @@ class CheeseCardFragment : Fragment() {
      * [AppBarLayout.LayoutParams] of `toolbar`, and the `left`, `right` and `bottom` padding of
      * `content`.
      *
+     * Now we proceed to set the names of the views to be used to identify Views in Transitions:
+     *  - `card` [MaterialCardView] with ID [R.id.card] is named "card"
+     *  - `cardContent` [ConstraintLayout] with ID [R.id.card_content] is named "card_content"
+     *  - `mirror` [MirrorView] with ID [R.id.article_mirror] is named "article"
+     *
+     * Then we change `cardContent` to be treated as a single entity during Activity Transitions.
+     * We add an observer to the [LiveData] wrapped `cheese` property of our [CheeseCardViewModel]
+     * field [viewModel] whose lambda sets the text of [TextView] `name` to the `name` property of
+     * `cheese`, and the content of the [ImageView] `image` to be the drawable whose resource ID is
+     * the `image` property of `cheese`. Finally we set the [View.OnClickListener] of [MaterialCardView]
+     * `card` to a lambda which sets its [Cheese] variable `val cheese` to the [LiveData] wrapped
+     * `cheese` property of our [CheeseCardViewModel] field [viewModel] or returns if it is `null`,
+     * and if it is not `null` it finds a NavController associated with the View that was clicked
+     * and uses it to navigate to the [CheeseArticleFragment] passsing the [Cheese.id] property of
+     * `cheese` as the [Long] safe args, supplying the [FragmentNavigatorExtras] mapping `card`
+     * to [CheeseArticleFragment.TRANSITION_NAME_BACKGROUND], `cardContent` to
+     * [CheeseArticleFragment.TRANSITION_NAME_CARD_CONTENT], and `mirror` to
+     * [CheeseArticleFragment.TRANSITION_NAME_ARTICLE_CONTENT]. These [FragmentNavigatorExtras]
+     * map the views in our UI to the transition names used for the views in [CheeseArticleFragment]
+     * for the shared element transition when we navigate to [CheeseArticleFragment].
+     *
      * @param view The [View] returned by [onCreateView].
      * @param savedInstanceState If non-`null`, this fragment is being re-constructed
      * from a previous saved state as given here.
