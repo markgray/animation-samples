@@ -34,6 +34,7 @@ import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.ChangeBounds
@@ -47,13 +48,35 @@ import com.example.android.motion.demo.plusAssign
 import com.example.android.motion.demo.sharedelement.MirrorView
 import com.example.android.motion.demo.sharedelement.SharedFade
 import com.example.android.motion.demo.transitionTogether
+import com.example.android.motion.model.Cheese
 import com.google.android.material.appbar.CollapsingToolbarLayout
 
+/**
+ * A [Fragment] which displays the name and image of the [Cheese] which is stored in the [LiveData]
+ * wrapped [Cheese] field [CheeseArticleViewModel.cheese]. That [Cheese] is set to the [Cheese] in
+ * the [Cheese.ALL] list with the same `id` property as the safe args [Long] passed us when we are
+ * navigated to from [CheeseCardFragment] by setting the [CheeseArticleViewModel.cheeseId] field to
+ * that [Long] in our [onCreate] override.
+ */
 class CheeseArticleFragment : Fragment() {
 
     companion object {
+        /**
+         * The transition name used for the root [FrameLayout] in our layout file whose ID is
+         * [R.id.background].
+         */
         const val TRANSITION_NAME_BACKGROUND = "background"
+
+        /**
+         * The transition name used for the [CoordinatorLayout] in our layout file whose ID is
+         * [R.id.coordinator].
+         */
         const val TRANSITION_NAME_CARD_CONTENT = "card_content"
+
+        /**
+         * The transition name used for the [MirrorView] in our layout file whose ID is
+         * [R.id.card_mirror].
+         */
         const val TRANSITION_NAME_ARTICLE_CONTENT = "article_content"
     }
 
