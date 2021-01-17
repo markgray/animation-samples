@@ -35,11 +35,14 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.navigation.NavArgs
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.ChangeBounds
 import androidx.transition.ChangeTransform
 import androidx.transition.Transition
+import androidx.transition.TransitionSet
 import com.example.android.motion.R
 import com.example.android.motion.demo.FAST_OUT_SLOW_IN
 import com.example.android.motion.demo.LARGE_COLLAPSE_DURATION
@@ -80,10 +83,40 @@ class CheeseArticleFragment : Fragment() {
         const val TRANSITION_NAME_ARTICLE_CONTENT = "article_content"
     }
 
+    /**
+     * The [NavArgs] safe args passed to us when [CheeseCardFragment] navigated to us. It contains
+     * only a [Long] field `cheeseId` which contains the `id` property of the [Cheese] object that
+     * we are supposed to display.
+     */
     private val args: CheeseArticleFragmentArgs by navArgs()
 
+    /**
+     * Our [ViewModel]. Its [CheeseArticleViewModel.cheese] field contains the [Cheese] we are to
+     * display. It is set in our [onCreate] override by setting the [CheeseArticleViewModel.cheeseId]
+     * field to the [Long] safe args argument passed us when [CheeseCardFragment] navigates to us.
+     * The setter of [CheeseArticleViewModel.cheeseId] sets the private backing field `_cheese` by
+     * searching the [Cheese.ALL] list for a [Cheese] with the same `id` property as the value we
+     * set [CheeseArticleViewModel.cheeseId] to.
+     */
     private val viewModel: CheeseArticleViewModel by viewModels()
 
+    /**
+     * Called to do initial creation of our fragment. This is called after [onAttach] and before
+     * [onCreateView]. First we call our super's implementation of `onCreate`. Then we set the
+     * [Transition] that will be used for shared elements transferred into our content Scene to
+     * the [TransitionSet] returned from our [createSharedElementTransition] method with the duration
+     * [LARGE_EXPAND_DURATION] while excluding the target whose ID is [R.id.article_mirror] (the
+     * [MirrorView] in the layout file for [CheeseCardFragment]), and the [Transition] that will be
+     * used for shared elements transferred back during a pop of the back stack to the [TransitionSet]
+     * returned from our [createSharedElementTransition] method with the duration [LARGE_COLLAPSE_DURATION]
+     * while excluding the target whose ID is [R.id.card_mirror] (the [MirrorView] in our layout file).
+     * Finally we set the [CheeseArticleViewModel.cheeseId] field of our [CheeseArticleViewModel]
+     * field [viewModel] to the `cheeseId` field of our safe args [CheeseArticleFragmentArgs] field
+     * [args] which causing the private backing field `_cheese` of the `cheese` field of [viewModel]
+     * to be set to the [Cheese] in the [Cheese.ALL] list with the same `id` property as `cheesID`.
+     *
+     * @param savedInstanceState we do not override [onSaveInstanceState] so do not use.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
