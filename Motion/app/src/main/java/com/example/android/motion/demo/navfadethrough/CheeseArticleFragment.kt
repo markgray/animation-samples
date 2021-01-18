@@ -129,6 +129,22 @@ class CheeseArticleFragment : Fragment() {
         viewModel.cheeseId = args.cheeseId
     }
 
+    /**
+     * Constructs a shared element transition. We return the [TransitionSet] returned by our
+     * [transitionTogether] method after we set its duration to our [Long] parameter [duration],
+     * set its `interpolator` to [FAST_OUT_SLOW_IN], add a [Transition] constructed from our
+     * [SharedFade] class (Transitions between a view and its copy contained in a [MirrorView]),
+     * add an instance of [ChangeBounds] (a transition which captures the layout bounds of target
+     * views before and after the scene change and animates those changes during the transition),
+     * add an instance of [ChangeTransform] (a Transition which captures scale and rotation for
+     * Views before and after the scene change and animates those changes during the transition),
+     * and exclude the view with resource ID [noTransform] from the animation.
+     *
+     * @param duration length of animation in milliseconds.
+     * @param noTransform resource ID of view to be excluded from the transition.
+     * @return a [Transition] suitable to be used for either `sharedElementEnterTransition` or
+     * `sharedElementReturnTransition`.
+     */
     private fun createSharedElementTransition(duration: Long, @IdRes noTransform: Int): Transition {
         return transitionTogether {
             this.duration = duration
@@ -141,6 +157,23 @@ class CheeseArticleFragment : Fragment() {
         }
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view. This will be called between
+     * [onCreate] and [onActivityCreated]. It is recommended to **only** inflate the layout in this
+     * method and move logic that operates on the returned View to [onViewCreated]. We just return
+     * the [View] that our [LayoutInflater] parameter [inflater] inflates from our layout file
+     * [R.layout.cheese_article_fragment] using our [ViewGroup] parameter [container] for its
+     * `LayoutParams` without attaching to that [ViewGroup].
+     *
+     * @param inflater The [LayoutInflater] object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-`null`, this is the parent view that the fragment's
+     * UI will be attached to. The fragment should not add the view itself,
+     * but this can be used to generate the `LayoutParams` of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     * @return Return the [View] for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -149,6 +182,32 @@ class CheeseArticleFragment : Fragment() {
         return inflater.inflate(R.layout.cheese_article_fragment, container, false)
     }
 
+    /**
+     * Called immediately after [onCreateView] has returned, but before any saved state has been
+     * restored in to the view. The fragment's view hierarchy is not however attached to its parent
+     * at this point. First we initialize some [View] variables by finding the views in our [View]
+     * parameter [view]:
+     *  - `val toolbar` the [Toolbar] with ID [R.id.toolbar].
+     *  - `val name` the [TextView] with ID [R.id.name].
+     *  - `val image` the [ImageView] with ID [R.id.image].
+     *  - `val scroll` the [NestedScrollView] with ID [R.id.scroll].
+     *  - `val content` the [LinearLayout] with ID [R.id.content].
+     *  - `val background` the [FrameLayout] with ID [R.id.background].
+     *  - `val coordinator` the [CoordinatorLayout] with ID [R.id.coordinator].
+     *  - `val mirror` the [MirrorView] with ID [R.id.card_mirror].
+     *
+     * We now proceed to set the transiton names we use for some of these views:
+     *  - `background` is named [TRANSITION_NAME_BACKGROUND]
+     *  - `coordinator` is named [TRANSITION_NAME_ARTICLE_CONTENT]
+     *  - `mirror` is named [TRANSITION_NAME_CARD_CONTENT]
+     *
+     * Then we enable `coordinator` as a transition group so that the entire [ViewGroup] will
+     * transition together.
+     *
+     * @param view The [View] returned by [onCreateView].
+     * @param savedInstanceState If non-`null`, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val toolbar: Toolbar = view.findViewById(R.id.toolbar)
         val name: TextView = view.findViewById(R.id.name)
