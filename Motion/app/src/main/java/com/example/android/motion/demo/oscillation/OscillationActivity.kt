@@ -24,6 +24,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.motion.R
 import com.example.android.motion.ui.EdgeToEdge
 
+/**
+ * List > Oscillation
+ *
+ * Oscillation occurs when an animation uses more than one overshoot. Each additional back and
+ * forth movement is smaller than the previous one, until the motion stops. Oscillation may be
+ * used to create a cartoon style. The item views in the [RecyclerView] in the UI "wobble" back
+ * and forth as they are scrolled onto the screen.
+ */
 class OscillationActivity : AppCompatActivity() {
 
     private val viewModel: OscillationViewModel by viewModels()

@@ -27,6 +27,7 @@ import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.ViewGroupCompat
 import androidx.core.view.updateLayoutParams
@@ -203,6 +204,23 @@ class CheeseArticleFragment : Fragment() {
      *
      * Then we enable `coordinator` as a transition group so that the entire [ViewGroup] will
      * transition together.
+     *
+     * The next step is to adjust the edge-to-edge display, which we do by setting an
+     * [OnApplyWindowInsetsListener] to take over the policy for applying window insets to [view].
+     * Its lambda updates the [CollapsingToolbarLayout.LayoutParams] of `toolbar` by setting the
+     * top margin to the top system window inset in pixels, updates the [CoordinatorLayout.LayoutParams]
+     * of `scroll` by setting the bottom margin to the top system window inset in pixels, and updates
+     * the padding of `content` to set the `left` padding to the left system window inset in pixels,
+     * the `right` padding to the right system window inset in pixels, and the `bottom` padding to
+     * the bottom system window inset in pixels.
+     *
+     * Then we add an observer to the [CheeseArticleViewModel.cheese] field of [viewModel] whose
+     * lambda will when `cheese` transitions to non-`null` set the text of `name` to the `name`
+     * property of `cheese` and the content of this [ImageView] image to the drawable whose resource
+     * ID is the `image` property of `cheeese`.
+     *
+     * Finally we set a a listener to respond to navigation events for `toolbar` whose lambda will
+     * find a NavController associated with `toolbar` and pop the controller's back stack.
      *
      * @param view The [View] returned by [onCreateView].
      * @param savedInstanceState If non-`null`, this fragment is being re-constructed
