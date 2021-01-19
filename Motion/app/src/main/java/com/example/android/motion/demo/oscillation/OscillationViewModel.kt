@@ -19,10 +19,21 @@ package com.example.android.motion.demo.oscillation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.RecyclerView
 import com.example.android.motion.model.Cheese
 
+/**
+ * [ViewModel] used by [OscillationActivity] to hold its dataset.
+ */
 class OscillationViewModel : ViewModel() {
 
+    /**
+     * 15 shuffled [Cheese] objects from the [Cheese.ALL] list whose `name` property is shorter than
+     * 10 characters. It is used to provide data for the adapter of the [RecyclerView] in the UI of
+     * [OscillationActivity]. An observer is added to it in the `onCreate` override of
+     * [OscillationActivity] whose lambda submits this list to the [CheeseAdapter] adapter of that
+     * [RecyclerView] to be diffed, and displayed.
+     */
     val cheeses: LiveData<List<Cheese>> = MutableLiveData(Cheese.ALL.filter {
         it.name.length < 10
     }.shuffled().take(15))

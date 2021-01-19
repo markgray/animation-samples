@@ -20,8 +20,11 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.motion.R
+import com.example.android.motion.model.Cheese
 import com.example.android.motion.ui.EdgeToEdge
 
 /**
@@ -34,8 +37,23 @@ import com.example.android.motion.ui.EdgeToEdge
  */
 class OscillationActivity : AppCompatActivity() {
 
+    /**
+     * Our [ViewModel], it holds a list of 15 shuffled [Cheese] objects from the [Cheese.ALL] list
+     * whose `name` property is shorter than 10 characters in its [LiveData] wrapped [List] of
+     * [Cheese] objects [OscillationViewModel.cheeses].
+     */
     private val viewModel: OscillationViewModel by viewModels()
 
+    /**
+     * Called when the activity is starting. First we call our super's implementation of `onCreate`,
+     * then we set our content view to our layout file [R.layout.oscillation_activity] which consists
+     * of a `CoordinatorLayout` (`CoordinatorLayout` is a super-powered `FrameLayout` which will
+     * coordinate the animations and transitions of the views within it) holding a `MaterialToolbar`
+     * as its `AppBarLayout` and a [RecyclerView] with an `app:layout_behavior` attribute which
+     * uses `AppBarLayout.ScrollingViewBehavior` to automatically scroll its AppBarLayout sibling.
+     *
+     * @param savedInstanceState we do not override [onSaveInstanceState] so do not use
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.oscillation_activity)
