@@ -52,6 +52,27 @@ class OscillationActivity : AppCompatActivity() {
      * as its `AppBarLayout` and a [RecyclerView] with an `app:layout_behavior` attribute which
      * uses `AppBarLayout.ScrollingViewBehavior` to automatically scroll its AppBarLayout sibling.
      *
+     * Next we initialize our [Toolbar] variable `val toolbar` to the View with ID [R.id.toolbar],
+     * and our [RecyclerView] variable `val list` to the View with ID [R.id.list]. We set `toolbar`
+     * to act as the ActionBar for our Activity window.
+     *
+     * We use our [EdgeToEdge.setUpRoot] to set up the view with ID [R.id.root] (the outermost
+     * `CoordinatorLayout` holding the rest of our UI) for edge to edge display, use our
+     * [EdgeToEdge.setUpAppBar] method to configure the app bar with ID [R.id.app_bar] and the
+     * toolbar `toolbar` for edge-to-edge display, and use our method [EdgeToEdge.setUpScrollingContent]
+     * to set up our scrolling ViewGroup `list` for edge-to-edge display.
+     *
+     * Now we initialize our [CheeseAdapter] variable `val adapter` to a new instance and set it to
+     * be the adapter for `list`. We add the [CheeseAdapter.onScrollListener] field of `adapter` as
+     * a listener that will be notified of any changes in scroll state or position to `list` (tilts
+     * the visible items in `list` while the list is scrolled), and set the
+     * [RecyclerView.EdgeEffectFactory] of `list` to the [CheeseAdapter.edgeEffectFactory] field
+     * of `adapter` (adds bounce effect when the list is over-scrolled).
+     *
+     * Finally we add an observer to the [OscillationViewModel.cheeses] field of our [viewModel]
+     * field whose lambda will submit the [LiveData] wrapped [List] of [Cheese] objects to
+     * `adapter` to be diffed, and displayed when it changes value.
+     *
      * @param savedInstanceState we do not override [onSaveInstanceState] so do not use
      */
     override fun onCreate(savedInstanceState: Bundle?) {
