@@ -56,8 +56,8 @@ class OscillationActivity : AppCompatActivity() {
      * and our [RecyclerView] variable `val list` to the View with ID [R.id.list]. We set `toolbar`
      * to act as the ActionBar for our Activity window.
      *
-     * We use our [EdgeToEdge.setUpRoot] to set up the view with ID [R.id.root] (the outermost
-     * `CoordinatorLayout` holding the rest of our UI) for edge to edge display, use our
+     * We use our [EdgeToEdge.setUpRoot] method to set up the view with ID [R.id.root] (it is the
+     * outermost `CoordinatorLayout` holding the rest of our UI) for edge to edge display, use our
      * [EdgeToEdge.setUpAppBar] method to configure the app bar with ID [R.id.app_bar] and the
      * toolbar `toolbar` for edge-to-edge display, and use our method [EdgeToEdge.setUpScrollingContent]
      * to set up our scrolling ViewGroup `list` for edge-to-edge display.
