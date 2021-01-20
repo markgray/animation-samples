@@ -30,6 +30,9 @@ import com.bumptech.glide.Glide
 import com.example.android.motion.R
 import com.example.android.motion.model.Cheese
 
+/**
+ * The [ListAdapter] used to supply views to display in the [RecyclerView] of [OscillationActivity].
+ */
 internal class CheeseAdapter : ListAdapter<Cheese, CheeseViewHolder>(Cheese.DIFF_CALLBACK) {
 
     /**
@@ -39,6 +42,20 @@ internal class CheeseAdapter : ListAdapter<Cheese, CheeseViewHolder>(Cheese.DIFF
      * @see RecyclerView.addOnScrollListener
      */
     val onScrollListener = object : RecyclerView.OnScrollListener() {
+        /**
+         * Callback method to be invoked when the [RecyclerView] has been scrolled. This will be
+         * called after the scroll has completed. This callback will also be called if visible item
+         * range changes after a layout calculation. In that case, [dx] and [dy] will be 0. Using
+         * our `forEachVisibleHolder` extension function we loop through all of the [CheeseViewHolder]
+         * which are visible in our [RecyclerView] parameter [recyclerView] and after setting the
+         * start velocity of their `rotation` [SpringAnimation] field to a value calculated by the
+         * horizontal scroll offset we then start the animation which rotates the view with a bouncy
+         * spring configuration, resulting in an oscillation effect.
+         *
+         * @param recyclerView The [RecyclerView] which scrolled.
+         * @param dx The amount of horizontal scroll.
+         * @param dy The amount of vertical scroll.
+         */
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             recyclerView.forEachVisibleHolder { holder: CheeseViewHolder ->
                 holder.rotation
@@ -58,14 +75,47 @@ internal class CheeseAdapter : ListAdapter<Cheese, CheeseViewHolder>(Cheese.DIFF
      * @see RecyclerView.setEdgeEffectFactory
      */
     val edgeEffectFactory = object : RecyclerView.EdgeEffectFactory() {
+        /**
+         * Creates a new [EdgeEffect] to be used on [RecyclerView] parameter [recyclerView] for the
+         * direction [direction].
+         *
+         * @param recyclerView the [RecyclerView] which our [EdgeEffect] will be used for.
+         * @param direction the direction that the [EdgeEffect] is for, one of `DIRECTION_LEFT`,
+         * `DIRECTION_TOP`, `DIRECTION_RIGHT`, or `DIRECTION_BOTTOM`.
+         */
         override fun createEdgeEffect(recyclerView: RecyclerView, direction: Int): EdgeEffect {
             return object : EdgeEffect(recyclerView.context) {
 
+                /**
+                 * A view should call this when content is pulled away from an edge by the user.
+                 * This will update the state of the current visual effect and its associated
+                 * animation. The host view should always call `invalidate` after this and draw
+                 * the results accordingly. First we call our super's implementation of `onPull`,
+                 * then we call our [handlePull] method with our [Float] parameter [deltaDistance].
+                 *
+                 * @param deltaDistance Change in distance since the last call. Values may be 0
+                 * (no change) to 1.f (full length of the view) or negative values to express change
+                 * back toward the edge reached to initiate the effect.
+                 */
                 override fun onPull(deltaDistance: Float) {
                     super.onPull(deltaDistance)
                     handlePull(deltaDistance)
                 }
 
+                /**
+                 * A view should call this when content is pulled away from an edge by the user.
+                 * This will update the state of the current visual effect and its associated
+                 * animation. The host view should always call `invalidate` after this and draw
+                 * the results accordingly. First we call our super's implementation of `onPull`,
+                 * then we call our [handlePull] method with our [Float] parameter [deltaDistance].
+                 *
+                 * @param deltaDistance Change in distance since the last call. Values may be 0
+                 * (no change) to 1.f (full length of the view) or negative values to express change
+                 * back toward the edge reached to initiate the effect.
+                 * @param displacement The displacement from the starting side of the effect of the
+                 * point initiating the pull. In the case of touch this is the finger position.
+                 * Values may be from 0-1.
+                 */
                 override fun onPull(deltaDistance: Float, displacement: Float) {
                     super.onPull(deltaDistance, displacement)
                     handlePull(deltaDistance)
@@ -185,9 +235,12 @@ private inline fun <reified T : RecyclerView.ViewHolder> RecyclerView.forEachVis
 
 /** The magnitude of rotation while the list is scrolled. */
 private const val SCROLL_ROTATION_MAGNITUDE = 0.25f
+
 /** The magnitude of rotation while the list is over-scrolled. */
 private const val OVERSCROLL_ROTATION_MAGNITUDE = -10
+
 /** The magnitude of translation distance while the list is over-scrolled. */
 private const val OVERSCROLL_TRANSLATION_MAGNITUDE = 0.2f
+
 /** The magnitude of translation distance when the list reaches the edge on fling. */
 private const val FLING_TRANSLATION_MAGNITUDE = 0.5f
