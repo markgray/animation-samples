@@ -227,30 +227,69 @@ internal class CheeseAdapter : ListAdapter<Cheese, CheeseViewHolder>(Cheese.DIFF
         }
     }
 
+    /**
+     * Called by [RecyclerView] to display the data at the specified position. This method should
+     * update the contents of the [CheeseViewHolder] to reflect the item at the given position.
+     * First we initialize our [Cheese] variable `val cheese` to the [Cheese] at position `position`
+     * in our dataset [List]. Then we being a load with [Glide] that will load the drawable whose
+     * resource ID is specified by the `image` field of `cheese` into the [ImageView] field `image`
+     * of [holder], and set the text of the [TextView] field `name` of [holder] to the `name` field
+     * of `cheese`.
+     *
+     * @param holder The [CheeseViewHolder] which should be updated to represent the contents of the
+     * item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     override fun onBindViewHolder(holder: CheeseViewHolder, position: Int) {
-        val cheese = getItem(position)
+        val cheese: Cheese = getItem(position)
         Glide.with(holder.image).load(cheese.image).into(holder.image)
         holder.name.text = cheese.name
     }
 }
 
-
+/**
+ * The [RecyclerView.ViewHolder] which holds all the information needed to display and animate a
+ * [Cheese] object in its [ViewGroup] parameter [parent] (which is a [RecyclerView] using
+ * `StaggeredGridLayoutManager` as its layout manager in our case). Our constructor uses the
+ * [LayoutInflater] from the context of our [ViewGroup] parameter [parent] to inflate our layout
+ * file [R.layout.cheese_board_item] using [parent] for its layout params without attaching to it
+ * and passes that [View] to our super's constructor for it to use as our item view.
+ *
+ * @param parent the [ViewGroup] that our item view will be attached to.
+ */
 internal class CheeseViewHolder(
     val parent: ViewGroup
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context)
         .inflate(R.layout.cheese_board_item, parent, false)
 ) {
+    /**
+     * The [ImageView] which is used to display the `image` field of our [Cheese].
+     */
     val image: ImageView = itemView.findViewById(R.id.image)
+
+    /**
+     * The [TextView] which is used to display the `name` field of our [Cheese].
+     */
     val name: TextView = itemView.findViewById(R.id.name)
 
+    /**
+     * The current velocity of our [SpringAnimation] field [rotation] which is updated on every
+     * animation frame by the `OnAnimationUpdateListener` added to it.
+     */
     var currentVelocity = 0f
 
     /**
      * A [SpringAnimation] for this RecyclerView item. This animation rotates the view with a bouncy
-     * spring configuration, resulting in the oscillation effect.
-     *
-     * The animation is started in [CheeseAdapter.onScrollListener].
+     * spring configuration, resulting in the oscillation effect. The animation is started in
+     * [CheeseAdapter.onScrollListener]. We initialize it to a new instance which will animate the
+     * [SpringAnimation.ROTATION] property of our [itemView] and which is configured to use a
+     * [SpringForce] as the force that drives the animation whose final position is 0f, whose Spring
+     * damping ratio is [SpringForce.DAMPING_RATIO_HIGH_BOUNCY] (Damping ratio for a very bouncy
+     * spring) and whose stiffness is [SpringForce.STIFFNESS_LOW] (spring with low stiffness which
+     * applies less force when the spring is not at the final position). We also add an
+     * `OnAnimationUpdateListener` which updates our [currentVelocity] with the current velocity of
+     * our animation every animation frame.
      */
     val rotation: SpringAnimation = SpringAnimation(itemView, SpringAnimation.ROTATION)
         .setSpring(
@@ -265,7 +304,12 @@ internal class CheeseViewHolder(
 
     /**
      * A [SpringAnimation] for this RecyclerView item. This animation is used to bring the item back
-     * after the over-scroll effect.
+     * after the over-scroll effect. We initialize it to a new instance which will animate the
+     * [SpringAnimation.TRANSLATION_X] property of our [itemView] and which is configured to use a
+     * [SpringForce] as the force that drives the animation whose final position is 0f, whose Spring
+     * damping ratio is [SpringForce.DAMPING_RATIO_MEDIUM_BOUNCY] (Damping ratio for a medium bouncy
+     * spring), and whose stiffness is [SpringForce.STIFFNESS_LOW] (spring with low stiffness which
+     * applies less force when the spring is not at the final position).
      */
     val translationX: SpringAnimation = SpringAnimation(itemView, SpringAnimation.TRANSLATION_X)
         .setSpring(
