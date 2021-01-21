@@ -17,6 +17,7 @@
 package com.example.android.motion.demo.oscillation
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.EdgeEffect
 import android.widget.ImageView
@@ -121,6 +122,28 @@ internal class CheeseAdapter : ListAdapter<Cheese, CheeseViewHolder>(Cheese.DIFF
                     handlePull(deltaDistance)
                 }
 
+                /**
+                 * This is called by both of our overrides of [onPull] which are called when content
+                 * is pulled away from an edge by the user. This occurs while the list is scrolled
+                 * with a finger so we stop the animation of all of the item views in [recyclerView]
+                 * and update these view's properties without animation.
+                 *
+                 * First we initialize our variable `val sign` to -1 if [direction] is `DIRECTION_RIGHT`,
+                 * initialize our variable `val rotationDelta` to `sign` times [deltaDistance] times
+                 * [OVERSCROLL_ROTATION_MAGNITUDE], and intialize our variable `val translationXDelta`
+                 * to `sign` times the `width` of [recyclerView] times [deltaDistance] times
+                 * [OVERSCROLL_TRANSLATION_MAGNITUDE].
+                 *
+                 * Finally we loop through all of the visible [CheeseViewHolder] in [recyclerView]
+                 * cancelling its [SpringAnimation] field `rotation`, cancelling its [SpringAnimation]
+                 * field `translationX`, adding `rotationDelta` to the `rotation` property of the
+                 * `itemView`, and adding `translationXDelta` to the `translationX` property of the
+                 * `itemView`.
+                 *
+                 * @param deltaDistance Change in distance since the last call. Values may be 0
+                 * (no change) to 1.f (full length of the view) or negative values to express change
+                 * back toward the edge reached to initiate the effect.
+                 */
                 private fun handlePull(deltaDistance: Float) {
                     // This is called on every touch event while the list is scrolled with a finger.
                     // We simply update the view properties without animation.
@@ -136,6 +159,15 @@ internal class CheeseAdapter : ListAdapter<Cheese, CheeseViewHolder>(Cheese.DIFF
                     }
                 }
 
+                /**
+                 * Called when the object is released after being pulled. This will begin the
+                 * "decay" phase of the effect. After calling this method the host view should
+                 * call `invalidate` and draw the results accordingly. This is when we should
+                 * start the animations to bring the view property values back to their resting
+                 * states. We do this by looping through all of the visible [CheeseViewHolder]
+                 * in [recyclerView] starting its [SpringAnimation] field `rotation`, and starting
+                 * its [SpringAnimation] field `translationX`.
+                 */
                 override fun onRelease() {
                     super.onRelease()
                     // The finger is lifted. This is when we should start the animations to bring
@@ -146,6 +178,18 @@ internal class CheeseAdapter : ListAdapter<Cheese, CheeseViewHolder>(Cheese.DIFF
                     }
                 }
 
+                /**
+                 * Called when the effect absorbs an impact at the given velocity. Used when a fling
+                 * reaches the scroll boundary. First we call our super's implementation of `onAbsorb`.
+                 * Next we initialize our variable `val sign` to -1 if [direction] is `DIRECTION_RIGHT`,
+                 * and initialize our variable `val translationVelocity` to `sign` times `velocity`
+                 * times [FLING_TRANSLATION_MAGNITUDE]. Then we loop through all of the visible
+                 * [CheeseViewHolder] in `recyclerView` setting the start velocity of its
+                 * [SpringAnimation] field `translationX` to `translationVelocity` and starting that
+                 * animation.
+                 *
+                 * @param velocity Velocity at impact in pixels per second.
+                 */
                 override fun onAbsorb(velocity: Int) {
                     super.onAbsorb(velocity)
                     val sign = if (direction == DIRECTION_RIGHT) -1 else 1
@@ -161,6 +205,20 @@ internal class CheeseAdapter : ListAdapter<Cheese, CheeseViewHolder>(Cheese.DIFF
         }
     }
 
+    /**
+     * Called when [RecyclerView] needs a new [CheeseViewHolder] to represent an item. This new
+     * [CheeseViewHolder] should be constructed with a new `View` that can represent a [Cheese]
+     * object. We return a new instance of [CheeseViewHolder] which we configure so that the
+     * rotation pivot point of its `itemView` is at the center of the top edge. We use the
+     * [View.doOnLayout] extension function of `itemView` to have a lambda performed when this view
+     * is laid out which sets the `pivotX` property of the view to half of the width, and then
+     * set the `pivotY` property of `itemView` to 0f (delaying until layout is not needed for this
+     * of course).
+     *
+     * @param parent The [ViewGroup] into which the new View will be added after it is bound to
+     * an adapter position.
+     * @param viewType The view type of the new View.
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheeseViewHolder {
         return CheeseViewHolder(parent).apply {
             // The rotation pivot should be at the center of the top edge.
