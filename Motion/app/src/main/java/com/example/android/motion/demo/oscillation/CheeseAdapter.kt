@@ -288,8 +288,8 @@ internal class CheeseViewHolder(
      * damping ratio is [SpringForce.DAMPING_RATIO_HIGH_BOUNCY] (Damping ratio for a very bouncy
      * spring) and whose stiffness is [SpringForce.STIFFNESS_LOW] (spring with low stiffness which
      * applies less force when the spring is not at the final position). We also add an
-     * `OnAnimationUpdateListener` which updates our [currentVelocity] with the current velocity of
-     * our animation every animation frame.
+     * `OnAnimationUpdateListener` which updates our [currentVelocity] field with the current
+     * velocity of our animation every animation frame.
      */
     val rotation: SpringAnimation = SpringAnimation(itemView, SpringAnimation.ROTATION)
         .setSpring(
@@ -322,6 +322,9 @@ internal class CheeseViewHolder(
 
 /**
  * Runs [action] on every visible [RecyclerView.ViewHolder] in this [RecyclerView].
+ *
+ * @param action the lambda which will be executed for the [RecyclerView.ViewHolder] of all of the
+ * visible child views of the [RecyclerView] that this function is executed on.
  */
 private inline fun <reified T : RecyclerView.ViewHolder> RecyclerView.forEachVisibleHolder(
     action: (T) -> Unit

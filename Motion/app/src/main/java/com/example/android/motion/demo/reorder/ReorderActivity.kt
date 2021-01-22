@@ -21,16 +21,39 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.motion.R
+import com.example.android.motion.model.Cheese
 import com.example.android.motion.ui.EdgeToEdge
 import com.example.android.motion.widget.SpaceDecoration
 
+/**
+ * List > Reorder
+ *
+ * Motion makes it clear when items are selected and what will happen when they’re released. The
+ * UI consists of a [RecyclerView] with a `StaggeredGridLayoutManager` as the layout manager which
+ * allows you to drag and drop its [Cheese] displaying item views into a new position in the layout
+ * with an animation occuring which moves the original item view in the new position to the position
+ * the dragged item view last occupied. (Try moving a [Cheese] a long way and you will see what I
+ * mean by that.)
+ */
 class ReorderActivity : AppCompatActivity() {
 
+    /**
+     * Our [ReorderViewModel] view model, it holds a [List] of all of the [Cheese] objects in our
+     * [Cheese.ALL] list of cheeses in its [ReorderViewModel.cheeses] field (this is the public
+     * read only access to its private [MutableLiveData] wrapped [MutableList] `_cheeses`) and a
+     * method [ReorderViewModel.move] which allows you to move a [Cheese] object in `_cheeses` to
+     * a different position.
+     */
     private val viewModel: ReorderViewModel by viewModels()
 
+    /**
+     * The elevation that an item view is elevated when it begins its drag (needs to be long clicked
+     * first). It is set to [R.dimen.pick_up_elevation] (8dp) in our [onCreate] override.
+     */
     private var pickUpElevation: Float = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
