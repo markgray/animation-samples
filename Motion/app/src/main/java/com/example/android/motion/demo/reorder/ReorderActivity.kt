@@ -79,6 +79,19 @@ class ReorderActivity : AppCompatActivity() {
      * drag inside a [RecyclerView]), and then use the `attachToRecyclerView` method of `itemTouchHelper`
      * to attach it to our [RecyclerView] `list`.
      *
+     * Next we initialize our [CheeseGridAdapter] variable `val adapter` with an instance constructed
+     * to use a lambda for its [CheeseGridAdapter.onItemLongClick] field which calls the `startDrag`
+     * method of `itemTouchHelper` to start dragging the `itemView` of the [RecyclerView.ViewHolder]
+     * that the user chooses when it is long-pressed ([CheeseGridAdapter.onItemLongClick] is set to
+     * be the `OnLongClickListener` of all of the `itemView` displayed by the [RecyclerView]). We
+     * set the `adapter` of `list` to the `adapter` constructed above.
+     *
+     * Finally we add an observer to the [ReorderViewModel.cheeses] field of [viewModel] whose lambda
+     * will submit the changed list of [Cheese] objects to `adapter` to be diffed and displayed (every
+     * time the items are reordered on the screen, the lambda will receive a new list, and the adapter
+     * takes a diff between the old and the new lists, and animates any moving items by the
+     * [RecyclerView.ItemAnimator] of `list` which is `DefaultItemAnimator` in our case).
+     *
      * @param savedInstanceState we do not override [onSaveInstanceState] so do not use.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,8 +127,27 @@ class ReorderActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * The [ItemTouchHelper.Callback] used for the [ItemTouchHelper] `val itemTouchHelper` that our
+     * [onCreate] override attaches to the [RecyclerView] that displays our [Cheese] objects. It
+     * lets us control which touch behaviors are enabled for each ViewHolder and also receives
+     * callbacks when the user performs these actions.
+     */
     private val touchHelperCallback = object : ItemTouchHelper.Callback() {
 
+        /**
+         * Should return a composite flag which defines the enabled move directions in each state
+         * (idle, swiping, dragging). This flag is composed of 3 sets of 8 bits, where first 8 bits
+         * are for IDLE state, next 8 bits are for SWIPE state and third 8 bits are for DRAG state.
+         * [ItemTouchHelper]. We just return the movement flags returned by the `makeMovementFlags`
+         * method of [ItemTouchHelper] asked to allow [ItemTouchHelper.UP], [ItemTouchHelper.DOWN],
+         * [ItemTouchHelper.LEFT], and [ItemTouchHelper.RIGHT] but disallow swiping away.
+         *
+         * @param recyclerView The [RecyclerView] to which [ItemTouchHelper] is attached.
+         * @param viewHolder   The [RecyclerView.ViewHolder] for which the movement information is
+         * necessary.
+         * @return flags specifying which movements are allowed on this [RecyclerView.ViewHolder].
+         */
         override fun getMovementFlags(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder
@@ -131,6 +163,18 @@ class ReorderActivity : AppCompatActivity() {
             )
         }
 
+        /**
+         * Called when [ItemTouchHelper] wants to move the dragged item from its old position to
+         * the new position. If this method returns `true`, [ItemTouchHelper] assumes the the
+         * [RecyclerView.ViewHolder] parameter [viewHolder] has been moved to the adapter position
+         * of the [RecyclerView.ViewHolder] parameter [target].
+         *
+         * @param recyclerView The [RecyclerView] to which [ItemTouchHelper] is attached to.
+         * @param viewHolder   The [RecyclerView.ViewHolder] which is being dragged by the user.
+         * @param target       The [RecyclerView.ViewHolder] over which the currently active item is
+         * being dragged.
+         * @return `true` if the [viewHolder] has been moved to the adapter position of [target].
+         */
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
