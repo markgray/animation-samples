@@ -21,6 +21,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import com.example.android.motion.model.Cheese
 
+/**
+ * The [ViewModel] used by our [ReorderActivity] demo app. It exposes a publicly accessible [cheeses]
+ * field which mirrors the private [MutableLiveData] wrapped [MutableList] of [Cheese] objects field
+ * [_cheeses], and a [move] method which allows the movement of [Cheese] objects in [_cheeses].
+ */
 class ReorderViewModel : ViewModel() {
 
     private val _cheeses = MutableLiveData(Cheese.ALL.toMutableList())

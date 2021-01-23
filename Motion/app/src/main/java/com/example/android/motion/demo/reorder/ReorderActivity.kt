@@ -17,6 +17,7 @@
 package com.example.android.motion.demo.reorder
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -165,9 +166,15 @@ class ReorderActivity : AppCompatActivity() {
 
         /**
          * Called when [ItemTouchHelper] wants to move the dragged item from its old position to
-         * the new position. If this method returns `true`, [ItemTouchHelper] assumes the the
+         * the new position. If this method returns `true`, [ItemTouchHelper] assumes that the
          * [RecyclerView.ViewHolder] parameter [viewHolder] has been moved to the adapter position
-         * of the [RecyclerView.ViewHolder] parameter [target].
+         * of the [RecyclerView.ViewHolder] parameter [target]. We call the [ReorderViewModel.move]
+         * method of [viewModel] to have it move the [Cheese] at the `adapterPosition` of our
+         * [RecyclerView.ViewHolder] parameter [viewHolder] to the `adapterPosition` currently
+         * occupied by our [RecyclerView.ViewHolder] parameter [target] in its private `_cheeses`
+         * [MutableLiveData] wrapped list of [Cheese] field. The [ReorderViewModel] will then notify
+         * the UI through the observer of the publicly accessible [ReorderViewModel.cheeses] field
+         * which is updated whenever `_cheeses` value changes.
          *
          * @param recyclerView The [RecyclerView] to which [ItemTouchHelper] is attached to.
          * @param viewHolder   The [RecyclerView.ViewHolder] which is being dragged by the user.
@@ -186,13 +193,34 @@ class ReorderActivity : AppCompatActivity() {
             return true
         }
 
+        /**
+         * Called when a ViewHolder is swiped by the user. We ignore.
+         *
+         * @param viewHolder The [RecyclerView.ViewHolder] which has been swiped by the user.
+         * @param direction  The direction to which the ViewHolder is swiped. It is one of
+         * [ItemTouchHelper.UP], [ItemTouchHelper.DOWN], [ItemTouchHelper.LEFT], or
+         * [ItemTouchHelper.RIGHT]
+         */
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             // Do nothing
         }
 
+        /**
+         * Called when the [RecyclerView.ViewHolder] swiped or dragged by the [ItemTouchHelper] is
+         * changed. First we call our super's implementation of [onSelectedChanged], then we
+         * initialize our [View] variable `val view` to the `itemView` of our [RecyclerView.ViewHolder]
+         * parameter [viewHolder] returning if it is `null`. When our [actionState] parameter is
+         * [ItemTouchHelper.ACTION_STATE_DRAG] we animate the `translationZ` property of `view`
+         * to our field [pickUpElevation] over the time period of 150 milliseconds.
+         *
+         * @param viewHolder  The new [RecyclerView.ViewHolder] that is being swiped or dragged.
+         * Might be `null` if it is cleared.
+         * @param actionState One of [ItemTouchHelper.ACTION_STATE_IDLE],
+         * [ItemTouchHelper.ACTION_STATE_SWIPE] or [ItemTouchHelper.ACTION_STATE_DRAG].
+         */
         override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
             super.onSelectedChanged(viewHolder, actionState)
-            val view = viewHolder?.itemView ?: return
+            val view: View = viewHolder?.itemView ?: return
             when (actionState) {
                 ItemTouchHelper.ACTION_STATE_DRAG -> {
                     ViewCompat.animate(view).setDuration(150L).translationZ(pickUpElevation)
@@ -200,16 +228,40 @@ class ReorderActivity : AppCompatActivity() {
             }
         }
 
+        /**
+         * Called by the [ItemTouchHelper] when the user interaction with an element is over and it
+         * also completed its animation. First we call our super's implementation of [clearView],
+         * then we animate the `translationZ` property of `view` to 0 over the time period of 150
+         * milliseconds.
+         *
+         * @param recyclerView The [RecyclerView] which is controlled by the [ItemTouchHelper].
+         * @param viewHolder   The [View] that was interacted by the user.
+         */
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
             super.clearView(recyclerView, viewHolder)
             ViewCompat.animate(viewHolder.itemView).setDuration(150L).translationZ(0f)
         }
 
+        /**
+         * Returns whether [ItemTouchHelper] should start a drag and drop operation if an item is
+         * long pressed. We return `false` because we handle the long press on our side for better
+         * touch feedback.
+         *
+         * @return `true` if [ItemTouchHelper] should start dragging an item when it is long pressed,
+         * `false` otherwise. Default value is `true`.
+         */
         override fun isLongPressDragEnabled(): Boolean {
             // We handle the long press on our side for better touch feedback.
             return false
         }
 
+        /**
+         * Returns whether [ItemTouchHelper] should start a swipe operation if a pointer is swiped
+         * over the [View]. We return `false` because we do not want our items swiped.
+         *
+         * @return `true` if [ItemTouchHelper] should start swiping an item when user swipes a pointer
+         * over the [View], `false` otherwise. Default value is `true`.
+         */
         override fun isItemViewSwipeEnabled(): Boolean {
             return false
         }
