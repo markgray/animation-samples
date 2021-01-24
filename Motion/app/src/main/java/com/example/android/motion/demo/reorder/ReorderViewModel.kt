@@ -19,6 +19,9 @@ package com.example.android.motion.demo.reorder
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.example.android.motion.model.Cheese
 
 /**
@@ -28,7 +31,23 @@ import com.example.android.motion.model.Cheese
  */
 class ReorderViewModel : ViewModel() {
 
+    /**
+     * The dataset of [Cheese] objects displayed in the [RecyclerView] of the [ReorderActivity] demo
+     * app using [CheeseGridAdapter] as the [ListAdapter]. This is private because we don't want to
+     * allow other classes to directly set it, public read only access is provided by our [List] of
+     * [Cheese] field [cheeses]. Our method [move] can be used to move [Cheese] objects to new
+     * positions in our [MutableList] and is called when the the user drags a [Cheese] itemView over
+     * another [Cheese] by the `onMove` override of the [ItemTouchHelper.Callback] of the
+     * [ItemTouchHelper] attached to the [RecyclerView].
+     */
     private val _cheeses = MutableLiveData(Cheese.ALL.toMutableList())
+
+    /**
+     * Public read only access to our [MutableLiveData] wrapped [MutableList] of [Cheese] field
+     * [_cheeses]. An observer is added to it in the `onCreate` override of [ReorderActivity] whose
+     * lambda submits the [List] to the [CheeseGridAdapter] supplying data to the [RecyclerView] in
+     * the UI whenever the [_cheeses] backing field changes value.
+     */
     val cheeses = _cheeses.map { it.toList() }
 
     fun move(from: Int, to: Int) {
