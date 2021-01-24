@@ -29,6 +29,12 @@ import com.bumptech.glide.Glide
 import com.example.android.motion.R
 import com.example.android.motion.model.Cheese
 
+/**
+ * [ListAdapter] used by the [ReorderActivity] demo to display [Cheese] objects in its [RecyclerView].
+ *
+ * @param onItemLongClick lambda which should be used as the `OnLongClickListener` of all of the
+ * itemViews displayed in our [RecyclerView].
+ */
 class CheeseGridAdapter(
     private val onItemLongClick: (holder: RecyclerView.ViewHolder) -> Unit
 ) : ListAdapter<Cheese, CheeseViewHolder>(Cheese.DIFF_CALLBACK) {

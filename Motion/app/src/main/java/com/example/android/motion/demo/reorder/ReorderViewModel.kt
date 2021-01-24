@@ -50,6 +50,24 @@ class ReorderViewModel : ViewModel() {
      */
     val cheeses = _cheeses.map { it.toList() }
 
+    /**
+     * Called to move the [Cheese] object in position [from] in our [MutableLiveData] wrapped
+     * [MutableList] field [_cheeses] to position [to] in the list. It is called when the the user
+     * drags a [Cheese] itemView over another [Cheese] by the `onMove` override of the
+     * [ItemTouchHelper.Callback] of the [ItemTouchHelper] attached to the [RecyclerView] displaying
+     * the contents of our [_cheeses] field (via the public read only access [cheeses]). It the
+     * value of [_cheeses] is not `null` we remove the [Cheese] at position [from] in the [_cheeses]
+     * [List] to initialize our [Cheese] variable `val cheese`, add `cheese` at position [to] in
+     * the [List], and then set the `value` of [_cheeses] to the modified list. This change of value
+     * will cause the observer added to [cheeses] in the `onCreate` override of [ReorderActivity] to
+     * submit the [List] to the [CheeseGridAdapter] supplying data to the [RecyclerView] in the UI
+     * to be diffed and displayed.
+     *
+     * @param from position in the [MutableLiveData] wrapped [MutableList] of the [Cheese] field
+     * [_cheeses] to be moved.
+     * @param to position in the [MutableLiveData] wrapped [MutableList] of the [Cheese] field
+     * [_cheeses] that the [Cheese] at position [from] is to be moved to.
+     */
     fun move(from: Int, to: Int) {
         _cheeses.value?.let { list ->
             val cheese = list.removeAt(from)
