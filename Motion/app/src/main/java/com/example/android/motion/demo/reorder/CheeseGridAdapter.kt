@@ -127,11 +127,40 @@ class CheeseViewHolder(
         .inflate(R.layout.cheese_staggered_grid_item, parent, false)
 ) {
 
+    /**
+     * The [ConstraintLayout] in our [itemView] with ID [R.id.cheese], it holds an [ImageView] that
+     * displays a picture of a cheese loaded from the resource ID given in the [Cheese.image] property
+     * of the [Cheese] we display (one of only 5 available, none of which are likely to actually look
+     * like our [Cheese]), and a [TextView] that displays the name of the [Cheese] stored in the
+     * [Cheese.name] property of our [Cheese].
+     */
     private val constraintLayout: ConstraintLayout = itemView.findViewById(R.id.cheese)
+
+    /**
+     * The [ImageView] in our [itemView] with ID [R.id.image], it displays a picture of a cheese
+     * loaded from the resource ID given in the [Cheese.image] property of the [Cheese] we display
+     * (one of only 5 available, none of which are likely to actually look like our [Cheese]).
+     */
     private val image: ImageView = itemView.findViewById(R.id.image)
+
+    /**
+     * The [TextView] in our [itemView] with ID [R.id.name], it displays the name of the [Cheese]
+     * stored in the [Cheese.name] property of our [Cheese].
+     */
     private val name: TextView = itemView.findViewById(R.id.name)
+
+    /**
+     * We initialize this [ConstraintSet] variable with a new instance after copying the layout
+     * parameters of our [ConstraintLayout] field [constraintLayout] into it. A [ConstraintSet]
+     * allows you to define programmatically a set of constraints to be used with [ConstraintLayout],
+     * which we do in our [bind] method.
+     */
     private val constraintSet = ConstraintSet().apply { clone(constraintLayout) }
 
+    /**
+     * Called by the `onBindViewHolder` of [CheeseGridAdapter] to display our [Cheese] parameter
+     * [cheese] in our [itemView].
+     */
     fun bind(cheese: Cheese) {
         // The image loaded asynchronously, but the aspect ratio should be set synchronously.
         constraintSet.setDimensionRatio(R.id.image, "H,${cheese.imageWidth}:${cheese.imageHeight}")
