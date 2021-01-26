@@ -27,6 +27,9 @@ import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Explode
 import androidx.transition.Slide
@@ -37,15 +40,24 @@ import com.example.android.motion.demo.LARGE_EXPAND_DURATION
 import com.example.android.motion.demo.LINEAR_OUT_SLOW_IN
 import com.example.android.motion.demo.plusAssign
 import com.example.android.motion.demo.transitionTogether
+import com.example.android.motion.model.Cheese
 import com.example.android.motion.widget.SpaceDecoration
 import com.google.android.material.appbar.AppBarLayout
 import java.util.concurrent.TimeUnit
 
 /**
- * Shows a grid list of cheeses.
+ * Shows a 3 wide grid list of cheeses. Clicking on one of the [Cheese] item views in the grid will
+ * navigate to [CheeseDetailFragment] to have it display the "details" of that [Cheese] in a full
+ * screen display. The image of the [Cheese] is used as the focal element of the shared element
+ * transition to [CheeseDetailFragment].
  */
 class CheeseGridFragment : Fragment() {
 
+    /**
+     * Our [ViewModel]. It consists of one field: [CheeseGridViewModel.cheeses] which is a [LiveData]
+     * wrapped [List] of [Cheese] objects that is initialized to a [MutableLiveData] wrapped copy of
+     * the lazily constructed [Cheese.ALL] list of all of the available [Cheese] objects.
+     */
     private val viewModel: CheeseGridViewModel by viewModels()
 
     private val adapter = CheeseGridAdapter(onReadyToTransition = {

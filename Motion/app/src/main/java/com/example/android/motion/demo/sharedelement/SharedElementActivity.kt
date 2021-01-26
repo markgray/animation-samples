@@ -34,6 +34,24 @@ import com.example.android.motion.ui.EdgeToEdge
  */
 class SharedElementActivity : AppCompatActivity() {
 
+    /**
+     * Called when the activity is starting. First we call our super's implementatin of `onCreate`,
+     * then we set our content view to our layout file [R.layout.shared_element_activity]. Its top
+     * level view group is a `FragmentContainerView` holding a `NavHostFragment` with the attributes
+     * app:defaultNavHost="true" (ensures that this `NavHostFragment` intercepts the system Back
+     * button) and app:navGraph="@navigation/shared_element" (associates the `NavHostFragment` with
+     * the navigation graph navigation/shared_element.xml which specifies all of the destinations
+     * of this `NavHostFragment` to which users can navigate). The app:startDestination attribute
+     * of the navigation element in navigation/shared_element.xml specifies the fragment with ID
+     * id/cheeseGridFragment to be the starting fragment, and that fragment element is for the
+     * [CheeseGridFragment].
+     *
+     * Having set our content view we call our [EdgeToEdge.setUpRoot] method to setup the view with
+     * ID [R.id.nav_host] (the root `FragmentContainerView` of our layout file) for edge to edge
+     * display.
+     *
+     * @param savedInstanceState we do not override [onSaveInstanceState] so do not use.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.shared_element_activity)
