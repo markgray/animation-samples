@@ -158,8 +158,19 @@ class CheeseViewHolder(
     private val constraintSet = ConstraintSet().apply { clone(constraintLayout) }
 
     /**
-     * Called by the `onBindViewHolder` of [CheeseGridAdapter] to display our [Cheese] parameter
-     * [cheese] in our [itemView].
+     * Called by the `onBindViewHolder` method of [CheeseGridAdapter] to display our [Cheese]
+     * parameter [cheese] in our [itemView]. We configure our [ConstraintSet] field [constraintSet]
+     * to set the aspect ratio of the view with ID [R.id.image] (the picture of our [Cheese]) to a
+     * ratio that constrains its height (the "H" in the ratio) to the [Cheese.imageWidth] by
+     * [Cheese.imageHeight] aspect ratio, then apply [constraintSet] to our [ConstraintLayout] field
+     * [constraintLayout]. We then begin a load with [Glide] tied to the lifecycle of our [ImageView]
+     * field [image] of the drawable whose resource ID is the [Cheese.image] property of [cheese]
+     * and specify that it be loaded into [image] (cancelling any existing loads into the view, and
+     * freeing any resources [Glide] may have previously loaded into the view so they may be reused).
+     * Finally we set the text of our [TextView] field [name] to the [Cheese.name] property of
+     * [cheese].
+     *
+     * @param cheese the [Cheese] object that we are supposed to display
      */
     fun bind(cheese: Cheese) {
         // The image loaded asynchronously, but the aspect ratio should be set synchronously.
