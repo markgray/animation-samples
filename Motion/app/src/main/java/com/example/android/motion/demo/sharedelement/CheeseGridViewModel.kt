@@ -19,10 +19,20 @@ package com.example.android.motion.demo.sharedelement
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.RecyclerView
 import com.example.android.motion.model.Cheese
 
+/**
+ * The [ViewModel] used by [CheeseGridFragment] to hold the data that it displays in its UI.
+ */
 class CheeseGridViewModel : ViewModel() {
 
+    /**
+     * The dataset used by [CheeseGridAdapter] to feed data into the [RecyclerView] of the grid
+     * displayed by [CheeseGridFragment]. An observer is added to it in the `onViewCreated`
+     * override of [CheeseGridFragment] whose lambda submits this [List] of [Cheese] objects to
+     * the [CheeseGridAdapter] to be diffed and displayed whenever this changes value.
+     */
     val cheeses: LiveData<List<Cheese>> = MutableLiveData(Cheese.ALL)
 
 }

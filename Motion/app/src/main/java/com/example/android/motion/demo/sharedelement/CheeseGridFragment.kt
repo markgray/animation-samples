@@ -21,6 +21,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.updateLayoutParams
@@ -33,6 +34,8 @@ import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Explode
 import androidx.transition.Slide
+import androidx.transition.TransitionSet
+import com.bumptech.glide.Glide
 import com.example.android.motion.R
 import com.example.android.motion.demo.FAST_OUT_LINEAR_IN
 import com.example.android.motion.demo.LARGE_COLLAPSE_DURATION
@@ -60,10 +63,41 @@ class CheeseGridFragment : Fragment() {
      */
     private val viewModel: CheeseGridViewModel by viewModels()
 
+    /**
+     * The [CheeseGridAdapter] used to feed data to the [RecyclerView] in our UI with ID [R.id.grid]
+     * whose app:layoutManager is a `GridLayoutManager` with a app:spanCount of 3. We initialize
+     * with a new instance constructed with a `onReadyToTransition` callback consisting of a lambda
+     * which calls [startPostponedEnterTransition] to begin postponed transitions when [Glide]
+     * finishes loading the drawable of its [Cheese] into the [ImageView] widget of the itemView.
+     */
     private val adapter = CheeseGridAdapter(onReadyToTransition = {
         startPostponedEnterTransition()
     })
 
+    /**
+     * Called when the fragment is starting. First we call our super's implementation of `onCreate`.
+     * We set the `exitTransition` (the [androidx.transition.Transition] that will be used to move
+     * Views out of the scene when the fragment is removed, hidden, or detached when not popping the
+     * back stack) to a [TransitionSet] whose duration is [LARGE_EXPAND_DURATION] divided by 2, whose
+     * interpolator is [FAST_OUT_LINEAR_IN], to which we add a [Slide] transition whose slide edge
+     * direction is [Gravity.TOP], whose mode is [Slide.MODE_OUT] (makes the transition operate on
+     * targets that are disappearing) and whose target is the [AppBarLayout] with ID [R.id.app_bar].
+     * We also add an [Explode] transition whose mode is [Explode.MODE_OUT] (makes the transition
+     * operate on targets that are disappearing) which excludes the [AppBarLayout] with ID
+     * [R.id.app_bar] (ie only the grid items are exploded out).
+     *
+     * Finally we set the `reenterTransition` (the [androidx.transition.Transition] for non-shared
+     * elements when we are return back from the detail screen) to a [TransitionSet] whose duration
+     * is [LARGE_COLLAPSE_DURATION] divided by 2, whose interpolator is [LINEAR_OUT_SLOW_IN], to
+     * which we add a [Slide] transition whose slide edge direction is [Gravity.TOP], whose mode is
+     * [Slide.MODE_IN] (makes the transition operate on targets that are appearing) and whose target
+     * is the [AppBarLayout] with ID [R.id.app_bar]. We also add an [Explode] transition with a start
+     * delay of [LARGE_COLLAPSE_DURATION] divided by 2, whose mode is [Explode.MODE_IN] (makes the
+     * transition operate on targets that are appearing) which excludes the [AppBarLayout] with ID
+     * [R.id.app_bar] (ie only the grid items are "imploded" in).
+     *
+     * @param savedInstanceState we do not use this here, but it is used by our [onViewCreated].
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
