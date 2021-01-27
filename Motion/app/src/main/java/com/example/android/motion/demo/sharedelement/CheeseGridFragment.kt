@@ -138,6 +138,25 @@ class CheeseGridFragment : Fragment() {
         }
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view. This will be called between
+     * [onCreate] and [onActivityCreated]. It is recommended to <**only** inflate the layout in this
+     * method and move logic that operates on the returned [View] to [onViewCreated]. We just return
+     * the [View] that our [LayoutInflater] parameter [inflater] inflates from our layout file
+     * [R.layout.cheese_grid_fragment] when it uses our [ViewGroup] parameter [container] for its
+     * LayoutParams without attaching to it. This [View] consists of a `CoordinatorLayout` holding
+     * an [AppBarLayout] (for its scrolling effects) holding a [Toolbar] and a [RecyclerView] whose
+     * app:layoutManager is a `GridLayoutManager` with an app:spanCount of 3.
+     *
+     * @param inflater The [LayoutInflater] object that can be used to inflate
+     * any views in the fragment.
+     * @param container If non-`null`, this is the parent view that the fragment's
+     * UI will be attached to. The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-`null`, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     * @return Return the [View] for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -146,6 +165,23 @@ class CheeseGridFragment : Fragment() {
         return inflater.inflate(R.layout.cheese_grid_fragment, container, false)
     }
 
+    /**
+     * Called immediately after [onCreateView] has returned, but before any saved state has been
+     * restored in to the view. The fragment's view hierarchy is not however attached to its parent
+     * at this point. If our [Bundle] parameter [savedInstanceState] is not `null` we call the
+     * `restoreInstanceState` method of our [CheeseGridAdapter] field [adapter] to have it restore
+     * its `lastSelectedId` field from the value in [savedInstanceState] stored under the key
+     * [STATE_LAST_SELECTED_ID] (its `saveInstanceState` method saved this in the [Bundle] that our
+     * [onSaveInstanceState] override passed it when our activity was last killed).
+     *
+     * @param view The [View] returned by [onCreateView].
+     * @param savedInstanceState If non-`null`, this fragment is being re-constructed
+     * from a previous saved state as given here. The [CheeseGridAdapter] for our [RecyclerView]
+     * saves its field `lastSelectedId` under the key [STATE_LAST_SELECTED_ID] in the [Bundle]
+     * we pass it when our [onSaveInstanceState] calls its `saveInstanceState` method and its
+     * `restoreInstanceState` method restores `lastSelectedId` from [savedInstanceState] when
+     * we call it from this method.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
             adapter.restoreInstanceState(savedInstanceState)
@@ -183,6 +219,17 @@ class CheeseGridFragment : Fragment() {
         }
     }
 
+    /**
+     * This method is called before our activity may be killed so that when it comes back some time
+     * in the future it can restore its state. If a new instance of the fragment later needs
+     * to be created, the data you place in the [Bundle] here will be available in the [Bundle] given
+     * to [onCreate], [onCreateView], and [onActivityCreated]. We call the `saveInstanceState` method
+     * of our [CheeseGridAdapter] field [adapter] with our [Bundle] parameter [outState] to have it
+     * save its field `lastSelectedId` under the key [STATE_LAST_SELECTED_ID] in the [Bundle], then
+     * call our super's implementation of `onSaveInstanceState`
+     *
+     * @param outState [Bundle] in which to place your saved state.
+     */
     override fun onSaveInstanceState(outState: Bundle) {
         adapter.saveInstanceState(outState)
         super.onSaveInstanceState(outState)
