@@ -36,9 +36,14 @@ import com.google.android.material.card.MaterialCardView
 private const val STATE_LAST_SELECTED_ID = "last_selected_id"
 
 /**
- * A [RecyclerView.Adapter] for cheeses.
+ * A [RecyclerView.Adapter] for cheeses. This adapter starts the shared element transition. It also
+ * handles return transition.
  *
- * This adapter starts the shared element transition. It also handles return transition.
+ * @param onReadyToTransition a lambda to be run after [Glide] finishes loading the image for the
+ * transition destination (when the `id` property of the [Cheese] being loaded is the same as our
+ * [lastSelectedId] field we are being transitioned back from [CheeseDetailFragment] and there is a
+ * postponed transition for that particular [Cheese]). In our case the lambda just calls the method
+ * `Fragment.startPostponedEnterTransition` to have it begin the postponed transition.
  */
 internal class CheeseGridAdapter(
     private val onReadyToTransition: () -> Unit

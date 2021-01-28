@@ -50,7 +50,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import java.util.concurrent.TimeUnit
 
 /**
- * Shows detail about a cheese.
+ * Shows detail about a cheese that has been clicked in the `RecyclerView` of [CheeseGridFragment]
  */
 class CheeseDetailFragment : Fragment() {
 

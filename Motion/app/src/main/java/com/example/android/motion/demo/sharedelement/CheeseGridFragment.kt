@@ -174,6 +174,33 @@ class CheeseGridFragment : Fragment() {
      * [STATE_LAST_SELECTED_ID] (its `saveInstanceState` method saved this in the [Bundle] that our
      * [onSaveInstanceState] override passed it when our activity was last killed).
      *
+     * If the `expectsTransition` property of [adapter] is `true` than we are transitioning back from
+     * [CheeseDetailFragment] and we want to postpone the transition animation until the destination
+     * item is ready so we call the method [postponeEnterTransition] to postpone the entering Fragment
+     * transition for 500 milliseconds after which [postponeEnterTransition] will then call
+     * [startPostponedEnterTransition].
+     *
+     * We initialize our [Toolbar] variable `val toolbar` by finding the view in [view] with the ID
+     * [R.id.toolbar] and initialize our [RecyclerView] variable `val grid` by finding the view in
+     * [view] with ID [R.id.grid]. We initialize our variable `val gridPadding` to the value of the
+     * dimension stored in our `Resources` under the ID [R.dimen.spacing_tiny] (4dp) converted to
+     * pixels, and then we set the `OnApplyWindowInsetsListener` of the parent of [view] to a lambda
+     * which:
+     *  - Updates the `LayoutParams` of `toolbar` to set its `topMargin` to the top system window
+     *  inset in pixels
+     *  - Updates the `left` padding to `gridPadding` plus the left system window inset in pixels
+     *  - Updates the `right` padding to `gridPadding` plus the right system window inset in pixels
+     *  - Updates the `bottom` padding to `gridPadding` plus the bottom system window inset in pixels
+     *
+     * We next add an `ItemDecoration` to `grid` consisting of a [SpaceDecoration] of the value in
+     * pixels of the dimension stored under ID [R.dimen.spacing_tiny] in our resources (4dp).
+     *
+     * We set the `adapter` of `grid` to our [CheeseGridAdapter] field [adapter], then add an observer
+     * to the [CheeseGridViewModel.cheeses] field of our [CheeseGridViewModel] field [viewModel] that
+     * is controlled by a `LifecycleOwner` that represents our fragments [View] whose lambda submits
+     * [CheeseGridViewModel.cheeses] to [adapter] to be diffed and displayed whenever `cheese` changes
+     * value.
+     *
      * @param view The [View] returned by [onCreateView].
      * @param savedInstanceState If non-`null`, this fragment is being re-constructed
      * from a previous saved state as given here. The [CheeseGridAdapter] for our [RecyclerView]
