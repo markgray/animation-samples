@@ -18,6 +18,7 @@ package com.example.android.motion.demo.sharedelement
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -49,6 +50,17 @@ internal class CheeseGridAdapter(
     private val onReadyToTransition: () -> Unit
 ) : ListAdapter<Cheese, CheeseViewHolder>(Cheese.DIFF_CALLBACK) {
 
+    /**
+     * The [Cheese.id] property of the last [Cheese] that the user has clicked. This is set by the
+     * `OnClickListener` of the `itemView` of the [CheeseViewHolder] to the `id` property of the
+     * [Cheese] it holds, and is saved by our [saveInstanceState] method under the key
+     * [STATE_LAST_SELECTED_ID] in the [Bundle] passed it by the `onSaveInstanceState` override of
+     * [CheeseGridFragment] before we navigate to [CheeseDetailFragment] then restored by our
+     * [restoreInstanceState] method from the [Bundle] passed it from the `onViewCreated` override
+     * of [CheeseGridFragment] when we navigate back from [CheeseDetailFragment]. Saving the `id`
+     * allows us to use the [Cheese] as the focal element for the shared element transition to and
+     * from [CheeseDetailFragment]. See our [onBindViewHolder] override to see how we do this.
+     */
     private var lastSelectedId: Long? = null
 
     /**
@@ -57,10 +69,30 @@ internal class CheeseGridAdapter(
     val expectsTransition: Boolean
         get() = lastSelectedId != null
 
+    /**
+     * Called when [RecyclerView] needs a new [CheeseViewHolder] of the given type to represent
+     * an item. We return a new instance of [CheeseViewHolder] after adding an `OnClickListener`
+     * to its [CheeseViewHolder.itemView] which:
+     *  - Initializes its [Cheese] variable `val cheese` to the [Cheese] in our dataset which is at
+     *  the Adapter position that this ViewHolder is intended for.
+     *  - Sets our [lastSelectedId] field to the [Cheese.id] property of `cheese` to record the
+     *  selected item so that we can make the item ready before starting the reenter transition.
+     *  - Finds a `NavController` associated with the [View] clicked and use it to navigate to the
+     *  destination ID [R.id.cheeseDetailFragment] (the [CheeseDetailFragment]) passing it the `id`
+     *  property of `cheese` as its [CheeseDetailFragmentArgs] safe args, `null` for its `navOptions`
+     *  (special options for this navigation operation), and for its `navigatorExtras` an instance
+     *  of [FragmentNavigatorExtras] which maps the views in our [CheeseViewHolder.itemView] to
+     *  their transition names in [CheeseDetailFragment].
+     *
+     * @param parent The [ViewGroup] into which the new [View] will be added after it is bound to
+     * an adapter position.
+     * @param viewType The view type of the new [View].
+     * @return A new [CheeseViewHolder] that holds a [View] of the given view type.
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheeseViewHolder {
         return CheeseViewHolder(parent).apply {
             itemView.setOnClickListener { view ->
-                val cheese = getItem(adapterPosition)
+                val cheese: Cheese = getItem(adapterPosition)
 
                 // Record the selected item so that we can make the item ready before starting the
                 // reenter transition.
