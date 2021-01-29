@@ -16,6 +16,7 @@
 
 package com.example.android.motion.demo.sharedelement
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +30,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
+import com.bumptech.glide.RequestBuilder
 import com.example.android.motion.R
 import com.example.android.motion.demo.doOnEnd
 import com.example.android.motion.model.Cheese
@@ -84,6 +86,34 @@ internal class CheeseGridAdapter(
      *  of [FragmentNavigatorExtras] which maps the views in our [CheeseViewHolder.itemView] to
      *  their transition names in [CheeseDetailFragment].
      *
+     * The [FragmentNavigatorExtras] mentioned above maps the views in the [CheeseViewHolder] to the
+     * string constants defined in [CheeseDetailFragment] as follows:
+     *  - [CheeseViewHolder.card] the [MaterialCardView] with ID [R.id.card] in the `itemView` of
+     *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_BACKGROUND] (the `card`
+     *  is expanded into the background, the fragment will use this first element as the epicenter
+     *  of all the fragment transitions, including Explode for non-shared elements.
+     *  - [CheeseViewHolder.image] the [ImageView] with ID [R.id.image] in the `itemView` of
+     *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_IMAGE] (the `image` is
+     *  the focal element in this shared element transition).
+     *  - [CheeseViewHolder.name] the [TextView] with ID [R.id.name] in the `itemView` of
+     *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_NAME] (this element is
+     *  only on the grid item, but needs to be a shared element so it can be animated with the card)
+     *  - [CheeseViewHolder.favorite] the [TextView] with ID [R.id.favorite] in the `itemView` of
+     *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_FAVORITE] (this element is
+     *  only on the grid item, but needs to be a shared element so it can be animated with the card)
+     *  - [CheeseViewHolder.bookmark] the [TextView] with ID [R.id.bookmark] in the `itemView` of
+     *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_BOOKMARK] (this element is
+     *  only on the grid item, but needs to be a shared element so it can be animated with the card)
+     *  - [CheeseViewHolder.share] the [ImageView] with ID [R.id.share] in the `itemView` of
+     *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_SHARE] (this element is
+     *  only on the grid item, but needs to be a shared element so it can be animated with the card)
+     *  - [CheeseViewHolder.toolbar] the [MirrorView] with ID [R.id.toolbar] in the `itemView` of
+     *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_TOOLBAR] (this element
+     *  is only on the detail fragment)
+     *  - [CheeseViewHolder.body] the [MirrorView] with ID [R.id.body] in the `itemView` of
+     *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_BODY] (this element
+     *  is only on the detail fragment)
+     *
      * @param parent The [ViewGroup] into which the new [View] will be added after it is bound to
      * an adapter position.
      * @param viewType The view type of the new [View].
@@ -126,8 +156,39 @@ internal class CheeseGridAdapter(
         }
     }
 
+    /**
+     * Called by [RecyclerView] to display the data at the specified position. This method should
+     * update the contents of the [CheeseViewHolder.itemView] in its [CheeseViewHolder] parameter
+     * [holder] to reflect the item at the given position. First we initialize our [Cheese] variable
+     * `val cheese` to the [Cheese] in our dataset occupying the position [position]. Next we set
+     * the TransitionName of each of the Views in [CheeseViewHolder] parameter [holder] to a string
+     * created by concatenating the string value of the [Cheese.id] property of `cheese` to the name
+     * of the field holding the view separated by a "-" character (this guarantees that each of the
+     * shared elements has a unique transition name, not just in this grid item, but in the entire
+     * fragment).
+     *
+     * We next set the text of the [TextView] field [CheeseViewHolder.name] of [holder] to the
+     * [Cheese.name] field of `cheese`. To load the [ImageView] field [CheeseViewHolder.image] of
+     * [holder] we first initialize our [RequestBuilder] variable `var requestBuilder` to an instance
+     * which will begin a load with [Glide] will be tied to the lifecycle of the fragment that
+     * contains the `image` field of [holder] and will load the [Drawable] whose resource ID is in
+     * the [Cheese.image] field of `cheese` without transforming the image (by cropping). If the
+     * [Cheese.id] property of `cheese` is [lastSelectedId] we set the priority of `requestBuilder`
+     * to [Priority.IMMEDIATE] (the highest priority) and add a lambda to be executed when the
+     * request is complete which executes our [onReadyToTransition] method reference (the lambda
+     * which is passed as an argument to our constructor by [CheeseGridFragment] calls the method
+     * `startPostponedEnterTransition` to begin postponed transitions) and then sets [lastSelectedId]
+     * to `null`. Having configured `requestBuilder` to do what we want we then calls its `into`
+     * method to set the `image` field of [holder] to be the [ImageView] that the resource will be
+     * loaded into, cancelling any existing loads into the view, and freeing any resources [Glide]
+     * may have previously loaded into the view so they may be reused.
+     *
+     * @param holder The [CheeseViewHolder] which should be updated to represent the contents of the
+     * item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     override fun onBindViewHolder(holder: CheeseViewHolder, position: Int) {
-        val cheese = getItem(position)
+        val cheese: Cheese = getItem(position)
 
         // Each of the shared elements has to have a unique transition name, not just in this grid
         // item, but in the entire fragment.
