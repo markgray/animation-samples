@@ -218,12 +218,33 @@ internal class CheeseGridAdapter(
         requestBuilder.into(holder.image)
     }
 
+    /**
+     * Called from the `onSaveInstanceState` override of [CheeseGridFragment] to have us save our
+     * [lastSelectedId] field in the [Bundle] that `onSaveInstanceState` is passed when the fragment
+     * is killed. That [Bundle] will be passed to our [restoreInstanceState] by the `onViewCreated`
+     * override of [CheeseGridFragment] when the fragment is recreated. If our [lastSelectedId] field
+     * is not `null` we save [lastSelectedId] in our [Bundle] parameter [outState] under the key
+     * [STATE_LAST_SELECTED_ID].
+     *
+     * @param outState the [Bundle] we should store any information that we will need to restore when
+     * we are resumed.
+     */
     fun saveInstanceState(outState: Bundle) {
         lastSelectedId?.let { id ->
             outState.putLong(STATE_LAST_SELECTED_ID, id)
         }
     }
 
+    /**
+     * Called from the `onViewCreated` override of [CheeseGridFragment] when the fragment is resumed
+     * so that we may restore the contents of our [lastSelectedId] field to the value that our method
+     * [saveInstanceState] saved in the [Bundle] passed to the `onSaveInstanceState` override of
+     * [CheeseGridFragment] when the fragment was killed. If our [lastSelectedId] field is `null`
+     * and [state] contains the key [STATE_LAST_SELECTED_ID] we set our [lastSelectedId] field to
+     * the [Long] stored in [state] under the key [STATE_LAST_SELECTED_ID].
+     *
+     * @param state the [Bundle] passed to the `onViewCreated` override of [CheeseGridFragment].
+     */
     fun restoreInstanceState(state: Bundle) {
         if (lastSelectedId == null && state.containsKey(STATE_LAST_SELECTED_ID)) {
             lastSelectedId = state.getLong(STATE_LAST_SELECTED_ID)
@@ -231,11 +252,27 @@ internal class CheeseGridAdapter(
     }
 }
 
+/**
+ * The [RecyclerView.ViewHolder] which holds all the information needed to display a [Cheese] object
+ * in the [RecyclerView] used in the [CheeseGridFragment] UI. Our constructor just calls our super's
+ * constructor with the [View] that the [LayoutInflater] for the context of our [ViewGroup] parameter
+ * `parent` inflates from our layout file [R.layout.cheese_grid_item] when it uses `parent` for its
+ * layout params without attaching to it.
+ *
+ * @param parent the [ViewGroup] that our [itemView] will be attached to.
+ */
 internal class CheeseViewHolder(
     parent: ViewGroup
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.cheese_grid_item, parent, false)
 ) {
+    /**
+     * The root [MaterialCardView] of our [itemView] with ID [R.id.card] holds all the other views.
+     * Used as the epicenter of all the fragment transitions, including Explode for non-shared elements.
+     * Its shared element name is [CheeseDetailFragment.TRANSITION_NAME_BACKGROUND] and its unique
+     * transition name is formed by appending the string value of the [Cheese.id] property of the
+     * [Cheese] we hold to the string: "card-"
+     */
     val card: MaterialCardView = itemView.findViewById(R.id.card)
     val image: ImageView = itemView.findViewById(R.id.image)
     val name: TextView = itemView.findViewById(R.id.name)
