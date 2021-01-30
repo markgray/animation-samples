@@ -313,7 +313,33 @@ internal class CheeseViewHolder(
      * the string: "favorite-"
      */
     val favorite: ImageView = itemView.findViewById(R.id.favorite)
+
+    /**
+     * The [ImageView] in our [itemView] with ID [R.id.bookmark] which holds the [Drawable] with
+     * resource ID [R.drawable.ic_bookmark] (a book icon). This element is only on the grid item,
+     * but it needs to be a shared element so it can be animated with the card. Its shared element
+     * name is [CheeseDetailFragment.TRANSITION_NAME_SHARE] and its unique transition name is
+     * formed by appending the string value of the [Cheese.id] property of the [Cheese] we hold to
+     * the string: "bookmark-"
+     */
     val bookmark: ImageView = itemView.findViewById(R.id.bookmark)
+
+    /**
+     * The [ImageView] in our [itemView] with ID [R.id.share] which holds the [Drawable] with
+     * resource ID [R.drawable.ic_share] (a share icon). This element is only on the grid item,
+     * but it needs to be a shared element so it can be animated with the card. Its shared element
+     * name is [CheeseDetailFragment.TRANSITION_NAME_BOOKMARK] and its unique transition name is
+     * formed by appending the string value of the [Cheese.id] property of the [Cheese] we hold to
+     * the string: "share-"
+     */
     val share: ImageView = itemView.findViewById(R.id.share)
+
+    /**
+     * The [MirrorView] in our [itemView] with ID [R.id.body] which exists only in the detail
+     * fragment [CheeseDetailFragment]. Its shared element name is
+     * [CheeseDetailFragment.TRANSITION_NAME_BODY] and its unique transition name is formed by
+     * appending the string value of the [Cheese.id] property of the [Cheese] we hold to the string:
+     * "body-"
+     */
     val body: MirrorView = itemView.findViewById(R.id.body)
 }

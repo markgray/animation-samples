@@ -16,6 +16,7 @@
 
 package com.example.android.motion.demo.sharedelement
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -46,16 +47,37 @@ import com.example.android.motion.demo.LARGE_EXPAND_DURATION
 import com.example.android.motion.demo.doOnEnd
 import com.example.android.motion.demo.plusAssign
 import com.example.android.motion.demo.transitionTogether
+import com.example.android.motion.model.Cheese
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import java.util.concurrent.TimeUnit
 
 /**
- * Shows detail about a cheese that has been clicked in the `RecyclerView` of [CheeseGridFragment]
+ * Shows detail about a [Cheese] that has been clicked in the `RecyclerView` of [CheeseGridFragment]
  */
 class CheeseDetailFragment : Fragment() {
 
+    /**
+     * The Transition names used by both [CheeseDetailFragment] and the [CheeseGridAdapter] that is
+     * used for the `RecyclerView` of [CheeseGridFragment]
+     */
     companion object {
+        /**
+         * The transition name used for the [ImageView] loaded from the [Drawable] whose resource ID
+         * is in the [Cheese.image] field of the [Cheese] displayed in the UI of [CheeseDetailFragment]
+         * in the view with ID [R.id.image] and in the view with ID [R.id.image] of the `itemView`
+         * that was clicked in the `RecyclerView` of [CheeseGridFragment] to transition to the
+         * [CheeseDetailFragment].
+         */
         const val TRANSITION_NAME_IMAGE = "image"
+
+        /**
+         * The transition name used for the [TextView] displaying the [Cheese.name] field of the
+         * [Cheese] in the view with ID [R.id.name] of the `itemView` that was clicked in the
+         * `RecyclerView` of [CheeseGridFragment] to transition to the [CheeseDetailFragment] and
+         * the [MirrorView] with ID [R.id.dummy_name] "displayed" in the UI of [CheeseDetailFragment]
+         * which is only used for transitioning (the "real" [TextView] displaying the [Cheese.name]
+         * field in [CheeseDetailFragment] is its own view with ID [R.id.name]).
+         */
         const val TRANSITION_NAME_NAME = "name"
         const val TRANSITION_NAME_TOOLBAR = "toolbar"
         const val TRANSITION_NAME_BACKGROUND = "background"
