@@ -274,9 +274,44 @@ internal class CheeseViewHolder(
      * [Cheese] we hold to the string: "card-"
      */
     val card: MaterialCardView = itemView.findViewById(R.id.card)
+
+    /**
+     * The [ImageView] in our [itemView] with ID [R.id.image] which holds the [Drawable] picture of
+     * the [Cheese] whose resource ID is found in its [Cheese.image] property. Used as the focal
+     * element in the shared element transition to [CheeseDetailFragment]. Its shared element name
+     * is [CheeseDetailFragment.TRANSITION_NAME_IMAGE] and its unique transition name is formed by
+     * appending the string value of the [Cheese.id] property of the [Cheese] we hold to the string:
+     * "image-"
+     */
     val image: ImageView = itemView.findViewById(R.id.image)
+
+    /**
+     * The [TextView] in our [itemView] with ID [R.id.name] which displays the [Cheese.name] field
+     * of the [Cheese] we hold. This element is only on the grid item, but it needs to be a shared
+     * element so it can be animated with the card. Its shared element name is
+     * [CheeseDetailFragment.TRANSITION_NAME_NAME] and its unique transition name is formed by
+     * appending the string value of the [Cheese.id] property of the [Cheese] we hold to the string:
+     * "name-"
+     */
     val name: TextView = itemView.findViewById(R.id.name)
+
+    /**
+     * The [MirrorView] in our [itemView] with ID [R.id.toolbar] which exists only in the detail
+     * fragment [CheeseDetailFragment]. Its shared element name is
+     * [CheeseDetailFragment.TRANSITION_NAME_TOOLBAR] and its unique transition name is formed by
+     * appending the string value of the [Cheese.id] property of the [Cheese] we hold to the string:
+     * "toolbar-"
+     */
     val toolbar: MirrorView = itemView.findViewById(R.id.toolbar)
+
+    /**
+     * The [ImageView] in our [itemView] with ID [R.id.favorite] which holds the [Drawable] with
+     * resource ID [R.drawable.ic_favorite] (a heart icon). This element is only on the grid item,
+     * but it needs to be a shared element so it can be animated with the card. Its shared element
+     * name is [CheeseDetailFragment.TRANSITION_NAME_FAVORITE] and its unique transition name is
+     * formed by appending the string value of the [Cheese.id] property of the [Cheese] we hold to
+     * the string: "favorite-"
+     */
     val favorite: ImageView = itemView.findViewById(R.id.favorite)
     val bookmark: ImageView = itemView.findViewById(R.id.bookmark)
     val share: ImageView = itemView.findViewById(R.id.share)
