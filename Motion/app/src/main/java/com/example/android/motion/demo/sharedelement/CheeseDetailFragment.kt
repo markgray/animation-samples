@@ -49,6 +49,7 @@ import com.example.android.motion.demo.plusAssign
 import com.example.android.motion.demo.transitionTogether
 import com.example.android.motion.model.Cheese
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.card.MaterialCardView
 import java.util.concurrent.TimeUnit
 
 /**
@@ -79,11 +80,58 @@ class CheeseDetailFragment : Fragment() {
          * field in [CheeseDetailFragment] is its own view with ID [R.id.name]).
          */
         const val TRANSITION_NAME_NAME = "name"
+
+        /**
+         * The transition name used for the [Toolbar] with ID [R.id.toolbar] in our UI and the
+         * [MirrorView] with ID [R.id.toolbar] in the `itemView` that was clicked in the `RecyclerView`
+         * of [CheeseGridFragment] to transition to the [CheeseDetailFragment] (used for transitioning
+         * between real [Toolbar] and the place holder [MirrorView] in the `itemView`)
+         */
         const val TRANSITION_NAME_TOOLBAR = "toolbar"
+
+        /**
+         * The transition name used for the [CoordinatorLayout] with ID [R.id.detail] in our UI and
+         * the [MaterialCardView] with ID [R.id.card] in the `itemView` that was clicked in the
+         * `RecyclerView` of [CheeseGridFragment] to transition to the [CheeseDetailFragment]. Used
+         * as the epicenter of all the fragment transitions, including Explode for non-shared elements.
+         */
         const val TRANSITION_NAME_BACKGROUND = "background"
+
+        /**
+         * The transition name used for the [MirrorView] with ID [R.id.favorite] in our UI and
+         * the [ImageView] with ID [R.id.favorite] in the `itemView` that was clicked in the
+         * `RecyclerView` of [CheeseGridFragment] to transition to the [CheeseDetailFragment].
+         * Used for transitioning between the real [ImageView] in the `itemView` and the place
+         * holder [MirrorView] in our UI.
+         */
         const val TRANSITION_NAME_FAVORITE = "favorite"
+
+        /**
+         * The transition name used for the [MirrorView] with ID [R.id.bookmark] in our UI and
+         * the [ImageView] with ID [R.id.bookmark] in the `itemView` that was clicked in the
+         * `RecyclerView` of [CheeseGridFragment] to transition to the [CheeseDetailFragment].
+         * Used for transitioning between the real [ImageView] in the `itemView` and the place
+         * holder [MirrorView] in our UI.
+         */
         const val TRANSITION_NAME_BOOKMARK = "bookmark"
+
+        /**
+         * The transition name used for the [MirrorView] with ID [R.id.share] in our UI and
+         * the [ImageView] with ID [R.id.share] in the `itemView` that was clicked in the
+         * `RecyclerView` of [CheeseGridFragment] to transition to the [CheeseDetailFragment].
+         * Used for transitioning between the real [ImageView] in the `itemView` and the place holder
+         * [MirrorView] in our UI.
+         */
         const val TRANSITION_NAME_SHARE = "share"
+
+        /**
+         * The transition name used for the [NestedScrollView] with ID [R.id.scroll] in our UI and
+         * the [MirrorView] with ID [R.id.body] in the `itemView` that was clicked in the
+         * `RecyclerView` of [CheeseGridFragment] to transition to the [CheeseDetailFragment].
+         * Used for transitioning from the real [ImageView] in the `itemView` to the place holder
+         * [MirrorView] in our UI. Used for transitioning between our real [NestedScrollView] and
+         * the place holder [MirrorView] in the `itemView`.
+         */
         const val TRANSITION_NAME_BODY = "body"
     }
 
