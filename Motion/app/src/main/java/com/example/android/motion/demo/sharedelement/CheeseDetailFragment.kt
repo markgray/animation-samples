@@ -33,12 +33,15 @@ import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.ChangeBounds
 import androidx.transition.ChangeImageTransform
 import androidx.transition.ChangeTransform
 import androidx.transition.Transition
+import androidx.transition.TransitionSet
 import com.bumptech.glide.Glide
 import com.example.android.motion.R
 import com.example.android.motion.demo.FAST_OUT_SLOW_IN
@@ -135,10 +138,40 @@ class CheeseDetailFragment : Fragment() {
         const val TRANSITION_NAME_BODY = "body"
     }
 
+    /**
+     * The safe args passed us when [CheeseGridFragment] navigates to us. It contains one [Long]
+     * field [CheeseDetailFragmentArgs.cheeseId] which holds the [Cheese.id] property of the [Cheese]
+     * that was displayed in the `itemView` that was clicked in the [CheeseGridFragment] `RecylerView`
+     * causing the navigation to [CheeseDetailFragment].
+     */
     private val args: CheeseDetailFragmentArgs by navArgs()
 
+    /**
+     * The [CheeseDetailViewModel] we use as our [ViewModel] to hold our data. It holds a private
+     * [MutableLiveData] `_cheese` field with public access provided using its `cheese` property,
+     * as well as a `cheeseId` property whose getter retrieves the [Cheese.id] property of `_cheese`
+     * if `_cheese` is not `null` or `null` if it is, and whose setter sets the value of `_cheese`
+     * to the [Cheese] in the [Cheese.ALL] list whose [Cheese.id] property is equal to the `value`
+     * that on is setting `cheeseId` to.
+     */
     private val viewModel: CheeseDetailViewModel by viewModels()
 
+    /**
+     * Called when the [Fragment] is starting. First we call our super's implementation of `onCreate`.
+     * We then set the Transition that will be used for shared elements transferred into the content
+     * Scene to the [Transition] returned by our [createSharedElementTransition] method for a duration
+     * of [LARGE_EXPAND_DURATION] (300 milliseconds) and set the Transition that will be used for
+     * shared elements transferred back during a pop of the back stack to the [Transition] returned
+     * by our [createSharedElementTransition] method for a duration of [LARGE_COLLAPSE_DURATION]
+     * (250 milliseconds). Finally we call the setter of the [CheeseDetailViewModel.cheeseId] property
+     * of our [CheeseDetailViewModel] field [viewModel] to have it set [CheeseDetailViewModel] field
+     * `_cheese` to the [Cheese] whose [Cheese.id] property is that same as the `cheeseId` field of
+     * the [CheeseDetailFragmentArgs] safe args passed us from our [args] field (that [Cheese] will
+     * be the same [Cheese] object that was displayed in the `itemView` that was clicked in the
+     * [CheeseGridFragment] `RecylerView` to get us here).
+     *
+     * @param savedInstanceState we ignore.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -149,6 +182,33 @@ class CheeseDetailFragment : Fragment() {
         viewModel.cheeseId = args.cheeseId
     }
 
+    /**
+     * Returns a [TransitionSet] whose ordering is [TransitionSet.ORDERING_TOGETHER], whose duration
+     * is [duration] milliseconds, whose `interpolator` is [FAST_OUT_SLOW_IN] which animates using
+     * a [SharedFade], a [ChangeImageTransform], a [ChangeBounds], and a [ChangeTransform] Transition:
+     *  - [SharedFade] Transitions between a view and its copy by [MirrorView]. This can be typically
+     *  used in a shared element transition where the shared element is necessary only during the
+     *  animation. The shared element needs to exist and laid out on both sides of the transition in
+     *  order to animate between them, but it can be wasteful to create the exact same view on the
+     *  side where it is not functional. This transition matches the substance and its mirror and
+     *  animates between them. Depending on which of the start or the end state is the substance of
+     *  [MirrorView], the animation either fades into it or fades out of it.
+     *  - [ChangeImageTransform] This Transition captures an ImageView's matrix before and after the
+     *  scene change and animates it during the transition. In combination with [ChangeBounds],
+     *  [ChangeImageTransform] allows ImageViews that change size, shape, or ImageView.ScaleType to
+     *  animate contents smoothly.
+     *  - [ChangeBounds] This transition captures the layout bounds of target views before and after
+     *  the scene change and animates those changes during the transition.
+     *  - [ChangeTransform] This Transition captures scale and rotation for Views before and after
+     *  the scene change and animates those changes during the transition. A change in parent is
+     *  handled as well by capturing the transforms from the parent before and after the scene
+     *  change and animating those during the transition.
+     *
+     * @param duration the duration in milliseconds of the [Transition]
+     * @return a [Transition] with duration [duration] usable for both [setSharedElementEnterTransition]
+     * and [setSharedElementReturnTransition] (aka in kotlin: `sharedElementEnterTransition`, and
+     * `sharedElementReturnTransition`).
+     */
     private fun createSharedElementTransition(duration: Long): Transition {
         return transitionTogether {
             this.duration = duration
