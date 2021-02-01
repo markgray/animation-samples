@@ -98,10 +98,10 @@ internal class CheeseGridAdapter(
      *  - [CheeseViewHolder.name] the [TextView] with ID [R.id.name] in the `itemView` of
      *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_NAME] (this element is
      *  only on the grid item, but needs to be a shared element so it can be animated with the card)
-     *  - [CheeseViewHolder.favorite] the [TextView] with ID [R.id.favorite] in the `itemView` of
+     *  - [CheeseViewHolder.favorite] the [ImageView] with ID [R.id.favorite] in the `itemView` of
      *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_FAVORITE] (this element is
      *  only on the grid item, but needs to be a shared element so it can be animated with the card)
-     *  - [CheeseViewHolder.bookmark] the [TextView] with ID [R.id.bookmark] in the `itemView` of
+     *  - [CheeseViewHolder.bookmark] the [ImageView] with ID [R.id.bookmark] in the `itemView` of
      *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_BOOKMARK] (this element is
      *  only on the grid item, but needs to be a shared element so it can be animated with the card)
      *  - [CheeseViewHolder.share] the [ImageView] with ID [R.id.share] in the `itemView` of

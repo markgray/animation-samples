@@ -220,6 +220,23 @@ class CheeseDetailFragment : Fragment() {
         }
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view. This will be called between
+     * [onCreate] and [onActivityCreated]. It is recommended to **only** inflate the layout in this
+     * method and move logic that operates on the returned View to [onViewCreated]. We just return
+     * the [View] that our [LayoutInflater] parameter [inflater] creates when it inflates our layout
+     * file [R.layout.cheese_detail_fragment] using our [ViewGroup] parameter [container] for its
+     * `LayoutParams` without attaching to it.
+     *
+     * @param inflater The [LayoutInflater] object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-`null`, this is the parent view that the fragment's
+     * UI will be attached to. The fragment should not add the view itself,
+     * but this can be used to generate the `LayoutParams` of the view.
+     * @param savedInstanceState If non-`null`, this fragment is being re-constructed
+     * from a previous saved state as given here. We ignore.
+     * @return Return the [View] for the fragment's UI, or `null`.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -228,6 +245,71 @@ class CheeseDetailFragment : Fragment() {
         return inflater.inflate(R.layout.cheese_detail_fragment, container, false)
     }
 
+    /**
+     * Called immediately after [onCreateView] has returned, but before any saved state has been
+     * restored in to the [View]. Since we are expecting an enter transition from the grid fragment
+     * we call the [postponeEnterTransition] method to have it postpone the entering Fragment
+     * transition for 500 milliseconds. Then we initialize some variables to views in our [View]
+     * parameter [view]:
+     *  - `val toolbar`: [Toolbar] in [view] with ID [R.id.toolbar] holds the menu [R.menu.cheese_detail]
+     *  and is paired with the placeholder [MirrorView] with ID [R.id.toolbar] for transition purposes
+     *  only.
+     *  - `val dummyName`: [View] in [view] with ID [R.id.dummy_name] is actually a [MirrorView] which
+     *  is paired with the [TextView] with ID [R.id.name] in the `itemView` clicked in the grid fragment
+     *  for transition purposes only.
+     *  - `val name`: [TextView] in [view] with ID [R.id.name] displays the `name` property of our
+     *  [Cheese] object.
+     *  - `val image`: [ImageView] in [view] with ID [R.id.image] displays the [Drawable] whose resource
+     *  ID is the `image` property of our [Cheese] object.
+     *  - `val scroll`: [NestedScrollView] in [view] with ID [R.id.scroll] which holds a [LinearLayout]
+     *  which in turn holds our `name` [TextView] as well as 4 other [TextView] which display some
+     *  nonsense "description" text.
+     *  - `val content`: [LinearLayout] in [view] with ID [R.id.content] mentioned above which holds
+     *  our `name` [TextView] as well as 4 other [TextView] which display some nonsense "description"
+     *  text.
+     *  - `val coordinator`: [CoordinatorLayout] in [view] with ID [R.id.detail] the root [View] of
+     *  our layout file.
+     *  - `val favorite`: [View] in [view] with ID [R.id.favorite] is actually a [MirrorView] which
+     *  is paired with the [ImageView] with ID [R.id.favorite] in the `itemView` clicked in the grid
+     *  fragment for transition purposes only.
+     *  - `val bookmark`: [View] in [view] with ID [R.id.bookmark] is actually a [MirrorView] which
+     *  is paired with the [ImageView] with ID [R.id.bookmark] in the `itemView` clicked in the grid
+     *  fragment for transition purposes only.
+     *  - `val share`: [View] in [view] with ID [R.id.share] is actually a [MirrorView] which
+     *  is paired with the [ImageView] with ID [R.id.share] in the `itemView` clicked in the grid
+     *  fragment for transition purposes only.
+     *
+     * We now set the transition names of the above views:
+     *  - `image` is [TRANSITION_NAME_IMAGE] which pairs with the [ImageView] with ID [R.id.image]
+     *  in the `itemView`.
+     *  - `dummyName` is [TRANSITION_NAME_NAME] which pairs with the [TextView] with ID [R.id.name]
+     *  in the `itemView`.
+     *  - `toolbar` is [TRANSITION_NAME_TOOLBAR] which pairs with the [MirrorView] with ID
+     *  [R.id.toolbar] in the `itemView`.
+     *  - `coordinator` is [TRANSITION_NAME_BACKGROUND] which pairs with the [MaterialCardView] with
+     *  ID [R.id.card] in the `itemView`.
+     *  - `favorite` is [TRANSITION_NAME_FAVORITE] which pairs with the [ImageView] with ID
+     *  [R.id.favorite] in the `itemView`.
+     *  - `bookmark` is [TRANSITION_NAME_BOOKMARK] which pairs with the [ImageView] with ID
+     *  [R.id.bookmark] in the `itemView`.
+     *  - `share` is [TRANSITION_NAME_SHARE] which pairs with the [ImageView] with ID [R.id.share]
+     *  in the `itemView`.
+     *  - `scroll` is [TRANSITION_NAME_BODY] which pairs with the [MirrorView] with ID [R.id.body]
+     *  in the `itemView`. In addition we call [ViewGroupCompat.setTransitionGroup] to indicate that
+     *  `scroll` should be treated as a single entity during Activity Transitions.
+     *
+     * Now we adjust the edge-to-edge display by setting the `OnApplyWindowInsetsListener` of [view]
+     * to a lambda which sets the `topMargin` of `toolbar` to the top system window inset in pixels
+     * and updates the padding of `content` by setting its left padding to the left system window
+     * inset in pixels, its right padding to the right system window inset in pixels, and its bottom
+     * padding to the bottom system window inset in pixels.
+     *
+     * Finally we add an observer
+     *
+     * @param view The [View] returned by [onCreateView].
+     * @param savedInstanceState If non-`null`, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // We are expecting an enter transition from the grid fragment.
         postponeEnterTransition(500L, TimeUnit.MILLISECONDS)
