@@ -22,10 +22,17 @@ import android.util.AttributeSet
 import android.view.View
 
 /**
- * Takes another view as a substance and draws its content.
+ * Takes another view as a substance and draws its content. This is useful for copying an appearance
+ * of another view without spending the cost of full instantiation when transitioning to a Scene which
+ * does not have a view whose content corresponds to the view being transitioned from apart from its
+ * position.
  *
- * This is useful for copying an appearance of another view without spending the cost of full
- * instantiation.
+ * @param context The [Context] the view is running in, through which it can
+ * access the current theme, resources, etc.
+ * @param attrs The attributes of the XML tag that is inflating the view.
+ * @param defStyleAttr An attribute in the current theme that contains a
+ * reference to a style resource that supplies default values for
+ * the view. Can be 0 to not look for defaults.
  *
  * @see SharedFade
  */

@@ -304,7 +304,17 @@ class CheeseDetailFragment : Fragment() {
      * inset in pixels, its right padding to the right system window inset in pixels, and its bottom
      * padding to the bottom system window inset in pixels.
      *
-     * Finally we add an observer
+     * Next we add an observer to the [CheeseDetailViewModel.cheese] field of [viewModel] which
+     * will, when it is non-`null`, set the text of the `name` [TextView] to the [Cheese.name] field
+     * of the `cheese`, and begin a load with [Glide] that will be tied to the lifecycle of the
+     * [Fragment that contain [view] which will load the [Drawable] whose resource ID is the
+     * [Cheese.image] property of the `cheese` without transforming or cropping it, and call the
+     * [startPostponedEnterTransition] method to begin postponed transitions when it finishes loading
+     * into the [ImageView] `image`.
+     *
+     * Finally we set a listener to respond to navigation events on `toolbar` whose lambda will find
+     * a NavController for our [Fragment] and call its `popBackStack` method to pop the controller's
+     * back stack.
      *
      * @param view The [View] returned by [onCreateView].
      * @param savedInstanceState If non-`null`, this fragment is being re-constructed

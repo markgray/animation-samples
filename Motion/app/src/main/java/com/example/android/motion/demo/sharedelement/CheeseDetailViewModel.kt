@@ -21,11 +21,33 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.motion.model.Cheese
 
+/**
+ * [ViewModel] used by [CheeseDetailFragment] to hold its data.
+ */
 class CheeseDetailViewModel : ViewModel() {
 
+    /**
+     * The [Cheese] whose [Cheese.id] property is the same as the safe args that [CheeseDetailFragment]
+     * is passed when it is navigated to from [CheeseGridFragment]. Private to prevent its modification
+     * by the fragment, public read-only access is provided by our [cheese] property, and it is set
+     * by setting our [cheeseId] property which causes it to search the [Cheese.ALL] list of [Cheese]
+     * to find the first element whose [Cheese.id] property is the same as the value that [cheeseId]
+     * is being set to and setting [_cheese] to that [Cheese].
+     */
     private val _cheese = MutableLiveData<Cheese?>()
+
+    /**
+     * Public read only access to our [_cheese] property. An observer is added to it in the
+     * `onViewCreated` override of [CheeseDetailFragment] which causes the [Cheese] to be displayed
+     * in the UI.
+     */
     val cheese: LiveData<Cheese?> = _cheese
 
+    /**
+     * Returns the [Cheese.id] property of our [_cheese] property when read, and when set will search
+     * the [Cheese.ALL] list of [Cheese] to find the first element whose [Cheese.id] property is the
+     * same as the value it is being set to and then set [_cheese] to that [Cheese].
+     */
     var cheeseId: Long?
         get() = _cheese.value?.id
         set(value) {
