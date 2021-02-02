@@ -35,7 +35,6 @@ private const val PROPNAME_IS_MIRROR: String = "com.example.android.motion.demo:
 /**
  * The set of property names that this transition cares about for the purposes of canceling
  * overlapping animations. It is returned by the `getTransitionProperties` override of [SharedFade]
- *
  */
 private val MIRROR_PROPERTIES: Array<String> = arrayOf(PROPNAME_IS_MIRROR)
 
@@ -76,15 +75,75 @@ class SharedFade : Transition() {
         return MIRROR_PROPERTIES
     }
 
+    /**
+     * Convenience function called by our [captureStartValues] and [captureEndValues] overrides to
+     * check whether the [View] in the [TransitionValues.view] field of the parameter [transitionValues]
+     * is a [MirrorView], and if it is sets the value of the entry in the [TransitionValues.values]
+     * field of [transitionValues] whose key is [PROPNAME_IS_MIRROR] to `true`.
+     *
+     * @param transitionValues the [TransitionValues] passed to [captureStartValues] or [captureEndValues]
+     * which holds cached values for the [SharedFade] transition.
+     */
     private fun captureMirrorValues(transitionValues: TransitionValues) {
         val view = transitionValues.view ?: return
         transitionValues.values[PROPNAME_IS_MIRROR] = view is MirrorView
     }
 
+    /**
+     * Captures the values in the start scene for the properties that this transition monitors.
+     * These values are then passed as the `startValues` structure in a later call to [createAnimator].
+     * The main concern for an implementation is what the properties are that the transition cares
+     * about and what the values are for all of those properties. The start and end values will be
+     * compared later during the [createAnimator] method to determine what, if any, animations,
+     * should be run.
+     *
+     * We just call our [captureMirrorValues] method to have it store a `true` under the key
+     * [PROPNAME_IS_MIRROR] in the [TransitionValues.values] field of our [TransitionValues]
+     * parameter [transitionValues] iff the [View] in the [TransitionValues.view] field of
+     * [transitionValues] is a [MirrorView].
+     *
+     * @param transitionValues The holder for any values that the Transition wishes to store. Values
+     * are stored in the [TransitionValues.values] field of this [TransitionValues] object and are
+     * keyed from a [String] value. For example, to store a view's rotation value, a transition might
+     * call:
+     *
+     *     transitionValues.values.put(
+     *              "appname:transitionname:rotation",
+     *               view.getRotation()
+     *     )
+     *
+     * The target view will already be stored in the [transitionValues] structure when this method
+     * is called.
+     */
     override fun captureStartValues(transitionValues: TransitionValues) {
         captureMirrorValues(transitionValues)
     }
 
+    /**
+     * Captures the values in the end scene for the properties that this transition monitors. These
+     * values are then passed as the `endValues` structure in a later call to [createAnimator]. The
+     * main concern for an implementation is what the properties are that the transition cares about
+     * and what the values are for all of those properties. The start and end values will be compared
+     * later during the [createAnimator] method to determine what, if any, animations, should be run.
+     *
+     * We just call our [captureMirrorValues] method to have it store a `true` under the key
+     * [PROPNAME_IS_MIRROR] in the [TransitionValues.values] field of our [TransitionValues]
+     * parameter [transitionValues] iff the [View] in the [TransitionValues.view] field of
+     * [transitionValues] is a [MirrorView].
+     *
+     * @param transitionValues The holder for any values that the Transition wishes to store. Values
+     * are stored in the [TransitionValues.values] field of this [TransitionValues] object and are
+     * keyed from a [String] value. For example, to store a view's rotation value, a transition might
+     * call:
+     *
+     *     transitionValues.values.put(
+     *              "appname:transitionname:rotation",
+     *               view.getRotation()
+     *     )
+     *
+     * The target view will already be stored in the [transitionValues] structure when this method
+     * is called.
+     */
     override fun captureEndValues(transitionValues: TransitionValues) {
         captureMirrorValues(transitionValues)
     }
