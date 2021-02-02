@@ -43,10 +43,31 @@ class MirrorView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     init {
+        /**
+         * We set this flag to `true` because this view doesn't do any drawing on its own until it
+         * has its `_substance` field set. Our `onDraw` override instead passes the call on to the
+         * `draw` method of our `View` field `_substance` if it is not `null` and our `setWillNotDraw`
+         * flag is nulled out when our `substance` property updates the `View` held in `_substance`
+         * to a non-`null` value.
+         */
         setWillNotDraw(true)
     }
 
+    /**
+     * The "real" [View] that we are supposed to mirror for purposes of transition. Private to
+     * prevent direct modification by other classes, public access is provided by our [substance]
+     * field.
+     */
     private var _substance: View? = null
+
+    /**
+     * Public access to our [View] field [_substance]. The getter just returns the value of [_substance]
+     * and the setter stores its [View] parameter in [_substance] and calls the [setWillNotDraw] method
+     * with `null` to clear the `willNotDraw` flag so that our [onDraw] method will be called now that
+     * we have a non-`null` [_substance] to pass the call on to. Set in the `createAnimator` override
+     * of [SharedFade] when the [MirrorView] is the `endView` to set [_substance] to the `startView`
+     * which is disappearing.
+     */
     var substance: View?
         get() = _substance
         set(value) {
@@ -54,6 +75,13 @@ class MirrorView @JvmOverloads constructor(
             setWillNotDraw(value == null)
         }
 
+    /**
+     * We implement this to do our drawing once [_substance] has been set to a non-`null` value.
+     * If our [View] field [_substance] is not `null` we call its [View.draw] method to have it render
+     * its [View] (and all of its children) to our [Canvas] parameter [canvas].
+     *
+     * @param canvas the [Canvas] on which the background will be drawn
+     */
     override fun onDraw(canvas: Canvas?) {
         _substance?.draw(canvas)
     }

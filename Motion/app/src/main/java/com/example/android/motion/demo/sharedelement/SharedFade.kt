@@ -23,9 +23,21 @@ import android.view.ViewGroup
 import androidx.transition.Transition
 import androidx.transition.TransitionValues
 
-private const val PROPNAME_IS_MIRROR = "com.example.android.motion.demo:is_mirror"
+/**
+ * Property name for a [MirrorView]. It is used as the contents of [MIRROR_PROPERTIES] which is
+ * returned by the `getTransitionProperties` override of [SharedFade] to report the property names
+ * that [SharedFade] cares about for the purposes of canceling overlapping animations. It is used
+ * as the key of the [TransitionValues.values] map and is set to `true` in the `captureMirrorValues`
+ * method if the [TransitionValues.view] is a [MirrorView].
+ */
+private const val PROPNAME_IS_MIRROR: String = "com.example.android.motion.demo:is_mirror"
 
-private val MIRROR_PROPERTIES = arrayOf(PROPNAME_IS_MIRROR)
+/**
+ * The set of property names that this transition cares about for the purposes of canceling
+ * overlapping animations. It is returned by the `getTransitionProperties` override of [SharedFade]
+ *
+ */
+private val MIRROR_PROPERTIES: Array<String> = arrayOf(PROPNAME_IS_MIRROR)
 
 /**
  * Transitions between a view and its copy by [MirrorView].
@@ -34,7 +46,7 @@ private val MIRROR_PROPERTIES = arrayOf(PROPNAME_IS_MIRROR)
  * only during the animation. The shared element needs to exist and laid out on both sides of the
  * transition in order to animate between them, but it can be wasteful to create the exact same view
  * on the side where it is not functional. This transition matches the substance and its mirror and
- * animate between them. Depending on which of the start or the end state is the substance of
+ * animates between them. Depending on which of the start or the end state is the substance of
  * [MirrorView], the animation either fades into it or fades out of it.
  *
  * This can be combined with other [Transition]s. For example, ChangeTransform can translate the
@@ -42,6 +54,24 @@ private val MIRROR_PROPERTIES = arrayOf(PROPNAME_IS_MIRROR)
  */
 class SharedFade : Transition() {
 
+    /**
+     * Returns the set of property names used stored in the [TransitionValues] object passed into
+     * [captureStartValues] that this transition cares about for the purposes of canceling overlapping
+     * animations. When any transition is started on a given scene root, all transitions currently
+     * running on that same scene root are checked to see whether the properties on which they based
+     * their animations agree with the end values of the same properties in the new transition. If
+     * the end values are not equal, then the old animation is canceled since the new transition will
+     * start a new animation to these new values. If the values are equal, the old animation is allowed
+     * to continue and no new animation is started for that transition.
+     *
+     * We just return the [Array] of [String] constant [MIRROR_PROPERTIES] since its [PROPNAME_IS_MIRROR]
+     * contents is the only property name we care about for the purposes of canceling overlapping
+     * animations.
+     *
+     * @return An array of property names as described in the class documentation for
+     * [TransitionValues]. The default implementation returns `null`.
+     */
+    @Suppress("RedundantNullableReturnType")
     override fun getTransitionProperties(): Array<String>? {
         return MIRROR_PROPERTIES
     }
