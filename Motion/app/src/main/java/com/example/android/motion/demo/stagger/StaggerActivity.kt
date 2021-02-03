@@ -57,7 +57,29 @@ class StaggerActivity : AppCompatActivity() {
     private val viewModel: CheeseListViewModel by viewModels()
 
     /**
-     * Called when the activity is starting.
+     * Called when the activity is starting. First we call our super's implementation of `onCreate`,
+     * then we set our content view to our layout file [R.layout.stagger_activity] which consists of
+     * a `CoordinatorLayout` root view holding an `AppBarLayout` which holds a [Toolbar] child, and
+     * a [RecyclerView] with a vertical scrollbar and a `LinearLayoutManager` as its layoutManager.
+     *
+     * We initialize our [Toolbar] variable `val toolbar` by finding the view with ID [R.id.toolbar]
+     * and our [RecyclerView] variable `val list` by finding the view with ID [R.id.list]. We then
+     * set `toolbar` to act as the `ActionBar` for this Activity window. We call our method
+     * [EdgeToEdge.setUpRoot] to configure the view with ID [R.id.root] (our root view) for edge to
+     * edge display, call our method [EdgeToEdge.setUpAppBar] configure our app bar (whose ID is
+     * [R.id.app_bar]) and our `toolbar` [Toolbar] for edge-to-edge display, and call our method
+     * [EdgeToEdge.setUpScrollingContent] to configure the scrolling content in `list` for edge to
+     * edge display.
+     *
+     * Next we initialize our [CheeseListAdapter] variable `val adapter` with a new instance and set
+     * the [RecyclerView.Adapter] of `list` to this `adapter`. We set the [RecyclerView.ItemAnimator]
+     * (defines the animations that take place on items as changes are made to the adapter) of `list`
+     * to an anonymous [DefaultItemAnimator] whose `animateAdd` override disables item additions in
+     * the [RecyclerView] by first calling [DefaultItemAnimator.dispatchAddFinished] to indicate that
+     * the add animation is done, then calling [DefaultItemAnimator.dispatchAddStarting] to indicate
+     * an add animation is being started and returning `false` to indicate that we do not request a
+     * call to [DefaultItemAnimator.runPendingAnimations] (we disable it in [RecyclerView] because we
+     * animate item additions on our side).
      *
      * @param savedInstanceState we do not override [onSaveInstanceState] so do not use.
      */
@@ -77,6 +99,13 @@ class StaggerActivity : AppCompatActivity() {
 
         // We animate item additions on our side, so disable it in RecyclerView.
         list.itemAnimator = object : DefaultItemAnimator() {
+            /**
+             * Called when an item is added to the [RecyclerView].
+             *
+             * @param holder The item that is being added.
+             * @return `true` if a later call to `runPendingAnimations` is requested,
+             * `false` otherwise.
+             */
             override fun animateAdd(holder: RecyclerView.ViewHolder?): Boolean {
                 dispatchAddFinished(holder)
                 dispatchAddStarting(holder)
