@@ -22,13 +22,18 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.example.android.motion.R
+import com.example.android.motion.model.Cheese
 import com.example.android.motion.ui.EdgeToEdge
 
 /**
+ * List > Stagger
+ *
  * Shows a list of items. The items are loaded asynchronously, and they appear with stagger.
  *
  * Stagger refers to applying temporal offsets to a group of elements in sequence, like a list.
@@ -41,8 +46,21 @@ import com.example.android.motion.ui.EdgeToEdge
  */
 class StaggerActivity : AppCompatActivity() {
 
+    /**
+     * The [ViewModel] holding our dataset which consists of a [MutableLiveData] wrapped [List] of
+     * [Cheese] objects in a private field: `_cheeses`, with public read only access to `_cheeses`
+     * supplied by its [CheeseListViewModel.cheeses] reference to `_cheeses`. It also has a method
+     * [CheeseListViewModel.refresh] which simulates a network load by delaying 300ms before setting
+     * the value of `_cheeses` to the [Cheese.ALL] list, and a method [CheeseListViewModel.empty]
+     * which sets the value of `_cheeses` to [emptyList]
+     */
     private val viewModel: CheeseListViewModel by viewModels()
 
+    /**
+     * Called when the activity is starting.
+     *
+     * @param savedInstanceState we do not override [onSaveInstanceState] so do not use.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.stagger_activity)

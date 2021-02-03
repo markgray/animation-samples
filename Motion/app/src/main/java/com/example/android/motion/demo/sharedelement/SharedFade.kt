@@ -21,6 +21,7 @@ import android.animation.ObjectAnimator
 import android.view.View
 import android.view.ViewGroup
 import androidx.transition.Transition
+import androidx.transition.TransitionSet
 import androidx.transition.TransitionValues
 
 /**
@@ -148,6 +149,59 @@ class SharedFade : Transition() {
         captureMirrorValues(transitionValues)
     }
 
+    /**
+     * This method creates an animation that will be run for this transition given the information
+     * in the [startValues] and [endValues] structures captured earlier for the start and end scenes.
+     * Subclasses of [Transition] should override this method. The method should only be called by
+     * the transition system; it is not intended to be called from external classes.
+     *
+     * This method is called by the transition's parent (all the way up to the topmost [Transition]
+     * in the hierarchy) with the [sceneRoot] and start/end values that the transition may need to
+     * set up initial target values and construct an appropriate animation. For example, if an
+     * overall Transition is a [TransitionSet] consisting of several child transitions in sequence,
+     * then some of the child transitions may want to set initial values on target views prior to
+     * the overall [Transition] commencing, to put them in an appropriate state for the delay between
+     * that start and the child Transition start time. For example, a transition that fades an item
+     * in may wish to set the starting alpha value to 0, to avoid it blinking in prior to the
+     * transition actually starting the animation. This is necessary because the scene change that
+     * triggers the [Transition] will automatically set the end-scene on all target views, so a
+     * [Transition] that wants to animate from a different value should set that value prior to
+     * returning from this method.
+     *
+     * Additionally, a [Transition] can perform logic to determine whether the transition needs to
+     * run on the given target and start/end values. For example, a transition that resizes objects
+     * on the screen may wish to avoid running for views which are not present in either the start
+     * or end scenes.
+     *
+     * If there is an animator created and returned from this method, the transition mechanism will
+     * apply any applicable `duration`, `startDelay`, and `interpolator` to that animation and start
+     * it. A return value of `null` indicates that no animation should run. The default implementation
+     * returns `null`.
+     *
+     * The method is called for every applicable target object, which is stored in the
+     * [TransitionValues.view] field.
+     *
+     * If either our [TransitionValues] parameter [startValues] or our [TransitionValues] parameter
+     * [startValues] are `null` we return having done nothing. We initialize our `val startView` to
+     * the [TransitionValues.view] field of [startValues] and return having done nothing if this is
+     * `null`.  We initialize our `val endView` to the [TransitionValues.view] field of [endValues]
+     * and return having done nothing if this is `null`. We then branch depending on whether either
+     * of these views are a [MirrorView]:
+     *  - `startView` is a [MirrorView] - The view is appearing. We animate the substance view by
+     *  returning an [ObjectAnimator] of the [View.ALPHA] property of `endView` starting from 0f,
+     *  and moving from 0f to 1f.
+     *  - `endView` is a [MirrorView] - The view is disappearing. We mirror the substance view, and
+     *  animate the [MirrorView] by setting the [MirrorView.substance] field of `endView` to
+     *  `startView` and returning an [ObjectAnimator] of the [View.ALPHA] property of `endView`
+     *  starting from 1f  and moving from 0f to 0f.
+     *  - Neither view is a [MirrorView] - We ignore by returning `null`.
+     *
+     * @param sceneRoot   The root of the transition hierarchy.
+     * @param startValues The values for a specific target in the start scene.
+     * @param endValues   The values for the target in the end scene.
+     * @return A [Animator] to be started at the appropriate time in the overall transition for this
+     * scene change. A `null` value means no animation should be run.
+     */
     override fun createAnimator(
         sceneRoot: ViewGroup,
         startValues: TransitionValues?,
