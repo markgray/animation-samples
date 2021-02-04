@@ -18,6 +18,7 @@ package com.example.android.motion.demo.stagger
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -81,6 +82,14 @@ class StaggerActivity : AppCompatActivity() {
      * call to [DefaultItemAnimator.runPendingAnimations] (we disable it in [RecyclerView] because we
      * animate item additions on our side).
      *
+     * Next we initialize our [Stagger] variable `val stagger` with a new instance, and then add an
+     * observer to the [CheeseListViewModel.cheeses] field of [viewModel] whose lambda will, when
+     * `cheeses` changes value, request the [TransitionManager] to capture current values in the
+     * scene root of [RecyclerView] `list` and then post a request to run the `stagger` transition
+     * on the next frame. At that time, the new values in the scene root will be captured and changes
+     * will be animated using `stagger`. The lambda then submits the new `cheeses` list to be diffed,
+     * and displayed to [CheeseListAdapter] `adapter`.
+     *
      * @param savedInstanceState we do not override [onSaveInstanceState] so do not use.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,7 +109,12 @@ class StaggerActivity : AppCompatActivity() {
         // We animate item additions on our side, so disable it in RecyclerView.
         list.itemAnimator = object : DefaultItemAnimator() {
             /**
-             * Called when an item is added to the [RecyclerView].
+             * Called when an item is added to the [RecyclerView]. We animate item additions on our
+             * side, so we disable it in [RecyclerView] by immediately calling the method
+             * [DefaultItemAnimator.dispatchAddFinished] to indicate that the add animation is done,
+             * then calling [DefaultItemAnimator.dispatchAddStarting] to indicate an add animation
+             * is being started and returning `false` to indicate that we do not request a call to
+             * [DefaultItemAnimator.runPendingAnimations].
              *
              * @param holder The item that is being added.
              * @return `true` if a later call to `runPendingAnimations` is requested,
@@ -123,6 +137,18 @@ class StaggerActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Initialize the contents of the Activity's standard options menu. You should place your menu
+     * items in to the [Menu] parameter [menu]. We retrieve a [MenuInflater] for this context and
+     * use it to inflate our menu layout file [R.menu.stagger] into our [Menu] parameter [menu]
+     * (the layout file consists of a single [MenuItem] titled "Refresh", ID [R.id.action_refresh]).
+     * Finally we return the value returned by our super's implementation of [onCreateOptionsMenu]
+     * to our caller.
+     *
+     * @param menu The options menu in which you place your items.
+     * @return You must return `true` for the menu to be displayed;
+     * if you return `false` it will not be shown.
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.stagger, menu)
         return super.onCreateOptionsMenu(menu)
