@@ -17,6 +17,7 @@
 package com.example.android.motion.demo.stagger
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -33,15 +34,43 @@ import com.example.android.motion.model.Cheese
  */
 class CheeseListAdapter : ListAdapter<Cheese, CheeseViewHolder>(Cheese.DIFF_CALLBACK) {
 
+    /**
+     * Called when [RecyclerView] needs a new [CheeseViewHolder] of the given type to represent
+     * an item. We just return a new instance of [CheeseViewHolder] constructed to use our
+     * [ViewGroup] parameter [parent] for its context.
+     *
+     * @param parent The [ViewGroup] into which the new View will be added after it is bound to
+     * an adapter position.
+     * @param viewType The view type of the new View.
+     * @return A new [CheeseViewHolder] that holds a [View] of the given view type.
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheeseViewHolder {
         return CheeseViewHolder(parent)
     }
 
+    /**
+     * Called by [RecyclerView] to display the data at the specified position. This method should
+     * update the contents of the [View] field [CheeseViewHolder.itemView] of its [holder] parameter
+     * to reflect the item at the given position. We just call the [CheeseViewHolder.bind] method of
+     * our parameter [holder] with the [Cheese] object in position [position] in our dataset.
+     *
+     * @param holder The [CheeseViewHolder] which should be updated to represent the contents of the
+     * item at the given [position] in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     override fun onBindViewHolder(holder: CheeseViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 }
 
+/**
+ * Our custom [RecyclerView.ViewHolder], designed to display a [Cheese] object in a [RecyclerView].
+ * Our constructor just calls our super's constructor with the [View] that the [LayoutInflater] from
+ * context of our [ViewGroup] parameter `parent` inflates from the layout file with resource ID
+ * [R.layout.cheese_list_item] when it uses `parent` for its `LayoutParams` without attaching to it.
+ *
+ * @param parent the [ViewGroup] that we will be attached to.
+ */
 class CheeseViewHolder(
     parent: ViewGroup
 ) : RecyclerView.ViewHolder(
