@@ -16,6 +16,7 @@
 
 package com.example.android.motion.demo.stagger
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,13 +80,34 @@ class CheeseViewHolder(
         .inflate(R.layout.cheese_list_item, parent, false)
 ) {
 
+    /**
+     * The [ImageView] in our [itemView] whose resource ID is [R.id.image]. It is used to display
+     * the [Drawable] whose resource ID is in the [Cheese.image] field of the [Cheese] we display.
+     */
     private val image: ImageView = itemView.findViewById(R.id.image)
+
+    /**
+     * The [TextView] in our [itemView] whose resource ID is [R.id.name]. It is used to display
+     * the [String] in the [Cheese.name] field of the [Cheese] we display.
+     */
     private val name: TextView = itemView.findViewById(R.id.name)
 
     init {
+        /**
+         * We inform the transition manager that our `itemView` should be treated as a unit in
+         * Activity transitions and transition together.
+         */
         ViewGroupCompat.setTransitionGroup(itemView as ViewGroup, true)
     }
 
+    /**
+     * Called to display the data for our [Cheese] parameter [cheese] in our [itemView]. We begin a
+     * load with [Glide] tied to the lifecycle of our [ImageView] field [image] of the [Drawable]
+     * whose resource ID is the [Cheese.image] property of [cheese] and specify that it be loaded
+     * into [image] (cancelling any existing loads into the view, and freeing any resources [Glide]
+     * may have previously loaded into the view so they may be reused). Then we set the text of our
+     * [TextView] field  [name] to the [Cheese.name] field our our parameter [cheese].
+     */
     fun bind(cheese: Cheese) {
         Glide.with(image).load(cheese.image).transform(CircleCrop()).into(image)
         name.text = cheese.name

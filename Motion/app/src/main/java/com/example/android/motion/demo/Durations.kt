@@ -16,10 +16,21 @@
 
 package com.example.android.motion.demo
 
-// Animation durations.
-// See https://material.io/design/motion/speed.html#duration for the detail.
+/**
+ * Animation durations.
+ * @see [https://material.io/design/motion/speed.html#duration] for the detail.
+ */
 
+/**
+ * Duration used in `FadeThroughActivity` for the `fadeThrough` transition of the layout
+ * change caused by changing the visibility of `contact` to invisible and `cheese` to visible.
+ */
 const val MEDIUM_EXPAND_DURATION = 250L
+
+/**
+ * Duration used in `FadeThroughActivity` for the `fadeThrough` transition of the layout
+ * change caused by changing the visibility of `contact` to visible and `cheese` to invisible.
+ */
 const val MEDIUM_COLLAPSE_DURATION = 200L
 
 const val LARGE_EXPAND_DURATION = 300L

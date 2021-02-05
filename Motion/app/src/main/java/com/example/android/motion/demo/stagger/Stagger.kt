@@ -29,16 +29,31 @@ import com.example.android.motion.demo.LARGE_EXPAND_DURATION
 import com.example.android.motion.demo.LINEAR_OUT_SLOW_IN
 
 /**
- * Transition for stagger effect.
+ * Transition for stagger effect. We extend Fade, so fade-in effect is handled by the parent. We
+ * customize and add a slight slide-up effect to it.
  */
-// We extend Fade, so fade-in effect is handled by the parent. We customize and add a slight
-// slide-up effect to it.
 class Stagger : Fade(IN) {
 
     init {
-        // This duration is for a single item. See the comment below about propagation.
+        /**
+         * Sets the duration of this transition to `LARGE_EXPAND_DURATION` divided by 2 (150ms).
+         * This duration is for a single item. See the comment below about propagation.
+         */
         duration = LARGE_EXPAND_DURATION / 2
+        /**
+         * Sets the interpolator of this transition to our `LINEAR_OUT_SLOW_IN` which is a cubic
+         * Bezier curve `TimeInterpolator`
+         */
         interpolator = LINEAR_OUT_SLOW_IN
+        /**
+         * Sets the method for determining Animator start delays to an instance of `SidePropagation`
+         * which propagates based on the distance to the side and, orthogonally, the distance to the
+         * epicenter whose side is `Gravity.BOTTOM` (bottom of its container), and whose propagation
+         * speed is 1f (means that the View centered at the bottom side and the View centered at the
+         * opposite edge will have a difference in start delay of approximately the duration of the
+         * Transition, and the overall animation will take about twice the duration of one item
+         * fading in).
+         */
         propagation = SidePropagation().apply {
             setSide(Gravity.BOTTOM)
             // We want the stagger effect to take as long as the duration of a single item.
@@ -49,6 +64,25 @@ class Stagger : Fade(IN) {
         }
     }
 
+    /**
+     * This method creates an animation that will be run for this transition given the information
+     * in the [startValues] and [endValues] structures captured earlier for the start and end scenes.
+     * We return `null` to our caller if our attempt to initialize our [View] variable `val view` to
+     * a non-`null` value from the [TransitionValues.view] field of our [startValues] or [endValues]
+     * parameters fails. If we successfully initialize it to a non-`null` value we try to construct
+     * an [Animator] to initialize our variable `val fadeAnimator` using our super's implementation
+     * of `createAnimator` and return `null` if that fails. If we succeed however we return an
+     * [AnimatorSet] configured to play at the same time our `fadeAnimator` and an [ObjectAnimator]
+     * that animates the [View.TRANSLATION_Y] property of `view` from the heigh of `view` to 0 (which
+     * makes the view slide up a little as it fades in).
+     *
+     * @param sceneRoot   The root of the transition hierarchy.
+     * @param startValues The values for a specific target in the start scene.
+     * @param endValues   The values for the target in the end scene.
+     * @return A [Animator] to be started at the appropriate time in the
+     * overall transition for this scene change. A `null` value means no animation
+     * should be run.
+     */
     override fun createAnimator(
         sceneRoot: ViewGroup,
         startValues: TransitionValues?,
