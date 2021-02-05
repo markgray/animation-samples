@@ -154,6 +154,19 @@ class StaggerActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    /**
+     * This hook is called whenever an item in your options menu is selected. When the `itemId` of
+     * our [MenuItem] parameter [item] is for our "Refresh" item ID [R.id.action_refresh] we call
+     * the [CheeseListViewModel.empty] method of [viewModel] to have it clear its list of [Cheese]
+     * objects then call its [CheeseListViewModel.refresh] method to have it simulate a network
+     * reload of the list to demonstrate the stagger effect again, and return `true` to consume the
+     * event here. For all other values of `itemId` we return the value returned by our super's
+     * implementation of `onOptionsItemSelected`.
+     *
+     * @param item The menu item that was selected.
+     * @return boolean Return `false` to allow normal menu processing to
+     * proceed, `true` to consume it here.
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_refresh -> {

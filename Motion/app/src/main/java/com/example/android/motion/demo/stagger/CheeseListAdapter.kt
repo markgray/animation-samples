@@ -28,6 +28,9 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.android.motion.R
 import com.example.android.motion.model.Cheese
 
+/**
+ * The [ListAdapter] used as the adapter for the [RecyclerView] displayed by [StaggerActivity].
+ */
 class CheeseListAdapter : ListAdapter<Cheese, CheeseViewHolder>(Cheese.DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheeseViewHolder {
