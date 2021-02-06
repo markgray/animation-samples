@@ -16,6 +16,7 @@
 
 package com.example.android.motion.demo
 
+import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -29,10 +30,32 @@ import com.bumptech.glide.request.target.Target
 
 /**
  * Executes the specified [body] when the request is complete. It is invoked no matter whether the
- * request succeeds or fails.
+ * request succeeds or fails. We call the [RequestBuilder.addListener] method of our receiver to
+ * have it add an anonymous [RequestListener] whose `onLoadFailed` and `onResourceReady` overrides
+ * both execute our [body] parameter and return to the caller the modified [RequestBuilder] that the
+ * method returns to us.
+ *
+ * @param body a lambda to be executed when the [Glide] request that our [RequestBuilder] receiver
+ * is building completes whether the request succeeds or fails.
+ * @return the same [RequestBuilder] we were invoked on which [RequestBuilder.addListener] returns
+ * in order to allow chaining.
  */
 fun <T> RequestBuilder<T>.doOnEnd(body: () -> Unit): RequestBuilder<T> {
     return addListener(object : RequestListener<T> {
+        /**
+         * Called when an exception occurs during a load, immediately before [Target.onLoadFailed].
+         * Will only be called if we currently want to display an image for the given model in the
+         * given [target]. We just execute the [body] lambda parameter passed to [doOnEnd] and
+         * return `false` to allow [Target.onLoadFailed] to be called on [target].
+         *
+         * @param e The maybe `null` exception containing information about why the request failed.
+         * @param model The model we were trying to load when the exception occurred.
+         * @param target The [Target] we were trying to load the image into.
+         * @param isFirstResource `true` if this exception is for the first resource to load.
+         * @return `true` to prevent [Target.onLoadFailed] from being called on [target], typically
+         * because the listener wants to update the [target] or the object the [target] wraps itself
+         * or `false` to allow [Target.onLoadFailed] to be called on [target].
+         */
         override fun onLoadFailed(
             e: GlideException?,
             model: Any?,
@@ -43,6 +66,22 @@ fun <T> RequestBuilder<T>.doOnEnd(body: () -> Unit): RequestBuilder<T> {
             return false
         }
 
+        /**
+         * Called when a load completes successfully, immediately before [Target.onResourceReady]
+         * We just execute the [body] lambda parameter passed to [doOnEnd] and return `false` to
+         * allow [Target.onResourceReady] to be called on [target].
+         *
+         * @param resource The resource that was loaded for the target.
+         * @param model The specific model that was used to load the image.
+         * @param target The [Target] the model was loaded into.
+         * @param dataSource The [DataSource] the resource was loaded from.
+         * @param isFirstResource `true` if this is the first resource in this load to be loaded
+         * into the target. For example when loading a thumbnail and a full-sized image, this will
+         * be `true` for the first image to load and `false` for the second.
+         * @return `true` to prevent [Target.onResourceReady] from being called on [target],
+         * typically because the listener wants to update the [Target] or the object the [Target]
+         * wraps itself or `false` to allow [Target.onResourceReady] to be called on [target].
+         */
         override fun onResourceReady(
             resource: T,
             model: Any?,
