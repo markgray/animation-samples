@@ -23,6 +23,11 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
 /**
+ * This file just contains the `RequestBuilder.doOnEnd` extension function, which is used in the
+ * `CheeseDetailFragment` and `CheeseGridAdapter` classes of the `SharedElementActivity` demo.
+ */
+
+/**
  * Executes the specified [body] when the request is complete. It is invoked no matter whether the
  * request succeeds or fails.
  */

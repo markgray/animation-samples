@@ -38,6 +38,8 @@ import com.google.android.material.circularreveal.cardview.CircularRevealCardVie
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /**
+ * Layout > FAB transformation
+ *
  * FAB transformation is provided by Material Components. This activity demonstrates how to use
  * [FloatingActionButton.setExpanded] to transform the FAB into a sheet. The AndroidManifest.xml
  * "DESCRIPTION" is: A floating action button (FAB) can transform into a card by tweening FAB size

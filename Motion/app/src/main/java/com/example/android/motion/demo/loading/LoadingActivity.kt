@@ -40,6 +40,8 @@ import com.example.android.motion.model.Cheese
 import com.example.android.motion.ui.EdgeToEdge
 
 /**
+ * List > Loading
+ *
  * Shows a list of cheeses. We use the Paging Library to load the list. Motion provides timely
  * feedback and the status of user actions. An animated placeholder UI can indicate that content
  * is loading. [PlaceholderAdapter] is used to animate the alpha of its [R.drawable.image_placeholder]

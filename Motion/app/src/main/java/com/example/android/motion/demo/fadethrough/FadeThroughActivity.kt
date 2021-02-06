@@ -37,6 +37,8 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 
 /**
+ * Layout > Fade through
+ *
  * Fade through involves one element fading out completely before a new one fades in. These
  * transitions can be applied to text, icons, and other elements that don't perfectly overlap.
  * This technique lets the background show through during a transition, and it can provide
