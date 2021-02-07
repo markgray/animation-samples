@@ -45,6 +45,14 @@ fun fadeThrough(): Transition {
     }
 }
 
+/**
+ * Returns a new instance of [TransitionSet] whose [TransitionSet.setOrdering] (aka kotlin `ordering`
+ * property) is [TransitionSet.ORDERING_TOGETHER] (flag used to indicate that the child transitions
+ * of this set should all start at the same time) which has our [body] lambda parameter "applied" to
+ * it.
+ *
+ * @param body a lambda whose receiver is a [TransitionSet]
+ */
 inline fun transitionTogether(crossinline body: TransitionSet.() -> Unit): TransitionSet {
     return TransitionSet().apply {
         ordering = TransitionSet.ORDERING_TOGETHER
@@ -52,12 +60,24 @@ inline fun transitionTogether(crossinline body: TransitionSet.() -> Unit): Trans
     }
 }
 
+/**
+ * Returns a new instance of [SequentialTransitionSet] which has our [body] lambda parameter
+ * "applied" to it.
+ *
+ * @param body a lambda whose receiver is a [SequentialTransitionSet]
+ */
 inline fun transitionSequential(
     crossinline body: SequentialTransitionSet.() -> Unit
 ): SequentialTransitionSet {
     return SequentialTransitionSet().apply(body)
 }
 
+/**
+ * Calls the [action] function parameter on each of the [Transition] objects in its [TransitionSet]
+ * receiver.
+ *
+ * @param action function which takes a [Transition] as its argument and returns [Unit] (aka void).
+ */
 inline fun TransitionSet.forEach(action: (transition: Transition) -> Unit) {
     for (i in 0 until transitionCount) {
         action(getTransitionAt(i) ?: throw IndexOutOfBoundsException())
