@@ -17,12 +17,19 @@
 package com.example.android.motion.demo
 
 import android.animation.TimeInterpolator
+import androidx.transition.Transition
 
 /**
  * Takes a [base] interpolator and extracts out a segment from it as a new [TimeInterpolator].
  *
  * This is useful for sequential animations where each of the child animations should be
- * interpolated so that they match with another animation when combined.
+ * interpolated so that they match with another animation when combined. Used in our class
+ * [SequentialTransitionSet].
+ *
+ * @param base the [TimeInterpolator] which is being "distributed" between each [Transition] in the
+ * [SequentialTransitionSet] by the method [SequentialTransitionSet.distributeInterpolator]
+ * @param start the start value for this [SegmentInterpolator] interpolator
+ * @param end the end value for this [SegmentInterpolator] interpolator
  */
 class SegmentInterpolator(
     val base: TimeInterpolator,
