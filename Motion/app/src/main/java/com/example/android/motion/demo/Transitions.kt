@@ -109,6 +109,7 @@ inline fun TransitionSet.forEachIndexed(action: (index: Int, transition: Transit
 /**
  * Our factory method to produce a [MutableIterator] for a mutable [TransitionSet] collection.
  * Provides the ability to remove elements while iterating.
+ * TODO: This does not seem to be used but use could be hidden in koltin syntax -- verify this
  */
 operator fun TransitionSet.iterator() = object : MutableIterator<Transition> {
 
@@ -117,20 +118,39 @@ operator fun TransitionSet.iterator() = object : MutableIterator<Transition> {
      */
     private var index = 0
 
+    /**
+     * Returns `true` if there are still [Transition] objects in our [TransitionSet] to iterate over
+     */
     override fun hasNext() = index < transitionCount
 
+    /**
+     * Returns next [Transition] object in our [TransitionSet] and increments the [index] pointer
+     */
     override fun next() =
         getTransitionAt(index++) ?: throw IndexOutOfBoundsException()
 
+    /**
+     * Removes next [Transition] object in our [TransitionSet] and decrements the [index] pointer
+     */
     override fun remove() {
         removeTransition(getTransitionAt(--index) ?: throw IndexOutOfBoundsException())
     }
 }
 
+/**
+ * Adds its [Transition] parameter [transition] to the [TransitionSet] receiver. Used in this file
+ * in our [fadeThrough] factory method, as well as in `LoadingActivity`, `CheeseArticleFragment`,
+ * `CheeseDetailFragment`, and `CheeseGridFragment`.
+ */
 operator fun TransitionSet.plusAssign(transition: Transition) {
     addTransition(transition)
 }
 
+/**
+ *  Returns the child [Transition] at the position [i] in the [TransitionSet] or throws the exception
+ *  [IndexOutOfBoundsException] if there is none. Only used in the `SequentialTransitionSetTest` test
+ *  class.
+ */
 operator fun TransitionSet.get(i: Int): Transition {
     return getTransitionAt(i) ?: throw IndexOutOfBoundsException()
 }

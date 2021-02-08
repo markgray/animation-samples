@@ -33,9 +33,20 @@ import androidx.transition.TransitionSet
 class SequentialTransitionSet : TransitionSet() {
 
     init {
+        /**
+         * Here we set the play order of this set's child transitions to `ORDERING_SEQUENTIAL` (flag
+         * used to indicate that the child transitions of this set should play in sequence).
+         */
         ordering = ORDERING_SEQUENTIAL
     }
 
+    /**
+     * The total duration of this [SequentialTransitionSet]. It is set by our publicly accessible
+     * [setDuration] method (aka kotlin `duration` property) and read by our [getDuration] method
+     * (aka kotlin `duration` property), and our [distributeDuration] method "distributes" this
+     * duration amongst our child transitions depending on the value of their entry in our [weights]
+     * list.
+     */
     private var _duration: Long = -1
     private var _interpolator: TimeInterpolator? = null
 
