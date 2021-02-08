@@ -29,6 +29,7 @@ import androidx.transition.TransitionSet
  * transitions can be applied to text, icons, and other elements that don't perfectly overlap.
  * This technique lets the background show through during a transition, and it can provide
  * continuity between screens when paired with a shared transformation.
+ * Used in `FadeThroughActivity`.
  *
  * See
  * [Expressing continuity](https://material.io/design/motion/understanding-motion.html#expressing-continuity)
@@ -49,7 +50,8 @@ fun fadeThrough(): Transition {
  * Returns a new instance of [TransitionSet] whose [TransitionSet.setOrdering] (aka kotlin `ordering`
  * property) is [TransitionSet.ORDERING_TOGETHER] (flag used to indicate that the child transitions
  * of this set should all start at the same time) which has our [body] lambda parameter "applied" to
- * it.
+ * it. Used in `CheeseArticleFragment`, `CheeseDetailFragment`, `CheeseGridFragment`, and in this
+ * file in our [fadeThrough] factory method.
  *
  * @param body a lambda whose receiver is a [TransitionSet]
  */
@@ -61,8 +63,8 @@ inline fun transitionTogether(crossinline body: TransitionSet.() -> Unit): Trans
 }
 
 /**
- * Returns a new instance of [SequentialTransitionSet] which has our [body] lambda parameter
- * "applied" to it.
+ * Returns a new instance of [SequentialTransitionSet] which has our [body] lambda parameter applied
+ * to it. Used in `LoadingActivity`, and in this file in our [fadeThrough] factory method.
  *
  * @param body a lambda whose receiver is a [SequentialTransitionSet]
  */
@@ -74,7 +76,10 @@ inline fun transitionSequential(
 
 /**
  * Calls the [action] function parameter on each of the [Transition] objects in its [TransitionSet]
- * receiver.
+ * receiver. We loop on `i` from 0 until [TransitionSet.getTransitionCount] (aka `transitionCount`
+ * property in kotlin) and if the [Transition] at position `i` in the [TransitionSet] is not `null`
+ * call our [action] parameter on that [Transition] (if it is `null` we throw the exception
+ * [IndexOutOfBoundsException]). Used in `SequentialTransitionSet`.
  *
  * @param action function which takes a [Transition] as its argument and returns [Unit] (aka void).
  */
@@ -84,14 +89,32 @@ inline fun TransitionSet.forEach(action: (transition: Transition) -> Unit) {
     }
 }
 
+/**
+ * Calls the [action] function parameter with the [Int] index of each of the [Transition] objects in
+ * its [TransitionSet] receiver, also passing the [Transition] at that index. We loop on `i` from 0
+ * until [TransitionSet.getTransitionCount] (aka `transitionCount` property in kotlin) and if the
+ * [Transition] at position `i` in the [TransitionSet] is not `null` call our [action] parameter
+ * with the index `i` and the [Transition] at index `i` (if it is `null` we throw the exception
+ * [IndexOutOfBoundsException]). Used in `SequentialTransitionSet`.
+ *
+ * @param action function which takes an [Int] index and a [Transition] as its arguments and returns
+ * [Unit] (aka void).
+ */
 inline fun TransitionSet.forEachIndexed(action: (index: Int, transition: Transition) -> Unit) {
     for (i in 0 until transitionCount) {
         action(i, getTransitionAt(i) ?: throw IndexOutOfBoundsException())
     }
 }
 
+/**
+ * Our factory method to produce a [MutableIterator] for a mutable [TransitionSet] collection.
+ * Provides the ability to remove elements while iterating.
+ */
 operator fun TransitionSet.iterator() = object : MutableIterator<Transition> {
 
+    /**
+     * Current index into our [TransitionSet].
+     */
     private var index = 0
 
     override fun hasNext() = index < transitionCount
