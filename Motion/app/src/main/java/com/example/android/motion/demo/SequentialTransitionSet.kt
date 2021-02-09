@@ -61,8 +61,25 @@ class SequentialTransitionSet : TransitionSet() {
      */
     private var _interpolator: TimeInterpolator? = null
 
+    /**
+     * The relative weight of each of our children [Transition] indexed by their position. The weight
+     * of each of the children is used split our total duration amongst the children as well as to
+     * split our [TimeInterpolator] field [_interpolator] into separate [SegmentInterpolator] for
+     * each child whose end point is based on the child's weight divided by the sum of all of the
+     * weights in [weights].
+     */
     private val weights = mutableListOf<Float>()
 
+    /**
+     * Sets the play order of this set's child transitions. If our [ordering] parameter is not
+     * [TransitionSet.ORDERING_SEQUENTIAL] we throw an [IllegalArgumentException] exception,
+     * otherwise we return the value returned by our super's implementation of `setOrdering` which
+     * is `this` [TransitionSet].
+     *
+     * @param ordering can only be [TransitionSet.ORDERING_SEQUENTIAL] to play the child transitions
+     * in sequence, any other value will throw [IllegalArgumentException].
+     * @return This [TransitionSet] object which is returned by our super's implementation
+     */
     override fun setOrdering(ordering: Int): TransitionSet {
         if (ordering != ORDERING_SEQUENTIAL) {
             throw IllegalArgumentException(
@@ -72,6 +89,24 @@ class SequentialTransitionSet : TransitionSet() {
         return super.setOrdering(ordering)
     }
 
+    /**
+     * Adds child [Transition] parameter [transition] to this set and assigns [weight] as its weight
+     * in our [weights] list. The order in which this child transition is added relative to other
+     * child transitions that are added determines the order in which the transitions are started.
+     * First we call our super's implementation of `addTransition` to add our [Transition] parameter
+     * [transition] to this [TransitionSet]. Then we add the [Float] parameter [weight] for this
+     * [Transition] to our [weights] list and call [distributeDuration] to redistribute our duration
+     * amongst our children based on their weights, and [distributeInterpolator] to "redistribute"
+     * our interpolator in separate [SegmentInterpolator] objects for each child whose end point is
+     * based on its weight in the [weights] list divided by the sum of all the weights in the list.
+     * Finally we return `this` [TransitionSet] to our caller to allow chaining.
+     *
+     * @param transition A non-`null` child [Transition] to be added to this set.
+     * @param weight the "weight" to give this [Transition] which will be used to distribute our
+     * total duration amongst our children, as well as the end points of the interpolators assigned
+     * to each child, so that the end points all add up to 1f.
+     * @return This [TransitionSet] object.
+     */
     fun addTransition(transition: Transition, weight: Float): TransitionSet {
         super.addTransition(transition)
         weights += weight
