@@ -48,6 +48,17 @@ class SequentialTransitionSet : TransitionSet() {
      * list.
      */
     private var _duration: Long = -1
+
+    /**
+     * The [TimeInterpolator] for our [TransitionSet]. Private so that we can override [setInterpolator]
+     * with a custom setter for our `interpolator` property which does not call our super's version
+     * of `setInterpolator` which would set all of the interpolators of our children to this same
+     * value. Instead our override of [setInterpolator] calls our [distributeInterpolator] method to
+     * assign a [SegmentInterpolator] to each of our children whose `end` is calculated as a fraction
+     * of 1.0f based on its entry in our [weights] list divided by the sum of the entries in the
+     * [weights] list for all of the children.
+     * TODO: Weights different from 1.0f are only used in `SequentialTransitionSetTest`? Verify this.
+     */
     private var _interpolator: TimeInterpolator? = null
 
     private val weights = mutableListOf<Float>()

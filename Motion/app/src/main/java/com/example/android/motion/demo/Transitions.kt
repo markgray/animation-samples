@@ -141,15 +141,20 @@ operator fun TransitionSet.iterator() = object : MutableIterator<Transition> {
  * Adds its [Transition] parameter [transition] to the [TransitionSet] receiver. Used in this file
  * in our [fadeThrough] factory method, as well as in `LoadingActivity`, `CheeseArticleFragment`,
  * `CheeseDetailFragment`, and `CheeseGridFragment`.
+ *
+ * @param transition the [Transition] to add to our [TransitionSet] receiver.
  */
 operator fun TransitionSet.plusAssign(transition: Transition) {
     addTransition(transition)
 }
 
 /**
- *  Returns the child [Transition] at the position [i] in the [TransitionSet] or throws the exception
- *  [IndexOutOfBoundsException] if there is none. Only used in the `SequentialTransitionSetTest` test
- *  class.
+ * Returns the child [Transition] at the position [i] in the [TransitionSet] or throws the exception
+ * [IndexOutOfBoundsException] if there is none. Only used in the `SequentialTransitionSetTest` test
+ * class.
+ *
+ * @param i the position of the desired [Transition] in our [TransitionSet] receiver
+ * @return the child [Transition] at  position [i] in the [TransitionSet]
  */
 operator fun TransitionSet.get(i: Int): Transition {
     return getTransitionAt(i) ?: throw IndexOutOfBoundsException()
