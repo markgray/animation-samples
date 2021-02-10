@@ -28,8 +28,8 @@ import androidx.transition.Transition
  *
  * @param base the [TimeInterpolator] which is being "distributed" between each [Transition] in the
  * [SequentialTransitionSet] by the method [SequentialTransitionSet.distributeInterpolator]
- * @param start the start value for this [SegmentInterpolator] interpolator
- * @param end the end value for this [SegmentInterpolator] interpolator
+ * @param start the start point for this [SegmentInterpolator] interpolator, between 0 and 1.0
+ * @param end the end point for this [SegmentInterpolator] interpolator, between 0 and 1.0
  */
 class SegmentInterpolator(
     val base: TimeInterpolator,
@@ -37,6 +37,10 @@ class SegmentInterpolator(
     val end: Float = 1f
 ) : TimeInterpolator {
 
+    /**
+     * The interpolation value of the animation of the [TimeInterpolator] in [base] we are contructed
+     * to wrap corresponding to our [start] point.
+     */
     private val offset = base.getInterpolation(start)
     private val xRatio = (end - start) / 1f
     private val yRatio = (base.getInterpolation(end) - offset) / 1f
