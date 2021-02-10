@@ -115,10 +115,30 @@ class SequentialTransitionSet : TransitionSet() {
         return this
     }
 
+    /**
+     * Adds child [Transition] parameter [transition] to this set. The order in which this child
+     * transition is added relative to other child transitions that are added determines the order
+     * in which the transitions are started. We return the [TransitionSet] returned by our two
+     * argument version of `addTransition` when we have it add [transition] to our set with a weight
+     * of 1f.
+     *
+     * @param transition A non-`null` child [Transition] to be added to this set.
+     * @return This [TransitionSet] object.
+     */
     override fun addTransition(transition: Transition): TransitionSet {
         return addTransition(transition, 1f)
     }
 
+    /**
+     * Sets the total duration of our [TransitionSet] animation to its [Long] parameter [duration].
+     * We set our [_duration] field to our parameter [duration] then call our [distributeDuration]
+     * method to have it distribute this duration amongst our [Transition] children according to
+     * their weight in our [weights] list. Finally we return `this` [TransitionSet] to the caller
+     * to allow chaining.
+     *
+     * @param duration The length of the animation, in milliseconds.
+     * @return This [TransitionSet] object.
+     */
     override fun setDuration(duration: Long): TransitionSet {
         // Don't call super.
         _duration = duration
@@ -126,6 +146,13 @@ class SequentialTransitionSet : TransitionSet() {
         return this
     }
 
+    /**
+     * Returns the duration set on this transition. If no duration has been set, the returned value
+     * will be negative. We just return our [Long] field [_duration] to the caller.
+     *
+     * @return The duration set on this transition, in milliseconds, if one has been
+     * set, otherwise returns a negative number.
+     */
     override fun getDuration(): Long {
         return _duration
     }
