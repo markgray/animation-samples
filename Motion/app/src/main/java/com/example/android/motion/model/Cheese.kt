@@ -20,6 +20,9 @@ import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.DiffUtil
 import com.example.android.motion.R
 
+/**
+ * The data class holding the information used to display a [Cheese].
+ */
 data class Cheese(
     val id: Long,
     val name: String,
