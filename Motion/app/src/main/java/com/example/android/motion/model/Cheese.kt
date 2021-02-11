@@ -22,6 +22,15 @@ import com.example.android.motion.R
 
 /**
  * The data class holding the information used to display a [Cheese].
+ *
+ * @param id the unique ID of this [Cheese] object, one more than the index in our [NAMES] list of
+ * the [name] of the cheese we "display".
+ * @param name the name of the cheese which is taken from the [NAMES] list in our `companion object`
+ * @param image the resource ID for a drawable in our resources which we display as if it were a
+ * picture of this type of cheese (there are only 5 jpegs arbitrarily chosen for this so the correct
+ * picture matching any particular cheese is rather unlikely).
+ * @param imageWidth the width of the drawable with resource ID [image] in pixels.
+ * @param imageHeight the height of the drawable with resource ID [image] in pixels.
  */
 data class Cheese(
     val id: Long,
@@ -32,6 +41,19 @@ data class Cheese(
     val imageHeight: Int
 ) {
     companion object {
+        /**
+         * A [List] of [Cheese] objects lazily constructed from our [NAMES] list of cheese names.
+         * We use the `mapIndexed` extension function of [NAMES] generating an arbitrary value to
+         * initialize our variable `val imageIndex` with an index from 0 to 4, initialize our
+         * variables `width` and `height` by using a destructuring declaration splitting the [Pair]
+         * at index `imageIndex` in our [IMAGE_SIZES] list. We then construct a [Cheese] object whose
+         * [Cheese.id] field is 1 more than the current index into [NAMES], whose [Cheese.name] field
+         * is the current cheese name in [NAMES], whose [Cheese.image] field is the resource ID at
+         * index `imageIndex` in our [IMAGES] list, whose [Cheese.imageWidth] field is `width` and
+         * whose [Cheese.imageHeight] field is `height`. As we loop through the cheese names in
+         * [NAMES] `mapIndexed` adds all the [Cheese] objects we create from the [NAMES] list into
+         * the [List] of [Cheese] objects which is then used to initialize [ALL]
+         */
         val ALL: List<Cheese> by lazy {
             NAMES.mapIndexed { index, name ->
                 val imageIndex = ((name.hashCode() % IMAGES.size) + IMAGES.size) % IMAGES.size
@@ -46,6 +68,9 @@ data class Cheese(
             }
         }
 
+        /**
+         * Resoure IDs for some JPEG pictures of cheeses we pretend look like the cheese.
+         */
         val IMAGES = listOf(
             R.drawable.cheese_1,
             R.drawable.cheese_2,
@@ -54,6 +79,9 @@ data class Cheese(
             R.drawable.cheese_5
         )
 
+        /**
+         * The width and height in pixels of the corresponding JPEG pictures in the list [IMAGES]
+         */
         private val IMAGE_SIZES = listOf(
             Pair(640, 640),
             Pair(640, 589),
@@ -62,16 +90,42 @@ data class Cheese(
             Pair(1024, 683)
         )
 
+        /**
+         * The [DiffUtil.ItemCallback] instance to compare [Cheese] items in the list [ALL].
+         */
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Cheese>() {
+            /**
+             * Called to check whether two objects represent the same item. Since our items have
+             * unique ids in [Cheese.id] we just return the result of comparing the [Cheese.id]
+             * property of our [oldItem] and [newItem] for equality.
+             *
+             * @param oldItem The item in the old list.
+             * @param newItem The item in the new list.
+             * @return `true` if the two items represent the same object or `false` if they are
+             * different.
+             */
             override fun areItemsTheSame(oldItem: Cheese, newItem: Cheese): Boolean {
                 return oldItem.id == newItem.id
             }
 
+            /**
+             * Called to check whether two items have the same data. This information is used to
+             * detect if the contents of an item have changed. We just return the results of
+             * comparing [oldItem] and [newItem] for equality.
+             *
+             * @param oldItem The item in the old list.
+             * @param newItem The item in the new list.
+             * @return `true` if the contents of the items are the same or `false` if they are
+             * different.
+             */
             override fun areContentsTheSame(oldItem: Cheese, newItem: Cheese): Boolean {
                 return oldItem == newItem
             }
         }
 
+        /**
+         * The list of cheese names used to generate the [ALL] list of [Cheese] object.
+         */
         @Suppress("SpellCheckingInspection")
         val NAMES = listOf(
             "Abbaye de Belloc", "Abbaye du Mont des Cats", "Abertam", "Abondance", "Ackawi",

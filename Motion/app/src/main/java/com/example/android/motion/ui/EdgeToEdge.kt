@@ -29,10 +29,11 @@ import com.google.android.material.appbar.AppBarLayout
 
 /**
  * A utility for edge-to-edge display. It provides several features needed to make the app
- * displayed edge-to-edge on Android Q with gestural navigation.
+ * displayed edge-to-edge on Android Q with gestural navigation. We use a `when` statement
+ * to choose between different implementations of our [EdgeToEdgeImpl] interface based on
+ * the SDK version of the software currently running on the hardware device we are running on:
  */
-object EdgeToEdge
-    : EdgeToEdgeImpl by when {
+object EdgeToEdge: EdgeToEdgeImpl by when {
     Build.VERSION.SDK_INT >= 30 -> EdgeToEdgeApi30()
     Build.VERSION.SDK_INT >= 21 -> EdgeToEdgeApi21()
     else -> EdgeToEdgeBase()
