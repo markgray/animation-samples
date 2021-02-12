@@ -32,6 +32,13 @@ import com.google.android.material.appbar.AppBarLayout
  * displayed edge-to-edge on Android Q with gestural navigation. We use a `when` statement
  * to choose between different implementations of our [EdgeToEdgeImpl] interface based on
  * the SDK version of the software currently running on the hardware device we are running on:
+ *  - when the SDK is less than 21 we use [EdgeToEdgeBase] which overrides nothing in the
+ *  [EdgeToEdgeImpl] interface, and as a result the [EdgeToEdge] methods are no-ops.
+ *  - when the SDK is less than 30 but greater than or equal to 21 we use [EdgeToEdgeApi21] which
+ *  overrides all three methods of [EdgeToEdgeImpl] with api's introduced with SDK 21, but
+ *  deprecated in SDK 30.
+ *  - when the SDK is equal to 30 we use [EdgeToEdgeApi30] which overrides all three methods of
+ *  [EdgeToEdgeImpl] with api's introduced with SDK 30 (eventually, when I understand SDK 30)
  */
 object EdgeToEdge: EdgeToEdgeImpl by when {
     Build.VERSION.SDK_INT >= 30 -> EdgeToEdgeApi30()
