@@ -37,8 +37,8 @@ import com.google.android.material.appbar.AppBarLayout
  *  - when the SDK is less than 30 but greater than or equal to 21 we use [EdgeToEdgeApi21] which
  *  overrides all three methods of [EdgeToEdgeImpl] with api's introduced with SDK 21, but
  *  deprecated in SDK 30.
- *  - when the SDK is equal to 30 we use [EdgeToEdgeApi30] which overrides all three methods of
- *  [EdgeToEdgeImpl] with api's introduced with SDK 30 (eventually, when I understand SDK 30)
+ *  - when the SDK is greater than or equal to 30 we use [EdgeToEdgeApi30] which overrides all
+ *  three methods of [EdgeToEdgeImpl] with api's introduced with SDK 30 (or will eventually)
  */
 object EdgeToEdge: EdgeToEdgeImpl by when {
     Build.VERSION.SDK_INT >= 30 -> EdgeToEdgeApi30()
@@ -49,13 +49,15 @@ object EdgeToEdge: EdgeToEdgeImpl by when {
 private interface EdgeToEdgeImpl {
 
     /**
-     * Configures a root view of an Activity in edge-to-edge display.
+     * Configures a root view of an Activity for edge-to-edge display.
+     *
      * @param root A root view of an Activity.
      */
     fun setUpRoot(root: ViewGroup) {}
 
     /**
      * Configures an app bar and a toolbar for edge-to-edge display.
+     *
      * @param appBar An [AppBarLayout].
      * @param toolbar A [Toolbar] in the [appBar].
      */
@@ -63,24 +65,57 @@ private interface EdgeToEdgeImpl {
 
     /**
      * Configures a scrolling content for edge-to-edge display.
-     * @param scrollingContent A scrolling ViewGroup. This is typically a RecyclerView or a
-     * ScrollView. It should be as wide as the screen, and should touch the bottom edge of
+     *
+     * @param scrollingContent A scrolling [ViewGroup]. This is typically a `RecyclerView` or a
+     * `ScrollView`. It should be as wide as the screen, and should touch the bottom edge of
      * the screen.
      */
     fun setUpScrollingContent(scrollingContent: ViewGroup) {}
 }
 
+/**
+ * This is the super class of [EdgeToEdge] that is used for SDK less than 21. Its super is just the
+ * naked [EdgeToEdgeImpl] interface with all of the methods left as no-ops.
+ */
 private class EdgeToEdgeBase : EdgeToEdgeImpl
 
+/**
+ * This is the super class of [EdgeToEdge] that is used for SDK greater than or equal to 21 but less
+ * than 30. It overrides all three methods of its [EdgeToEdgeImpl] super using api's introduced with
+ * SDK 21.
+ */
 @RequiresApi(21)
 private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
 
+    /**
+     * Configures a root view of an Activity for edge-to-edge display. We use the method
+     * [View.setSystemUiVisibility] (aka kotlin property `systemUiVisibility`) of our [ViewGroup]
+     * parameter [root] with the flag [View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION] (requests that
+     * the system navigation be temporarily hidden) or'ed with the flag [View.SYSTEM_UI_FLAG_LAYOUT_STABLE]
+     * (we would like a stable view of the content insets, so do not relayout our view when the user
+     * touches the screen to un-hide the system navigation).
+     *
+     * @param root A root view of an Activity.
+     */
     override fun setUpRoot(root: ViewGroup) {
         @Suppress("DEPRECATION")
         root.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
     }
 
+    /**
+     * Configures an app bar and a toolbar for edge-to-edge display. First we initialize our variable
+     * `val toolbarPadding` to the pixel value of the dimension stored as [R.dimen.spacing_medium] in
+     * the resources associated with our [Toolbar] parameter [toolbar] (16dp). The we set the
+     * [View.OnApplyWindowInsetsListener] of [AppBarLayout] parameter [appBar] to have a lambda take
+     * over the policy for applying window insets to this view. This lambda will update the padding
+     * of [appBar] to have its `top` padding be the top system window inset in pixels, and update
+     * the `left` padding of [toolbar] to add `toolbarPadding` to the left system window inset in
+     * pixels, and the `right` padding to be the right system window inset in pixels.
+     *
+     * @param appBar An [AppBarLayout].
+     * @param toolbar A [Toolbar] in the [appBar].
+     */
     override fun setUpAppBar(appBar: AppBarLayout, toolbar: Toolbar) {
         val toolbarPadding = toolbar.resources.getDimensionPixelSize(R.dimen.spacing_medium)
         appBar.setOnApplyWindowInsetsListener { _, windowInsets ->
@@ -95,6 +130,13 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
         }
     }
 
+    /**
+     * Configures a scrolling content for edge-to-edge display.
+     *
+     * @param scrollingContent A scrolling [ViewGroup]. This is typically a `RecyclerView` or a
+     * `ScrollView`. It should be as wide as the screen, and should touch the bottom edge of
+     * the screen.
+     */
     override fun setUpScrollingContent(scrollingContent: ViewGroup) {
         val originalPaddingLeft = scrollingContent.paddingLeft
         val originalPaddingRight = scrollingContent.paddingRight
@@ -112,7 +154,9 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
 }
 
 /**
- * This will eventually remove all deprecated code for API 30 and greater.
+ * This is the super class of [EdgeToEdge] that is used for SDK greater than or equal to 30. It will
+ * eventually override all three methods of its [EdgeToEdgeImpl] super using api's introduced with
+ * SDK 30.
  * TODO: Update to latest methods and constants for API 30
  */
 @RequiresApi(30)
