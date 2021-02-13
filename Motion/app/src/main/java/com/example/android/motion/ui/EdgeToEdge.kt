@@ -131,7 +131,15 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
     }
 
     /**
-     * Configures a scrolling content for edge-to-edge display.
+     * Configures a scrolling content for edge-to-edge display. We initialize our [Int] variables
+     * `val originalPaddingLeft` to the left padding of our [ViewGroup] parameter [scrollingContent],
+     * `val originalPaddingRight` to its right padding, and `val originalPaddingBottom` to its bottom
+     * padding (all in pixels). Then we set the [View.OnApplyWindowInsetsListener] of our parameter
+     * [scrollingContent] to a lambda which updates the view's padding by adding the left system
+     * window inset to `originalPaddingLeft` to set its `left` padding, adding the right system
+     * window inset to `originalPaddingRight` to set its `right` padding, and adding the bottom
+     * system window inset to `originalPaddingBottom` to set its `bottom` padding. The lambda then
+     * returns its [WindowInsets] argument `windowInsets` to its caller.
      *
      * @param scrollingContent A scrolling [ViewGroup]. This is typically a `RecyclerView` or a
      * `ScrollView`. It should be as wide as the screen, and should touch the bottom edge of
@@ -161,11 +169,35 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
  */
 @RequiresApi(30)
 private class EdgeToEdgeApi30 : EdgeToEdgeImpl {
+    /**
+     * Configures a root view of an Activity for edge-to-edge display. We initialize our
+     * [WindowInsetsController] variable `val controller` to the single [WindowInsetsController] of
+     * the window [ViewGroup] parameter [root] is attached to. We then call the [WindowInsetsController.hide]
+     * method of `controller` to have it hide any system bars for navigation. (Note: this is the
+     * only one of the three methods of [EdgeToEdgeImpl] that is actually implemented using SDK 30
+     * api's.
+     *
+     * @param root A root view of an Activity.
+     */
     override fun setUpRoot(root: ViewGroup) {
         val controller: WindowInsetsController? = root.windowInsetsController
         controller?.hide(WindowInsets.Type.navigationBars())
     }
 
+    /**
+     * Configures an app bar and a toolbar for edge-to-edge display. First we initialize our variable
+     * `val toolbarPadding` to the pixel value of the dimension stored as [R.dimen.spacing_medium] in
+     * the resources associated with our [Toolbar] parameter [toolbar] (16dp). The we set the
+     * [View.OnApplyWindowInsetsListener] of [AppBarLayout] parameter [appBar] to have a lambda take
+     * over the policy for applying window insets to this view. This lambda will update the padding
+     * of [appBar] to have its `top` padding be the top system window inset in pixels, and update
+     * the `left` padding of [toolbar] to add `toolbarPadding` to the left system window inset in
+     * pixels, and the `right` padding to be the right system window inset in pixels.
+     * TODO: Solve DEPRECATION warnings (yawn).
+     *
+     * @param appBar An [AppBarLayout].
+     * @param toolbar A [Toolbar] in the [appBar].
+     */
     override fun setUpAppBar(appBar: AppBarLayout, toolbar: Toolbar) {
         val toolbarPadding = toolbar.resources.getDimensionPixelSize(R.dimen.spacing_medium)
         appBar.setOnApplyWindowInsetsListener { _, windowInsets ->
@@ -180,6 +212,22 @@ private class EdgeToEdgeApi30 : EdgeToEdgeImpl {
         }
     }
 
+    /**
+     * Configures a scrolling content for edge-to-edge display. We initialize our [Int] variables
+     * `val originalPaddingLeft` to the left padding of our [ViewGroup] parameter [scrollingContent],
+     * `val originalPaddingRight` to its right padding, and `val originalPaddingBottom` to its bottom
+     * padding (all in pixels). Then we set the [View.OnApplyWindowInsetsListener] of our parameter
+     * [scrollingContent] to a lambda which updates the view's padding by adding the left system
+     * window inset to `originalPaddingLeft` to set its `left` padding, adding the right system
+     * window inset to `originalPaddingRight` to set its `right` padding, and adding the bottom
+     * system window inset to `originalPaddingBottom` to set its `bottom` padding. The lambda then
+     * returns its [WindowInsets] argument `windowInsets` to its caller.
+     * TODO: Solve DEPRECATION warnings (yawn).
+     *
+     * @param scrollingContent A scrolling [ViewGroup]. This is typically a `RecyclerView` or a
+     * `ScrollView`. It should be as wide as the screen, and should touch the bottom edge of
+     * the screen.
+     */
     override fun setUpScrollingContent(scrollingContent: ViewGroup) {
         val originalPaddingLeft = scrollingContent.paddingLeft
         val originalPaddingRight = scrollingContent.paddingRight
