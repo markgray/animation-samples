@@ -13,63 +13,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.revealeffectbasic;
+package com.example.android.revealeffectbasic
 
-import android.animation.Animator;
-import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-
-import com.example.android.common.logger.Log;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewAnimationUtils
+import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.fragment.app.Fragment
+import com.example.android.common.logger.Log.d
+import kotlin.math.hypot
 
 /**
  * This sample shows a view that is revealed when a button is clicked.
  */
-public class RevealEffectBasicFragment extends Fragment {
-
-    private final static String TAG = "RevealEffectBasicFragment";
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+class RevealEffectBasicFragment : Fragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.reveal_effect_basic, container, false);
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.reveal_effect_basic, container, false)
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        final View shape = view.findViewById(R.id.circle);
-        final View button = view.findViewById(R.id.button);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val shape = view.findViewById<View>(R.id.circle)
+        val button = view.findViewById<View>(R.id.button)
         // Set a listener to reveal the view when clicked.
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Create a reveal {@link Animator} that starts clipping the view from
-                // the top left corner until the whole view is covered.
-                Animator circularReveal = ViewAnimationUtils.createCircularReveal(
-                        shape,
-                        0,
-                        0,
-                        0,
-                        (float) Math.hypot(shape.getWidth(), shape.getHeight()));
-                circularReveal.setInterpolator(new AccelerateDecelerateInterpolator());
+        button.setOnClickListener { // Create a reveal {@link Animator} that starts clipping the view from
+            // the top left corner until the whole view is covered.
+            val circularReveal = ViewAnimationUtils.createCircularReveal(
+                shape,
+                0,
+                0, 0f,
+                hypot(shape.width.toDouble(), shape.height.toDouble()).toFloat())
+            circularReveal.interpolator = AccelerateDecelerateInterpolator()
 
-                // Finally start the animation
-                circularReveal.start();
+            // Finally start the animation
+            circularReveal.start()
+            d(TAG, "Starting Reveal animation")
+        }
+        super.onViewCreated(view, savedInstanceState)
+    }
 
-                Log.d(TAG, "Starting Reveal animation");
-            }
-        });
-        super.onViewCreated(view, savedInstanceState);
+    companion object {
+        private const val TAG = "RevealEffectBasicFragment"
     }
 }
