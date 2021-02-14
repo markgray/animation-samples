@@ -102,18 +102,46 @@ class MainActivity : SampleActivityBase() {
         return true
     }
 
+    /**
+     * Prepare the Screen's standard options menu to be displayed. This is called right before the
+     * menu is shown, every time it is shown. You can use this method to efficiently enable/disable
+     * items or otherwise dynamically modify the contents. We initialize our [MenuItem] variable
+     * `val logToggle` by finding the item with ID [R.id.menu_toggle_log], set it to visible if
+     * the view in our UI with [R.id.sample_output] is a [ViewAnimator] (narrow layout file), and
+     * set its title to [R.string.sample_hide_log] ("Hide Log") if [mLogShown] is `true` or to
+     * [R.string.sample_show_log] ("Show Log") if it is `false`. Finally we return the value that
+     * is returned by our super's implementation of `onPrepareOptionsMenu` to the caller.
+     *
+     * @param menu The options menu as last shown or first initialized by [onCreateOptionsMenu].
+     * @return You must return `true` for the menu to be displayed, if you return `false` it will
+     * not be shown.
+     */
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val logToggle = menu.findItem(R.id.menu_toggle_log)
+        val logToggle: MenuItem = menu.findItem(R.id.menu_toggle_log)
         logToggle.isVisible = findViewById<View>(R.id.sample_output) is ViewAnimator
         logToggle.setTitle(if (mLogShown) R.string.sample_hide_log else R.string.sample_show_log)
         return super.onPrepareOptionsMenu(menu)
     }
 
+    /**
+     * This hook is called whenever an item in your options menu is selected. When the `itemId` of
+     * our [MenuItem] parameter [item] is [R.id.menu_toggle_log] we toggle the value of [mLogShown],
+     * then initialize our [ViewAnimator] variable `val output` by finding the view in our UI with
+     * ID [R.id.sample_output]. If [mLogShown] is now `true` we have `output` display child view 1
+     * (the `fragment` containing the `LogFragment`), and if it is `false` we have it display child
+     * view 0 (the `TextView` describing this demo). We then call [invalidateOptionsMenu] to declare
+     * that the options menu has changed, so should be recreated ([onCreateOptionsMenu] will be
+     * called the next time it needs to be displayed).
+     *
+     * @param item The menu item that was selected.
+     * @return [Boolean] Return `false` to allow normal menu processing to proceed, `true` to
+     * consume it here.
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_toggle_log -> {
                 mLogShown = !mLogShown
-                val output = findViewById<ViewAnimator>(R.id.sample_output)
+                val output: ViewAnimator = findViewById(R.id.sample_output)
                 if (mLogShown) {
                     output.displayedChild = 1
                 } else {
@@ -126,18 +154,27 @@ class MainActivity : SampleActivityBase() {
         return super.onOptionsItemSelected(item)
     }
 
-    /** Create a chain of targets that will receive log data  */
+    /**
+     * Create a chain of targets that will receive log data, called by the `onStart` override of
+     * `SampleActivityBase`.
+     */
     override fun initializeLogging() {
-        // Wraps Android's native log framework.
+        /**
+         * Wraps Android's native log framework.
+         */
         val logWrapper = LogWrapper()
-        // Using Log, front-end to the logging chain, emulates android.util.log method signatures.
+        /**
+         * Using Log, front-end to the logging chain, emulates android.util.log method signatures.
+         */
         Log.logNode = logWrapper
-
-        // Filter strips out everything except the message text.
+        /**
+         * Filter strips out everything except the message text.
+         */
         val msgFilter = MessageOnlyLogFilter()
         logWrapper.next = msgFilter
-
-        // On screen logging via a fragment with a TextView.
+        /**
+         * On screen logging via a fragment with a TextView.
+         */
         val logFragment = supportFragmentManager
             .findFragmentById(R.id.log_fragment) as LogFragment?
         msgFilter.next = logFragment!!.logView
@@ -145,6 +182,9 @@ class MainActivity : SampleActivityBase() {
     }
 
     companion object {
+        /**
+         * TAG used for logging
+         */
         const val TAG = "MainActivity"
     }
 }

@@ -34,8 +34,11 @@ class RevealEffectBasicFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.reveal_effect_basic, container, false)
     }
 
@@ -49,7 +52,8 @@ class RevealEffectBasicFragment : Fragment() {
                 shape,
                 0,
                 0, 0f,
-                hypot(shape.width.toDouble(), shape.height.toDouble()).toFloat())
+                hypot(shape.width.toDouble(), shape.height.toDouble()).toFloat()
+            )
             circularReveal.interpolator = AccelerateDecelerateInterpolator()
 
             // Finally start the animation
