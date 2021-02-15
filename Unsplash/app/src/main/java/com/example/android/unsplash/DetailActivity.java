@@ -16,7 +16,6 @@
 
 package com.example.android.unsplash;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.transition.Fade;
@@ -25,8 +24,9 @@ import android.transition.TransitionSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.Toolbar;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.android.unsplash.data.model.Photo;
@@ -35,7 +35,7 @@ import com.example.android.unsplash.ui.pager.DetailViewPagerAdapter;
 
 import java.util.ArrayList;
 
-public class DetailActivity extends Activity {
+public class DetailActivity extends AppCompatActivity {
 
     private static final String STATE_INITIAL_ITEM = "initial";
     private ViewPager viewPager;
@@ -70,7 +70,7 @@ public class DetailActivity extends Activity {
         initialItem = intent.getIntExtra(IntentUtil.SELECTED_ITEM_POSITION, 0);
         setUpViewPager(intent.<Photo>getParcelableArrayListExtra(IntentUtil.PHOTO));
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationOnClickListener(navigationOnClickListener);
 
         super.onCreate(savedInstanceState);

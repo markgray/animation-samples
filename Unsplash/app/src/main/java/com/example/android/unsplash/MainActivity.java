@@ -29,6 +29,8 @@ import android.view.ViewTreeObserver;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.SharedElementCallback;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,7 +52,7 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     private static final int PHOTO_COUNT = 12;
     private static final String TAG = "MainActivity";
@@ -59,7 +61,7 @@ public class MainActivity extends Activity {
             new TransitionCallback() {
                 @Override
                 public void onTransitionEnd(Transition transition) {
-                    setExitSharedElementCallback(null);
+                    setExitSharedElementCallback((SharedElementCallback) null);
                 }
             };
 
@@ -208,11 +210,14 @@ public class MainActivity extends Activity {
     }
 
     private ActivityOptions getActivityOptions(PhotoItemBinding binding) {
+        //noinspection rawtypes
         Pair authorPair = Pair.create(binding.author, binding.author.getTransitionName());
+        //noinspection rawtypes
         Pair photoPair = Pair.create(binding.photo, binding.photo.getTransitionName());
         View decorView = getWindow().getDecorView();
         View statusBackground = decorView.findViewById(android.R.id.statusBarBackground);
         View navBackground = decorView.findViewById(android.R.id.navigationBarBackground);
+        //noinspection rawtypes
         Pair statusPair = Pair.create(statusBackground,
                 statusBackground.getTransitionName());
 
@@ -221,6 +226,7 @@ public class MainActivity extends Activity {
             options = ActivityOptions.makeSceneTransitionAnimation(this,
                     authorPair, photoPair, statusPair);
         } else {
+            //noinspection rawtypes
             Pair navPair = Pair.create(navBackground, navBackground.getTransitionName());
             options = ActivityOptions.makeSceneTransitionAnimation(this,
                     authorPair, photoPair, statusPair, navPair);

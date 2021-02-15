@@ -53,7 +53,7 @@
                         android:paddingStart="@dimen/padding_normal"
                         android:paddingTop="@dimen/padding_large"
                         android:text='@{data.author}'
-                        android:textAppearance="@android:style/TextAppearance.Material.Headline"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                         android:textColor="?android:textColorPrimary"
                         android:transitionName="@{@string/transition_author + data.id}" />
 
@@ -65,7 +65,7 @@
                         android:paddingStart="@dimen/padding_normal"
                         android:paddingTop="@dimen/padding_normal"
                         android:text="@string/lorum_ipsum"
-                        android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="?android:textColorSecondary" />
 
             </LinearLayout>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (C) 2016 The Android Open Source Project
   ~
@@ -16,7 +17,7 @@
 
 <resources>
 
-    <style name="App" parent="@android:style/Theme.Material.Light.NoActionBar">
+    <style name="App" parent="@style/Theme.AppCompat.Light">
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorPrimaryDark">@color/primary_dark</item>
         <item name="android:colorAccent">@color/accent</item>

@@ -15,12 +15,12 @@
  */
 package com.example.android.unsplash.ui.pager;
 
-import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.PagerAdapter;
 
@@ -42,10 +42,10 @@ public class DetailViewPagerAdapter extends PagerAdapter {
     private final List<Photo> allPhotos;
     private final LayoutInflater layoutInflater;
     private final int photoWidth;
-    private final Activity host;
+    private final AppCompatActivity host;
     private DetailSharedElementEnterCallback sharedElementCallback;
 
-    public DetailViewPagerAdapter(@NonNull Activity activity, @NonNull List<Photo> photos,
+    public DetailViewPagerAdapter(@NonNull AppCompatActivity activity, @NonNull List<Photo> photos,
                                   @NonNull DetailSharedElementEnterCallback callback) {
         layoutInflater = LayoutInflater.from(activity);
         allPhotos = photos;

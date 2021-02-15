@@ -21,14 +21,14 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import androidx.appcompat.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.ViewOutlineProvider;
-import android.widget.ImageView;
 
 import com.example.android.unsplash.R;
 
 
-public class ForegroundImageView extends ImageView {
+public class ForegroundImageView extends AppCompatImageView {
 
     private Drawable foreground;
 
