@@ -13,224 +13,190 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.android.unsplash
 
-package com.example.android.unsplash;
+import android.app.Activity
+import android.app.ActivityOptions
+import android.content.Intent
+import android.graphics.Rect
+import android.os.Bundle
+import android.transition.Transition
+import android.util.Log
+import android.util.Pair
+import android.view.View
+import android.view.ViewTreeObserver
+import android.widget.ProgressBar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.SharedElementCallback
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
+import androidx.recyclerview.widget.RecyclerView
+import com.example.android.unsplash.data.UnsplashService
+import com.example.android.unsplash.data.model.Photo
+import com.example.android.unsplash.databinding.PhotoItemBinding
+import com.example.android.unsplash.ui.DetailSharedElementEnterCallback
+import com.example.android.unsplash.ui.TransitionCallback
+import com.example.android.unsplash.ui.grid.GridMarginDecoration
+import com.example.android.unsplash.ui.grid.OnItemSelectedListener
+import com.example.android.unsplash.ui.grid.PhotoAdapter
+import com.example.android.unsplash.ui.grid.PhotoViewHolder
+import retrofit.Callback
+import retrofit.RestAdapter
+import retrofit.RetrofitError
+import retrofit.client.Response
+import java.util.ArrayList
 
-import android.app.Activity;
-import android.app.ActivityOptions;
-import android.content.Intent;
-import android.graphics.Rect;
-import android.os.Bundle;
-import android.transition.Transition;
-import android.util.Log;
-import android.util.Pair;
-import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.ProgressBar;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.SharedElementCallback;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.android.unsplash.data.UnsplashService;
-import com.example.android.unsplash.data.model.Photo;
-import com.example.android.unsplash.databinding.PhotoItemBinding;
-import com.example.android.unsplash.ui.DetailSharedElementEnterCallback;
-import com.example.android.unsplash.ui.TransitionCallback;
-import com.example.android.unsplash.ui.grid.GridMarginDecoration;
-import com.example.android.unsplash.ui.grid.OnItemSelectedListener;
-import com.example.android.unsplash.ui.grid.PhotoAdapter;
-import com.example.android.unsplash.ui.grid.PhotoViewHolder;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-
-public class MainActivity extends AppCompatActivity {
-
-    private static final int PHOTO_COUNT = 12;
-    private static final String TAG = "MainActivity";
-
-    private final Transition.TransitionListener sharedExitListener =
-            new TransitionCallback() {
-                @Override
-                public void onTransitionEnd(Transition transition) {
-                    setExitSharedElementCallback((SharedElementCallback) null);
-                }
-            };
-
-    private RecyclerView grid;
-    private ProgressBar empty;
-    private ArrayList<Photo> relevantPhotos;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        postponeEnterTransition();
+class MainActivity : AppCompatActivity() {
+    private val sharedExitListener: Transition.TransitionListener = object : TransitionCallback() {
+        override fun onTransitionEnd(transition: Transition) {
+            setExitSharedElementCallback(null as SharedElementCallback?)
+        }
+    }
+    private var grid: RecyclerView? = null
+    private var empty: ProgressBar? = null
+    private var relevantPhotos: ArrayList<Photo?>? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        postponeEnterTransition()
         // Listener to reset shared element exit transition callbacks.
-        getWindow().getSharedElementExitTransition().addListener(sharedExitListener);
-
-        grid = (RecyclerView) findViewById(R.id.image_grid);
-        empty = (ProgressBar) findViewById(android.R.id.empty);
-
-        setupRecyclerView();
-
+        window.sharedElementExitTransition.addListener(sharedExitListener)
+        grid = findViewById<View>(R.id.image_grid) as RecyclerView
+        empty = findViewById<View>(android.R.id.empty) as ProgressBar
+        setupRecyclerView()
         if (savedInstanceState != null) {
-            relevantPhotos = savedInstanceState.getParcelableArrayList(IntentUtil.RELEVANT_PHOTOS);
+            relevantPhotos = savedInstanceState.getParcelableArrayList(IntentUtil.RELEVANT_PHOTOS)
         }
-        displayData();
+        displayData()
     }
 
-    private void displayData() {
+    private fun displayData() {
         if (relevantPhotos != null) {
-            populateGrid();
+            populateGrid()
         } else {
-            UnsplashService unsplashApi = new RestAdapter.Builder()
-                    .setEndpoint(UnsplashService.ENDPOINT)
-                    .build()
-                    .create(UnsplashService.class);
-            unsplashApi.getFeed(new Callback<List<Photo>>() {
-                @Override
-                public void success(List<Photo> photos, Response response) {
+            val unsplashApi = RestAdapter.Builder()
+                .setEndpoint(UnsplashService.ENDPOINT)
+                .build()
+                .create(UnsplashService::class.java)
+            unsplashApi.getFeed(object : Callback<List<Photo?>> {
+                override fun success(photos: List<Photo?>, response: Response) {
                     // the first items not interesting to us, get the last <n>
-                    relevantPhotos = new ArrayList<>(photos.subList(photos.size() - PHOTO_COUNT,
-                            photos.size()));
-                    populateGrid();
+                    relevantPhotos = ArrayList(photos.subList(photos.size - PHOTO_COUNT,
+                        photos.size))
+                    populateGrid()
                 }
 
-                @Override
-                public void failure(RetrofitError error) {
-                    Log.e(TAG, "Error retrieving Unsplash feed:", error);
+                override fun failure(error: RetrofitError) {
+                    Log.e(TAG, "Error retrieving Unsplash feed:", error)
                 }
-            });
+            })
         }
     }
 
-    private void populateGrid() {
-        grid.setAdapter(new PhotoAdapter(this, relevantPhotos));
-        grid.addOnItemTouchListener(new OnItemSelectedListener(MainActivity.this) {
-            public void onItemSelected(RecyclerView.ViewHolder holder, int position) {
-                if (!(holder instanceof PhotoViewHolder)) {
-                    return;
+    private fun populateGrid() {
+        grid!!.adapter = PhotoAdapter(this, relevantPhotos!!)
+        grid!!.addOnItemTouchListener(object : OnItemSelectedListener(this@MainActivity) {
+            override fun onItemSelected(holder: RecyclerView.ViewHolder, position: Int) {
+                if (holder !is PhotoViewHolder) {
+                    return
                 }
-                PhotoItemBinding binding = ((PhotoViewHolder) holder).getBinding();
-                final Intent intent = getDetailActivityStartIntent(MainActivity.this,
-                        relevantPhotos, position, binding);
-                final ActivityOptions activityOptions = getActivityOptions(binding);
-
-                MainActivity.this.startActivityForResult(intent, IntentUtil.REQUEST_CODE,
-                        activityOptions.toBundle());
+                val binding = holder.binding
+                val intent = getDetailActivityStartIntent(this@MainActivity,
+                    relevantPhotos, position, binding)
+                val activityOptions = getActivityOptions(binding)
+                @Suppress("DEPRECATION")
+                this@MainActivity.startActivityForResult(intent, IntentUtil.REQUEST_CODE,
+                    activityOptions.toBundle())
             }
-        });
-        empty.setVisibility(View.GONE);
+        })
+        empty!!.visibility = View.GONE
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList(IntentUtil.RELEVANT_PHOTOS, relevantPhotos);
-        super.onSaveInstanceState(outState);
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putParcelableArrayList(IntentUtil.RELEVANT_PHOTOS, relevantPhotos)
+        super.onSaveInstanceState(outState)
     }
 
-    @Override
-    public void onActivityReenter(int resultCode, Intent data) {
-        postponeEnterTransition();
+    override fun onActivityReenter(resultCode: Int, data: Intent?) {
+        postponeEnterTransition()
         // Start the postponed transition when the recycler view is ready to be drawn.
-        grid.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                grid.getViewTreeObserver().removeOnPreDrawListener(this);
-                startPostponedEnterTransition();
-                return true;
+        grid!!.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                grid!!.viewTreeObserver.removeOnPreDrawListener(this)
+                startPostponedEnterTransition()
+                return true
             }
-        });
-
+        })
+        @Suppress("SENSELESS_COMPARISON")
         if (data == null) {
-            return;
+            return
         }
-
-        final int selectedItem = data.getIntExtra(IntentUtil.SELECTED_ITEM_POSITION, 0);
-        grid.scrollToPosition(selectedItem);
-
-        PhotoViewHolder holder = (PhotoViewHolder) grid.
-                findViewHolderForAdapterPosition(selectedItem);
+        val selectedItem = data.getIntExtra(IntentUtil.SELECTED_ITEM_POSITION, 0)
+        grid!!.scrollToPosition(selectedItem)
+        val holder = grid!!.findViewHolderForAdapterPosition(selectedItem) as PhotoViewHolder?
         if (holder == null) {
-            Log.w(TAG, "onActivityReenter: Holder is null, remapping cancelled.");
-            return;
+            Log.w(TAG, "onActivityReenter: Holder is null, remapping cancelled.")
+            return
         }
-        DetailSharedElementEnterCallback callback =
-                new DetailSharedElementEnterCallback(getIntent());
-        callback.setBinding(holder.getBinding());
-        setExitSharedElementCallback(callback);
+        val callback = DetailSharedElementEnterCallback(intent)
+        callback.setBinding(holder.binding)
+        setExitSharedElementCallback(callback)
     }
 
-    private void setupRecyclerView() {
-        GridLayoutManager gridLayoutManager = (GridLayoutManager) grid.getLayoutManager();
-        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
+    private fun setupRecyclerView() {
+        val gridLayoutManager = grid!!.layoutManager as GridLayoutManager?
+        gridLayoutManager!!.spanSizeLookup = object : SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
                 /* emulating https://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsck9lUkgxNVZza1U/style_imagery_integration_scale1.png */
-                switch (position % 6) {
-                    case 5:
-                        return 3;
-                    case 3:
-                        return 2;
-                    default:
-                        return 1;
+                return when (position % 6) {
+                    5 -> 3
+                    3 -> 2
+                    else -> 1
                 }
             }
-        });
-        grid.addItemDecoration(new GridMarginDecoration(
-                getResources().getDimensionPixelSize(R.dimen.grid_item_spacing)));
-        grid.setHasFixedSize(true);
-
-    }
-
-    @NonNull
-    private static Intent getDetailActivityStartIntent(Activity host, ArrayList<Photo> photos,
-                                                       int position, PhotoItemBinding binding) {
-        final Intent intent = new Intent(host, DetailActivity.class);
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.putParcelableArrayListExtra(IntentUtil.PHOTO, photos);
-        intent.putExtra(IntentUtil.SELECTED_ITEM_POSITION, position);
-        intent.putExtra(IntentUtil.FONT_SIZE, binding.author.getTextSize());
-        intent.putExtra(IntentUtil.PADDING,
-                new Rect(binding.author.getPaddingLeft(),
-                        binding.author.getPaddingTop(),
-                        binding.author.getPaddingRight(),
-                        binding.author.getPaddingBottom()));
-        intent.putExtra(IntentUtil.TEXT_COLOR, binding.author.getCurrentTextColor());
-        return intent;
-    }
-
-    private ActivityOptions getActivityOptions(PhotoItemBinding binding) {
-        //noinspection rawtypes
-        Pair authorPair = Pair.create(binding.author, binding.author.getTransitionName());
-        //noinspection rawtypes
-        Pair photoPair = Pair.create(binding.photo, binding.photo.getTransitionName());
-        View decorView = getWindow().getDecorView();
-        View statusBackground = decorView.findViewById(android.R.id.statusBarBackground);
-        View navBackground = decorView.findViewById(android.R.id.navigationBarBackground);
-        //noinspection rawtypes
-        Pair statusPair = Pair.create(statusBackground,
-                statusBackground.getTransitionName());
-
-        final ActivityOptions options;
-        if (navBackground == null) {
-            options = ActivityOptions.makeSceneTransitionAnimation(this,
-                    authorPair, photoPair, statusPair);
-        } else {
-            //noinspection rawtypes
-            Pair navPair = Pair.create(navBackground, navBackground.getTransitionName());
-            options = ActivityOptions.makeSceneTransitionAnimation(this,
-                    authorPair, photoPair, statusPair, navPair);
         }
-        return options;
+        grid!!.addItemDecoration(GridMarginDecoration(
+            resources.getDimensionPixelSize(R.dimen.grid_item_spacing)))
+        grid!!.setHasFixedSize(true)
+    }
+
+    private fun getActivityOptions(binding: PhotoItemBinding): ActivityOptions {
+        val authorPair: Pair<View, String> = Pair.create(binding.author, binding.author.transitionName)
+        val photoPair: Pair<View, String> = Pair.create(binding.photo, binding.photo.transitionName)
+        val decorView = window.decorView
+        val statusBackground = decorView.findViewById<View>(android.R.id.statusBarBackground)
+        val navBackground = decorView.findViewById<View>(android.R.id.navigationBarBackground)
+        val statusPair: Pair<View, String> = Pair.create(statusBackground,
+            statusBackground.transitionName)
+        @Suppress("UnnecessaryVariable")
+        val options: ActivityOptions = if (navBackground == null) {
+            ActivityOptions.makeSceneTransitionAnimation(this,
+                authorPair, photoPair, statusPair)
+        } else {
+            val navPair: Pair<View, String> = Pair.create(navBackground, navBackground.transitionName)
+            ActivityOptions.makeSceneTransitionAnimation(this,
+                authorPair, photoPair, statusPair, navPair)
+        }
+        return options
+    }
+
+    companion object {
+        private const val PHOTO_COUNT = 12
+        private const val TAG = "MainActivity"
+        private fun getDetailActivityStartIntent(host: Activity, photos: ArrayList<Photo?>?,
+                                                 position: Int, binding: PhotoItemBinding): Intent {
+            val intent = Intent(host, DetailActivity::class.java)
+            intent.action = Intent.ACTION_VIEW
+            intent.putParcelableArrayListExtra(IntentUtil.PHOTO, photos)
+            intent.putExtra(IntentUtil.SELECTED_ITEM_POSITION, position)
+            intent.putExtra(IntentUtil.FONT_SIZE, binding.author.textSize)
+            intent.putExtra(IntentUtil.PADDING,
+                Rect(binding.author.paddingLeft,
+                    binding.author.paddingTop,
+                    binding.author.paddingRight,
+                    binding.author.paddingBottom))
+            intent.putExtra(IntentUtil.TEXT_COLOR, binding.author.currentTextColor)
+            return intent
+        }
     }
 }
