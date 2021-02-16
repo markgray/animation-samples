@@ -50,7 +50,7 @@ import java.util.ArrayList
 /**
  * The starting activity of this "Unsplash" demo. The demo consists of a [RecyclerView] with a
  * `GridLayoutManager` app:layoutManager that displays [Photo]'s downloaded from https://unsplash.it
- * in a grid, and when one of them are clicked [DetailActivity] is launched to show the [Photo] in
+ * in a grid, and when one of them is clicked [DetailActivity] is launched to show the [Photo] in
  * a larger format with a smooth shared transition occurring between the two images.
  */
 class MainActivity : AppCompatActivity() {
@@ -94,7 +94,28 @@ class MainActivity : AppCompatActivity() {
     private var relevantPhotos: ArrayList<Photo?>? = null
 
     /**
-     * Called when the activity is starting.
+     * Called when the activity is starting. First we call our super's implementation of `onCreate`,
+     * then we set our content view to our layout file [R.layout.activity_main]. Our layout file
+     * consists of a `FrameLayout` which holds an indeterminate [ProgressBar] and a [RecyclerView]
+     * whose app:layoutManager is a [GridLayoutManager]. We then call the [postponeEnterTransition]
+     * method to have it delay starting the entering and shared element transitions until all data
+     * is loaded. We add our [Transition.TransitionListener] field [sharedExitListener] to the
+     * exit [Transition] of our activity's [Window] (it will reset shared element exit transition
+     * callbacks when that [Transition] completes). We initialize our [RecyclerView] field [grid] by
+     * finding the [View] in our UI with ID [R.id.image_grid] and our [ProgressBar] field [empty] by
+     * finding the [View] in our UI with ID [android.R.id.empty]. We call our method [setupRecyclerView]
+     * to have it configure the [GridLayoutManager] of our [RecyclerView] field [grid] as we want it
+     * (using span sizes of 3, 2, or 1 depending on the modulo 6 of the position in the grid to get
+     * an "artsy" look). Then if our [Bundle] parameter [savedInstanceState] is not `null` we set
+     * our [ArrayList] of [Photo] objects field [relevantPhotos] to the value stored under the key
+     * [IntentUtil.RELEVANT_PHOTOS] in [savedInstanceState]. Finally we call our [displayData] method
+     * to have it "populate" our grid with [Photo] objects (downloading them from the Internet first
+     * if need be).
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut
+     * down then this [Bundle] contains the data it most recently supplied in [onSaveInstanceState].
+     * Our override of [onSaveInstanceState] saves our [ArrayList] of [Photo] objects dataset field
+     * [relevantPhotos] in the [Bundle] passed it under the key [IntentUtil.RELEVANT_PHOTOS].
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,6 +132,10 @@ class MainActivity : AppCompatActivity() {
         displayData()
     }
 
+    /**
+     * Displays our [ArrayList] of [Photo] objects dataset field [relevantPhotos] in our grid
+     * (downloading them from the Internet first if need be).
+     */
     private fun displayData() {
         if (relevantPhotos != null) {
             populateGrid()
@@ -196,8 +221,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        grid.addItemDecoration(GridMarginDecoration(
-            resources.getDimensionPixelSize(R.dimen.grid_item_spacing)))
+        grid.addItemDecoration(GridMarginDecoration(resources.getDimensionPixelSize(R.dimen.grid_item_spacing)))
         grid.setHasFixedSize(true)
     }
 
