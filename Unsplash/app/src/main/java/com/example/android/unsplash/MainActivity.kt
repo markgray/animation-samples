@@ -25,6 +25,7 @@ import android.util.Log
 import android.util.Pair
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.Window
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.SharedElementCallback
@@ -46,15 +47,55 @@ import retrofit.RetrofitError
 import retrofit.client.Response
 import java.util.ArrayList
 
+/**
+ * The starting activity of this "Unsplash" demo. The demo consists of a [RecyclerView] with a
+ * `GridLayoutManager` app:layoutManager that displays [Photo]'s downloaded from https://unsplash.it
+ * in a grid, and when one of them are clicked [DetailActivity] is launched to show the [Photo] in
+ * a larger format with a smooth shared transition occurring between the two images.
+ */
 class MainActivity : AppCompatActivity() {
+    /**
+     * The [Transition.TransitionListener] that we use for our activity's [Window] that receives
+     * notifications from transitions. Notifications indicate transition lifecycle events. We use
+     * it to reset shared element exit transition callbacks.
+     */
     private val sharedExitListener: Transition.TransitionListener = object : TransitionCallback() {
+        /**
+         * Notification about the end of the transition. Canceled transitions will always notify
+         * listeners of both the cancellation and end events. That is, `onTransitionEnd(Transition)`
+         * is always called, regardless of whether the transition was canceled or played through to
+         * completion. We call the method [setExitSharedElementCallback] with `null` to have it
+         * remove the listener we added to be called to handle shared elements when we launched
+         * [DetailActivity] once the transition has completed (or been canceled).
+         *
+         * @param transition The [Transition] which reached its end.
+         */
         override fun onTransitionEnd(transition: Transition) {
             setExitSharedElementCallback(null as SharedElementCallback?)
         }
     }
-    private var grid: RecyclerView? = null
-    private var empty: ProgressBar? = null
+
+    /**
+     * The [RecyclerView] in our layout file with ID [R.id.image_grid] which displays our [Photo]'s
+     */
+    private lateinit var grid: RecyclerView
+
+    /**
+     * The indeterminate [ProgressBar] in our layout file with ID [android.R.id.empty] which is
+     * displayed while we wait for [Photo]'s to be downloaded.
+     */
+    private lateinit var empty: ProgressBar
+
+    /**
+     * The [ArrayList] of [Photo] objects that we use as the dataset for the [PhotoAdapter] which
+     * fills our [RecyclerView] field [grid]. It is also passed to [DetailActivity] when one of the
+     * items in [grid] is clicked (along with the postion of the [Photo] clicked in the dataset).
+     */
     private var relevantPhotos: ArrayList<Photo?>? = null
+
+    /**
+     * Called when the activity is starting.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -94,8 +135,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun populateGrid() {
-        grid!!.adapter = PhotoAdapter(this, relevantPhotos!!)
-        grid!!.addOnItemTouchListener(object : OnItemSelectedListener(this@MainActivity) {
+        grid.adapter = PhotoAdapter(this, relevantPhotos!!)
+        grid.addOnItemTouchListener(object : OnItemSelectedListener(this@MainActivity) {
             override fun onItemSelected(holder: RecyclerView.ViewHolder, position: Int) {
                 if (holder !is PhotoViewHolder) {
                     return
@@ -109,7 +150,7 @@ class MainActivity : AppCompatActivity() {
                     activityOptions.toBundle())
             }
         })
-        empty!!.visibility = View.GONE
+        empty.visibility = View.GONE
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -120,9 +161,9 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityReenter(resultCode: Int, data: Intent?) {
         postponeEnterTransition()
         // Start the postponed transition when the recycler view is ready to be drawn.
-        grid!!.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+        grid.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
             override fun onPreDraw(): Boolean {
-                grid!!.viewTreeObserver.removeOnPreDrawListener(this)
+                grid.viewTreeObserver.removeOnPreDrawListener(this)
                 startPostponedEnterTransition()
                 return true
             }
@@ -132,8 +173,8 @@ class MainActivity : AppCompatActivity() {
             return
         }
         val selectedItem = data.getIntExtra(IntentUtil.SELECTED_ITEM_POSITION, 0)
-        grid!!.scrollToPosition(selectedItem)
-        val holder = grid!!.findViewHolderForAdapterPosition(selectedItem) as PhotoViewHolder?
+        grid.scrollToPosition(selectedItem)
+        val holder = grid.findViewHolderForAdapterPosition(selectedItem) as PhotoViewHolder?
         if (holder == null) {
             Log.w(TAG, "onActivityReenter: Holder is null, remapping cancelled.")
             return
@@ -144,7 +185,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        val gridLayoutManager = grid!!.layoutManager as GridLayoutManager?
+        val gridLayoutManager = grid.layoutManager as GridLayoutManager?
         gridLayoutManager!!.spanSizeLookup = object : SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 /* emulating https://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsck9lUkgxNVZza1U/style_imagery_integration_scale1.png */
@@ -155,9 +196,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        grid!!.addItemDecoration(GridMarginDecoration(
+        grid.addItemDecoration(GridMarginDecoration(
             resources.getDimensionPixelSize(R.dimen.grid_item_spacing)))
-        grid!!.setHasFixedSize(true)
+        grid.setHasFixedSize(true)
     }
 
     private fun getActivityOptions(binding: PhotoItemBinding): ActivityOptions {
