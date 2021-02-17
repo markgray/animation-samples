@@ -142,7 +142,11 @@ class MainActivity : AppCompatActivity() {
      * the [RestAdapter.Builder] method to build a [UnsplashService] instance whose API endpoint URL
      * is [UnsplashService.ENDPOINT] ("https://unsplash.it"). We call the [UnsplashService.getFeed]
      * method of `unsplashApi` with an anonymous [retrofit.Callback] whose override of `success`
-     * will
+     * will set [relevantPhotos] to an [ArrayList] of [Photo] objects consisting of the last
+     * [PHOTO_COUNT] entries in its [List] of [Photo] parameter `photos` and then call our method
+     * [populateGrid] to have it construct and configure a [PhotoAdapter] for our [RecyclerView]
+     * field [grid] to display the contents of [relevantPhotos]. The `failure` override of the
+     * [Callback] will just log its [RetrofitError] parameter.
      */
     private fun displayData() {
         if (relevantPhotos != null) {
@@ -155,8 +159,7 @@ class MainActivity : AppCompatActivity() {
             unsplashApi.getFeed(object : Callback<List<Photo?>> {
                 override fun success(photos: List<Photo?>, response: Response) {
                     // the first items not interesting to us, get the last <n>
-                    relevantPhotos = ArrayList(photos.subList(photos.size - PHOTO_COUNT,
-                        photos.size))
+                    relevantPhotos = ArrayList(photos.subList(photos.size - PHOTO_COUNT, photos.size))
                     populateGrid()
                 }
 
@@ -167,6 +170,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Called to construct and configure a [PhotoAdapter] for our [RecyclerView] field [grid] to
+     * display the contents of the [ArrayList] of [Photo] objects field [relevantPhotos].
+     */
     private fun populateGrid() {
         grid.adapter = PhotoAdapter(this, relevantPhotos!!)
         grid.addOnItemTouchListener(object : OnItemSelectedListener(this@MainActivity) {
