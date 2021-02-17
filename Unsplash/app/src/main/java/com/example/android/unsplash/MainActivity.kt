@@ -134,13 +134,21 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Displays our [ArrayList] of [Photo] objects dataset field [relevantPhotos] in our grid
-     * (downloading them from the Internet first if need be).
+     * (downloading them from the Internet first if need be). If our [ArrayList] dataset of [Photo]
+     * objects in [relevantPhotos] is not `null` we just call our method [populateGrid] to have it
+     * construct and configure a [PhotoAdapter] for our [RecyclerView] field [grid] to display the
+     * contents of [relevantPhotos]. Otherwise we need to download [relevantPhotos] from the
+     * Internet. To do this we initialize our [UnsplashService] variable `val unsplashApi` by using
+     * the [RestAdapter.Builder] method to build a [UnsplashService] instance whose API endpoint URL
+     * is [UnsplashService.ENDPOINT] ("https://unsplash.it"). We call the [UnsplashService.getFeed]
+     * method of `unsplashApi` with an anonymous [retrofit.Callback] whose override of `success`
+     * will
      */
     private fun displayData() {
         if (relevantPhotos != null) {
             populateGrid()
         } else {
-            val unsplashApi = RestAdapter.Builder()
+            val unsplashApi: UnsplashService = RestAdapter.Builder()
                 .setEndpoint(UnsplashService.ENDPOINT)
                 .build()
                 .create(UnsplashService::class.java)
