@@ -172,22 +172,62 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Called to construct and configure a [PhotoAdapter] for our [RecyclerView] field [grid] to
-     * display the contents of the [ArrayList] of [Photo] objects field [relevantPhotos].
+     * display the contents of the [ArrayList] of [Photo] objects field [relevantPhotos]. We set
+     * the adapter of our [RecyclerView] field [grid] to a new instance of [PhotoAdapter] constructed
+     * to use our [ArrayList] of [Photo] field [relevantPhotos]. Then we add to [grid] an anonymous
+     * [OnItemSelectedListener] whose `onItemSelected` override returns having done nothing if its
+     * [RecyclerView.ViewHolder] parameter `holder` is not a [PhotoViewHolder], but if it is a
+     * [PhotoViewHolder] it sets its [PhotoItemBinding] variable 'val binding` to the [PhotoItemBinding]
+     * property of `holder`, initializes its [Intent] variable `val intent` to the [Intent] created by
+     * our [getDetailActivityStartIntent] method intended to launch [DetailActivity] with all the
+     * information it needs to create its UI and sets its [ActivityOptions] variable `val activityOptions`
+     * to the [ActivityOptions] instance that our [getActivityOptions] method constructs for `binding`.
+     * After all this it launches `intent` for a result with the request code [IntentUtil.REQUEST_CODE]
+     * and a "bundled" up `activityOptions` as additional options for how the Activity should be started.
+     * Finally having added our [OnItemSelectedListener] to [grid] we set the visibility of our indeterminate
+     * [ProgressBar] field [empty] to [View.GONE].
      */
     private fun populateGrid() {
         grid.adapter = PhotoAdapter(this, relevantPhotos!!)
         grid.addOnItemTouchListener(object : OnItemSelectedListener(this@MainActivity) {
+            /**
+             * Our custom [RecyclerView.OnItemTouchListener] calls this method from its
+             * [RecyclerView.onInterceptTouchEvent] override when its `GestureDetector` detects
+             * a screen touch to a particular item view of the [RecyclerView] with the `ViewHolder`
+             * that contains the view that was touched and the adapter position that the child view
+             * corresponds to. If our [RecyclerView.ViewHolder] parameter [holder] is not an instance
+             * of [PhotoViewHolder] we return having done nothing. Otherwise we set our [PhotoItemBinding]
+             * variable 'val binding` to the [PhotoItemBinding] property of [holder], initialize our
+             * [Intent] variable `val intent` to the [Intent] created by our [getDetailActivityStartIntent]
+             * method intended to launch [DetailActivity] with all the information it needs to create
+             * its UI and set our [ActivityOptions] variable `val activityOptions` to the [ActivityOptions]
+             * instance that our [getActivityOptions] method constructs for `binding`. Finally we launch
+             * `intent` for a result with the request code [IntentUtil.REQUEST_CODE] and a "bundled"
+             * up `activityOptions` as additional options for how the Activity should be started.
+             *
+             * @param holder the [RecyclerView.ViewHolder] that contains the view that was touched
+             * @param position the adapter position that the touched view corresponds to
+             */
             override fun onItemSelected(holder: RecyclerView.ViewHolder, position: Int) {
                 if (holder !is PhotoViewHolder) {
                     return
                 }
-                val binding = holder.binding
-                val intent = getDetailActivityStartIntent(this@MainActivity,
-                    relevantPhotos, position, binding)
-                val activityOptions = getActivityOptions(binding)
+                val binding: PhotoItemBinding = holder.binding
+                val intent: Intent = getDetailActivityStartIntent(
+                    this@MainActivity,
+                    relevantPhotos,
+                    position,
+                    binding
+                )
+                val activityOptions: ActivityOptions = getActivityOptions(binding)
+                // TODO: use registerForActivityResult(ActivityResultContract, ActivityResultCallback
+                // TODO: passing in a StartActivityForResult object for the ActivityResultContract.
                 @Suppress("DEPRECATION")
-                this@MainActivity.startActivityForResult(intent, IntentUtil.REQUEST_CODE,
-                    activityOptions.toBundle())
+                this@MainActivity.startActivityForResult(
+                    intent,
+                    IntentUtil.REQUEST_CODE,
+                    activityOptions.toBundle()
+                )
             }
         })
         empty.visibility = View.GONE
