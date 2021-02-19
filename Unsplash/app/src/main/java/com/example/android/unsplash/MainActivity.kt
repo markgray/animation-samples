@@ -28,6 +28,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.Window
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.SharedElementCallback
 import androidx.recyclerview.widget.GridLayoutManager
@@ -268,7 +269,17 @@ class MainActivity : AppCompatActivity() {
      * it will return `true` to proceed with the current drawing pass.
      *
      * If our [Intent] parameter [data] is `null` we return now, otherwise we continue by retrieving
-     *
+     * the [Int] stored in our [Intent] parameter [data] as an extra under the key
+     * [IntentUtil.SELECTED_ITEM_POSITION] in order to initialize our variable `val selectedItem`.
+     * We then call the `scrollToPosition` of grid to have it scroll the position `selectedItem`.
+     * We initialize our [PhotoViewHolder] variable `val holder` by finding the `ViewHolder` in
+     * [grid] for the item in the position `selectedItem` of its data set and if this is `null` we
+     * log this fact and return, otherwise we initialize our [DetailSharedElementEnterCallback]
+     * variable `val callback` to a new instance constructed to the [Intent] that started this
+     * activity to retrieve values it needs to configure the [TextView] displaying the author of the
+     * selected item. We set the binding of `callback` to the [PhotoItemBinding] of `holder` and then
+     * call the [setExitSharedElementCallback] method to have it use `callback` to handle shared
+     * elements on the launching [Activity].
      *
      * @param resultCode The integer result code returned by the child activity
      * through its setResult().
@@ -300,6 +311,10 @@ class MainActivity : AppCompatActivity() {
         setExitSharedElementCallback(callback)
     }
 
+    /**
+     * Configures our [RecyclerView] field [grid] and its [GridLayoutManager] to display its dataset
+     * in the way we want it.
+     */
     private fun setupRecyclerView() {
         val gridLayoutManager = grid.layoutManager as GridLayoutManager?
         gridLayoutManager!!.spanSizeLookup = object : SpanSizeLookup() {
@@ -339,8 +354,12 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val PHOTO_COUNT = 12
         private const val TAG = "MainActivity"
-        private fun getDetailActivityStartIntent(host: Activity, photos: ArrayList<Photo?>?,
-                                                 position: Int, binding: PhotoItemBinding): Intent {
+        private fun getDetailActivityStartIntent(
+            host: Activity,
+            photos: ArrayList<Photo?>?,
+            position: Int,
+            binding: PhotoItemBinding
+        ): Intent {
             val intent = Intent(host, DetailActivity::class.java)
             intent.action = Intent.ACTION_VIEW
             intent.putParcelableArrayListExtra(IntentUtil.PHOTO, photos)
