@@ -20,6 +20,7 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.Parcelable
 import android.transition.Transition
 import android.util.Log
 import android.util.Pair
@@ -233,11 +234,47 @@ class MainActivity : AppCompatActivity() {
         empty.visibility = View.GONE
     }
 
+    /**
+     * Called to retrieve per-instance state from an activity before being killed so that the state
+     * can be restored in [onCreate] or [onRestoreInstanceState] (the [Bundle] populated by this
+     * method will be passed to both). We store our [ArrayList] of [Photo] objects field [relevantPhotos]
+     * as an [ArrayList] of [Parcelable] objects under the key [IntentUtil.RELEVANT_PHOTOS] in our
+     * [Bundle] parameter [outState], then call our super's implementation of `onSaveInstanceState`.
+     *
+     * @param outState [Bundle] in which to place your saved state.
+     */
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putParcelableArrayList(IntentUtil.RELEVANT_PHOTOS, relevantPhotos)
         super.onSaveInstanceState(outState)
     }
 
+    /**
+     * Called when an activity you launched with an activity transition exposes this [Activity]
+     * through a returning activity transition, giving you the [resultCode] and any additional
+     * data from it. This method will only be called if the activity set a result code other
+     * than [Activity.RESULT_CANCELED] and it supports activity transitions with
+     * [Window.FEATURE_ACTIVITY_TRANSITIONS].
+     *
+     * The purpose of this function is to let the called [Activity] send a hint about its state so
+     * that this underlying [Activity] can prepare to be exposed. A call to this method does not
+     * guarantee that the called [Activity] has or will be exiting soon. It only indicates that it
+     * will expose this [Activity]'s [Window] and it has some data to pass to prepare it.
+     *
+     * First we call the method [postponeEnterTransition] to postpone the entering activity transition.
+     * Then we add an anonymous [ViewTreeObserver.OnPreDrawListener] to the [ViewTreeObserver] for
+     * our [RecyclerView] field [grid] whose `onPreDraw` override will first remove itself as a
+     * [ViewTreeObserver.OnPreDrawListener] then call the [startPostponedEnterTransition] method to
+     * begin the transitions that were postponed by our call to [postponeEnterTransition], and finally
+     * it will return `true` to proceed with the current drawing pass.
+     *
+     * If our [Intent] parameter [data] is `null` we return now, otherwise we continue by retrieving
+     *
+     *
+     * @param resultCode The integer result code returned by the child activity
+     * through its setResult().
+     * @param data An [Intent], which can return result data to the caller
+     * (various data can be attached to [Intent] "extras").
+     */
     override fun onActivityReenter(resultCode: Int, data: Intent?) {
         postponeEnterTransition()
         // Start the postponed transition when the recycler view is ready to be drawn.
@@ -248,7 +285,6 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
         })
-        @Suppress("SENSELESS_COMPARISON")
         if (data == null) {
             return
         }
