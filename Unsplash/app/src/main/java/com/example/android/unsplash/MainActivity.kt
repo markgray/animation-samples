@@ -313,11 +313,31 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Configures our [RecyclerView] field [grid] and its [GridLayoutManager] to display its dataset
-     * in the way we want it.
+     * in the way we want it. We initialize our [GridLayoutManager] variable `val gridLayoutManager`
+     * by retrieving the [RecyclerView.LayoutManager] of our [RecyclerView] field [grid], and then
+     * we set its [SpanSizeLookup] to an anonymous instance whose `getSpanSize` override will return
+     * 3 different number of spans that each item occupies depending on the value of the `position`
+     * of the item modulo 6: 3 spans for a value of 5, 2 spans for a value of 3, and 1 span for all
+     * other values.
+     *
+     * Then we add a new instance of [GridMarginDecoration] constructed to produce a space of
+     * [R.dimen.grid_item_spacing] (2dp) as an [RecyclerView.ItemDecoration] to [grid], and set
+     * the fixed size property of [grid] to `true` (this allows [RecyclerView] to perform several
+     * optimizations when it knows in advance that the [RecyclerView]'s size is not affected by the
+     * adapter contents).
      */
     private fun setupRecyclerView() {
         val gridLayoutManager = grid.layoutManager as GridLayoutManager?
         gridLayoutManager!!.spanSizeLookup = object : SpanSizeLookup() {
+            /**
+             * Returns the number of span occupied by the item at [position]. We return 3 different
+             * number of spans that each item occupies depending on the value of the `position` of
+             * the item modulo 6: 3 spans for a value of 5, 2 spans for a value of 3, and 1 span for
+             * all other values.
+             *
+             * @param position The adapter position of the item
+             * @return The number of spans occupied by the item at the provided position
+             */
             override fun getSpanSize(position: Int): Int {
                 /* emulating https://material-design.storage.googleapis.com/publish/material_v_4/material_ext_publish/0B6Okdz75tqQsck9lUkgxNVZza1U/style_imagery_integration_scale1.png */
                 return when (position % 6) {
@@ -331,22 +351,43 @@ class MainActivity : AppCompatActivity() {
         grid.setHasFixedSize(true)
     }
 
+    /**
+     * Constructs an [ActivityOptions] instance that can be used to transition to [DetailActivity]
+     * using cross [Activity] scene animations using shared elements created from the views in the
+     * [PhotoItemBinding] view binding of the selected item view and their related views in
+     * [DetailActivity].
+     *
+     * @param binding the [PhotoItemBinding] of the selected item view.
+     * @return an [ActivityOptions] that will be used to transition to [DetailActivity] using cross
+     * [Activity] scene animations between related views.
+     */
     private fun getActivityOptions(binding: PhotoItemBinding): ActivityOptions {
         val authorPair: Pair<View, String> = Pair.create(binding.author, binding.author.transitionName)
         val photoPair: Pair<View, String> = Pair.create(binding.photo, binding.photo.transitionName)
         val decorView = window.decorView
         val statusBackground = decorView.findViewById<View>(android.R.id.statusBarBackground)
         val navBackground = decorView.findViewById<View>(android.R.id.navigationBarBackground)
-        val statusPair: Pair<View, String> = Pair.create(statusBackground,
-            statusBackground.transitionName)
+        val statusPair: Pair<View, String> = Pair.create(
+            statusBackground,
+            statusBackground.transitionName
+        )
         @Suppress("UnnecessaryVariable")
         val options: ActivityOptions = if (navBackground == null) {
-            ActivityOptions.makeSceneTransitionAnimation(this,
-                authorPair, photoPair, statusPair)
+            ActivityOptions.makeSceneTransitionAnimation(
+                this,
+                authorPair,
+                photoPair,
+                statusPair
+            )
         } else {
             val navPair: Pair<View, String> = Pair.create(navBackground, navBackground.transitionName)
-            ActivityOptions.makeSceneTransitionAnimation(this,
-                authorPair, photoPair, statusPair, navPair)
+            ActivityOptions.makeSceneTransitionAnimation(
+                this,
+                authorPair,
+                photoPair,
+                statusPair,
+                navPair
+            )
         }
         return options
     }
