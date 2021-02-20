@@ -18,7 +18,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="data"
             type="com.example.android.unsplash.data.model.Photo" />
