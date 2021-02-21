@@ -27,6 +27,7 @@ import android.util.Pair
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.Window
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -353,13 +354,21 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Constructs an [ActivityOptions] instance that can be used to transition to [DetailActivity]
-     * using cross [Activity] scene animations using shared elements created from the views in the
+     * using cross [Activity] scene animations that use shared elements created from the views in the
      * [PhotoItemBinding] view binding of the selected item view and their related views in
      * [DetailActivity]. The views in the layout files layout/photo_item.xml and layout/detail_view.xml
      * contain an android:transitionName attribute with a view binding expression which computes a
      * transition name for the view by appending the [Photo.id] property of the [Photo] that the
-     * layout files are displaying to the strings "transition_author" and "transition_photo" (very
-     * neat!).
+     * layout files are displaying to the strings "transition_author" and "transition_photo". Using
+     * this fact we initialize our [Pair] of [View] and [String] `val authorPair` to the [View] in
+     * [binding] for the [TextView] displaying the `author` property of the [Photo] object paired
+     * with the `transitionName` of that [TextView] (computed in its android:transitionName attribute
+     * by appending the `id` propery of the [Photo] to the [String] "transition_author" in its binding
+     * expression) and we initialize our [Pair] of [View] and [String] `val photoPair` to the [View]
+     * in [binding] for the [ImageView] displaying the `photo` property of the [Photo] object paired
+     * with the `transitionName` of that [ImageView] (computed in its android:transitionName attribute
+     * by appending the `id` propery of the [Photo] to the [String] "transition_photo" in its binding
+     * expression).
      *
      * @param binding the [PhotoItemBinding] of the selected item view.
      * @return an [ActivityOptions] that will be used to transition to [DetailActivity] using cross
@@ -368,9 +377,9 @@ class MainActivity : AppCompatActivity() {
     private fun getActivityOptions(binding: PhotoItemBinding): ActivityOptions {
         val authorPair: Pair<View, String> = Pair.create(binding.author, binding.author.transitionName)
         val photoPair: Pair<View, String> = Pair.create(binding.photo, binding.photo.transitionName)
-        val decorView = window.decorView
-        val statusBackground = decorView.findViewById<View>(android.R.id.statusBarBackground)
-        val navBackground = decorView.findViewById<View>(android.R.id.navigationBarBackground)
+        val decorView: View = window.decorView
+        val statusBackground: View = decorView.findViewById(android.R.id.statusBarBackground)
+        val navBackground: View? = decorView.findViewById(android.R.id.navigationBarBackground)
         val statusPair: Pair<View, String> = Pair.create(
             statusBackground,
             statusBackground.transitionName
