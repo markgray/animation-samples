@@ -370,7 +370,14 @@ class MainActivity : AppCompatActivity() {
      * by appending the `id` propery of the [Photo] to the [String] "transition_photo" in its binding
      * expression).
      *
-     * @param binding the [PhotoItemBinding] of the selected item view.
+     * Next we initialize our [View] variable `val decorView` to the top-level window decor view
+     * (containing the standard window frame/decorations and the client's content inside of that),
+     * initialize our [View] variable `val statusBackground` by finding the [View] in `decorView`
+     * with id [android.R.id.statusBarBackground] (the status bar background [View]), and initialize
+     * our [View] variable `val navBackground` by finding the [View] in `decorView` with id
+     * [android.R.id.navigationBarBackground] (the navigation Bar Background [View]).
+     *
+     * @param binding the [PhotoItemBinding] view binding of the selected item view.
      * @return an [ActivityOptions] that will be used to transition to [DetailActivity] using cross
      * [Activity] scene animations between related views.
      */
@@ -380,6 +387,7 @@ class MainActivity : AppCompatActivity() {
         val decorView: View = window.decorView
         val statusBackground: View = decorView.findViewById(android.R.id.statusBarBackground)
         val navBackground: View? = decorView.findViewById(android.R.id.navigationBarBackground)
+        // statusBackground.transitionName is "android:status:background"
         val statusPair: Pair<View, String> = Pair.create(
             statusBackground,
             statusBackground.transitionName
@@ -394,6 +402,7 @@ class MainActivity : AppCompatActivity() {
             )
         } else {
             val navPair: Pair<View, String> = Pair.create(navBackground, navBackground.transitionName)
+            // navBackground.transitionName is "android:navigation:background"
             ActivityOptions.makeSceneTransitionAnimation(
                 this,
                 authorPair,
