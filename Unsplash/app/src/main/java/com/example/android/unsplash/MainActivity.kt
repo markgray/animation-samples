@@ -375,7 +375,16 @@ class MainActivity : AppCompatActivity() {
      * initialize our [View] variable `val statusBackground` by finding the [View] in `decorView`
      * with id [android.R.id.statusBarBackground] (the status bar background [View]), and initialize
      * our [View] variable `val navBackground` by finding the [View] in `decorView` with id
-     * [android.R.id.navigationBarBackground] (the navigation Bar Background [View]).
+     * [android.R.id.navigationBarBackground] (the navigation Bar Background [View]). We create a
+     * [Pair] to initialize our variable `val statusPair` from the `statusBackground` view and its
+     * `transitionName` property ("android:status:background"). Then we initialize our [ActivityOptions]
+     * variable `val options` to an [ActivityOptions] to transition between Activities using cross
+     * Activity scene animations composed of the shared elements `authorPair`,  `photoPair`, and
+     * `statusPair` if `navBackground` is `null`, or if it is not `null` we initialize `options` to
+     * an [ActivityOptions] to transition between Activities using cross Activity scene animations
+     * composed of the shared elements `authorPair`,  `photoPair`, and `statusPair` as well as a
+     * `val navPair` [Pair] created from `navBackground` and its `transitionName` property
+     * ("android:navigation:background"). Finally we return `options` to our caller.
      *
      * @param binding the [PhotoItemBinding] view binding of the selected item view.
      * @return an [ActivityOptions] that will be used to transition to [DetailActivity] using cross
@@ -415,8 +424,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        /**
+         * The number of [Photo] objects we download and display.
+         */
         private const val PHOTO_COUNT = 12
+
+        /**
+         * TAG used for logging.
+         */
         private const val TAG = "MainActivity"
+
+        /**
+         * Called to construct an [Intent] that will launch [DetailActivity] with the extras it needs
+         * to display the selected [Photo].
+         *
+         * @param host our [Activity], "this@MainActivity" in the [OnItemSelectedListener] added to
+         * [grid] in our [populateGrid] method.
+         * @param photos the [ArrayList] of [Photo] object we use as our dataset, [relevantPhotos]
+         * in the [OnItemSelectedListener] added to [grid] in our [populateGrid] method.
+         * @param position the position of the selected item in our [RecyclerView].
+         * @param binding the [PhotoItemBinding] view binding of the selected item in our [RecyclerView]
+         * which is retrieved from the `binding` property of the [RecyclerView.ViewHolder] associated
+         * with the selected item.
+         */
         private fun getDetailActivityStartIntent(
             host: Activity,
             photos: ArrayList<Photo?>?,
@@ -429,10 +459,13 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra(IntentUtil.SELECTED_ITEM_POSITION, position)
             intent.putExtra(IntentUtil.FONT_SIZE, binding.author.textSize)
             intent.putExtra(IntentUtil.PADDING,
-                Rect(binding.author.paddingLeft,
+                Rect(
+                    binding.author.paddingLeft,
                     binding.author.paddingTop,
                     binding.author.paddingRight,
-                    binding.author.paddingBottom))
+                    binding.author.paddingBottom
+                )
+            )
             intent.putExtra(IntentUtil.TEXT_COLOR, binding.author.currentTextColor)
             return intent
         }
