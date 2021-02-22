@@ -436,7 +436,20 @@ class MainActivity : AppCompatActivity() {
 
         /**
          * Called to construct an [Intent] that will launch [DetailActivity] with the extras it needs
-         * to display the selected [Photo].
+         * to display the selected [Photo]. First we construct an [Intent] that will launch the
+         * [DetailActivity] activity to initialize our variable `val intent`. We set the action of
+         * `intent` to [Intent.ACTION_VIEW] ("android.intent.action.VIEW" -- Display the data to the
+         * user), we store our [ArrayList] of [Photo] objects parameter [photos] as an array list
+         * extra under the key [IntentUtil.PHOTO] in `intent`, store our [Int] parameter [position]
+         * (the position of the selected item in our [RecyclerView]) as an extra under the key
+         * [IntentUtil.SELECTED_ITEM_POSITION] in `intent`, store the `textSize` property of the
+         * [TextView] `author` in our [PhotoItemBinding] view binding parameter [binding] under the
+         * key [IntentUtil.FONT_SIZE] in `intent`, store a [Rect] containing the `paddingLeft`,
+         * `paddingTop`, `paddingRight` and `paddingBottom` properties of the [TextView] `author`
+         * in our [PhotoItemBinding] view binding parameter [binding] under the key [IntentUtil.PADDING]
+         * in `intent`, and store the `currentTextColor` property of the [TextView] `author` in our
+         * [PhotoItemBinding] view binding parameter [binding] under the key [IntentUtil.TEXT_COLOR]
+         * in `intent`. Finally we return `intent` to the caller.
          *
          * @param host our [Activity], "this@MainActivity" in the [OnItemSelectedListener] added to
          * [grid] in our [populateGrid] method.
