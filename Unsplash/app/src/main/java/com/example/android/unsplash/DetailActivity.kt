@@ -25,15 +25,34 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.example.android.unsplash.data.model.Photo
 import com.example.android.unsplash.ui.DetailSharedElementEnterCallback
 import com.example.android.unsplash.ui.pager.DetailViewPagerAdapter
 import java.util.ArrayList
 
+/**
+ * Displays the [Photo] selected from the [RecyclerView] of [MainActivity] in a [ViewPager] along
+ * with the rest of the [Photo] objects in our shared [ArrayList] dataset. The selected [Photo] uses
+ * a shared transition to its page in our "detailed" full screen view, and when the user moves to a
+ * different [Photo] in our [ViewPager] and presses (or gestures) "Back" to return to [MainActivity]
+ * there will be a shared transition to its position in the [RecyclerView] of [MainActivity].
+ */
 class DetailActivity : AppCompatActivity() {
-    private var viewPager: ViewPager? = null
-    private var initialItem = 0
+    /**
+     * The [ViewPager] in our UI with ID [R.id.pager] which we use to display the dataset of [Photo]
+     * objects which is passed to us in the [Intent] used to launch us as a Parcelable ArrayList
+     * Extra with the key [IntentUtil.PHOTO]. The selected photo from [MainActivity] set as the
+     * currently selected page in our [ViewPager].
+     */
+    private lateinit var viewPager: ViewPager
+
+    /**
+     * The position of the selected [Photo] in the [RecyclerView] of [MainActivity], passed to us in
+     * the [Intent] that launched us under the key [IntentUtil.SELECTED_ITEM_POSITION].
+     */
+    private var initialItem: Int = 0
     private val navigationOnClickListener = View.OnClickListener { finishAfterTransition() }
     private var sharedElementCallback: DetailSharedElementEnterCallback? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,19 +78,19 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setUpViewPager(photos: ArrayList<Photo>?) {
         viewPager = findViewById<View>(R.id.pager) as ViewPager
-        viewPager!!.adapter = DetailViewPagerAdapter(this, photos!!, sharedElementCallback!!)
-        viewPager!!.currentItem = initialItem
-        viewPager!!.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+        viewPager.adapter = DetailViewPagerAdapter(this, photos!!, sharedElementCallback!!)
+        viewPager.currentItem = initialItem
+        viewPager.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
             override fun onLayoutChange(v: View, left: Int, top: Int, right: Int, bottom: Int,
                                         oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
-                if (viewPager!!.childCount > 0) {
-                    viewPager!!.removeOnLayoutChangeListener(this)
+                if (viewPager.childCount > 0) {
+                    viewPager.removeOnLayoutChangeListener(this)
                     startPostponedEnterTransition()
                 }
             }
         })
-        viewPager!!.pageMargin = resources.getDimensionPixelSize(R.dimen.padding_mini)
-        viewPager!!.setPageMarginDrawable(R.drawable.page_margin)
+        viewPager.pageMargin = resources.getDimensionPixelSize(R.dimen.padding_mini)
+        viewPager.setPageMarginDrawable(R.drawable.page_margin)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -95,12 +114,12 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setActivityResult() {
-        if (initialItem == viewPager!!.currentItem) {
+        if (initialItem == viewPager.currentItem) {
             setResult(RESULT_OK)
             return
         }
         val intent = Intent()
-        intent.putExtra(IntentUtil.SELECTED_ITEM_POSITION, viewPager!!.currentItem)
+        intent.putExtra(IntentUtil.SELECTED_ITEM_POSITION, viewPager.currentItem)
         setResult(RESULT_OK, intent)
     }
 
