@@ -25,6 +25,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.SharedElementCallback
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.example.android.unsplash.data.model.Photo
@@ -53,8 +54,30 @@ class DetailActivity : AppCompatActivity() {
      * the [Intent] that launched us under the key [IntentUtil.SELECTED_ITEM_POSITION].
      */
     private var initialItem: Int = 0
+
+    /**
+     * The [View.OnClickListener] that we use as the listener that responds to navigation events
+     * whenever the user clicks the navigation button at the start of the toolbar. An icon must be
+     * set for the navigation button to appear. It is also called when the user uses a gesture to
+     * go back to [MainActivity] on devices using gesture navigation.
+     */
     private val navigationOnClickListener = View.OnClickListener { finishAfterTransition() }
-    private var sharedElementCallback: DetailSharedElementEnterCallback? = null
+
+    /**
+     * The custom [SharedElementCallback] that we use as our EnterSharedElementCallback. It will be
+     * called to handle shared elements on the _launched_ Activity. Its constructor is called in our
+     * [onCreate] override with the [Intent] used to launch us, and the extras stored in the [Intent]
+     * are used to orchestrate our side of the shared transition.
+     */
+    private lateinit var sharedElementCallback: DetailSharedElementEnterCallback
+
+    /**
+     * Called when the activity is starting.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut
+     * down then this [Bundle] contains the data it most recently supplied in [onSaveInstanceState].
+     * We restore our state in our [onRestoreInstanceState] override so do not use it here.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_detail)
         postponeEnterTransition()
@@ -78,7 +101,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setUpViewPager(photos: ArrayList<Photo>?) {
         viewPager = findViewById<View>(R.id.pager) as ViewPager
-        viewPager.adapter = DetailViewPagerAdapter(this, photos!!, sharedElementCallback!!)
+        viewPager.adapter = DetailViewPagerAdapter(this, photos!!, sharedElementCallback)
         viewPager.currentItem = initialItem
         viewPager.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
             override fun onLayoutChange(v: View, left: Int, top: Int, right: Int, bottom: Int,

@@ -15,7 +15,7 @@
  */
 package com.example.android.unsplash.ui;
 
-import android.app.SharedElementCallback;
+import androidx.core.app.SharedElementCallback;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
