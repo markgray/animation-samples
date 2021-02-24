@@ -20,9 +20,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.transition.Fade
 import android.transition.Slide
+import android.transition.Transition
 import android.transition.TransitionSet
 import android.view.Gravity
 import android.view.View
+import android.view.Window
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -82,7 +84,19 @@ class DetailActivity : AppCompatActivity() {
      * [TimeInterpolator] of `slide` to the system's `linear_out_slow_in` interpolator, and its
      * duration to the value of the system resource [android.R.integer.config_shortAnimTime]
      * (200ms). We then add `slide` to `transitions` as well as a new instance of [Fade] (fades
-     * targets in and out).
+     * targets in and out). We then set the [Transition] that will be used to move Views into the
+     * the current [Window] for the activity to `transitions`
+     *
+     * Next we initialize our [Intent] variable `val intent` to the intent that started this activity,
+     * then initialize our [DetailSharedElementEnterCallback] field [sharedElementCallback] to a new
+     * instance constructed to harvest the info it needs from the various extras in `intent`, and we
+     * then call the [setEnterSharedElementCallback] method to have it use [sharedElementCallback]
+     * to handle shared elements on our launched Activity. We initialize our [Int] field [initialItem]
+     * to the value stored under the [IntentUtil.SELECTED_ITEM_POSITION] key in `intent` (the position
+     * of the [Photo] in the [RecyclerView] of [MainActivity] that was selected, and call our method
+     * [setUpViewPager] to have it use the Parcelable ArrayList stored under the [IntentUtil.PHOTO]
+     * key in `intent` (the dataset of all the [Photo] objects we shared with [MainActivity]) to set
+     * up the [ViewPager] in our UI to display the [Photo] objects.
      *
      * @param savedInstanceState If the activity is being re-initialized after previously being shut
      * down then this [Bundle] contains the data it most recently supplied in [onSaveInstanceState].
