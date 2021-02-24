@@ -15,6 +15,7 @@
  */
 package com.example.android.unsplash
 
+import android.animation.TimeInterpolator
 import android.content.Intent
 import android.os.Bundle
 import android.transition.Fade
@@ -72,7 +73,16 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var sharedElementCallback: DetailSharedElementEnterCallback
 
     /**
-     * Called when the activity is starting.
+     * Called when the activity is starting. First we set our content view to our layout file
+     * [R.layout.activity_detail] (it consists of a `FrameLayout` which holds a [ViewPager] and
+     * a [Toolbar]). Then we call the [postponeEnterTransition] method to postpone the entering
+     * activity shared element transitions until all our data is loaded. We initialize our
+     * [TransitionSet] variable `val transitions` to a new instance and our [Slide] variable
+     * `val slide` to a new instance whose slide edge direction is [Gravity.BOTTOM]. We set the
+     * [TimeInterpolator] of `slide` to the system's `linear_out_slow_in` interpolator, and its
+     * duration to the value of the system resource [android.R.integer.config_shortAnimTime]
+     * (200ms). We then add `slide` to `transitions` as well as a new instance of [Fade] (fades
+     * targets in and out).
      *
      * @param savedInstanceState If the activity is being re-initialized after previously being shut
      * down then this [Bundle] contains the data it most recently supplied in [onSaveInstanceState].
@@ -83,8 +93,10 @@ class DetailActivity : AppCompatActivity() {
         postponeEnterTransition()
         val transitions = TransitionSet()
         val slide = Slide(Gravity.BOTTOM)
-        slide.interpolator = AnimationUtils.loadInterpolator(this,
-            android.R.interpolator.linear_out_slow_in)
+        slide.interpolator = AnimationUtils.loadInterpolator(
+            this,
+            android.R.interpolator.linear_out_slow_in
+        )
         slide.duration = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
         transitions.addTransition(slide)
         transitions.addTransition(Fade())
