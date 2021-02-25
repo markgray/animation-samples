@@ -26,6 +26,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.view.animation.AnimationUtils
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.SharedElementCallback
@@ -98,6 +99,10 @@ class DetailActivity : AppCompatActivity() {
      * key in `intent` (the dataset of all the [Photo] objects we shared with [MainActivity]) to set
      * up the [ViewPager] in our UI to display the [Photo] objects.
      *
+     * Next we initialize our [Toolbar] variable `val toolbar` to the view in our UI with resource
+     * ID [R.id.toolbar] and set its listener that responds to navigation events to our [View.OnClickListener]
+     * field [navigationOnClickListener]. Finally we call our super's implementation of `onCreate`.
+     *
      * @param savedInstanceState If the activity is being re-initialized after previously being shut
      * down then this [Bundle] contains the data it most recently supplied in [onSaveInstanceState].
      * We restore our state in our [onRestoreInstanceState] override so do not use it here.
@@ -125,13 +130,33 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
     }
 
+    /**
+     * Sets up our [ViewPager] field [viewPager] to display our [ArrayList] of [Photo] objects
+     * [photos]. First we initialize our [ViewPager] field [viewPager] to the [ViewPager] in our
+     * UI with ID [R.id.pager], we set its adapter to a new instance of [DetailViewPagerAdapter]
+     * constructed to use [photos] as its dataset and our field [sharedElementCallback] as its
+     * [DetailSharedElementEnterCallback] (it will be called to handle shared elements on our
+     * launched Activity), and we set the currently selected page of [viewPager] to [initialItem].
+     * We then add an anonymous [View.OnLayoutChangeListener] whose `onLayoutChange` override will
+     * if the `childCount` of [viewPager] is greater than 0 -- remove itself from [viewPager] as
+     * an [View.OnLayoutChangeListener] and then call the [startPostponedEnterTransition] method
+     * to begin the postponed enter transitions now that we have a [View] to transition into.
+     * We then set the margin between pages of [viewPager] to the resource [R.dimen.padding_mini]
+     * (4dp) in pixels, and set the drawable that will be used to fill the margin between pages to
+     * our drawable [R.drawable.page_margin] (a rectangle `shape` drawn using using our color
+     * [R.color.page_margin] -- a light gray).
+     *
+     * @param photos the [ArrayList] of [Photo] objects we use as the dataset for our [ViewPager].
+     */
     private fun setUpViewPager(photos: ArrayList<Photo>?) {
         viewPager = findViewById<View>(R.id.pager) as ViewPager
         viewPager.adapter = DetailViewPagerAdapter(this, photos!!, sharedElementCallback)
         viewPager.currentItem = initialItem
         viewPager.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-            override fun onLayoutChange(v: View, left: Int, top: Int, right: Int, bottom: Int,
-                                        oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+            override fun onLayoutChange(
+                v: View, left: Int, top: Int, right: Int, bottom: Int,
+                oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int
+            ) {
                 if (viewPager.childCount > 0) {
                     viewPager.removeOnLayoutChangeListener(this)
                     startPostponedEnterTransition()
@@ -142,26 +167,69 @@ class DetailActivity : AppCompatActivity() {
         viewPager.setPageMarginDrawable(R.drawable.page_margin)
     }
 
+    /**
+     * Called to retrieve per-instance state from an activity before being killed so that the state
+     * can be restored in [onCreate] or [onRestoreInstanceState] (the [Bundle] populated by this
+     * method will be passed to both). This method is called before an activity may be killed so
+     * that when it comes back some time in the future it can restore its state. We just save our
+     * [Int] field [initialItem] in [outState] under the key [STATE_INITIAL_ITEM] and then call our
+     * super's implementation of `onSaveInstanceState`.
+     *
+     * @param outState [Bundle] in which to place your saved state.
+     */
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putInt(STATE_INITIAL_ITEM, initialItem)
         super.onSaveInstanceState(outState)
     }
 
+    /**
+     * This method is called after [onStart] when the activity is being re-initialized from a
+     * previously saved state, given here in [savedInstanceState]. We just set our [Int] field
+     * [initialItem] to the value stored under the key [STATE_INITIAL_ITEM] in [savedInstanceState]
+     * and then call our super's implementation of `onRestoreInstanceState`.
+     *
+     * @param savedInstanceState the data most recently supplied in [onSaveInstanceState].
+     */
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         initialItem = savedInstanceState.getInt(STATE_INITIAL_ITEM, 0)
         super.onRestoreInstanceState(savedInstanceState)
     }
 
+    /**
+     * Called when the activity has detected the user's press of the back key. All of the
+     * [OnBackPressedCallback]'s added will be given a chance to handle the back button (including
+     * our [navigationOnClickListener] field) before the default behavior of `onBackPressed` is
+     * invoked. First we call our method [setActivityResult] to have it set the result that our
+     * activity will return to its caller, then we call our super's implementation of `onBackPressed`.
+     */
     override fun onBackPressed() {
         setActivityResult()
         super.onBackPressed()
     }
 
+    /**
+     * Reverses the Activity Scene entry Transition and triggers the calling Activity to reverse its
+     * exit Transition. When the exit Transition completes, [finish] is called. If no entry
+     * Transition was used, [finish] is called immediately and the Activity exit Transition is run.
+     * We call our method [setActivityResult] to have it set the result that our activity will return
+     * to its caller, then we call our super's implementation of `finishAfterTransition`.
+     */
     override fun finishAfterTransition() {
         setActivityResult()
         super.finishAfterTransition()
     }
 
+    /**
+     * Sets the result that our activity will return to its caller. If our [initialItem] field
+     * (the position that the user selected in the [RecyclerView] of [MainActivity]) is equal to the
+     * index of the currently displayed page of [viewPager] (its `currentItem` property) we just set
+     * the result that our activity will return to its caller to `RESULT_OK` (operation succeeded)
+     * and return. If the user has used the [ViewPager] to move to another page we initialize our
+     * [Intent] variable `val intent` to a new instance, store the index of the currently displayed
+     * page of [viewPager] as an extra under the key [IntentUtil.SELECTED_ITEM_POSITION] and set the
+     * result that our activity will return to its caller to `RESULT_OK` and include `intent` as
+     * data to propagate back to the originating activity.
+     */
     private fun setActivityResult() {
         if (initialItem == viewPager.currentItem) {
             setResult(RESULT_OK)
@@ -173,6 +241,11 @@ class DetailActivity : AppCompatActivity() {
     }
 
     companion object {
+        /**
+         * The key we use to store our field [initialItem] under in the [Bundle] passed it when our
+         * [onSaveInstanceState] override is called, and we use to restore [initialItem] from the
+         * [Bundle] passed our [onRestoreInstanceState] override.
+         */
         private const val STATE_INITIAL_ITEM = "initial"
     }
 }
