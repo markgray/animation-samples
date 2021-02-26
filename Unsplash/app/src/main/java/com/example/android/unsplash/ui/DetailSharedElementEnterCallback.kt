@@ -24,12 +24,23 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.SharedElementCallback
+import com.example.android.unsplash.DetailActivity
 import com.example.android.unsplash.IntentUtil
 import com.example.android.unsplash.IntentUtil.hasAll
+import com.example.android.unsplash.MainActivity
 import com.example.android.unsplash.databinding.DetailViewBinding
 import com.example.android.unsplash.databinding.PhotoItemBinding
 import java.util.ArrayList
 
+/**
+ * [MainActivity] uses an instance of this class as its `ExitSharedElementCallback` in its override
+ * of `onActivityReenter` constructed using the [Intent] that [DetailActivity] returns its results
+ * in and [DetailActivity] uses an instance of this class as its `EnterSharedElementCallback` in its
+ * override of `onCreate` constructed using the [Intent] that [MainActivity] used to launch it.
+ *
+ * @param intent the [Intent] containing the results of running [DetailActivity] in the case of
+ * the `onActivityReenter`
+ */
 class DetailSharedElementEnterCallback(
     private val intent: Intent
     ) : SharedElementCallback() {
