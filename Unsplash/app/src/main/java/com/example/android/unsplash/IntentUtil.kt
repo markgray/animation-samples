@@ -20,6 +20,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
 import com.example.android.unsplash.data.model.Photo
+import com.example.android.unsplash.ui.DetailSharedElementEnterCallback
 import java.util.ArrayList
 
 /**
@@ -80,9 +81,17 @@ object IntentUtil {
     const val REQUEST_CODE = R.id.requestCode
 
     /**
-     * Checks if all extras are present in an intent.
+     * Checks if all extras are present in an intent. We loop for all of the [String] in our `vararg`
+     * parameter [extras] assigning each [String] to our variable `extra` in turn and if our [Intent]
+     * parameter [intent] does not have the extra whose key is the [String] `extra` in it we return
+     * `false` to the caller, otherwise we loop through the rest of the [String]'s in [extras] and
+     * if [intent] succeeds in finding them all we return `true` to the caller. This is called by the
+     * `onSharedElementStart` override in [DetailSharedElementEnterCallback] to check whether the
+     * [Intent] that launched [DetailActivity] contains the extras it needs to configure the `TextView`
+     * that contains the [Photo.author] property, and if any is missing it does not bother to change
+     * the defaults of that `TextView`.
      *
-     * @param intent The intent to check.
+     * @param intent The [Intent] to check.
      * @param extras The extras to check for.
      * @return `true` if all extras are present, else `false`.
      */
@@ -97,7 +106,11 @@ object IntentUtil {
     }
 
     /**
-     * Checks if any extra is present in an intent.
+     * Checks if any extra is present in an intent. We loop for all of the [String] in our `vararg`
+     * parameter [extras] assigning each [String] to our variable `extra` in turn and if our [Intent]
+     * parameter [intent] has the extra whose key is the [String] `extra` in it we return `true` to
+     * the caller, otherwise we loop through the rest of the [String]'s in [extras] and if [intent]
+     * fails to find any of them we return `false` to the caller. UNUSED
      *
      * @param intent The intent to check.
      * @param extras The extras to check for.
