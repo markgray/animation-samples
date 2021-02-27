@@ -31,6 +31,7 @@ import com.example.android.unsplash.MainActivity
 import com.example.android.unsplash.data.model.Photo
 import com.example.android.unsplash.databinding.DetailViewBinding
 import com.example.android.unsplash.databinding.PhotoItemBinding
+import com.example.android.unsplash.ui.pager.DetailViewPagerAdapter
 import java.util.ArrayList
 
 /**
@@ -67,21 +68,60 @@ class DetailSharedElementEnterCallback(
      * [PhotoItemBinding].
      */
     private var targetTextColors: ColorStateList? = null
+
+    /**
+     * If our [setBinding] method is called from the `setPrimaryItem` override of [DetailViewPagerAdapter]
+     * then this is set to the [DetailViewBinding] of the item that is currently considered to be the
+     * "primary", that is the one shown to the user as the current page, and if our [setBinding] method
+     * is called from the `onActivityReenter` override of [MainActivity] it is set to `null`.
+     */
     private var currentDetailBinding: DetailViewBinding? = null
+
+    /**
+     * If our [setBinding] method is called from the `onActivityReenter` override of [MainActivity]
+     * it is set to the binding of the `PhotoViewHolder` of the item in the `RecyclerView` of its
+     * grid corresponding to the [Photo] that the user scrolled to in [DetailActivity] before
+     * returning to [MainActivity], and if our [setBinding] method is called from the `setPrimaryItem`
+     * override of [DetailViewPagerAdapter] it is set to `null`.
+     */
     private var currentPhotoBinding: PhotoItemBinding? = null
+
+    /**
+     * The padding [Rect] of the [TextView] used to display the [Photo.author] property of the [Photo]
+     * being displayed in the target of the shared element transition. That [TextView] is either
+     * `currentDetailBinding.author` or `currentPhotoBinding.author` depending on which of the two
+     * binding objects holding the `author` property is non-`null` and that of course depends on which
+     * of our two [setBinding] methods are called: the one taking a [DetailViewBinding] instance or
+     * the one taking a [PhotoItemBinding].
+     */
     private var targetPadding: Rect? = null
+
+    /**
+     * In Activity Transitions, [onSharedElementStart] is called immediately before capturing the
+     * start of the shared element state on enter and reenter transitions and immediately before
+     * capturing the end of the shared element state for exit and return transitions.
+     *
+     * @param sharedElementNames The names of the shared elements that were accepted into
+     * the [View] hierarchy.
+     * @param sharedElements The shared elements that are part of the View hierarchy.
+     * @param sharedElementSnapshots The Views containing snap shots of the shared element from the
+     * launching Window. These elements will not be part of the scene, but will be positioned
+     * relative to the Window decor View. This list is null for Fragment
+     */
     override fun onSharedElementStart(
         sharedElementNames: List<String>,
         sharedElements: List<View>,
         sharedElementSnapshots: List<View>
     ) {
-        val author = author
+        val author: TextView = author
         targetTextSize = author.textSize
         targetTextColors = author.textColors
-        targetPadding = Rect(author.paddingLeft,
+        targetPadding = Rect(
+            author.paddingLeft,
             author.paddingTop,
             author.paddingRight,
-            author.paddingBottom)
+            author.paddingBottom
+        )
         if (hasAll(
                 intent,
                 IntentUtil.TEXT_COLOR,
