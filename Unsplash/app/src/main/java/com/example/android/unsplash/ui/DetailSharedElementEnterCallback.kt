@@ -28,6 +28,7 @@ import com.example.android.unsplash.DetailActivity
 import com.example.android.unsplash.IntentUtil
 import com.example.android.unsplash.IntentUtil.hasAll
 import com.example.android.unsplash.MainActivity
+import com.example.android.unsplash.data.model.Photo
 import com.example.android.unsplash.databinding.DetailViewBinding
 import com.example.android.unsplash.databinding.PhotoItemBinding
 import java.util.ArrayList
@@ -39,13 +40,32 @@ import java.util.ArrayList
  * override of `onCreate` constructed using the [Intent] that [MainActivity] used to launch it.
  *
  * @param intent the [Intent] containing the results of running [DetailActivity] in the case of
- * the `onActivityReenter`
+ * the `onActivityReenter` override in [MainActivity] and the [Intent] that [MainActivity] used to
+ * launch [DetailActivity] in its `onCreate` override.
  */
 class DetailSharedElementEnterCallback(
     private val intent: Intent
     ) : SharedElementCallback() {
 
+    /**
+     * The text size of the [TextView] used to display the [Photo.author] property of the [Photo]
+     * being displayed in the target of the shared element transition. That [TextView] is either
+     * `currentDetailBinding.author` or `currentPhotoBinding.author` depending on which of the
+     * two binding objects holding the `author` property is non-`null` and that of course depends
+     * on which of our two [setBinding] methods are called: the one taking a [DetailViewBinding]
+     * instance or the one taking a [PhotoItemBinding] (rather clever).
+     */
     private var targetTextSize = 0f
+
+    /**
+     * The text colors for the different states (normal, selected, focused) of the [TextView] used
+     * to display the [Photo.author] property of the [Photo] being displayed in the target of the
+     * shared element transition. That [TextView] is either `currentDetailBinding.author` or
+     * `currentPhotoBinding.author` depending on which of the two binding objects holding the
+     * `author` property is non-`null` and that of course depends on which of our two [setBinding]
+     * methods are called: the one taking a [DetailViewBinding] instance or the one taking a
+     * [PhotoItemBinding].
+     */
     private var targetTextColors: ColorStateList? = null
     private var currentDetailBinding: DetailViewBinding? = null
     private var currentPhotoBinding: PhotoItemBinding? = null
