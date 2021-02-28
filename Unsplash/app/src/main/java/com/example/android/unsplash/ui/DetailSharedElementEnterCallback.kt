@@ -99,7 +99,22 @@ class DetailSharedElementEnterCallback(
     /**
      * In Activity Transitions, [onSharedElementStart] is called immediately before capturing the
      * start of the shared element state on enter and reenter transitions and immediately before
-     * capturing the end of the shared element state for exit and return transitions.
+     * capturing the end of the shared element state for exit and return transitions. First we
+     * initialize our [TextView] variable `val author` to our property [author], set our [targetTextSize]
+     * field to the `textSize` of `author` set our [ColorStateList] to the `textColors` of `author`,
+     * and set our [Rect] field [targetPadding] to a [Rect] constructed to use the `paddingLeft`,
+     * `paddingTop`, `paddingRight` and `paddingBottom` properties of `author` as its `left`, `right`,
+     * `top` and `bottom` respectively. Then if our [hasAll] method determines that our [Intent] field
+     * [intent] has extras for the all of the keys [IntentUtil.TEXT_COLOR], [IntentUtil.FONT_SIZE],
+     * and [IntentUtil.PADDING] we:
+     *
+     *  - set the text color of `author` to the the [Int] stored under the key [IntentUtil.TEXT_COLOR]
+     *  in `intent`
+     *  - initialize our [Float] variable `val textSize` to the the [Float] stored under the key
+     *  [IntentUtil.FONT_SIZE] in `intent` then set the text size of `author` to `textSize` in pixels.
+     *  - initialize our [Rect] variable `val padding` to the the [Rect] stored under the key
+     *  [IntentUtil.PADDING] in `intent` then set the padding of `author` to the `left`, `right`,
+     * `top` and `bottom` properties of `padding`.
      *
      * @param sharedElementNames The names of the shared elements that were accepted into
      * the [View] hierarchy.
@@ -137,6 +152,27 @@ class DetailSharedElementEnterCallback(
         }
     }
 
+    /**
+     * In Activity Transitions, [onSharedElementEnd] is called immediately before capturing the end
+     * of the shared element state on enter and reenter transitions and immediately before capturing
+     * the start of the shared element state for exit and return transitions. First we initialize our
+     * [TextView] variable `val author` to our property [author], then we set the text size of `author`
+     * to our [Float] field [targetTextSize] interpreted as pixels. If our [ColorStateList] field
+     * [targetTextColors] is not `null` we set the text color of `author` to [targetTextColors], and
+     * if our [Rect] field [targetPadding] is not `null` we set the padding of `author` to the
+     * `left`, `right`, `top` and `bottom` properties of [targetPadding]. Finally if our
+     * [DetailViewBinding] field [currentDetailBinding] is not `null` we call our method
+     * [forceSharedElementLayout] with the `LinearLayout` in [currentDetailBinding] whose ID is
+     * `description` to have it call the [View.layout] method of `description` to assign a size and
+     * position to it and all of its descendants.
+     *
+     * @param sharedElementNames The names of the shared elements that were accepted into
+     * the View hierarchy.
+     * @param sharedElements The shared elements that are part of the View hierarchy.
+     * @param sharedElementSnapshots The Views containing snap shots of the shared element from the
+     * launching Window. These elements will not be part of the scene, but will be positioned
+     * relative to the Window decor View. This list will be null for Fragment Transitions.
+     */
     override fun onSharedElementEnd(
         sharedElementNames: List<String>,
         sharedElements: List<View>,
@@ -160,6 +196,14 @@ class DetailSharedElementEnterCallback(
         }
     }
 
+    /**
+     * Lets the [SharedElementCallback] adjust the mapping of shared element names to Views.
+     *
+     * @param names The names of all shared elements transferred from the calling Activity
+     * or Fragment in the order they were provided.
+     * @param sharedElements The mapping of shared element names to Views. The best guess
+     * will be filled into sharedElements based on the transitionNames.
+     */
     override fun onMapSharedElements(
         names: MutableList<String>,
         sharedElements: MutableMap<String, View>
