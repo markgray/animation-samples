@@ -24,6 +24,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.app.SharedElementCallback
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.example.android.unsplash.DetailActivity
 import com.example.android.unsplash.IntentUtil
 import com.example.android.unsplash.IntentUtil.hasAll
@@ -197,7 +199,16 @@ class DetailSharedElementEnterCallback(
     }
 
     /**
-     * Lets the [SharedElementCallback] adjust the mapping of shared element names to Views.
+     * Lets the [SharedElementCallback] adjust the mapping of shared element names to Views. First
+     * we call our method [removeObsoleteElements] with our [MutableList] of [String] parameter
+     * [names] and our [MutableMap] of [String] to [View] parameter [sharedElements] as well as
+     * the [List] of [String] that our [mapObsoleteElements] method returns when it filters [names]
+     * for all of the [String]'s in it which do not start with the [String] "android" (our method
+     * [removeObsoleteElements] will remove the names in the [List] returned by [mapObsoleteElements]
+     * from [names] as well as from the [MutableMap] parameter [sharedElements]). We then call our
+     * method [mapSharedElement] to have it add our [TextView] field [author] to both [names], and
+     * [sharedElements] and to have it add our [ImageView] field [photo] to both [names], and
+     * [sharedElements].
      *
      * @param names The names of all shared elements transferred from the calling Activity
      * or Fragment in the order they were provided.
@@ -213,11 +224,35 @@ class DetailSharedElementEnterCallback(
         mapSharedElement(names, sharedElements, photo)
     }
 
+    /**
+     * Called from the `setPrimaryItem` override of [DetailViewPagerAdapter] with the [DetailViewBinding]
+     * of the primary view it is displaying in its [ViewPager]. Sets our [DetailViewBinding] field
+     * [currentDetailBinding] to its parameter [binding], and sets our [PhotoItemBinding] field
+     * [currentPhotoBinding] to `null`. The getters for our [author] and [photo] properties rather
+     * cleverly will chose between [currentPhotoBinding] and [currentDetailBinding] depending on
+     * which is not `null` when it fetches their value for its caller.
+     *
+     * @param binding the [DetailViewBinding] of the primary view [DetailViewPagerAdapter] is
+     * displaying in its [ViewPager].
+     */
     fun setBinding(binding: DetailViewBinding) {
         currentDetailBinding = binding
         currentPhotoBinding = null
     }
 
+    /**
+     * Called from the `onActivityReenter` override of [MainActivity] with the [PhotoItemBinding] of
+     * the item in its [RecyclerView] that corresponds to the item that was selected by the user in
+     * the [ViewPager] of [DetailActivity] before the return to [MainActivity]. Sets our [PhotoItemBinding]
+     * field [currentPhotoBinding] to its parameter [binding], and sets our [DetailViewBinding] field
+     * [currentDetailBinding] to `null`. The getters for our [author] and [photo] properties rather
+     * cleverly will chose between [currentPhotoBinding] and [currentDetailBinding] depending on which
+     * is not `null` when it fetches their value for its caller.
+     *
+     * @param binding the [PhotoItemBinding] in the [RecyclerView] of [MainActivity] that corresponds
+     * to the item that was selected by the user in the [ViewPager] of [DetailActivity] before the
+     * return to [MainActivity].
+     */
     fun setBinding(binding: PhotoItemBinding) {
         currentPhotoBinding = binding
         currentDetailBinding = null
