@@ -258,6 +258,22 @@ class DetailSharedElementEnterCallback(
         currentDetailBinding = null
     }
 
+    /**
+     * The [TextView] that is used to display the [Photo.author] property of the current [Photo]
+     * located using either the binding for the file layout/photo_item.xml [currentPhotoBinding] if
+     * it is not `null` or located using the binding for the file layout/detail_view.xml
+     * [currentDetailBinding] if it is not `null`. One or the other of these binding objects must be
+     * non-`null` or a [NullPointerException] will be thrown. The binding [currentPhotoBinding] is
+     * set in the `onActivityReenter` override of [MainActivity] to the binding of the `PhotoViewHolder`
+     * of the item in the `RecyclerView` of its grid corresponding to the [Photo] that the user
+     * scrolled to in [DetailActivity] before returning to [MainActivity], and [currentDetailBinding]
+     * is set in the `setPrimaryItem` override of [DetailViewPagerAdapter] to the [DetailViewBinding]
+     * of the item that is currently considered to be the "primary", that is the one shown to the user
+     * as the current page. The method overloading of our [setBinding] method when called with a
+     * [PhotoItemBinding] sets [currentPhotoBinding] to it and sets [currentDetailBinding] to `null`,
+     * and when called with a [DetailViewBinding] sets [currentDetailBinding] to it and sets
+     * [currentPhotoBinding] to `null`
+     */
     private val author: TextView
         get() = when {
             currentPhotoBinding != null -> {
@@ -270,6 +286,24 @@ class DetailSharedElementEnterCallback(
                 throw NullPointerException("Must set a binding before transitioning.")
             }
         }
+
+    /**
+     * The [ImageView] that is used to display the jpeg that `Glide` fetches from the server. The
+     * URL for that photo is constructed from the [Photo.id] property of the current [Photo]. The
+     * [ImageView] is located using either the binding for the file layout/photo_item.xml
+     * [currentPhotoBinding] if it is not `null` or located using the binding for the file
+     * layout/detail_view.xml [currentDetailBinding] if it is not `null`. One or the other of these
+     * binding objects must be non-`null` or a [NullPointerException] will be thrown. The binding
+     * [currentPhotoBinding] is set in the `onActivityReenter` override of [MainActivity] to the
+     * binding of the `PhotoViewHolder` of the item in the `RecyclerView` of its grid corresponding
+     * to the [Photo] that the user scrolled to in [DetailActivity] before returning to [MainActivity],
+     * and [currentDetailBinding] is set in the `setPrimaryItem` override of [DetailViewPagerAdapter]
+     * to the [DetailViewBinding] of the item that is currently considered to be the "primary", that
+     * is the one shown to the user as the current page. The method overloading of our [setBinding]
+     * method when called with a [PhotoItemBinding] sets [currentPhotoBinding] to it and sets
+     * [currentDetailBinding] to `null`, and when called with a [DetailViewBinding] sets
+     * [currentDetailBinding] to it and sets [currentPhotoBinding] to `null`
+     */
     private val photo: ImageView
         get() = when {
             currentPhotoBinding != null -> {
