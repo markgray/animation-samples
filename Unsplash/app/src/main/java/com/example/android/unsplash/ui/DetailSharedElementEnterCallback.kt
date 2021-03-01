@@ -318,7 +318,15 @@ class DetailSharedElementEnterCallback(
         }
 
     /**
-     * Maps all views that don't start with "android" namespace.
+     * Returns a [List] of all the names in its [names] parameter that don't start with the "android"
+     * namespace. Called from our [onMapSharedElements] override which then passes the [List] that we
+     * return to our [removeObsoleteElements] method to have it remove these from both the `names`
+     * [List] and the `sharedElements` [Map] passed to [onMapSharedElements]. We initialize our
+     * [MutableList] of [String] variable `val elementsToRemove` to an instance of [ArrayList] sized
+     * to hold a [List] the same size as our [names] parameter. Then we loop for all of the `name`
+     * [String]'s in [names] and if `name` starts with the prefix "android" we just loop around for
+     * the next entry, otherwise we add `name` to `elementsToRemove`. When done with our loop we
+     * return `elementsToRemove` to our caller.
      *
      * @param names All shared element names.
      * @return The obsolete shared element names.
@@ -333,11 +341,13 @@ class DetailSharedElementEnterCallback(
     }
 
     /**
-     * Removes obsolete elements from names and shared elements.
+     * Removes the obsolete elements whose names are in our [List] of [String] parameter [elementsToRemove]
+     * from our [MutableList] of [String] parameter [names] (the shared element names) and our [MutableMap]
+     * of [String] to [View] parameter [sharedElements] (the shared element map).
      *
      * @param names Shared element names.
-     * @param sharedElements Shared elements.
-     * @param elementsToRemove The elements that should be removed.
+     * @param sharedElements The mapping of the shared element names in [names] to their [View].
+     * @param elementsToRemove The names of the elements that should be removed.
      */
     private fun removeObsoleteElements(
         names: MutableList<String>,
