@@ -22,6 +22,7 @@ import android.graphics.Rect
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.SharedElementCallback
 import androidx.recyclerview.widget.RecyclerView
@@ -343,7 +344,10 @@ class DetailSharedElementEnterCallback(
     /**
      * Removes the obsolete elements whose names are in our [List] of [String] parameter [elementsToRemove]
      * from our [MutableList] of [String] parameter [names] (the shared element names) and our [MutableMap]
-     * of [String] to [View] parameter [sharedElements] (the shared element map).
+     * of [String] to [View] parameter [sharedElements] (the shared element map). If [elementsToRemove]
+     * is not empty we remove all of the [String]'s in [elementsToRemove] from [names] then loop over
+     * all of the `elementToRemove` [String]'s in [elementsToRemove] and remove the `elementToRemove`
+     * key and its corresponding value from the [sharedElements] map.
      *
      * @param names Shared element names.
      * @param sharedElements The mapping of the shared element names in [names] to their [View].
@@ -363,7 +367,12 @@ class DetailSharedElementEnterCallback(
     }
 
     /**
-     * Puts a shared element to transitions and names.
+     * Puts a shared element to transitions and names. We initialize our [String] variable
+     * `val transitionName` to the `transitionName` property of our [View] parameter [view]
+     * (this is the name of the [View] to be used to identify [View]'s in Transitions). We
+     * then add `transitionName` to our [MutableList] of [String] parameter [names], and store
+     * [view] in our [MutableMap] of [String] to [View] parameter [sharedElements] under the
+     * key `transitionName`.
      *
      * @param names The names for this transition.
      * @param sharedElements The elements for this transition.
@@ -379,6 +388,20 @@ class DetailSharedElementEnterCallback(
         sharedElements[transitionName] = view
     }
 
+    /**
+     * Called to measure and assign a size and position to its [View] parameter [view] and all of
+     * its descendants. Called from our [onSharedElementEnd] override with the [LinearLayout] in
+     * [currentDetailBinding] (the binding object for the layout file layout/detail_view.xml) with
+     * the ID `description`. First we initialize our [Int] variable `val widthSpec` with an instance
+     * of `MeasureSpec` whose width is the width of [view] and whose mode is `EXACTLY`, and our [Int]
+     * variable `val heightSpec` with an instance of `MeasureSpec` whose height is the height of
+     * [view] and whose mode is `EXACTLY`. Then we call the `measure` method of [view] with `widthSpec`
+     * and `heightSpec` to have it determine its size given these constraints. Finally we call the
+     * [View.layout] method of [view] to assign its current size and position to it and all of its
+     * descendants.
+     *
+     * @param view the [View] that we want to measure and assign a size and position to.
+     */
     private fun forceSharedElementLayout(view: View) {
         val widthSpec = View.MeasureSpec.makeMeasureSpec(view.width, View.MeasureSpec.EXACTLY)
         val heightSpec = View.MeasureSpec.makeMeasureSpec(view.height, View.MeasureSpec.EXACTLY)
