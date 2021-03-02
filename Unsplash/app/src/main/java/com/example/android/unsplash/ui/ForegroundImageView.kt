@@ -23,6 +23,16 @@ import android.view.ViewOutlineProvider
 import androidx.appcompat.widget.AppCompatImageView
 import com.example.android.unsplash.R
 
+/**
+ * A custom [AppCompatImageView] which allows a drawable to be set which will be always drawn on top
+ * of our [AppCompatImageView]. This feature does not appear to be used in `Unsplash` however. It is
+ * used as the super of [ThreeTwoImageView] for some unknown reason.
+ * TODO: figure out why is is used as the super of ThreeTwoImageView
+ *
+ * @param context The [Context] the view is running in, through which it can access the
+ * current theme, resources, etc.
+ * @param attrs The attributes of the XML tag that is inflating the view.
+ */
 open class ForegroundImageView(
     context: Context,
     attrs: AttributeSet
