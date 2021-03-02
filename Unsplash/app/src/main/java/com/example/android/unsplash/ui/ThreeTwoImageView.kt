@@ -30,8 +30,8 @@ import com.example.android.unsplash.data.model.Photo
  * @param attrs The attributes of the XML tag that is inflating the view.
  */
 class ThreeTwoImageView(
-    context: Context?,
-    attrs: AttributeSet?
+    context: Context,
+    attrs: AttributeSet
 ) : ForegroundImageView(context, attrs) {
     /**
      * Measure the view and its content to determine the measured width and the measured height.

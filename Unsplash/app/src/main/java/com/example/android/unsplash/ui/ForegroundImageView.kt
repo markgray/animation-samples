@@ -13,67 +13,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.android.unsplash.ui
 
-package com.example.android.unsplash.ui;
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
+import android.util.AttributeSet
+import android.view.ViewOutlineProvider
+import androidx.appcompat.widget.AppCompatImageView
+import com.example.android.unsplash.R
 
-
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
-import androidx.appcompat.widget.AppCompatImageView;
-import android.util.AttributeSet;
-import android.view.ViewOutlineProvider;
-
-import com.example.android.unsplash.R;
-
-
-public class ForegroundImageView extends AppCompatImageView {
-
-    private Drawable foreground;
-
-    public ForegroundImageView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ForegroundImageView);
-
-        final Drawable d = a.getDrawable(R.styleable.ForegroundImageView_android_foreground);
-        if (d != null) {
-            setForeground(d);
-        }
-        a.recycle();
-        setOutlineProvider(ViewOutlineProvider.BOUNDS);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
+open class ForegroundImageView(
+    context: Context,
+    attrs: AttributeSet
+) : AppCompatImageView(context, attrs) {
+    private var foreground: Drawable? = null
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
         if (foreground != null) {
-            foreground.setBounds(0, 0, w, h);
+            foreground!!.setBounds(0, 0, w, h)
         }
     }
 
-    @Override
-    public boolean hasOverlappingRendering() {
-        return false;
+    override fun hasOverlappingRendering(): Boolean {
+        return false
     }
 
-    @Override
-    protected boolean verifyDrawable(Drawable who) {
-        return super.verifyDrawable(who) || (who == foreground);
+    override fun verifyDrawable(who: Drawable): Boolean {
+        return super.verifyDrawable(who) || who === foreground
     }
 
-    @Override
-    public void jumpDrawablesToCurrentState() {
-        super.jumpDrawablesToCurrentState();
-        if (foreground != null) foreground.jumpToCurrentState();
+    override fun jumpDrawablesToCurrentState() {
+        super.jumpDrawablesToCurrentState()
+        if (foreground != null) foreground!!.jumpToCurrentState()
     }
 
-    @Override
-    protected void drawableStateChanged() {
-        super.drawableStateChanged();
-        if (foreground != null && foreground.isStateful()) {
-            foreground.setState(getDrawableState());
+    override fun drawableStateChanged() {
+        super.drawableStateChanged()
+        if (foreground != null && foreground!!.isStateful) {
+            foreground!!.state = drawableState
         }
     }
 
@@ -83,8 +61,8 @@ public class ForegroundImageView extends AppCompatImageView {
      *
      * @return A Drawable or null if no foreground was set.
      */
-    public Drawable getForeground() {
-        return foreground;
+    override fun getForeground(): Drawable {
+        return foreground!!
     }
 
     /**
@@ -92,43 +70,46 @@ public class ForegroundImageView extends AppCompatImageView {
      *
      * @param drawable The Drawable to be drawn on top of the ImageView
      */
-    public void setForeground(Drawable drawable) {
-        if (foreground != drawable) {
+    override fun setForeground(drawable: Drawable) {
+        if (foreground !== drawable) {
             if (foreground != null) {
-                foreground.setCallback(null);
-                unscheduleDrawable(foreground);
+                foreground!!.callback = null
+                unscheduleDrawable(foreground)
             }
-
-            foreground = drawable;
-
+            foreground = drawable
             if (foreground != null) {
-                foreground.setBounds(0, 0, getWidth(), getHeight());
-                setWillNotDraw(false);
-                foreground.setCallback(this);
-                if (foreground.isStateful()) {
-                    foreground.setState(getDrawableState());
+                foreground!!.setBounds(0, 0, width, height)
+                setWillNotDraw(false)
+                foreground!!.callback = this
+                if (foreground!!.isStateful) {
+                    foreground!!.state = drawableState
                 }
             } else {
-                setWillNotDraw(true);
+                setWillNotDraw(true)
             }
-            invalidate();
+            invalidate()
         }
     }
 
-    @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
+    override fun draw(canvas: Canvas) {
+        super.draw(canvas)
         if (foreground != null) {
-            foreground.draw(canvas);
+            foreground!!.draw(canvas)
         }
     }
 
-    @Override
-    public void drawableHotspotChanged(float x, float y) {
-        super.drawableHotspotChanged(x, y);
+    override fun drawableHotspotChanged(x: Float, y: Float) {
+        super.drawableHotspotChanged(x, y)
         if (foreground != null) {
-            foreground.setHotspot(x, y);
+            foreground!!.setHotspot(x, y)
         }
+    }
+
+    init {
+        val a = context.obtainStyledAttributes(attrs, R.styleable.ForegroundImageView)
+        val d = a.getDrawable(R.styleable.ForegroundImageView_android_foreground)
+        d?.let { setForeground(it) }
+        a.recycle()
+        outlineProvider = ViewOutlineProvider.BOUNDS
     }
 }
-
