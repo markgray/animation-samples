@@ -16,7 +16,7 @@
 
 <resources>
 
-    <declare-styleable name="ForegroundView">
+    <declare-styleable name="ForegroundImageView">
         <attr name="android:foreground" />
 <!--    <attr name="foregroundInsidePadding" /> -->
         <attr name="android:foregroundGravity" />
