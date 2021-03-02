@@ -33,6 +33,20 @@ class ThreeTwoImageView(
     context: Context?,
     attrs: AttributeSet?
 ) : ForegroundImageView(context, attrs) {
+    /**
+     * Measure the view and its content to determine the measured width and the measured height.
+     * This method is invoked by [measure] and should be overridden by subclasses to provide accurate
+     * and efficient measurement of their contents. We initialize our [Int] variable `val width` to
+     * the size from our [Int] parameter [widthMeasureSpec], then calculate `val desiredHeight` to
+     * be 2/3 of `width`. Finally we call our super's implementation of `onMeasure` with
+     * [widthMeasureSpec] and a `MeasureSpec` constructed to use `desiredHeight` as its size and
+     * `EXACTLY` as its mode.
+     *
+     * @param widthMeasureSpec horizontal space requirements as imposed by the parent. The
+     * requirements are encoded with [android.view.View.MeasureSpec].
+     * @param heightMeasureSpec vertical space requirements as imposed by the parent. The
+     * requirements are encoded with [android.view.View.MeasureSpec].
+     */
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val width = MeasureSpec.getSize(widthMeasureSpec)
         val desiredHeight = width * 2 / 3
