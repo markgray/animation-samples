@@ -17,8 +17,10 @@ package com.example.android.unsplash.ui
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.View
 import android.view.ViewOutlineProvider
 import androidx.appcompat.widget.AppCompatImageView
 import com.example.android.unsplash.R
@@ -37,7 +39,25 @@ open class ForegroundImageView(
     context: Context,
     attrs: AttributeSet
 ) : AppCompatImageView(context, attrs) {
+    /**
+     * The [Drawable] which we should draw on top of our [AppCompatImageView]
+     */
     private var foreground: Drawable? = null
+
+    /**
+     * This is called during layout when the size of this view has changed. If you were just added
+     * to the view hierarchy, you're called with the old values of 0. First we call our super's
+     * implementation of `onSizeChanged`, then if our [Drawable] field [foreground] is not `null`
+     * we call its [Drawable.setBounds] method to specify the bounding rectangle for the [Drawable]
+     * to be a [Rect] whose `left` is at 0, `top` is at 0, `right` is at [w] and `bottom` is at [h]
+     * (ie. the new size and relative postion of our [View]). This is where the drawable will draw
+     * when its `draw` method is called.
+     *
+     * @param w Current width of this view.
+     * @param h Current height of this view.
+     * @param oldw Old width of this view.
+     * @param oldh Old height of this view.
+     */
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         if (foreground != null) {
@@ -45,19 +65,60 @@ open class ForegroundImageView(
         }
     }
 
+    /**
+     * Returns whether this [View] has content which overlaps. This function, intended to be overridden
+     * by specific [View] types, is an optimization when alpha is set on a view. If rendering overlaps
+     * in a view with alpha < 1, that view is drawn to an offscreen buffer and then composited into
+     * place, which can be expensive. If the view has no overlapping rendering, the view can draw each
+     * primitive with the appropriate alpha value directly. An example of overlapping rendering is a
+     * `TextView` with a background image, such as a `Button`. An example of non-overlapping rendering
+     * is a `TextView` with no background, or an `ImageView` with only the foreground image.
+     *
+     * The default implementation returns true; subclasses should override if they have cases which
+     * can be optimized. _Note:_ The return value of this method is ignored if the method
+     * [forceHasOverlappingRendering] has been called on this view.
+     *
+     * We return `false` because we have no overlapping content and optimization is possible.
+     *
+     * @return `true` if the content in this view might overlap, `false` otherwise.
+     */
     override fun hasOverlappingRendering(): Boolean {
         return false
     }
 
+    /**
+     * If your view subclass is displaying its own [Drawable] objects, it should override this
+     * function and return `true` for any [Drawable] it is displaying. This allows animations for
+     * those drawables to be scheduled. Be sure to call through to the super class when overriding
+     * this function. We return the short circuit `or` of the value returned by our super's
+     * implementation of `verifyDrawable` for our [Drawable] parameter [who] or else the result of
+     * checking the referential equality of [who] and our [Drawable] field [foreground].
+     *
+     * @param who The [Drawable] to verify. Return `true` if it is one you are displaying, else
+     * return the result of calling through to the super class.
+     * @return boolean If `true` than the [Drawable] is being displayed in the view; else `false`
+     * and it is not allowed to animate.
+     */
     override fun verifyDrawable(who: Drawable): Boolean {
         return super.verifyDrawable(who) || who === foreground
     }
 
+    /**
+     * Call [Drawable.jumpToCurrentState] on all [Drawable] objects associated with this view. Also
+     * calls `StateListAnimator.jumpToCurrentState` if there is a `StateListAnimator` attached to
+     * this view. First we call our super's implementation of `jumpDrawablesToCurrentState`, then if
+     * our [Drawable] field [foreground] is not `null` we call its `jumpToCurrentState` method to
+     * ask that it immediately jump to the current state and skip any active animations between the
+     * states.
+     */
     override fun jumpDrawablesToCurrentState() {
         super.jumpDrawablesToCurrentState()
         if (foreground != null) foreground!!.jumpToCurrentState()
     }
 
+    /**
+     *
+     */
     override fun drawableStateChanged() {
         super.drawableStateChanged()
         if (foreground != null && foreground!!.isStateful) {
