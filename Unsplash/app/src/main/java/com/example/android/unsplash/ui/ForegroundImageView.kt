@@ -117,7 +117,13 @@ open class ForegroundImageView(
     }
 
     /**
-     *
+     * This function is called whenever the state of the view changes in such a way that it impacts
+     * the state of drawables being shown. If the View has a `StateListAnimator`, it will also be
+     * called to run necessary state change animations. First we call our super's implementation of
+     * `drawableStateChanged`. Then if our [Drawable] field [foreground] is not `null` and its
+     * `isStateful` property indicates that it will change its appearance based on state we set its
+     * `state` property to the [Int] array of resource IDs of the drawable states representing the
+     * current state of our view.
      */
     override fun drawableStateChanged() {
         super.drawableStateChanged()
@@ -127,19 +133,37 @@ open class ForegroundImageView(
     }
 
     /**
-     * Returns the drawable used as the foreground of this view. The
-     * foreground drawable, if non-null, is always drawn on top of the children.
+     * Returns the drawable used as the foreground of this view. The foreground drawable, if
+     * non-`null`, is always drawn on top of our children. We just return our [Drawable] field
+     * [foreground] to our caller.
      *
-     * @return A Drawable or null if no foreground was set.
+     * @return A [Drawable] or `null` if no foreground was set.
      */
-    override fun getForeground(): Drawable {
-        return foreground!!
+    override fun getForeground(): Drawable? {
+        return foreground
     }
 
     /**
-     * Supply a Drawable that is to be rendered on top of the contents of this ImageView
+     * Supply a [Drawable] that is to be rendered on top of the contents of this `ImageView`. If
+     * our [Drawable] parameter [drawable] is the same [Drawable] as our current [Drawable] field
+     * [foreground] we just return having down nothing. Otherwise if [foreground] is not `null` we
+     * set its [Drawable.Callback] to `null` (used for an animated drawable) and call the method
+     * [unscheduleDrawable] with [foreground] to unschedule any events associated with it.
      *
-     * @param drawable The Drawable to be drawn on top of the ImageView
+     * Having taken care of the old [foreground] we next set [foreground] to [drawable] and branch
+     * on whether the new [foreground] is `null`:
+     *  - Not `null`: we set the bounding rectangle of [foreground] to a [Rect] that matches our
+     *  current `width` and `height`, call [setWillNotDraw] with `false` to indicate that we plan
+     *  to draw, set the [Drawable.Callback] of [foreground] to `this` [ForegroundImageView], and if
+     *  its `isStateful` property indicates that it will change its appearance based on state we set
+     *  its `state` property to the [Int] array of resource IDs of the drawable states representing
+     *  the current state of our view.
+     *  - is `null`: we call [setWillNotDraw] with `true` to indicate that we do not plan to draw.
+     *
+     * Finally we call [invalidate] to invalidate the whole view. If the view is visible, [onDraw]
+     * will be called at some point in the future.
+     *
+     * @param drawable The [Drawable] to be drawn on top of the `ImageView`
      */
     override fun setForeground(drawable: Drawable) {
         if (foreground !== drawable) {
@@ -162,6 +186,13 @@ open class ForegroundImageView(
         }
     }
 
+    /**
+     * Manually render this view (and all of its children) to the given [Canvas]. First we call our
+     * super's implementaton of `draw`, then if our [Drawable] field [foreground] is not `null` we
+     * call its `draw` method to have it draw itself on our [Canvas] parameter [canvas].
+     *
+     * @param canvas The Canvas to which the View is rendered.
+     */
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
         if (foreground != null) {
