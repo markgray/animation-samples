@@ -13,11 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.android.unsplash.ui
 
-package com.example.android.unsplash.ui;
-
-public class ImageSize {
-
-    public static final int[] NORMAL = new int[] {480, 400};
-    public static final int[] LARGE = new int[] {960, 800};
+/**
+ * Constants used to override the com.bumptech.glide.request.target.Target's width and height with
+ * given values. Only [NORMAL] is actually used.
+ */
+object ImageSize {
+    /**
+     * The width in pixels and the height in pixels for `Glide` to use to load the jpeg.
+     */
+    @JvmField
+    val NORMAL = intArrayOf(480, 400)
+    @Suppress("unused")
+    val LARGE = intArrayOf(960, 800)
 }
