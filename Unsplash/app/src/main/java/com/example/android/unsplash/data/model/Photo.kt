@@ -33,17 +33,56 @@ open class Photo : Parcelable {
         "author_url": "https://unsplash.com/alejandroescamilla",
         "post_url": "https://unsplash.com/photos/yC-Yzbqy7PY"
     }*/
+    /**
+     * The image format of the photo, ie. "jpeg", "gif", "png" etc.
+     */
     private val format: String?
+
+    /**
+     * The width of the photo in pixels.
+     */
     private val width: Int
+
+    /**
+     * The height of the photo in pixels.
+     */
     private val height: Int
+
+    /**
+     * The file name on the remote server.
+     */
     private val filename: String?
+
+    /**
+     * The unique ID of the image. The URL for retrieving the image is formed by our [getPhotoUrl]
+     * method by formatting the [String] value of the requested width passed to the method and the
+     * [String] value of our [id] into the [PHOTO_URL_BASE] format. The [id] is also used to generate
+     * unique transition names for the views holding the image
+     */
     @JvmField
     val id: Long
+
+    /**
+     * The name of the author of the image.
+     */
     @JvmField
     val author: String?
+
+    /**
+     * The URL for the author's web page.
+     */
     private val authorUrl: String?
+
+    /**
+     * The URL for a particular image which allows on to download the image in different sizes or to
+     * select related images from the same author.
+     */
     private val postUrl: String?
 
+    /**
+     * Default constructor - does not seem to be used?
+     * TODO: figure our how retrofit knows how to create a List<Photo>
+     */
     constructor(
         format: String?,
         width: Int,
