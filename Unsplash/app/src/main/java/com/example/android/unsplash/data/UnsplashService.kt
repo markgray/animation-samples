@@ -13,24 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.android.unsplash.data
 
-package com.example.android.unsplash.data;
-
-import com.example.android.unsplash.data.model.Photo;
-
-import java.util.List;
-
-import retrofit.Callback;
-import retrofit.http.GET;
+import com.example.android.unsplash.data.model.Photo
+import retrofit.Callback
+import retrofit.http.GET
 
 /**
  * Modeling the unsplash.it API.
  */
-public interface UnsplashService {
-
-    String ENDPOINT = "https://unsplash.it";
-
+interface UnsplashService {
     @GET("/list")
-    void getFeed(Callback<List<Photo>> callback);
+    fun getFeed(callback: Callback<List<Photo?>>)
 
+    companion object {
+        const val ENDPOINT = "https://unsplash.it"
+    }
 }
