@@ -33,6 +33,7 @@ open class Photo : Parcelable {
         "author_url": "https://unsplash.com/alejandroescamilla",
         "post_url": "https://unsplash.com/photos/yC-Yzbqy7PY"
     }*/
+
     /**
      * The image format of the photo, ie. "jpeg", "gif", "png" etc.
      */
@@ -71,17 +72,20 @@ open class Photo : Parcelable {
     /**
      * The URL for the author's web page.
      */
-    private val authorUrl: String?
+    @Suppress("PrivatePropertyName") // Needs to be same as JSON name or annotated
+    private val author_url: String?
 
     /**
      * The URL for a particular image which allows on to download the image in different sizes or to
      * select related images from the same author.
      */
-    private val postUrl: String?
+    @Suppress("PrivatePropertyName") // Needs to be same as JSON name or annotated
+    private val post_url: String?
 
     /**
-     * Default constructor - does not seem to be used?
-     * TODO: figure our how retrofit knows how to create a List<Photo>
+     * Superfluous constructor - does not seem to be used, retrofit appears to access the code of
+     * the class during runtime in order to figure out how to perform the conversion from JSON to
+     * [Photo] objects.
      */
     constructor(
         format: String?,
@@ -99,8 +103,8 @@ open class Photo : Parcelable {
         this.filename = filename
         this.id = id
         this.author = author
-        this.authorUrl = author_url
-        this.postUrl = post_url
+        this.author_url = author_url
+        this.post_url = post_url
     }
 
     protected constructor(parcel: Parcel) {
@@ -110,8 +114,8 @@ open class Photo : Parcelable {
         filename = parcel.readString()
         id = parcel.readLong()
         author = parcel.readString()
-        authorUrl = parcel.readString()
-        postUrl = parcel.readString()
+        author_url = parcel.readString()
+        post_url = parcel.readString()
     }
 
     fun getPhotoUrl(requestWidth: Int): String {
@@ -129,8 +133,8 @@ open class Photo : Parcelable {
         dest.writeString(filename)
         dest.writeLong(id)
         dest.writeString(author)
-        dest.writeString(authorUrl)
-        dest.writeString(postUrl)
+        dest.writeString(author_url)
+        dest.writeString(post_url)
     }
 
     companion object {
