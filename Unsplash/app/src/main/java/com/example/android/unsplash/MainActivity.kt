@@ -160,12 +160,28 @@ class MainActivity : AppCompatActivity() {
                 .build()
                 .create(UnsplashService::class.java)
             unsplashApi.getFeed(object : Callback<List<Photo?>> {
+                /**
+                 * Successful HTTP response. We set our [ArrayList] of [Photo] field [relevantPhotos]
+                 * to the last [PHOTO_COUNT] (12) [Photo] objects in our parameter [photos], then
+                 * call our [populateGrid] method to have it use [relevantPhotos] to populate its
+                 * grid with the associated images.
+                 *
+                 * @param photos the [List] of [Photo] objects downloaded downloaded and parsed by
+                 * [retrofit].
+                 * @param response HTTP response returned from server.
+                 */
                 override fun success(photos: List<Photo?>, response: Response) {
                     // the first items not interesting to us, get the last <n>
                     relevantPhotos = ArrayList(photos.subList(photos.size - PHOTO_COUNT, photos.size))
                     populateGrid()
                 }
 
+                /**
+                 * Unsuccessful HTTP response due to network failure, non-2XX status code, or unexpected
+                 * exception. We just log the error.
+                 *
+                 * @param error the [RetrofitError] returned from [retrofit]
+                 */
                 override fun failure(error: RetrofitError) {
                     Log.e(TAG, "Error retrieving Unsplash feed:", error)
                 }

@@ -107,6 +107,12 @@ open class Photo : Parcelable {
         this.post_url = post_url
     }
 
+    /**
+     * Constructor used to recreate an instance of [Photo] which has been stored in a [Parcel] by
+     * our [writeToParcel] method.
+     *
+     * @param parcel a [Parcel] containing a parcelized [Photo] object.
+     */
     protected constructor(parcel: Parcel) {
         format = parcel.readString()
         width = parcel.readInt()
@@ -118,14 +124,38 @@ open class Photo : Parcelable {
         post_url = parcel.readString()
     }
 
+    /**
+     * Returns an URL that can be used to retrieve the image that this [Photo] object represents.
+     * Our [PHOTO_URL_BASE] constant is a format string we use to encode our [requestWidth] parameter
+     * followed by a query string for "image=[id]"
+     *
+     * @param requestWidth the requested width in pixels of the image
+     */
     fun getPhotoUrl(requestWidth: Int): String {
         return String.format(Locale.getDefault(), PHOTO_URL_BASE, requestWidth, id)
     }
 
+    /**
+     * Describe the kinds of special objects contained in this [Parcelable] instance's marshaled
+     * representation. For example, if the object will include a file descriptor in the output of
+     * [writeToParcel], the return value of this method must include the `CONTENTS_FILE_DESCRIPTOR`
+     * bit. We just return 0 as our contents contain no special objects.
+     *
+     * @return a bitmask indicating the set of special object types marshaled by this [Parcelable]
+     * object instance.
+     */
     override fun describeContents(): Int {
         return 0
     }
 
+    /**
+     * Flatten this object in to a [Parcel]. We just use the appropriate `write*` method of our
+     * [Parcel] parameter [dest] to store our fields in [dest].
+     *
+     * @param dest The [Parcel] in which the object should be written.
+     * @param flags Additional flags about how the object should be written. May be 0 or
+     * `PARCELABLE_WRITE_RETURN_VALUE`.
+     */
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(format)
         dest.writeInt(width)
@@ -138,14 +168,38 @@ open class Photo : Parcelable {
     }
 
     companion object {
+        /**
+         * The format string that our [getPhotoUrl] method uses to format an URL that can be used to
+         * retrieve the image associated with its [Photo] object.
+         */
         private const val PHOTO_URL_BASE = "https://unsplash.it/%d?image=%d"
+
+        /**
+         * Interface that must be implemented and provided as a public [CREATOR]
+         * field that generates instances of your [Parcelable] class from a [Parcel].
+         */
         @Suppress("unused")
         @JvmField
         val CREATOR: Parcelable.Creator<Photo> = object : Parcelable.Creator<Photo> {
+            /**
+             * Create a new instance of the [Parcelable] class, instantiating it from the given
+             * [Parcel] whose data had previously been written by [Parcelable.writeToParcel]}.
+             * We just return a new instance of constructed from our [Parcel] parameter [parcel].
+             *
+             * @param parcel The [Parcel] to read the object's data from.
+             * @return Returns a new instance of the [Parcelable] class.
+             */
             override fun createFromParcel(parcel: Parcel): Photo {
                 return Photo(parcel)
             }
 
+            /**
+             * Create a new array of the [Parcelable] class.
+             *
+             * @param size Size of the array.
+             * @return Returns an array of the [Parcelable] class, with every entry
+             * initialized to `null`.
+             */
             override fun newArray(size: Int): Array<Photo?> {
                 return arrayOfNulls(size)
             }
