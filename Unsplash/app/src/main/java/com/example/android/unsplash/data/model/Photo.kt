@@ -22,6 +22,7 @@ import java.util.Locale
 /**
  * Model class representing data returned from unsplash.it
  */
+@Suppress("MemberVisibilityCanBePrivate")
 open class Photo : Parcelable {
     /*{
         "format": "jpeg",
@@ -37,22 +38,22 @@ open class Photo : Parcelable {
     /**
      * The image format of the photo, ie. "jpeg", "gif", "png" etc.
      */
-    private val format: String?
+    val format: String?
 
     /**
      * The width of the photo in pixels.
      */
-    private val width: Int
+    val width: Int
 
     /**
      * The height of the photo in pixels.
      */
-    private val height: Int
+    val height: Int
 
     /**
      * The file name on the remote server.
      */
-    private val filename: String?
+    val filename: String?
 
     /**
      * The unique ID of the image. The URL for retrieving the image is formed by our [getPhotoUrl]
@@ -72,15 +73,15 @@ open class Photo : Parcelable {
     /**
      * The URL for the author's web page.
      */
-    @Suppress("PrivatePropertyName") // Needs to be same as JSON name or annotated
-    private val author_url: String?
+    @Suppress("PropertyName") // Needs to be same as JSON name or annotated
+    val author_url: String?
 
     /**
      * The URL for a particular image which allows on to download the image in different sizes or to
      * select related images from the same author.
      */
-    @Suppress("PrivatePropertyName") // Needs to be same as JSON name or annotated
-    private val post_url: String?
+    @Suppress("PropertyName") // Needs to be same as JSON name or annotated
+    val post_url: String?
 
     /**
      * Superfluous constructor - does not seem to be used, retrofit appears to access the code of
