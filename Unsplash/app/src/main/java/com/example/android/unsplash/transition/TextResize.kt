@@ -45,7 +45,6 @@ import kotlin.math.roundToInt
  * do any animation of TextView content and if the text changes, this
  * transition will not run.
  *
- *
  * The animation works by capturing a bitmap of the text at the start
  * and end states. It then scales the start bitmap until it reaches
  * a threshold and switches to the scaled end bitmap for the remainder
@@ -54,33 +53,130 @@ import kotlin.math.roundToInt
  * or end of the animation. This transition does not work well with
  * cropped text. TextResize also does not work with changes in
  * TextView gravity.
+ *
+ * This class is used as a [Transition] in the file transition/shared_main_detail.xml which is
+ * used as part of the "App.Details" style in values/styles.xml as an element with the item name
+ * "android:windowSharedElementEnterTransition"
  */
 class TextResize : Transition {
+    /**
+     * Adds the [TextView] Class as a target view that this Transition is interested in animating.
+     * By default, there are no targetTypes, and a Transition will listen for changes on every view
+     * in the hierarchy below the sceneRoot of the Scene being transitioned into. Setting targetTypes
+     * constrains the Transition to only listen for, and act on, views with these classes. Views with
+     * different classes will be ignored.
+     */
     @Suppress("unused")
     constructor() {
         addTarget(TextView::class.java)
     }
 
     /**
-     * Constructor used from XML.
+     * Constructor used from XML. Adds the [TextView] Class as a target view that this Transition is
+     * interested in animating. By default, there are no targetTypes, and a Transition will listen
+     * for changes on every view in the hierarchy below the sceneRoot of the Scene being transitioned
+     * into. Setting targetTypes constrains the Transition to only listen for, and act on, views with
+     * these classes. Views with different classes will be ignored.
      */
     @Suppress("unused")
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
         addTarget(TextView::class.java)
     }
 
+    /**
+     * Returns the set of property names used stored in the [TransitionValues] object passed into
+     * [captureStartValues] that this transition cares about for the purposes of canceling overlapping
+     * animations. When any transition is started on a given scene root, all transitions currently
+     * running on that same scene root are checked to see whether the properties on which they based
+     * their animations agree with the end values of the same properties in the new transition. If
+     * the end values are not equal, then the old animation is canceled since the new transition will
+     * start a new animation to these new values. If the values are equal, the old animation is
+     * allowed to continue and no new animation is started for that transition.
+     *
+     * A transition does not need to override this method. However, not doing so will mean that th
+     * e cancellation logic outlined in the previous paragraph will be skipped for that transition,
+     * possibly leading to artifacts as old transitions and new transitions on the same targets run
+     * in parallel, animating views toward potentially different end values.
+     *
+     * We return our array [PROPERTIES] which contains only the [String] constant [FONT_SIZE] since
+     * we only care about [FONT_SIZE] ("TextResize:fontSize").
+     *
+     * @return An array of property names as described in the class documentation for
+     * [TransitionValues]. The default implementation returns `null`.
+     */
     override fun getTransitionProperties(): Array<String> {
         return PROPERTIES
     }
 
+    /**
+     * Captures the values in the start scene for the properties that this transition monitors. These
+     * values are then passed as the `startValues` structure in a later call to [createAnimator].
+     * The main concern for an implementation is what the properties are that the transition cares
+     * about and what the values are for all of those properties. The start and end values will be
+     * compared later during the [createAnimator] method to determine what, if any, animations,
+     * should be run.
+     *
+     * Subclasses must implement this method. The method should only be called by the transition
+     * system; it is not intended to be called from external classes.
+     *
+     * We just call our [captureValues] method with our [TransitionValues] parameter [transitionValues]
+     * to have it store all of the properties of the `view` [TextView] of [transitionValues] that we
+     * are interested in inside of [transitionValues].
+     *
+     * @param transitionValues The holder for any values that the [Transition] wishes to store.
+     * Values are stored in the `values` field of this [TransitionValues] object and are keyed from
+     * a [String] value. For example, to store a view's rotation value, a transition might call:
+     *
+     *     transitionValues.values.put(
+     *         "appname:transitionname:rotation",
+     *         view.getRotation()
+     *     )
+     *
+     * The target view will already be stored in the [transitionValues] structure when this method
+     * is called.
+     */
     override fun captureStartValues(transitionValues: TransitionValues) {
         captureValues(transitionValues)
     }
 
+    /**
+     * Captures the values in the end scene for the properties that this transition monitors. These
+     * values are then passed as the `endValues` structure in a later call to [createAnimator].
+     * The main concern for an implementation is what the properties are that the transition cares
+     * about and what the values are for all of those properties. The start and end values will be
+     * compared later during the [createAnimator] method to determine what, if any, animations,
+     * should be run.
+     *
+     * Subclasses must implement this method. The method should only be called by the transition
+     * system; it is not intended to be called from external classes.
+     *
+     * We just call our [captureValues] method with our [TransitionValues] parameter [transitionValues]
+     * to have it store all of the properties of the `view` [TextView] of [transitionValues] that we
+     * are interested in inside of [transitionValues].
+     *
+     * @param transitionValues The holder for any values that the [Transition] wishes to store.
+     * Values are stored in the `values` field of this [TransitionValues] object and are keyed from
+     * a [String] value. For example, to store a view's rotation value, a transition might call:
+     *
+     *     transitionValues.values.put(
+     *         "appname:transitionname:rotation",
+     *         view.getRotation()
+     *     )
+     *
+     * The target view will already be stored in the [transitionValues] structure when this method
+     * is called.
+     */
     override fun captureEndValues(transitionValues: TransitionValues) {
         captureValues(transitionValues)
     }
 
+    /**
+     * Called from both [captureStartValues] and [captureEndValues] to have us store all of the
+     * properties of the `view` [TextView] of [TransitionValues] parameter [transitionValues] that
+     * we are interested in inside of [transitionValues].
+     *
+     * @param transitionValues The holder for any values that the [Transition] wishes to store.
+     */
     private fun captureValues(transitionValues: TransitionValues) {
         if (transitionValues.view !is TextView) {
             return
