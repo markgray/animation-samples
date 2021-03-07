@@ -31,6 +31,7 @@ import android.graphics.PixelFormat
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.transition.Transition
+import android.transition.TransitionSet
 import android.transition.TransitionValues
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -173,7 +174,15 @@ class TextResize : Transition {
     /**
      * Called from both [captureStartValues] and [captureEndValues] to have us store all of the
      * properties of the `view` [TextView] of [TransitionValues] parameter [transitionValues] that
-     * we are interested in inside of [transitionValues].
+     * we are interested in inside of [transitionValues]. First we make sure that the `view` of
+     * our [TransitionValues] parameter [transitionValues] is a [TextView] and if it is not we
+     * return having done nothing. Otherwise we initialize our [TextView] variable `val view` to
+     * the `view` of [transitionValues], and initialize our [Float] variable `val fontSize` to the
+     * text size of `view`. We then store `fontSize` under the key [FONT_SIZE] in the `values` field
+     * of [transitionValues]. Next we initialize our [TextResizeData] variable `val data` to a new
+     * instance constructed to capture all the non-font-size data of `view` used by our [TextResize]
+     * transition, and then store `data` under the key [DATA] in the `values` field of
+     * [transitionValues].
      *
      * @param transitionValues The holder for any values that the [Transition] wishes to store.
      */
@@ -181,13 +190,66 @@ class TextResize : Transition {
         if (transitionValues.view !is TextView) {
             return
         }
-        val view = transitionValues.view as TextView
-        val fontSize = view.textSize
+        val view: TextView = transitionValues.view as TextView
+        val fontSize: Float = view.textSize
         transitionValues.values[FONT_SIZE] = fontSize
         val data = TextResizeData(view)
         transitionValues.values[DATA] = data
     }
 
+    /**
+     * This method creates an animation that will be run for this [Transition] given the information
+     * in the [TransitionValues] parameters [startValues] and [endValues] structures captured earlier
+     * for the start and end scenes. Subclasses of [Transition] should override this method. The
+     * method should only be called by the transition system -- it is not intended to be called from
+     * external classes.
+     *
+     * This method is called by the transition's parent (all the way up to the topmost [Transition]
+     * in the hierarchy) with the [sceneRoot] and start/end values that the transition may need to
+     * set up initial target values and construct an appropriate animation. For example, if an
+     * overall [Transition] is a [TransitionSet] consisting of several child transitions in sequence,
+     * then some of the child transitions may want to set initial values on target views prior to
+     * the overall [Transition] commencing, to put them in an appropriate state for the delay between
+     * that start and the child [Transition] start time. For example, a transition that fades an item
+     * in may wish to set the starting alpha value to 0, to avoid it blinking in prior to the
+     * transition actually starting the animation. This is necessary because the scene change that
+     * triggers the [Transition] will automatically set the end-scene on all target views, so a
+     * [Transition] that wants to animate from a different value should set that value prior to
+     * returning from this method.
+     *
+     * Additionally, a [Transition] can perform logic to determine whether the transition needs to
+     * run on the given target and start/end values. For example, a transition that resizes objects
+     * on the screen may wish to avoid running for views which are not present in either the start
+     * or end scenes.
+     *
+     * If there is an [Animator] created and returned from this method, the transition mechanism will
+     * apply any applicable duration, startDelay, and interpolator to that animation and start it.
+     * A return value of `null` indicates that no animation should run. The default implementation
+     * returns `null`.
+     *
+     * The method is called for every applicable target object, which is stored in the
+     * [TransitionValues.view] field.
+     *
+     * If either of our [TransitionValues] parameters [startValues] or [endValues] is `null` we
+     * return `null` having done nothing. Otherwise we initialize our [TextResizeData] variable
+     * `val startData` to the value stored under the key [DATA] in the `values` field of [startValues]
+     * and our [TextResizeData] variable `val endData` to the value stored under the key [DATA] in the
+     * `values` field of [endValues]. If the `gravity` property of `startData` is not equal to the
+     * `gravity` property of `endData` we return `null` since we cannot deal with changes in gravity.
+     *
+     * Next we initialize our [TextView] variable `val textView` to the `view` field of [endValues],
+     * and our [Float] variable `var startFontSize` to the value stored under the key [FONT_SIZE] in
+     * the `values` field of [startValues]. We then call our method [setTextViewData] to have it
+     * set the properties of `textView` (the end `view` recall) to the properties stored in our
+     * [TextResizeData] variable `startData` (from the start `view` recall), and the font size to
+     * our variable `startFontSize` (the font size of the start `view` recall).
+     *
+     * @param sceneRoot The root of the transition hierarchy.
+     * @param startValues The values for a specific target in the start scene.
+     * @param endValues The values for the target in the end scene.
+     * @return A [Animator] to be started at the appropriate time in the overall transition for this
+     * scene change. A `null` value means no animation should be run.
+     */
     override fun createAnimator(
         sceneRoot: ViewGroup,
         startValues: TransitionValues?,
