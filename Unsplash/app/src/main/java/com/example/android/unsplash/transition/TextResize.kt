@@ -38,6 +38,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOverlay
 import android.widget.TextView
 import kotlin.math.roundToInt
 
@@ -242,7 +243,41 @@ class TextResize : Transition {
      * the `values` field of [startValues]. We then call our method [setTextViewData] to have it
      * set the properties of `textView` (the end `view` recall) to the properties stored in our
      * [TextResizeData] variable `startData` (from the start `view` recall), and the font size to
-     * our variable `startFontSize` (the font size of the start `view` recall).
+     * our variable `startFontSize` (the font size of the start `view` recall). We initialize our
+     * [Float] variable `val endWidth` to the width of the text in `textView`, and initialize our
+     * [Bitmap] variable `val endBitmap` to the [Bitmap] that our [captureTextBitmap] method captures
+     * from `textView`, and if this is `null` we set `endFontSize` to 0f. Then if both `startFontSize`
+     * and `endFontSize` are `null` we return `null` since we cannot animate null bitmaps.
+     *
+     * We save the `textColors`, `hintTextColors`, `highlightColor` and `linkTextColors` properties
+     * of `textView` in local variables of the same name then set these properties all to the color
+     * [Color.TRANSPARENT] (we do this so that nothing is drawn -- we will only draw the bitmaps in
+     * the overlay).
+     *
+     * Next we create a [SwitchBitmapDrawable] to initialize our variable `val drawable` that we will
+     * use to scale the start and end bitmaps and switch between them at the appropriate progress,
+     * and fetch or create a [ViewOverlay] for `textView` and add `drawable` to it.
+     *
+     * We next create [PropertyValuesHolder]'s for animating the "left", "top", "right", "bottom",
+     * and "fontSize" from their values found in `startData` to their values found in `endData` and
+     * initialze our variables `val leftProp`, `val topProp`, `val rightProp`, `val bottomProp`, and
+     * `val fontSizeProp` respectively. We then initialize our [ObjectAnimator] variable `val animator`
+     * to an instance which will animate all these [PropertyValuesHolder]'s as well as another one
+     * `val textColorProp` which will animate the "textColor" property using a [ArgbEvaluator] if
+     * and only if the `textColor` of `startData` is not equal to the `textColor` of `endData`.
+     *
+     * Next we initialize our variable `val finalFontSize` to `endFontSize` and initialize our
+     * [AnimatorListenerAdapter] variable `val listener` to an anonymous class with the overrides:
+     *  - `onAnimationEnd` - which is called at the end of the animation, where we remove `drawable`
+     *  as an overlay and restore the `textColors`, `hintTextColors`, `highlightColor` and
+     *  `linkTextColors` properties of `textView` to the values we saved in our local variables.
+     *  - `onAnimationPause` - called when the animation is paused, where we set various properties
+     *  of `textView` to the current values of `drawable`.
+     *  -onAnimationResume - called when the animation is resumed, after being previously paused,
+     *  where we set various properties of `textView` to the values found in `endData`.
+     *
+     * Next we add `listener` as an [Animator.AnimatorListener] to `animator`, and also add it as an
+     * [Animator.AnimatorPauseListener] to `animator`. Finally we return `animator` to the caller.
      *
      * @param sceneRoot The root of the transition hierarchy.
      * @param startValues The values for a specific target in the start scene.
@@ -300,29 +335,79 @@ class TextResize : Transition {
 
         // Create the drawable that will be animated in the TextView's overlay.
         // Ensure that it is showing the start state now.
-        val drawable = SwitchBitmapDrawable(textView, startData.gravity,
-            startBitmap, startFontSize, startWidth, endBitmap, endFontSize, endWidth)
+        val drawable = SwitchBitmapDrawable(
+            textView,
+            startData.gravity,
+            startBitmap,
+            startFontSize,
+            startWidth,
+            endBitmap,
+            endFontSize,
+            endWidth
+        )
         textView.overlay.add(drawable)
 
-        // Properties: left, top, font size, text color
-        val leftProp = PropertyValuesHolder.ofFloat("left", startData.paddingLeft.toFloat(), endData.paddingLeft.toFloat())
-        val topProp = PropertyValuesHolder.ofFloat("top", startData.paddingTop.toFloat(), endData.paddingTop.toFloat())
-        val rightProp = PropertyValuesHolder.ofFloat("right", (
-            startData.width - startData.paddingRight).toFloat(), (endData.width - endData.paddingRight).toFloat())
-        val bottomProp = PropertyValuesHolder.ofFloat("bottom", (
-            startData.height - startData.paddingBottom).toFloat(), (endData.height - endData.paddingBottom).toFloat())
-        val fontSizeProp = PropertyValuesHolder.ofFloat("fontSize", startFontSize, endFontSize)
+        // Properties: left, top, right, bottom, fontSize, and text color
+        val leftProp = PropertyValuesHolder.ofFloat(
+            "left",
+            startData.paddingLeft.toFloat(),
+            endData.paddingLeft.toFloat()
+        )
+        val topProp = PropertyValuesHolder.ofFloat(
+            "top",
+            startData.paddingTop.toFloat(),
+            endData.paddingTop.toFloat()
+        )
+        val rightProp = PropertyValuesHolder.ofFloat(
+            "right",
+            (startData.width - startData.paddingRight).toFloat(),
+            (endData.width - endData.paddingRight).toFloat()
+        )
+        val bottomProp = PropertyValuesHolder.ofFloat(
+            "bottom",
+            (startData.height - startData.paddingBottom).toFloat(),
+            (endData.height - endData.paddingBottom).toFloat()
+        )
+        val fontSizeProp = PropertyValuesHolder.ofFloat(
+            "fontSize",
+            startFontSize,
+            endFontSize
+        )
         val animator: ObjectAnimator = if (startData.textColor != endData.textColor) {
-            val textColorProp = PropertyValuesHolder.ofObject("textColor",
-                ArgbEvaluator(), startData.textColor, endData.textColor)
-            ObjectAnimator.ofPropertyValuesHolder(drawable,
-                leftProp, topProp, rightProp, bottomProp, fontSizeProp, textColorProp)
+            val textColorProp = PropertyValuesHolder.ofObject(
+                "textColor",
+                ArgbEvaluator(),
+                startData.textColor,
+                endData.textColor
+            )
+            ObjectAnimator.ofPropertyValuesHolder(
+                drawable,
+                leftProp,
+                topProp,
+                rightProp,
+                bottomProp,
+                fontSizeProp,
+                textColorProp
+            )
         } else {
-            ObjectAnimator.ofPropertyValuesHolder(drawable,
-                leftProp, topProp, rightProp, bottomProp, fontSizeProp)
+            ObjectAnimator.ofPropertyValuesHolder(
+                drawable,
+                leftProp,
+                topProp,
+                rightProp,
+                bottomProp,
+                fontSizeProp
+            )
         }
         val finalFontSize = endFontSize
         val listener: AnimatorListenerAdapter = object : AnimatorListenerAdapter() {
+            /**
+             * Called at the end of the animation, where we remove `drawable` as an overlay and
+             * restore the `textColors`, `hintTextColors`, `highlightColor` and `linkTextColors`
+             * properties of `textView` to the values we saved in our local variables above.
+             *
+             * @param animation The animation which reached its end.
+             */
             override fun onAnimationEnd(animation: Animator) {
                 textView.overlay.remove(drawable)
                 textView.setTextColor(textColors)
@@ -331,6 +416,12 @@ class TextResize : Transition {
                 textView.setLinkTextColor(linkColors)
             }
 
+            /**
+             * Called when the animation is paused. We set various properties  of `textView` to the
+             * current values of `drawable`.
+             *
+             * @param animation The animation being paused.
+             */
             override fun onAnimationPause(animation: Animator) {
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, drawable.fontSize)
                 val paddingLeft = drawable.getLeft().roundToInt()
@@ -350,10 +441,18 @@ class TextResize : Transition {
                 textView.setTextColor(drawable.textColor)
             }
 
+            /**
+             * Called when the animation is resumed, after being previously paused. We set various
+             * properties of `textView` to the values found in `endData`.
+             *
+             * @param animation The animation being resumed.
+             */
             override fun onAnimationResume(animation: Animator) {
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, finalFontSize)
-                textView.setPadding(endData.paddingLeft, endData.paddingTop,
-                    endData.paddingRight, endData.paddingBottom)
+                textView.setPadding(
+                    endData.paddingLeft, endData.paddingTop,
+                    endData.paddingRight, endData.paddingBottom
+                )
                 textView.setTextColor(endData.textColor)
             }
         }
@@ -363,8 +462,17 @@ class TextResize : Transition {
     }
 
     /**
-     * This Drawable is used to scale the start and end bitmaps and switch between them
+     * This [Drawable] is used to scale the start and end bitmaps and switch between them
      * at the appropriate progress.
+     *
+     * @param view the [TextView] that we are overlaying with our [SwitchBitmapDrawable].
+     * @param gravity the horizontal and vertical alignment of both of the [TextView]'s
+     * @param startBitmap the [Bitmap] of the starting [TextView] captured by [captureTextBitmap]
+     * @param startFontSize the font size of the starting [TextView].
+     * @param startWidth the measured width of the text in the starting [TextView]
+     * @param endBitmap the [Bitmap] of the ending [TextView] captured by [captureTextBitmap]
+     * @param endFontSize the font size of the ending [TextView].
+     * @param endWidth the measured width of the text in the ending [TextView]
      */
     private class SwitchBitmapDrawable(
         private val view: TextView,
@@ -376,6 +484,9 @@ class TextResize : Transition {
         private val endFontSize: Float,
         private val endWidth: Float
     ) : Drawable() {
+        /**
+         * The absolute horizontal gravity of our field `gravity`
+         */
         private val horizontalGravity: Int = gravity and Gravity.HORIZONTAL_GRAVITY_MASK
         private val verticalGravity: Int = gravity and Gravity.VERTICAL_GRAVITY_MASK
         private val paint = Paint()
