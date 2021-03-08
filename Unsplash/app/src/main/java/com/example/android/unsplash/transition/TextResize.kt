@@ -553,6 +553,15 @@ class TextResize : Transition {
                 invalidateSelf()
             }
 
+        /**
+         * Invalidates our entire view so that we will be redrawn. First we call our super's
+         * implementation of `invalidateSelf` which uses the current [Drawable.Callback]
+         * implementation to have this [Drawable] redrawn. Does nothing if there is no `Callback`
+         * attached to the [Drawable]. Then we call the [View.invalidate] method of the [TextView]
+         * field [view]  that we are overlaying with our [SwitchBitmapDrawable] to have it
+         * invalidate the whole view. If the view is visible, `onDraw` will be called at some point
+         * in the future.
+         */
         override fun invalidateSelf() {
             super.invalidateSelf()
             view.invalidate()
@@ -633,27 +642,47 @@ class TextResize : Transition {
         }
 
         /**
-         * We override this to do our drawing.
+         * We override this to do our drawing. First we `save` the current matrix and clip of our
+         * [Canvas] parameter [canvas] onto a private stack, using the [Int] value it returns to
+         * initialize our variable `val saveCount` (this is the count to pass to `restoreToCount`
+         * to balance this `save`). We initialize our [Float] variable `val threshold` to our field
+         * [startFontSize] divided by the sum of our fields [startFontSize] and [endFontSize] (this
+         * is the point in our animation of the font size where we switch between [startBitmap] and
+         * [endBitmap], we do this because scaled-up fonts look bad, so we want to switch when closer
+         * to the smaller font size). We initialize our variable `val fontSize` to the current value
+         * of our [fontSize] property, and initialize our [Float] variable `val progress` to `fontSize`
+         * minus [startFontSize] divided by the quantity [endFontSize] minus [startFontSize] (the
+         * progress we have made animating from [startFontSize] to [endFontSize] which we use to
+         * compare against our bitmap switch threshold `threshold`). We then initialize our [Float]
+         * variable `val expectedWidth` to the value returned by our [interpolate] when it guesses
+         * the width of the drawn text by interpolating between [startWidth] and [endWidth] given
+         * our current value of `progress` (drawn text width is a more accurate scale than font size
+         * so this avoids a jump when switching bitmaps).
          *
          * @param canvas The [Canvas] to draw into.
          */
         override fun draw(canvas: Canvas) {
-            val saveCount = canvas.save()
+            val saveCount: Int = canvas.save()
             // The threshold changes depending on the target font sizes. Because scaled-up
             // fonts look bad, we want to switch when closer to the smaller font size. This
             // algorithm ensures that null bitmaps (font size = 0) are never used.
-            val threshold = startFontSize / (startFontSize + endFontSize)
+            val threshold: Float = startFontSize / (startFontSize + endFontSize)
             val fontSize = fontSize
-            val progress = (fontSize - startFontSize) / (endFontSize - startFontSize)
+            val progress: Float = (fontSize - startFontSize) / (endFontSize - startFontSize)
 
             // The drawn text width is a more accurate scale than font size. This avoids
             // jump when switching bitmaps.
-            val expectedWidth = interpolate(startWidth, endWidth, progress)
+            val expectedWidth: Float = interpolate(startWidth, endWidth, progress)
             if (progress < threshold) {
                 // draw start bitmap
                 val scale = expectedWidth / startWidth
-                val tx = getTranslationPoint(horizontalGravity, left, right,
-                    startBitmap!!.width.toFloat(), scale)
+                val tx = getTranslationPoint(
+                    horizontalGravity,
+                    left,
+                    right,
+                    startBitmap!!.width.toFloat(),
+                    scale
+                )
                 val ty = getTranslationPoint(
                     verticalGravity,
                     top,
@@ -667,10 +696,20 @@ class TextResize : Transition {
             } else {
                 // draw end bitmap
                 val scale = expectedWidth / endWidth
-                val tx = getTranslationPoint(horizontalGravity, left, right,
-                    endBitmap!!.width.toFloat(), scale)
-                val ty = getTranslationPoint(verticalGravity, top, bottom,
-                    endBitmap.height.toFloat(), scale)
+                val tx = getTranslationPoint(
+                    horizontalGravity,
+                    left,
+                    right,
+                    endBitmap!!.width.toFloat(),
+                    scale
+                )
+                val ty = getTranslationPoint(
+                    verticalGravity,
+                    top,
+                    bottom,
+                    endBitmap.height.toFloat(),
+                    scale
+                )
                 canvas.translate(tx, ty)
                 canvas.scale(scale, scale)
                 canvas.drawBitmap(endBitmap, 0f, 0f, paint)
