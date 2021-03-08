@@ -488,7 +488,16 @@ class TextResize : Transition {
          * The absolute horizontal gravity of our field `gravity`
          */
         private val horizontalGravity: Int = gravity and Gravity.HORIZONTAL_GRAVITY_MASK
+
+        /**
+         * The vertical gravity of our field `gravity`
+         */
         private val verticalGravity: Int = gravity and Gravity.VERTICAL_GRAVITY_MASK
+
+        /**
+         * The [Paint] we use to draw our [Bitmap] field [startBitmap] to the [Canvas] passed to our
+         * `draw` override.
+         */
         private val paint = Paint()
 
         /**
@@ -507,9 +516,25 @@ class TextResize : Transition {
                 field = fontSize
                 invalidateSelf()
             }
+
+        /**
+         * The left side of the text in pixels.
+         */
         private var left = 0f
+
+        /**
+         * The top of the text in pixels.
+         */
         private var top = 0f
+
+        /**
+         * The right side of the text in pixels.
+         */
         private var right = 0f
+
+        /**
+         * The bottom of the text in pixels.
+         */
         private var bottom = 0f
 
         /**
@@ -607,6 +632,11 @@ class TextResize : Transition {
             return bottom
         }
 
+        /**
+         * We override this to do our drawing.
+         *
+         * @param canvas The [Canvas] to draw into.
+         */
         override fun draw(canvas: Canvas) {
             val saveCount = canvas.save()
             // The threshold changes depending on the target font sizes. Because scaled-up
@@ -624,8 +654,13 @@ class TextResize : Transition {
                 val scale = expectedWidth / startWidth
                 val tx = getTranslationPoint(horizontalGravity, left, right,
                     startBitmap!!.width.toFloat(), scale)
-                val ty = getTranslationPoint(verticalGravity, top, bottom,
-                    startBitmap.height.toFloat(), scale)
+                val ty = getTranslationPoint(
+                    verticalGravity,
+                    top,
+                    bottom,
+                    startBitmap.height.toFloat(),
+                    scale
+                )
                 canvas.translate(tx, ty)
                 canvas.scale(scale, scale)
                 canvas.drawBitmap(startBitmap, 0f, 0f, paint)
