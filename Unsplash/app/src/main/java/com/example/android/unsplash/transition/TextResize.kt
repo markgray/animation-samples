@@ -659,6 +659,36 @@ class TextResize : Transition {
          * our current value of `progress` (drawn text width is a more accurate scale than font size
          * so this avoids a jump when switching bitmaps).
          *
+         * We now branch depending on whether `progress` has reached `threshold` where we want to
+         * switch from using [startBitmap] to using [endBitmap]:
+         *  - `progress` is less than `threshold` we are drawing using [startBitmap], so we initialize
+         *  our [Float] variable `val scale` to `expectedWidth` divided by [startWidth], call our
+         *  [getTranslationPoint] method to calculate a value to initialize our [Float] variable
+         *  `val tx` with the X distance in pixels we need to translate our [Canvas] parameter [canvas],
+         *  and call our [getTranslationPoint] method to calculate a value to initialize our [Float]
+         *  variable `val ty` with the Y distance in pixels we need to translate our [Canvas] parameter
+         *  [canvas]. We call the [Canvas.translate] method of [canvas] to translate the [Canvas] to
+         *  to the point (`tx`, `ty`), call the [Canvas.scale] method of [canvas] to scale the [Canvas]
+         *  by our `scale` variable in both the X and Y direction, and then call the [Canvas.drawBitmap]
+         *  method of [canvas] to draw [startBitmap] at the position (0, 0) using our [Paint] field
+         *  [paint].
+         *  - `progress` is greater than or equal to `threshold` we are drawing using [endBitmap],
+         *  so we initialize  our [Float] variable `val scale` to `expectedWidth` divided by [endWidth],
+         *  call our [getTranslationPoint] method to calculate a value to initialize our [Float] variable
+         *  `val tx` with the X distance in pixels we need to translate our [Canvas] parameter [canvas],
+         *  and call our [getTranslationPoint] method to calculate a value to initialize our [Float]
+         *  variable `val ty` with the Y distance in pixels we need to translate our [Canvas] parameter
+         *  [canvas]. We call the [Canvas.translate] method of [canvas] to translate the [Canvas] to
+         *  to the point (`tx`, `ty`), call the [Canvas.scale] method of [canvas] to scale the [Canvas]
+         *  by our `scale` variable in both the X and Y direction, and then call the [Canvas.drawBitmap]
+         *  method of [canvas] to draw [endBitmap] at the position (0, 0) using our [Paint] field
+         *  [paint].
+         *
+         * Finally we call the [Canvas.restoreToCount] method of [canvas] to have it pop any calls to
+         * [Canvas.save] that happened after the save count reached `saveCount` (recall that we set
+         * `saveCount` to the value returned from the [Canvas.save] method of [canvas] at the beginnng
+         * of this method so this will pop to the state that [canvas] was in when we were called).
+         *
          * @param canvas The [Canvas] to draw into.
          */
         override fun draw(canvas: Canvas) {
@@ -675,8 +705,8 @@ class TextResize : Transition {
             val expectedWidth: Float = interpolate(startWidth, endWidth, progress)
             if (progress < threshold) {
                 // draw start bitmap
-                val scale = expectedWidth / startWidth
-                val tx = getTranslationPoint(
+                val scale: Float = expectedWidth / startWidth
+                val tx: Float = getTranslationPoint(
                     horizontalGravity,
                     left,
                     right,
@@ -717,15 +747,51 @@ class TextResize : Transition {
             canvas.restoreToCount(saveCount)
         }
 
+        /**
+         * Specify an alpha value for the drawable. 0 means fully transparent, and 255 means fully
+         * opaque. We ignore.
+         *
+         * @param alpha the alpha value to set our alpha to.
+         */
         override fun setAlpha(alpha: Int) {}
+
+        /**
+         * Specify an optional color filter for the drawable. If a Drawable has a [ColorFilter],
+         * each output pixel of the [Drawable]'s drawing contents will be modified by the color
+         * filter before it is blended onto the render target of a Canvas. Pass `null` to remove
+         * any existing color filter. We just call the [Paint.setColorFilter] method of our [Paint]
+         * field [paint] to have it set its `colorFilter` property to our [ColorFilter] parameter
+         * [colorFilter].
+         *
+         * @param colorFilter The [ColorFilter] to apply, or `null` to remove the existing color filter
+         */
         override fun setColorFilter(colorFilter: ColorFilter?) {
             paint.colorFilter = colorFilter
         }
 
+        /**
+         * Return the opacity/transparency of this Drawable. The returned value is one of the abstract
+         * format constants in [android.graphics.PixelFormat]: `UNKNOWN`, `TRANSLUCENT`, `TRANSPARENT`,
+         * or `OPAQUE`.
+         *
+         * An `OPAQUE` drawable is one that draws all all content within its bounds, completely
+         * covering anything behind the drawable. A `TRANSPARENT` drawable is one that draws nothing
+         * within its bounds, allowing everything behind it to show through. A `TRANSLUCENT` drawable
+         * is a drawable in any other state, where the drawable will draw some, but not all,
+         * of the content within its bounds and at least some content behind the drawable will
+         * be visible. If the visibility of the drawable's contents cannot be determined, the
+         * safest/best return value is `TRANSLUCENT`. We just return [PixelFormat.TRANSLUCENT].
+         *
+         * @return int The opacity class of the Drawable.
+         */
         override fun getOpacity(): Int {
             return PixelFormat.TRANSLUCENT
         }
 
+        /**
+         * Called to calculate the distance that the [Canvas] passed to our [draw] method needs to
+         * be translated before we draw its [Bitmap] to it. Works for both the X and Y distance.
+         */
         @SuppressLint("RtlHardcoded")
         private fun getTranslationPoint(
             gravity: Int,
