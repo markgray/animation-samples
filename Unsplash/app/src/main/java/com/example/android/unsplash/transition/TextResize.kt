@@ -790,7 +790,25 @@ class TextResize : Transition {
 
         /**
          * Called to calculate the distance that the [Canvas] passed to our [draw] method needs to
-         * be translated before we draw its [Bitmap] to it. Works for both the X and Y distance.
+         * be translated before it draws its [Bitmap] to it. Works for both the X and Y distance.
+         * We branch based on the type of gravity passed to use in our [gravity] parameter:
+         *  - [Gravity.CENTER_HORIZONTAL] or [Gravity.CENTER_VERTICAL] we return [start] plus [end]
+         *  minus [dim] times [scale] all divided by 2.
+         *  - [Gravity.RIGHT] or [Gravity.BOTTOM] we return [end] minus [dim] times [scale]
+         *  - [Gravity.LEFT] or [Gravity.TOP] we return [start]
+         *  - for all other values of [gravity] we return [start]
+         *
+         * @param gravity the [horizontalGravity] component of our [gravity] field for X distance,
+         * and the [verticalGravity] component of our [gravity] field for Y distance.
+         * @param start The [left] side of the text in pixels for X distance, and the [top] of the
+         * text in pixels for Y distance.
+         * @param end the [right] side of the text in pixels for X distance, and the [bottom] of the
+         * text in pixels for Y distance.
+         * @param dim the `width` of the [Bitmap] being drawn (either [startBitmap] or [endBitmap]
+         * depending on the progress of the the animation) for X distance, and the `height` of that
+         * same [Bitmap] for Y distance.
+         * @param scale the scale that the [Canvas] is going to be scaled by before drawing the
+         * [Bitmap] to it.
          */
         @SuppressLint("RtlHardcoded")
         private fun getTranslationPoint(
@@ -828,14 +846,46 @@ class TextResize : Transition {
     }
 
     companion object {
+        /**
+         * The key under which we store the `textSize` of the [TextView] in the [TransitionValues]
+         * object passed to our [captureValues] method by our [captureStartValues] and [captureEndValues]
+         * overrides.
+         */
         private const val FONT_SIZE = "TextResize:fontSize"
+
+        /**
+         * The key under which we store the [TextResizeData] instance that is used to store all the
+         * non-fontSize properties of the [TextView] in the [TransitionValues] object passed to our
+         * [captureValues] method by our [captureStartValues] and [captureEndValues] overrides.
+         */
         private const val DATA = "TextResize:data"
+
+        /**
+         * The array of property names stored in the [TransitionValues] object passed into [captureStartValues]
+         * that this transition cares about for the purposes of canceling overlapping animations. We
+         * only care about FONT_SIZE. This is the array that our [getTransitionProperties] override
+         * returns to its caller.
+         */
         private val PROPERTIES = arrayOf(
             // We only care about FONT_SIZE. If anything else changes, we don't
             // want this transition to be called to create an Animator.
             FONT_SIZE
         )
 
+        /**
+         * Called to configure the [TextView] parameter [view] to the properties stored in the
+         * [TextResizeData] parameter [data] and the font size parameter [fontSize], have it measure
+         * itself and then use its [View.layout] method to assign its size and position. The [TextView]
+         * used is the one from the end scene and it is configured for the values of the start scene
+         * to save the start [Bitmap] from it, and then configured for the values of the end scene
+         * to save the end [Bitmap] from it when our [createAnimator] override calls us.
+         *
+         * @param view the [TextView] we are to configure and layout, it is the one from the end
+         * scene which is used for both the start and end [Bitmap].
+         * @param data the [TextResizeData] that contains the properties we do not animate.
+         * @param fontSize the font size of the start or end scene depending on which scene is being
+         * captured to a [Bitmap].
+         */
         private fun setTextViewData(view: TextView, data: TextResizeData?, fontSize: Float) {
             view.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
             view.setPadding(data!!.paddingLeft, data.paddingTop, data.paddingRight, data.paddingBottom)
