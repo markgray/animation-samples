@@ -898,6 +898,12 @@ class TextResize : Transition {
             view.layout(view.left, view.top, view.right, view.bottom)
         }
 
+        /**
+         * Creates a [Bitmap] which it draws its [TextView] parameter [textView] into and then returns
+         * that [Bitmap] to the caller.
+         *
+         * @param textView the [TextView] which we are to capture into a [Bitmap].
+         */
         private fun captureTextBitmap(textView: TextView): Bitmap? {
             val background = textView.background
             textView.background = null
