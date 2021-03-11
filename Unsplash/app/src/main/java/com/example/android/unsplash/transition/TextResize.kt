@@ -95,8 +95,8 @@ class TextResize : Transition {
      * start a new animation to these new values. If the values are equal, the old animation is
      * allowed to continue and no new animation is started for that transition.
      *
-     * A transition does not need to override this method. However, not doing so will mean that th
-     * e cancellation logic outlined in the previous paragraph will be skipped for that transition,
+     * A transition does not need to override this method. However, not doing so will mean that the
+     * cancellation logic outlined in the previous paragraph will be skipped for that transition,
      * possibly leading to artifacts as old transitions and new transitions on the same targets run
      * in parallel, animating views toward potentially different end values.
      *
@@ -917,7 +917,7 @@ class TextResize : Transition {
          * @param textView the [TextView] which we are to capture into a [Bitmap].
          */
         private fun captureTextBitmap(textView: TextView): Bitmap? {
-            val background: Drawable = textView.background
+            val background: Drawable? = textView.background
             textView.background = null
             val width: Int = textView.width - textView.paddingLeft - textView.paddingRight
             val height: Int = textView.height - textView.paddingTop - textView.paddingBottom
