@@ -900,19 +900,31 @@ class TextResize : Transition {
 
         /**
          * Creates a [Bitmap] which it draws its [TextView] parameter [textView] into and then returns
-         * that [Bitmap] to the caller.
+         * that [Bitmap] to the caller. First we initialize our [Drawable] variable `val background`
+         * to the `background` property of our [TextView] parameter [textView], then we set the
+         * `background` of [textView] to `null`. We initialize our [Int] variable `val width` to the
+         * `width` of [textView] minus its `paddingLeft` and minus its `paddingRight`, and initialize
+         * our [Int] variable `val height` to the `height` of [textView] minus its `paddingTop` and
+         * minus its `paddingTop`. If either the `width` or `height` variable turns out to be 0 we
+         * just return `null` to the caller. Otherwise we initialize our [Bitmap] variable `val bitmap`
+         * to a `width` by `height` instance configured to use the `ARGB_8888` bitmap configuration.
+         * We construct a [Canvas] that will draw into the [Bitmap] `bitmap` to initialize our variable
+         * `val canvas`, translate `canvas` by minus the `paddingLeft` of [textView] in the X direction,
+         * and minus the `paddingTop` of [textView] in the Y direction, then instruct [textView] to
+         * draw into `canvas`. Finally we restore the `background` of [textView] to the [Drawable] we
+         * saved in our `background` variable and return `bitmap` to the caller.
          *
          * @param textView the [TextView] which we are to capture into a [Bitmap].
          */
         private fun captureTextBitmap(textView: TextView): Bitmap? {
-            val background = textView.background
+            val background: Drawable = textView.background
             textView.background = null
-            val width = textView.width - textView.paddingLeft - textView.paddingRight
-            val height = textView.height - textView.paddingTop - textView.paddingBottom
+            val width: Int = textView.width - textView.paddingLeft - textView.paddingRight
+            val height: Int = textView.height - textView.paddingTop - textView.paddingBottom
             if (width == 0 || height == 0) {
                 return null
             }
-            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            val bitmap: Bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
             canvas.translate(-textView.paddingLeft.toFloat(), -textView.paddingTop.toFloat())
             textView.draw(canvas)
@@ -920,6 +932,16 @@ class TextResize : Transition {
             return bitmap
         }
 
+        /**
+         * Called to interpolate between a property from the start scene and that property of the
+         * end scene based on the current animation fraction of our [Animator]. We return the [start]
+         * value plus [fraction] times the quantity [end] minus [start].
+         *
+         * @param start the value of the property of interest in the start scene.
+         * @param end the value of the property of interest in the end scene.
+         * @param fraction the current animation fraction, which is the elapsed/interpolated fraction
+         * used in the most recent frame update on the animation.
+         */
         private fun interpolate(start: Float, end: Float, fraction: Float): Float {
             return start + fraction * (end - start)
         }
