@@ -21,8 +21,25 @@ import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
+import com.example.android.unsplash.DetailActivity
+import com.example.android.unsplash.MainActivity
+import com.example.android.unsplash.data.model.Photo
 
+/**
+ * This custom [OnItemTouchListener] is added as the [OnItemTouchListener] for the grid [RecyclerView]
+ * in the `populateGrid` method of [MainActivity], and its [onItemSelected] method is overridden by
+ * a method which will do all that is necessary to start up [DetailActivity] and have it display the
+ * [Photo] that the user clicked in that [RecyclerView].
+ */
 abstract class OnItemSelectedListener(context: Context?) : OnItemTouchListener {
+    /**
+     * The [GestureDetector] we use to catch a [MotionEvent] that is an up motion event in its
+     * `onSingleTapUp` override, in order to return `true` to consume the event. Our override of
+     * [onInterceptTouchEvent] will use this object to determine if the [MotionEvent] it intercepted
+     * is a touch event, in which case it will determine the `ViewHolder` of the child view of the
+     * [RecyclerView] that was touched as well as its adapter position and then pass these as arguments
+     * to the override of our [onItemSelected] method.
+     */
     private val gestureDetector: GestureDetector = GestureDetector(context,
         object : SimpleOnGestureListener() {
             override fun onSingleTapUp(e: MotionEvent): Boolean {
@@ -34,8 +51,10 @@ abstract class OnItemSelectedListener(context: Context?) : OnItemTouchListener {
     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
         if (gestureDetector.onTouchEvent(e)) {
             val touchedView = rv.findChildViewUnder(e.x, e.y)
-            onItemSelected(rv.findContainingViewHolder(touchedView!!)!!,
-                rv.getChildAdapterPosition(touchedView))
+            onItemSelected(
+                rv.findContainingViewHolder(touchedView!!)!!,
+                rv.getChildAdapterPosition(touchedView)
+            )
         }
         return false
     }
