@@ -17,6 +17,7 @@ package com.example.android.unsplash.ui.grid
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -40,13 +41,53 @@ class PhotoAdapter(
     context: Context,
     private val photos: ArrayList<Photo?>
     ) : RecyclerView.Adapter<PhotoViewHolder>() {
+    /**
+     * The requested width in pixels of the image we download, which is the absolute width of the
+     * available display size in pixels in our case. The [Photo.getPhotoUrl] method uses the string
+     * value of this when it constructs the URL for the image of the [Photo] object.
+     */
     private val requestedPhotoWidth: Int = context.resources.displayMetrics.widthPixels
+
+    /**
+     * The [LayoutInflater] that we use to inflate our layout file [R.layout.photo_item] into a
+     * [PhotoItemBinding] to use in constructing a new instance of [PhotoViewHolder] in our override
+     * of [onCreateViewHolder]
+     */
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
+
+    /**
+     * Called when RecyclerView needs a new [PhotoViewHolder] to represent a [Photo] item. The new
+     * [PhotoViewHolder] will be used to display items of the adapter using [onBindViewHolder]. We
+     * have the [DataBindingUtil.inflate] method use our [LayoutInflater] field [layoutInflater] to
+     * inflate our layout file [R.layout.photo_item] using our [ViewGroup] parameter [parent] for
+     * its layout parameters without attaching to it into a [PhotoItemBinding] and return a
+     * [PhotoViewHolder] constructed to use that view binding to the caller.
+     *
+     * @param parent The [ViewGroup] into which the new [View] will be added after it is bound to
+     * an adapter position.
+     * @param viewType The view type of the new View.
+     * @return A new [PhotoViewHolder] that holds a view that displays a [Photo] object.
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
-        return PhotoViewHolder(DataBindingUtil.inflate<ViewDataBinding>(layoutInflater,
-            R.layout.photo_item, parent, false) as PhotoItemBinding)
+        return PhotoViewHolder(
+            DataBindingUtil.inflate<ViewDataBinding>(
+                layoutInflater,
+                R.layout.photo_item,
+                parent,
+                false
+            ) as PhotoItemBinding
+        )
     }
 
+    /**
+     * Called by [RecyclerView] to display the data at the specified position. This method should
+     * update the contents of the [PhotoViewHolder.itemView] to reflect the item at the given
+     * position.
+     *
+     * @param holder The [PhotoViewHolder] which should be updated to represent the contents of the
+     * item at the given [position] in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
         val binding = holder.binding
         val data: Photo? = photos[position]
