@@ -22,13 +22,24 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.android.unsplash.MainActivity
 import com.example.android.unsplash.R
 import com.example.android.unsplash.data.model.Photo
 import com.example.android.unsplash.databinding.PhotoItemBinding
 import com.example.android.unsplash.ui.ImageSize
 import java.util.ArrayList
 
-class PhotoAdapter(context: Context, private val photos: ArrayList<Photo?>) : RecyclerView.Adapter<PhotoViewHolder>() {
+/**
+ * This is the [RecyclerView.Adapter] used to feed data to the [RecyclerView] used by the UI of the
+ * activity [MainActivity] for its grid.
+ *
+ * @param context the [Context] of [MainActivity] in our case.
+ * @param photos the dataset of [Photo] objects we are to use.
+ */
+class PhotoAdapter(
+    context: Context,
+    private val photos: ArrayList<Photo?>
+    ) : RecyclerView.Adapter<PhotoViewHolder>() {
     private val requestedPhotoWidth: Int = context.resources.displayMetrics.widthPixels
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
