@@ -23,19 +23,27 @@ import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.example.android.unsplash.R
+import com.example.android.unsplash.DetailActivity
 import com.example.android.unsplash.data.model.Photo
 import com.example.android.unsplash.databinding.DetailViewBinding
 import com.example.android.unsplash.ui.DetailSharedElementEnterCallback
 import com.example.android.unsplash.ui.ImageSize
 
 /**
- * Adapter for paging detail views.
+ * Adapter for paging detail views in the UI of [DetailActivity].
+ *
+ * @param activity the [AppCompatActivity] to use for accessing resources, [DetailActivity] in our case.
+ * @param photos the [List] of [Photo] objects we should use as our dataset.
+ * @param callback the [DetailSharedElementEnterCallback] to use as our `EnterSharedElementCallback`
  */
 class DetailViewPagerAdapter(
     activity: AppCompatActivity,
     photos: List<Photo>,
     callback: DetailSharedElementEnterCallback
 ) : PagerAdapter() {
+    /**
+     * Our dataset.
+     */
     private val allPhotos: List<Photo> = photos
     private val layoutInflater: LayoutInflater = LayoutInflater.from(activity)
     private val photoWidth: Int = activity.resources.displayMetrics.widthPixels
