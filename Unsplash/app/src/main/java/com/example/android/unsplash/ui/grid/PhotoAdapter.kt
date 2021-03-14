@@ -16,9 +16,11 @@
 package com.example.android.unsplash.ui.grid
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -81,15 +83,27 @@ class PhotoAdapter(
 
     /**
      * Called by [RecyclerView] to display the data at the specified position. This method should
-     * update the contents of the [PhotoViewHolder.itemView] to reflect the item at the given
-     * position.
+     * update the contents of the [PhotoViewHolder.itemView] to reflect the item at the given position.
+     * We initialize our [PhotoItemBinding] variable `val binding` to the `binding` property of our
+     * [PhotoViewHolder] parameter [holder], and our [Photo] variable `val data` to the [Photo] at
+     * position [position] in our dataset [photos]. We set the `data` variable of `binding` to `data`,
+     * then call the `executePendingBindings` method of `binding` to have it evaluate the pending
+     * bindings, updating any Views that have expressions bound to the modified variable. Finally we
+     * begin a load with Glide using the `context` [Context] of our [LayoutInflater] field
+     * [layoutInflater] which will load the URL that the [Photo.getPhotoUrl] method of the `data`
+     * [Photo] variable of the `binding` property of [holder] constructs for that [Photo] and for
+     * our [requestedPhotoWidth] requested photo width, using the [Drawable] with resource ID
+     * [R.color.placeholder] to display while the image is downloaded, overriding the `Target` width
+     * and height with the two entries in the [ImageSize.NORMAL] array, and setting the [ImageView]
+     * that the jpeg downloaded will be loaded into to the `photo` [ImageView] of the `binding`
+     * property of [holder].
      *
      * @param holder The [PhotoViewHolder] which should be updated to represent the contents of the
      * item at the given [position] in the data set.
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
-        val binding = holder.binding
+        val binding: PhotoItemBinding = holder.binding
         val data: Photo? = photos[position]
         binding.data = data!!
         binding.executePendingBindings()
@@ -101,6 +115,12 @@ class PhotoAdapter(
             .into(holder.binding.photo)
     }
 
+    /**
+     * Returns the total number of items in the data set held by the adapter. We just return the
+     * `size` of our [ArrayList] of [Photo] field [photos].
+     *
+     * @return The total number of items in this adapter.
+     */
     override fun getItemCount(): Int {
         return photos.size
     }
