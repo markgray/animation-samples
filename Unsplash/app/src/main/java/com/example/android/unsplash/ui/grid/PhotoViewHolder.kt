@@ -16,6 +16,18 @@
 package com.example.android.unsplash.ui.grid
 
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android.unsplash.MainActivity
 import com.example.android.unsplash.databinding.PhotoItemBinding
 
-class PhotoViewHolder(val binding: PhotoItemBinding) : RecyclerView.ViewHolder(binding.root)
+/**
+ * The custom [RecyclerView.ViewHolder] used by the [PhotoAdapter] to hold the views displayed in the
+ * grid [RecyclerView] of the UI of [MainActivity]. Our constructor just takes the [PhotoItemBinding]
+ * of an inflated layout file layout/photo_item.xml and passes the outermost View of the layout file
+ * associated with the Binding to our super's constructor.
+ *
+ * @param binding a [PhotoItemBinding] inflated from the layout file layout/photo_item.xml that we
+ * should use to display our data in.
+ */
+class PhotoViewHolder(
+    val binding: PhotoItemBinding
+    ) : RecyclerView.ViewHolder(binding.root)
