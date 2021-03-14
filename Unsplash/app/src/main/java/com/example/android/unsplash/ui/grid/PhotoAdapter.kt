@@ -125,6 +125,14 @@ class PhotoAdapter(
         return photos.size
     }
 
+    /**
+     * Return the stable ID for the item at [position]. If [hasStableIds] would return `false` this
+     * method should return `NO_ID`. We return the `id` property of the [Photo] at position [position]
+     * in our [ArrayList] of [Photo] field [photos].
+     *
+     * @param position Adapter position to query
+     * @return the stable ID of the item at position
+     */
     override fun getItemId(position: Int): Long {
         return photos[position]!!.id
     }
