@@ -13,23 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.android.unsplash.ui.grid
 
-package com.example.android.unsplash.ui.grid;
+import androidx.recyclerview.widget.RecyclerView
+import com.example.android.unsplash.databinding.PhotoItemBinding
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.android.unsplash.databinding.PhotoItemBinding;
-
-public class PhotoViewHolder extends RecyclerView.ViewHolder {
-
-    private final PhotoItemBinding binding;
-
-    public PhotoViewHolder(PhotoItemBinding itemBinding) {
-        super(itemBinding.getRoot());
-        binding = itemBinding;
-    }
-
-    public PhotoItemBinding getBinding() {
-        return binding;
-    }
-}
+class PhotoViewHolder(val binding: PhotoItemBinding) : RecyclerView.ViewHolder(binding.root)
