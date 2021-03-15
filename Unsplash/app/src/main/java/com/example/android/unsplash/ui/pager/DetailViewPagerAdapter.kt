@@ -140,6 +140,10 @@ class DetailViewPagerAdapter(
      * Called to inform the adapter of which item is currently considered to be the "primary", that
      * is the one show to the user as the current page.
      *
+     * If our [Any] parameter [binding] is an instance of [DetailViewBinding] we call the `setBinding`
+     * method of our [DetailSharedElementEnterCallback] field [sharedElementCallback] with [binding]
+     * to have it save [binding] in its `currentDetailBinding` field.
+     *
      * @param container The containing [ViewGroup] which is displaying this adapter's page views.
      * @param position The page position that is now the primary.
      * @param binding The same object that was returned by [instantiateItem].
@@ -150,11 +154,33 @@ class DetailViewPagerAdapter(
         }
     }
 
+    /**
+     * Determines whether a page [View] is associated with a specific key object as returned by
+     * [instantiateItem]. This method is required for a [PagerAdapter] to function properly. If our
+     * [Any] parameter [binding] is an instance of [DetailViewBinding] and [view] is equal to the
+     * outermost [View] in the layout file associated with [binding] we return `true`, otherwise we
+     * return `false`.
+     *
+     * @param view Page View to check for association with [binding]
+     * @param binding Object to check for association with [view]
+     * @return `true` if [binding] is associated with the key object [binding]
+     */
     override fun isViewFromObject(view: View, binding: Any): Boolean {
         return (binding is DetailViewBinding
             && view == binding.root)
     }
 
+    /**
+     * Remove a page for the given position. The adapter is responsible for removing the view from
+     * its container, although it only must ensure this is done by the time it returns from
+     * [finishUpdate]. We call the `removeView` method of our [ViewGroup] parameter [container] to
+     * have it remove the outermost [View] in the layout file associated with [DetailViewBinding]
+     * parameter [binding].
+     *
+     * @param container The containing [ViewGroup] from which the page will be removed.
+     * @param position The page position to be removed.
+     * @param binding The same object that was returned by [instantiateItem].
+     */
     override fun destroyItem(container: ViewGroup, position: Int, binding: Any) {
         container.removeView((binding as DetailViewBinding).root)
     }
