@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2019 Google LLC
+<?xml version="1.0" encoding="UTF-8"?><!-- Copyright 2019 Google LLC
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -28,6 +27,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

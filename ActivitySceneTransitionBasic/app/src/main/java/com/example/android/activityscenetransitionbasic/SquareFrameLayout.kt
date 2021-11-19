@@ -76,10 +76,9 @@ class SquareFrameLayout @JvmOverloads constructor(
             setMeasuredDimension(minSize, minSize)
             return
         }
-        val size: Int
-        size = if (widthSize == 0 || heightSize == 0) {
+        val size: Int = if (widthSize == 0 || heightSize == 0) {
             // If one of the dimensions has no restriction on size, set both dimensions to be the
-            // on that does
+            // one that does
             widthSize.coerceAtLeast(heightSize)
         } else {
             // Both dimensions have restrictions on size, set both dimensions to be the
