@@ -177,7 +177,7 @@ class InterpolatorFragment : Fragment() {
         // Set up the Spinner with the names of interpolators.
         mInterpolatorSpinner = view.findViewById(R.id.interpolatorSpinner)
         val spinnerAdapter = ArrayAdapter(
-            activity!!,
+            requireActivity(),
             android.R.layout.simple_spinner_dropdown_item,
             mInterpolatorNames
         )
