@@ -86,15 +86,17 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
     }
 
     /**
-     * Called when the fragment's activity has been created and this fragment's view hierarchy
-     * instantiated. We call our super's implementation of `onActivityCreated` then set the
-     * title of our `FragmentActivity` to "DrawableAnimations".
+     * Called when all saved state has been restored into the view hierarchy of the fragment. This
+     * can be used to do initialization based on saved state that you are letting the view hierarchy
+     * track itself, such as whether check box widgets are currently checked. This is called after
+     * [onViewCreated] and before [onStart]. We call our super's implementation of `onViewStateRestored`
+     * then set the title of our `FragmentActivity` to "DrawableAnimations".
      *
-     * @param savedInstanceState If the fragment is being re-created from
-     * a previous saved state, this is the state.
+     * @param savedInstanceState If the fragment is being re-created from a previous saved state,
+     * this is the state.
      */
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
         activity?.setTitle(R.string.app_name)
     }
 }
