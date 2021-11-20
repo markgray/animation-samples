@@ -187,7 +187,7 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
             // instead of fading out with the rest to prevent an overlapping animation of fade and move).
             (fragment.exitTransition as TransitionSet?)!!.excludeTarget(view, true)
             val transitioningView = view.findViewById<ImageView>(R.id.card_image)
-            fragment.fragmentManager!!
+            fragment.parentFragmentManager
                 .beginTransaction()
                 .setReorderingAllowed(true) // Optimize for shared element transition
                 .addSharedElement(transitioningView, transitioningView.transitionName)
@@ -233,7 +233,7 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
          * the image resource in [IMAGE_DRAWABLES] as the unique transition name for [image].
          */
         fun onBind() {
-            val adapterPosition = adapterPosition
+            val adapterPosition = bindingAdapterPosition
             setImage(adapterPosition)
             // Set the string value of the image resource as the unique transition name for the view.
             image.transitionName = IMAGE_DRAWABLES[adapterPosition].toString()
@@ -331,7 +331,7 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
          */
         override fun onClick(view: View) {
             // Let the listener start the ImagePagerFragment.
-            viewHolderListener.onItemClicked(view, adapterPosition)
+            viewHolderListener.onItemClicked(view, bindingAdapterPosition)
         }
 
         /**
