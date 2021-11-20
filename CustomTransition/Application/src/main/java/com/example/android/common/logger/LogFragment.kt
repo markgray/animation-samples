@@ -82,6 +82,7 @@ class LogFragment : Fragment() {
         return mScrollView!!
     }
 
+    @Suppress("RedundantNullableReturnType")
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
