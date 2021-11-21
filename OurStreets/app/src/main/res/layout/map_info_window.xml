@@ -25,4 +25,5 @@
         android:textColor="?android:colorForeground"
         android:clickable="true"
         android:stateListAnimator="@animator/selector_raise"
-        tools:ignore="Overdraw"/>
+        tools:ignore="Overdraw"
+    android:focusable="true" />

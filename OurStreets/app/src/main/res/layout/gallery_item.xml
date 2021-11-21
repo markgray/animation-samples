@@ -24,7 +24,8 @@
         app:cardBackgroundColor="@android:color/transparent"
         android:transitionGroup="true"
         android:clickable="true"
-        android:stateListAnimator="@animator/selector_raise">
+        android:stateListAnimator="@animator/selector_raise"
+    android:focusable="true">
 
     <LinearLayout
             android:id="@+id/container_item_description"
