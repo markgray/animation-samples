@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+@file:Suppress("KotlinDeprecation", "DEPRECATION")
 package com.example.android.motion.demo.loading
 
 import androidx.lifecycle.LiveData

@@ -16,6 +16,7 @@
 
 package com.example.android.motion.ui
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +41,7 @@ import com.google.android.material.appbar.AppBarLayout
  *  - when the SDK is greater than or equal to 30 we use [EdgeToEdgeApi30] which overrides all
  *  three methods of [EdgeToEdgeImpl] with api's introduced with SDK 30 (or will eventually)
  */
+@SuppressLint("ObsoleteSdkInt")
 object EdgeToEdge: EdgeToEdgeImpl by when {
     Build.VERSION.SDK_INT >= 30 -> EdgeToEdgeApi30()
     Build.VERSION.SDK_INT >= 21 -> EdgeToEdgeApi21()

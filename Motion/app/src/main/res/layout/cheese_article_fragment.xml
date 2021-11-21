@@ -23,7 +23,8 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSurface"
     android:elevation="1dp"
-    tools:targetApi="21">
+    tools:targetApi="21"
+    tools:ignore="Overdraw">
 
     <com.example.android.motion.demo.sharedelement.MirrorView
         android:id="@+id/card_mirror"
