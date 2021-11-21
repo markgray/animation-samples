@@ -48,6 +48,6 @@ interface UnsplashService {
          * of the [RestAdapter.Builder] used in the `displayData` method of [MainActivity] to create
          * the instance of [UnsplashService] it uses to download its dataset of [Photo] objects.
          */
-        const val ENDPOINT = "https://unsplash.it"
+        const val ENDPOINT = "https://picsum.photos"
     }
 }
