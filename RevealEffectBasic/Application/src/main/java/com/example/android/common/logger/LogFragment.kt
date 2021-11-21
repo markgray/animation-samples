@@ -28,6 +28,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:Suppress("RedundantNullableReturnType")
+
 package com.example.android.common.logger
 
 import android.R.style.TextAppearance_Holo_Medium
