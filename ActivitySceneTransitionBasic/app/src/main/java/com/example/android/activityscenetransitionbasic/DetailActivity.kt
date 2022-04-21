@@ -15,6 +15,7 @@
  */
 package com.example.android.activityscenetransitionbasic
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.transition.Transition
@@ -96,6 +97,7 @@ class DetailActivity : AppCompatActivity() {
      * when the transition is complete), otherwise we call our method [loadFullSizeImage] to just
      * load the full-size image of [mItem] now.
      */
+    @SuppressLint("ObsoleteSdkInt")
     private fun loadItem() {
         // Set the title TextView to the item's name and author
         mHeaderTitle.text = getString(R.string.image_header, mItem.name, mItem.author)
