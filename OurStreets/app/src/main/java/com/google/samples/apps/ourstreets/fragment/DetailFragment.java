@@ -289,7 +289,7 @@ public class DetailFragment extends Fragment implements DataView<Detail> {
         final List<Detail> locations = mGallery.getDetails();
         ClusterManager<Detail> clusterManager = getClusterManager(googleMap);
         clusterManager.addItems(locations);
-        googleMap.setOnCameraChangeListener(clusterManager);
+        googleMap.setOnCameraChangeListener((GoogleMap.OnCameraChangeListener) clusterManager);
     }
 
     @NonNull

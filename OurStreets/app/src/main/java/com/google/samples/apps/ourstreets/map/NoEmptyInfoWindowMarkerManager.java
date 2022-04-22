@@ -25,7 +25,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
-import com.google.maps.android.MarkerManager;
+import com.google.maps.android.collections.MarkerManager;
 
 import com.google.samples.apps.ourstreets.R;
 
