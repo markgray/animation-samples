@@ -14,11 +14,11 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
 -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">DrawableAnimations</string>
 
-    <string name="demo_title_animated">AnimatedVectorDrawable</string>
-    <string name="demo_title_seekable">SeekableAnimatedVectorDrawable</string>
+    <string name="demo_title_animated" tools:ignore="UnusedResources">AnimatedVectorDrawable</string>
+    <string name="demo_title_seekable" tools:ignore="UnusedResources">SeekableAnimatedVectorDrawable</string>
 
     <string name="start">Start</string>
     <string name="stop">Stop</string>
