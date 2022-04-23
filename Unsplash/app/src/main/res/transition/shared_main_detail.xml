@@ -20,6 +20,7 @@
             <target android:targetId="@id/photo" />
         </targets>
         <changeBounds>
+            <!--suppress AndroidElementNotAllowed -->
             <arcMotion android:maximumAngle="50"/>
         </changeBounds>
         <changeTransform />

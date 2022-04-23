@@ -14,7 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <androidx.viewpager.widget.ViewPager
@@ -25,4 +25,4 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:navigationIcon="@drawable/ic_arrow_back" />
-</FrameLayout>
+</merge>
