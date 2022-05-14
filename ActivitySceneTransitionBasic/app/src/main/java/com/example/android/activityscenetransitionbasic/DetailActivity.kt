@@ -149,6 +149,7 @@ class DetailActivity : AppCompatActivity() {
      *
      * @return `true` if we were successful in adding a listener to the enter transition
      */
+    @SuppressLint("SupportAnnotationUsage", "ObsoleteSdkInt")
     @RequiresApi(21)
     private fun addTransitionListener(): Boolean {
         val transition = window.sharedElementEnterTransition
