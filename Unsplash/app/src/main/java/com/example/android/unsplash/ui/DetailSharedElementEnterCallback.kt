@@ -353,6 +353,7 @@ class DetailSharedElementEnterCallback(
      * @param sharedElements The mapping of the shared element names in [names] to their [View].
      * @param elementsToRemove The names of the elements that should be removed.
      */
+    @Suppress("ConvertArgumentToSet")
     private fun removeObsoleteElements(
         names: MutableList<String>,
         sharedElements: MutableMap<String, View>,
