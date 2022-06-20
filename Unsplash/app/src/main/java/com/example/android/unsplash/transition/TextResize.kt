@@ -784,6 +784,7 @@ class TextResize : Transition {
          *
          * @return int The opacity class of the Drawable.
          */
+        @Deprecated("Deprecated in Java", ReplaceWith("PixelFormat.TRANSLUCENT", "android.graphics.PixelFormat"))
         override fun getOpacity(): Int {
             return PixelFormat.TRANSLUCENT
         }
