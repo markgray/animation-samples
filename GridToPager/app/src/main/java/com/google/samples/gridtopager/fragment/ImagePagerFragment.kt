@@ -68,9 +68,9 @@ class ImagePagerFragment : Fragment() {
      * @return Return the [View] for the fragment's UI, or null.
      */
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         viewPager = inflater.inflate(R.layout.fragment_pager, container, false) as ViewPager
         viewPager.adapter = ImagePagerAdapter(this)
@@ -109,7 +109,7 @@ class ImagePagerFragment : Fragment() {
      */
     private fun prepareSharedElementTransition() {
         val transition: Transition = TransitionInflater.from(context)
-                .inflateTransition(R.transition.image_shared_element_transition)
+            .inflateTransition(R.transition.image_shared_element_transition)
         sharedElementEnterTransition = transition
 
         // A similar mapping is set at the GridFragment with a setExitSharedElementCallback.
@@ -133,13 +133,13 @@ class ImagePagerFragment : Fragment() {
                     // visible). To locate the fragment, call instantiateItem with the selection position.
                     // At this stage, the method will simply return the fragment at the position and will
                     // not create a new one.
-                    val currentFragment = viewPager.adapter!!
-                            .instantiateItem(viewPager, MainActivity.currentPosition) as Fragment
+                    val currentFragment = (viewPager.adapter ?: return)
+                        .instantiateItem(viewPager, MainActivity.currentPosition) as Fragment
                     val view = currentFragment.view ?: return
 
                     // Map the first shared element name to the child ImageView.
                     sharedElements[names[0]] = view.findViewById(R.id.image)
-                    }
-                })
+                }
+            })
     }
 }

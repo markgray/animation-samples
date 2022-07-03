@@ -60,14 +60,14 @@ class GridFragment : Fragment() {
      * @return Return the [View] for the fragment's UI.
      */
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         recyclerView = inflater.inflate(
-                R.layout.fragment_grid,
-                container,
-                false
+            R.layout.fragment_grid,
+            container,
+            false
         ) as RecyclerView
         recyclerView.adapter = GridAdapter(this)
         prepareTransitions()
@@ -130,23 +130,24 @@ class GridFragment : Fragment() {
              * @param oldBottom The previous value of the view's bottom property.
              */
             override fun onLayoutChange(
-                    v: View,
-                    left: Int,
-                    top: Int,
-                    right: Int,
-                    bottom: Int,
-                    oldLeft: Int,
-                    oldTop: Int,
-                    oldRight: Int,
-                    oldBottom: Int
+                v: View,
+                left: Int,
+                top: Int,
+                right: Int,
+                bottom: Int,
+                oldLeft: Int,
+                oldTop: Int,
+                oldRight: Int,
+                oldBottom: Int
             ) {
                 recyclerView.removeOnLayoutChangeListener(this)
                 val layoutManager: RecyclerView.LayoutManager? = recyclerView.layoutManager
-                val viewAtPosition = layoutManager!!.findViewByPosition(MainActivity.currentPosition)
+                val viewAtPosition = (layoutManager
+                    ?: return).findViewByPosition(MainActivity.currentPosition)
                 // Scroll to position if the view for the current position is null (not currently part of
                 // layout manager children), or it's not completely visible.
                 if (viewAtPosition == null || layoutManager
-                                .isViewPartiallyVisible(viewAtPosition, false, true)) {
+                        .isViewPartiallyVisible(viewAtPosition, false, true)) {
                     recyclerView.post {
                         layoutManager.scrollToPosition(MainActivity.currentPosition)
                     }
@@ -173,36 +174,35 @@ class GridFragment : Fragment() {
      */
     private fun prepareTransitions() {
         exitTransition = TransitionInflater.from(context)
-                .inflateTransition(R.transition.grid_exit_transition)
+            .inflateTransition(R.transition.grid_exit_transition)
 
         // A similar mapping is set at the ImagePagerFragment with a setEnterSharedElementCallback.
         setExitSharedElementCallback(
-                object : SharedElementCallback() {
-                    /**
-                     * Lets the SharedElementCallback adjust the mapping of shared element names to
-                     * Views. We set our [RecyclerView.ViewHolder] variable `val selectedViewHolder`
-                     * to the view holder in the position [MainActivity.currentPosition], returning
-                     * if it is `null`. If it is not `null` we set the first shared element name in
-                     * the [sharedElements] map parameter to the child ImageView we find with ID
-                     * [R.id.card_image] in the item view of `selectedViewHolder`.
-                     *
-                     * @param names The names of all shared elements transferred from the calling
-                     * Activity or Fragment in the order they were provided.
-                     * @param sharedElements The mapping of shared element names to Views. The best
-                     * guess will be filled into sharedElements based on the transitionNames.
-                     */
-                    override fun onMapSharedElements(
-                            names: List<String>,
-                            sharedElements: MutableMap<String, View>
-                    ) {
-                        // Locate the ViewHolder for the clicked position.
-                        val selectedViewHolder: RecyclerView.ViewHolder
-                            = recyclerView.findViewHolderForAdapterPosition(MainActivity.currentPosition)
-                            ?: return
+            object : SharedElementCallback() {
+                /**
+                 * Lets the SharedElementCallback adjust the mapping of shared element names to
+                 * Views. We set our [RecyclerView.ViewHolder] variable `val selectedViewHolder`
+                 * to the view holder in the position [MainActivity.currentPosition], returning
+                 * if it is `null`. If it is not `null` we set the first shared element name in
+                 * the [sharedElements] map parameter to the child ImageView we find with ID
+                 * [R.id.card_image] in the item view of `selectedViewHolder`.
+                 *
+                 * @param names The names of all shared elements transferred from the calling
+                 * Activity or Fragment in the order they were provided.
+                 * @param sharedElements The mapping of shared element names to Views. The best
+                 * guess will be filled into sharedElements based on the transitionNames.
+                 */
+                override fun onMapSharedElements(
+                    names: List<String>,
+                    sharedElements: MutableMap<String, View>
+                ) {
+                    // Locate the ViewHolder for the clicked position.
+                    val selectedViewHolder: RecyclerView.ViewHolder = recyclerView.findViewHolderForAdapterPosition(MainActivity.currentPosition)
+                        ?: return
 
-                        // Map the first shared element name to the child ImageView.
-                        sharedElements[names[0]] = selectedViewHolder.itemView.findViewById(R.id.card_image)
-                    }
-                })
+                    // Map the first shared element name to the child ImageView.
+                    sharedElements[names[0]] = selectedViewHolder.itemView.findViewById(R.id.card_image)
+                }
+            })
     }
 }

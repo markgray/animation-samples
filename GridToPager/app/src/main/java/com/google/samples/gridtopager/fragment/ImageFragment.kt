@@ -70,14 +70,15 @@ class ImageFragment : Fragment() {
      * @return Return the [View] for the fragment's UI, or `null`.
      */
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_image, container, false)
         val arguments: Bundle? = arguments
+
         @DrawableRes
-        val imageRes = arguments!!.getInt(KEY_IMAGE_RES)
+        val imageRes = (arguments ?: return null).getInt(KEY_IMAGE_RES)
 
         // Just like we do when binding views at the grid, we set the transition name to be the string
         // value of the image res.
@@ -113,8 +114,8 @@ class ImageFragment : Fragment() {
                     parentFragment!!.startPostponedEnterTransition()
                     return false
                 }
-                })
-                .into((view.findViewById<View>(R.id.image) as ImageView))
+            })
+            .into((view.findViewById<View>(R.id.image) as ImageView))
         return view
     }
 

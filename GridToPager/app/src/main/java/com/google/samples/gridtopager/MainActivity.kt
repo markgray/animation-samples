@@ -53,9 +53,9 @@ class MainActivity : AppCompatActivity() {
         }
         val fragmentManager: FragmentManager = supportFragmentManager
         fragmentManager
-                .beginTransaction()
-                .add(R.id.fragment_container, GridFragment(), GridFragment::class.java.simpleName)
-                .commit()
+            .beginTransaction()
+            .add(R.id.fragment_container, GridFragment(), GridFragment::class.java.simpleName)
+            .commit()
     }
 
     /**
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
          * in `ImageData.IMAGE_DRAWABLES[]`
          */
         @JvmField
-        var currentPosition = 0
+        var currentPosition: Int = 0
 
         /**
          * Key under which we save our field [currentPosition] when our [onSaveInstanceState]

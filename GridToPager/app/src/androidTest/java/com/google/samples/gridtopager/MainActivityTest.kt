@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 @file:Suppress("DEPRECATION")
+
 package com.google.samples.gridtopager
 
 import androidx.test.espresso.Espresso.onView
@@ -30,7 +31,7 @@ class MainActivityTest {
 
     @Rule
     @JvmField
-    var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
+    var mActivityTestRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
 
     @Test
     fun recyclerView_isDisplayed() {

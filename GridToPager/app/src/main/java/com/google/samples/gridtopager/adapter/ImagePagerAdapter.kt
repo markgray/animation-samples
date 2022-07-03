@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 @file:Suppress("DEPRECATION")
+
 package com.google.samples.gridtopager.adapter
 
 import androidx.fragment.app.Fragment

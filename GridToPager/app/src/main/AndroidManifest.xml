@@ -19,12 +19,14 @@
 
     <application
         android:allowBackup="false"
+        android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="DataExtractionRules">
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        tools:ignore="UnusedAttribute">
         <activity
             android:name="com.google.samples.gridtopager.MainActivity"
             android:exported="true">
