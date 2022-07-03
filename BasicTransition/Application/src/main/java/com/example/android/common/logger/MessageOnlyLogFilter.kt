@@ -22,10 +22,7 @@ package com.example.android.common.logger
  */
 class MessageOnlyLogFilter : LogNode {
     /**
-     * Returns the next LogNode in the chain.
-     */
-    /**
-     * Sets the LogNode data will be sent to..
+     * The next LogNode in the chain.
      */
     var next: LogNode? = null
 
@@ -43,7 +40,7 @@ class MessageOnlyLogFilter : LogNode {
 
     override fun println(priority: Int, tag: String?, msg: String?, tr: Throwable?) {
         if (next != null) {
-            next!!.println(Log.NONE, null, msg, null)
+            (next ?: return).println(Log.NONE, null, msg, null)
         }
     }
 }

@@ -41,6 +41,7 @@ class BasicTransitionFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
      * [Scene] inflated from the layout resource file [R.layout.scene2]
      */
     private var mScene2: Scene? = null
+
     /**
      * [Scene] inflated from the layout resource file [R.layout.scene3]
      */
@@ -85,15 +86,15 @@ class BasicTransitionFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
      */
     @Suppress("RedundantNullableReturnType")
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(
-                R.layout.fragment_basic_transition,
-                container,
-                false
-        )!!
+            R.layout.fragment_basic_transition,
+            container,
+            false
+        ) ?: return null
         val radioGroup = view.findViewById<View>(R.id.select_scene) as RadioGroup
         radioGroup.setOnCheckedChangeListener(this)
         mSceneRoot = view.findViewById<View>(R.id.scene_root) as ViewGroup
@@ -115,7 +116,7 @@ class BasicTransitionFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
         // We create a custom TransitionManager for Scene 3, in which ChangeBounds and Fade
         // take place at the same time.
         mTransitionManagerForScene3 = TransitionInflater.from(activity)
-                .inflateTransitionManager(R.transition.scene3_transition_manager, mSceneRoot)
+            .inflateTransitionManager(R.transition.scene3_transition_manager, mSceneRoot)
         // END_INCLUDE(custom_transition_manager)
         return view
     }
@@ -173,6 +174,9 @@ class BasicTransitionFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
     }
 
     companion object {
+        /**
+         * Factory method to create and return a new instance of [BasicTransitionFragment]
+         */
         @Suppress("unused")
         fun newInstance(): BasicTransitionFragment {
             return BasicTransitionFragment()
