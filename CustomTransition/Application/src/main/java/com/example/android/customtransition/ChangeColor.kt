@@ -186,7 +186,7 @@ class ChangeColor : Transition() {
                 // interpolation is done. In this case, an ArgbEvaluator interpolates between two
                 // #argb values, which are specified as the 2nd and 3rd input arguments.
                 val animator = ValueAnimator.ofObject(ArgbEvaluator(),
-                        startBackground.color, endBackground.color)
+                    startBackground.color, endBackground.color)
                 // Add an update listener to the Animator object.
                 animator.addUpdateListener { animation ->
                     val value = animation.animatedValue

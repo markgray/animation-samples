@@ -27,6 +27,9 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import com.example.android.common.logger.Log.i
 
+/**
+ * The [Fragment] holding our demo.
+ */
 class CustomTransitionFragment : Fragment(), View.OnClickListener {
     /**
      * These are the Scenes we use.
@@ -60,9 +63,9 @@ class CustomTransitionFragment : Fragment(), View.OnClickListener {
      * @return Return the View for the fragment's UI, or null.
      */
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_custom_transition, container, false)
     }
@@ -98,9 +101,9 @@ class CustomTransitionFragment : Fragment(), View.OnClickListener {
         }
         // We set up the Scenes here.
         mScenes = arrayOf(
-                Scene.getSceneForLayout(container, R.layout.scene1, context),
-                Scene.getSceneForLayout(container, R.layout.scene2, context),
-                Scene.getSceneForLayout(container, R.layout.scene3, context)
+            Scene.getSceneForLayout(container, R.layout.scene1, context),
+            Scene.getSceneForLayout(container, R.layout.scene2, context),
+            Scene.getSceneForLayout(container, R.layout.scene3, context)
         )
         // This is the custom Transition.
         mTransition = ChangeColor()
