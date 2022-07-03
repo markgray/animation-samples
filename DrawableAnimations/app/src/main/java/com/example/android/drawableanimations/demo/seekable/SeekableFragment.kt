@@ -85,7 +85,7 @@ class SeekableFragment : Fragment(R.layout.seekable_fragment) {
         val icon = SeekableAnimatedVectorDrawable.create(
             requireContext(),
             R.drawable.ic_hourglass_animated
-        )!!
+        ) ?: return
         // SeekableAnimatedVectorDrawable offers more callback events including pause/resume and
         // update.
         icon.registerAnimationCallback(object : SeekableAnimatedVectorDrawable.AnimationCallback() {
@@ -141,7 +141,7 @@ class SeekableFragment : Fragment(R.layout.seekable_fragment) {
              */
             override fun onAnimationUpdate(drawable: SeekableAnimatedVectorDrawable) {
                 binding.seek.progress = (binding.seek.max * (drawable.currentPlayTime.toFloat() /
-                        drawable.totalDuration.toFloat())).toInt()
+                    drawable.totalDuration.toFloat())).toInt()
             }
         })
         binding.icon.setImageDrawable(icon)
@@ -172,7 +172,7 @@ class SeekableFragment : Fragment(R.layout.seekable_fragment) {
                     // With SeekableAnimatedVectorDrawable#setCurrentPlayTime, you can set the
                     // position of animation to the specific time in its duration.
                     icon.currentPlayTime = (icon.totalDuration *
-                            (progress.toFloat() / seekBar.max.toFloat())).toLong()
+                        (progress.toFloat() / seekBar.max.toFloat())).toLong()
                 }
             }
 

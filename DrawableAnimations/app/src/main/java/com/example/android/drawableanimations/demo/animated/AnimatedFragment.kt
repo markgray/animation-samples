@@ -67,8 +67,8 @@ class AnimatedFragment : Fragment(R.layout.animated_fragment) {
         val icon = AnimatedVectorDrawableCompat.create(
             requireContext(),
             R.drawable.ic_hourglass_animated
-        )!!
-        icon.registerAnimationCallback(object: Animatable2Compat.AnimationCallback() {
+        ) ?: return
+        icon.registerAnimationCallback(object : Animatable2Compat.AnimationCallback() {
             /**
              * Called when the animation starts. We disable the button with ID `start`, and enable
              * the button with ID `stop`.

@@ -41,7 +41,7 @@ import androidx.viewbinding.ViewBinding
  */
 inline fun <reified BindingT : ViewBinding> Fragment.viewBindings(
     crossinline bind: (View) -> BindingT
-) = object : Lazy<BindingT> {
+): Lazy<BindingT> = object : Lazy<BindingT> {
 
     /**
      * This is the cached [ViewBinding] which is created when our [value] is first accessed

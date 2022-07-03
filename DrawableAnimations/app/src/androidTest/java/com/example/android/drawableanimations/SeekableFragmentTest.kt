@@ -32,13 +32,13 @@ class SeekableFragmentTest {
     companion object {
         @ClassRule
         @JvmField
-        val animatorTestRule = AnimatorTestRule()
+        val animatorTestRule: AnimatorTestRule = AnimatorTestRule()
     }
 
     @Test
     fun start() {
         launchFragmentInContainer { SeekableFragment() }.onFragment { fragment ->
-            val view = fragment.view!!
+            val view = fragment.view ?: return@onFragment
             val start: Button = view.findViewById(R.id.start)
 
             assertThat(start.text.toString()).isEqualTo("Start")
