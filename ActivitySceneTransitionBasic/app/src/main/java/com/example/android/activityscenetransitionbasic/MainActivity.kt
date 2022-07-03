@@ -81,8 +81,7 @@ class MainActivity : AppCompatActivity() {
      * converted to a [Bundle] and passed to the activity as its option [Bundle].
      */
     @Suppress("UNUSED_ANONYMOUS_PARAMETER")
-    private val mOnItemClickListener = OnItemClickListener {
-        adapterView, view, position, id ->
+    private val mOnItemClickListener = OnItemClickListener { adapterView, view, position, id ->
 
         /**
          * Called when an item in the [android.widget.GridView] is clicked. Here will launch
@@ -105,10 +104,10 @@ class MainActivity : AppCompatActivity() {
          * method.
          */
         val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                this@MainActivity,  // Now we provide a list of Pair items which contain the view we can transitioning
-                // from, and the name of the view it is transitioning to, in the launched activity
-                Pair(view.findViewById(R.id.imageview_item), DetailActivity.VIEW_NAME_HEADER_IMAGE),
-                Pair(view.findViewById(R.id.textview_name), DetailActivity.VIEW_NAME_HEADER_TITLE)
+            this@MainActivity,  // Now we provide a list of Pair items which contain the view we can transitioning
+            // from, and the name of the view it is transitioning to, in the launched activity
+            Pair(view.findViewById(R.id.imageview_item), DetailActivity.VIEW_NAME_HEADER_IMAGE),
+            Pair(view.findViewById(R.id.textview_name), DetailActivity.VIEW_NAME_HEADER_TITLE)
         )
 
         // Now we can start the Activity, providing the activity options as a bundle

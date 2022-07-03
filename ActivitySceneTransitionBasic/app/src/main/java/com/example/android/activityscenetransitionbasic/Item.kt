@@ -24,9 +24,9 @@ package com.example.android.activityscenetransitionbasic
  * @param mFileName The file name on the remote server.
  */
 class Item internal constructor(
-        val name: String,
-        val author: String,
-        private val mFileName: String
+    val name: String,
+    val author: String,
+    private val mFileName: String
 ) {
     /**
      * The unique ID of the [Item], consists of the sum of the hash code values of the [name] and
@@ -63,15 +63,15 @@ class Item internal constructor(
         /**
          * Our dataset.
          */
-        var ITEMS = arrayOf(
-                Item("Flying in the Light", "Romain Guy", "flying_in_the_light.jpg"),
-                Item("Caterpillar", "Romain Guy", "caterpillar.jpg"),
-                Item("Look Me in the Eye", "Romain Guy", "look_me_in_the_eye.jpg"),
-                Item("Flamingo", "Romain Guy", "flamingo.jpg"),
-                Item("Rainbow", "Romain Guy", "rainbow.jpg"),
-                Item("Over there", "Romain Guy", "over_there.jpg"),
-                Item("Jelly Fish 2", "Romain Guy", "jelly_fish_2.jpg"),
-                Item("Lone Pine Sunset", "Romain Guy", "lone_pine_sunset.jpg")
+        var ITEMS: Array<Item> = arrayOf(
+            Item("Flying in the Light", "Romain Guy", "flying_in_the_light.jpg"),
+            Item("Caterpillar", "Romain Guy", "caterpillar.jpg"),
+            Item("Look Me in the Eye", "Romain Guy", "look_me_in_the_eye.jpg"),
+            Item("Flamingo", "Romain Guy", "flamingo.jpg"),
+            Item("Rainbow", "Romain Guy", "rainbow.jpg"),
+            Item("Over there", "Romain Guy", "over_there.jpg"),
+            Item("Jelly Fish 2", "Romain Guy", "jelly_fish_2.jpg"),
+            Item("Lone Pine Sunset", "Romain Guy", "lone_pine_sunset.jpg")
         )
 
         /**

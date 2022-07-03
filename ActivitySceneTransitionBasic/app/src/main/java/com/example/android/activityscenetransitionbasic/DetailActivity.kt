@@ -35,7 +35,7 @@ class DetailActivity : AppCompatActivity() {
      * The [ImageView] with ID [R.id.imageview_header] in our layout file layout/details.xml which
      * holds the large banner image.
      */
-    private lateinit var  mHeaderImageView: ImageView
+    private lateinit var mHeaderImageView: ImageView
 
     /**
      * The [TextView] with ID [R.id.textview_title] in our layout file layout/details.xml which
@@ -71,7 +71,7 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.details)
 
         // Retrieve the correct Item instance, using the ID provided in the Intent
-        mItem = Item.getItem(intent.getIntExtra(EXTRA_PARAM_ID, 0))!!
+        mItem = (Item.getItem(intent.getIntExtra(EXTRA_PARAM_ID, 0)) ?: return)
         mHeaderImageView = findViewById(R.id.imageview_header)
         mHeaderTitle = findViewById(R.id.textview_title)
 
@@ -121,9 +121,9 @@ class DetailActivity : AppCompatActivity() {
      */
     private fun loadThumbnail() {
         Picasso.with(mHeaderImageView.context)
-                .load(mItem.thumbnailUrl)
-                .noFade()
-                .into(mHeaderImageView)
+            .load(mItem.thumbnailUrl)
+            .noFade()
+            .into(mHeaderImageView)
     }
 
     /**
@@ -136,10 +136,10 @@ class DetailActivity : AppCompatActivity() {
      */
     private fun loadFullSizeImage() {
         Picasso.with(mHeaderImageView.context)
-                .load(mItem.photoUrl)
-                .noFade()
-                .noPlaceholder()
-                .into(mHeaderImageView)
+            .load(mItem.photoUrl)
+            .noFade()
+            .noPlaceholder()
+            .into(mHeaderImageView)
     }
 
     /**
@@ -223,16 +223,16 @@ class DetailActivity : AppCompatActivity() {
         /**
          * Key of the ID of the [Item] passed us in our extra [Bundle] that we are to display
          */
-        const val EXTRA_PARAM_ID = "detail:_id"
+        const val EXTRA_PARAM_ID: String = "detail:_id"
 
         /**
          * View name of the header image. Used for activity scene transitions.
          */
-        const val VIEW_NAME_HEADER_IMAGE = "detail:header:image"
+        const val VIEW_NAME_HEADER_IMAGE: String = "detail:header:image"
 
         /**
          * View name of the header title. Used for activity scene transitions
          */
-        const val VIEW_NAME_HEADER_TITLE = "detail:header:title"
+        const val VIEW_NAME_HEADER_TITLE: String = "detail:header:title"
     }
 }

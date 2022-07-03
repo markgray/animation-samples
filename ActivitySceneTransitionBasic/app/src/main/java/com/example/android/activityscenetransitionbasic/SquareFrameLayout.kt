@@ -29,9 +29,9 @@ import android.widget.FrameLayout
  * resource that supplies default values for the view. Can be 0 to not look for defaults.
  */
 class SquareFrameLayout @JvmOverloads constructor(
-        context: Context?,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+    context: Context?,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : FrameLayout(context!!, attrs, defStyleAttr) {
     /**
      * Measure the view and its content to determine the measured width and the measured height.
