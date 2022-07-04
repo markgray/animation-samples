@@ -104,7 +104,7 @@ class LogView : AppCompatTextView, LogNode {
             appendToLog(outputBuilder.toString())
         })
         if (next != null) {
-            next!!.println(priority, tag, msg, tr)
+            (next ?: return).println(priority, tag, msg, tr)
         }
     }
 
@@ -134,7 +134,9 @@ class LogView : AppCompatTextView, LogNode {
         return source
     }
 
-    // The next LogNode in the chain.
+    /**
+     * The next LogNode in the chain.
+     */
     var next: LogNode? = null
 
     /** Outputs the string as a new line of log data in the LogView.  */

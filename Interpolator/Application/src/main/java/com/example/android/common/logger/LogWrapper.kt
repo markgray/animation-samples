@@ -58,7 +58,7 @@ class LogWrapper : LogNode {
 
         // If this isn't the last node in the chain, move things along.
         if (next != null) {
-            next!!.println(priority, tag, msgLocal, tr)
+            (next ?: return).println(priority, tag, msgLocal, tr)
         }
     }
 }

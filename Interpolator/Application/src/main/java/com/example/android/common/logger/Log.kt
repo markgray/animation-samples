@@ -26,9 +26,11 @@ import android.util.Log
  */
 @Suppress("unused")
 object Log {
-    // Grabbing the native values from Android's native logging facilities,
-    // to make for easy migration and interop.
-    const val NONE = -1
+    /**
+     * Grabbing the native values from Android's native logging facilities, to make for easy
+     * migration and interop.
+     */
+    const val NONE: Int = -1
     private const val VERBOSE = Log.VERBOSE
     private const val DEBUG = Log.DEBUG
     private const val INFO = Log.INFO
@@ -52,7 +54,7 @@ object Log {
     @JvmOverloads
     fun println(priority: Int, tag: String?, msg: String?, tr: Throwable? = null) {
         if (logNode != null) {
-            logNode!!.println(priority, tag, msg, tr)
+            (logNode ?: return).println(priority, tag, msg, tr)
         }
     }
 

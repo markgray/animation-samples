@@ -343,6 +343,6 @@ class InterpolatorFragment : Fragment() {
         /**
          * String used for logging.
          */
-        const val TAG = "InterpolatorPlaygroundFragment"
+        const val TAG: String = "InterpolatorPlaygroundFragment"
     }
 }
