@@ -29,22 +29,46 @@ import android.util.Log
  * in LogNode.
  */
 object Log {
-    // Grabbing the native values from Android's native logging facilities,
-    // to make for easy migration and interop.
-    const val NONE = -1
-    const val VERBOSE = Log.VERBOSE
-    const val DEBUG = Log.DEBUG
-    const val INFO = Log.INFO
-    const val WARN = Log.WARN
-    const val ERROR = Log.ERROR
-    const val ASSERT = Log.ASSERT
     /**
-     * Returns the next LogNode in the linked list.
+     * Grabbing the native values from Android's native logging facilities,
+     * to make for easy migration and interop.
      */
+    const val NONE: Int = -1
+
     /**
-     * Sets the LogNode data will be sent to.
+     * The most verbose logging priority: 2 (least serious), used by Log.v
      */
-    // Stores the beginning of the LogNode topology.
+    const val VERBOSE: Int = Log.VERBOSE
+
+    /**
+     * The second most verbose logging priority: 3, used by Log.d
+     */
+    const val DEBUG: Int = Log.DEBUG
+
+    /**
+     * The third most verbose logging priority: 4, used by Log.i
+     */
+    const val INFO: Int = Log.INFO
+
+    /**
+     * The fourth most verbose logging priority: 5, used by Log.w
+     */
+    const val WARN: Int = Log.WARN
+
+    /**
+     * The fifth most verbose logging priority: 6, used by Log.e
+     */
+    const val ERROR: Int = Log.ERROR
+
+    /**
+     * Priority constant for the println method, use Log.wtf(). The doc say: Log.wtf() might call
+     * onTerribleFailure() and can cause termination of your application.
+     */
+    const val ASSERT: Int = Log.ASSERT
+
+    /**
+     * Stores the beginning of the LogNode topology.
+     */
     var logNode: LogNode? = null
 
     /**
@@ -60,9 +84,10 @@ object Log {
     @JvmOverloads
     fun println(priority: Int, tag: String?, msg: String?, tr: Throwable? = null) {
         if (logNode != null) {
-            logNode!!.println(priority, tag, msg, tr)
+            (logNode ?: return).println(priority, tag, msg, tr)
         }
     }
+
     /**
      * Prints a message at VERBOSE priority.
      *
@@ -75,6 +100,7 @@ object Log {
     fun v(tag: String?, msg: String?, tr: Throwable? = null) {
         println(VERBOSE, tag, msg, tr)
     }
+
     /**
      * Prints a message at DEBUG priority.
      *
@@ -87,6 +113,7 @@ object Log {
     fun d(tag: String?, msg: String?, tr: Throwable? = null) {
         println(DEBUG, tag, msg, tr)
     }
+
     /**
      * Prints a message at INFO priority.
      *
@@ -99,6 +126,7 @@ object Log {
     fun i(tag: String?, msg: String?, tr: Throwable? = null) {
         println(INFO, tag, msg, tr)
     }
+
     /**
      * Prints a message at WARN priority.
      *
@@ -122,6 +150,7 @@ object Log {
     fun w(tag: String?, tr: Throwable?) {
         w(tag, null, tr)
     }
+
     /**
      * Prints a message at ERROR priority.
      *
@@ -134,6 +163,7 @@ object Log {
     fun e(tag: String?, msg: String?, tr: Throwable? = null) {
         println(ERROR, tag, msg, tr)
     }
+
     /**
      * Prints a message at ASSERT priority.
      *
