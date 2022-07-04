@@ -149,7 +149,7 @@ class StaggerActivity : AppCompatActivity() {
      * @return You must return `true` for the menu to be displayed;
      * if you return `false` it will not be shown.
      */
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.stagger, menu)
         return super.onCreateOptionsMenu(menu)
     }

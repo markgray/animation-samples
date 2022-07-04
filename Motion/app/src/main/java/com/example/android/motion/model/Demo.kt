@@ -54,19 +54,20 @@ data class Demo(
          * `activity` elements for the demonstration activities our app provides in its file
          * AndroidManifest.xml
          */
-        const val CATEGORY = "com.example.android.motion.intent.category.DEMO"
+        const val CATEGORY: String = "com.example.android.motion.intent.category.DEMO"
 
         /**
          * The "android:name" of the `meta-data` element in the `activity` element that contains
          * a description string resource as its "android:value".
          */
-        const val META_DATA_DESCRIPTION = "com.example.android.motion.demo.DESCRIPTION"
+        const val META_DATA_DESCRIPTION: String = "com.example.android.motion.demo.DESCRIPTION"
+
         /**
          * The "android:name" of the `meta-data` element in the `activity` element that contains
          * a string array resource ID as its "android:value", with those strings describing the
          * different API that the demonstration activity uses.
          */
-        const val META_DATA_APIS = "com.example.android.motion.demo.APIS"
+        const val META_DATA_APIS: String = "com.example.android.motion.demo.APIS"
     }
 
     /**
@@ -78,7 +79,7 @@ data class Demo(
      *
      * @return an [Intent] which will launch
      */
-    fun toIntent() = Intent(Intent.ACTION_MAIN)
+    fun toIntent(): Intent = Intent(Intent.ACTION_MAIN)
         .addCategory(CATEGORY)
         .setComponent(ComponentName(packageName, name))
 }

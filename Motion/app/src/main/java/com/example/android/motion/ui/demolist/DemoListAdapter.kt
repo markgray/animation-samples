@@ -52,6 +52,7 @@ internal class DemoListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DemoViewHolder {
         return DemoViewHolder(parent).apply {
             itemView.setOnClickListener {
+                @Suppress("DEPRECATION")
                 onDemoSelected(getItem(adapterPosition))
             }
         }
@@ -96,7 +97,7 @@ private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Demo>() {
      */
     override fun areItemsTheSame(oldItem: Demo, newItem: Demo): Boolean {
         return oldItem.packageName == newItem.packageName &&
-                oldItem.name == newItem.name
+            oldItem.name == newItem.name
     }
 
     /**

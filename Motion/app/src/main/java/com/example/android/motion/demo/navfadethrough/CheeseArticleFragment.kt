@@ -69,19 +69,19 @@ class CheeseArticleFragment : Fragment() {
          * The transition name used for the root [FrameLayout] in our layout file whose ID is
          * [R.id.background].
          */
-        const val TRANSITION_NAME_BACKGROUND = "background"
+        const val TRANSITION_NAME_BACKGROUND: String = "background"
 
         /**
          * The transition name used for the [CoordinatorLayout] in our layout file whose ID is
          * [R.id.coordinator].
          */
-        const val TRANSITION_NAME_CARD_CONTENT = "card_content"
+        const val TRANSITION_NAME_CARD_CONTENT: String = "card_content"
 
         /**
          * The transition name used for the [MirrorView] in our layout file whose ID is
          * [R.id.card_mirror].
          */
-        const val TRANSITION_NAME_ARTICLE_CONTENT = "article_content"
+        const val TRANSITION_NAME_ARTICLE_CONTENT: String = "article_content"
     }
 
     /**
@@ -243,6 +243,7 @@ class CheeseArticleFragment : Fragment() {
         ViewGroupCompat.setTransitionGroup(coordinator, true)
 
         // Adjust the edge-to-edge display.
+        @Suppress("DEPRECATION")
         ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
             toolbar.updateLayoutParams<CollapsingToolbarLayout.LayoutParams> {
                 topMargin = insets.systemWindowInsetTop

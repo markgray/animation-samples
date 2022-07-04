@@ -173,7 +173,7 @@ class LoadingActivity : AppCompatActivity() {
      * @return You must return `true` for the menu to be displayed, if you return `false` it will
      * not be shown.
      */
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.loading, menu)
         return super.onCreateOptionsMenu(menu)
     }

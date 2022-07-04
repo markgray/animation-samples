@@ -71,7 +71,7 @@ data class Cheese(
         /**
          * Resoure IDs for some JPEG pictures of cheeses we pretend look like the cheese.
          */
-        val IMAGES = listOf(
+        val IMAGES: List<Int> = listOf(
             R.drawable.cheese_1,
             R.drawable.cheese_2,
             R.drawable.cheese_3,
@@ -93,41 +93,42 @@ data class Cheese(
         /**
          * The [DiffUtil.ItemCallback] instance to compare [Cheese] items in the list [ALL].
          */
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Cheese>() {
-            /**
-             * Called to check whether two objects represent the same item. Since our items have
-             * unique ids in [Cheese.id] we just return the result of comparing the [Cheese.id]
-             * property of our [oldItem] and [newItem] for equality.
-             *
-             * @param oldItem The item in the old list.
-             * @param newItem The item in the new list.
-             * @return `true` if the two items represent the same object or `false` if they are
-             * different.
-             */
-            override fun areItemsTheSame(oldItem: Cheese, newItem: Cheese): Boolean {
-                return oldItem.id == newItem.id
-            }
+        val DIFF_CALLBACK: DiffUtil.ItemCallback<Cheese> =
+            object : DiffUtil.ItemCallback<Cheese>() {
+                /**
+                 * Called to check whether two objects represent the same item. Since our items have
+                 * unique ids in [Cheese.id] we just return the result of comparing the [Cheese.id]
+                 * property of our [oldItem] and [newItem] for equality.
+                 *
+                 * @param oldItem The item in the old list.
+                 * @param newItem The item in the new list.
+                 * @return `true` if the two items represent the same object or `false` if they are
+                 * different.
+                 */
+                override fun areItemsTheSame(oldItem: Cheese, newItem: Cheese): Boolean {
+                    return oldItem.id == newItem.id
+                }
 
-            /**
-             * Called to check whether two items have the same data. This information is used to
-             * detect if the contents of an item have changed. We just return the results of
-             * comparing [oldItem] and [newItem] for equality.
-             *
-             * @param oldItem The item in the old list.
-             * @param newItem The item in the new list.
-             * @return `true` if the contents of the items are the same or `false` if they are
-             * different.
-             */
-            override fun areContentsTheSame(oldItem: Cheese, newItem: Cheese): Boolean {
-                return oldItem == newItem
+                /**
+                 * Called to check whether two items have the same data. This information is used to
+                 * detect if the contents of an item have changed. We just return the results of
+                 * comparing [oldItem] and [newItem] for equality.
+                 *
+                 * @param oldItem The item in the old list.
+                 * @param newItem The item in the new list.
+                 * @return `true` if the contents of the items are the same or `false` if they are
+                 * different.
+                 */
+                override fun areContentsTheSame(oldItem: Cheese, newItem: Cheese): Boolean {
+                    return oldItem == newItem
+                }
             }
-        }
 
         /**
          * The list of cheese names used to generate the [ALL] list of [Cheese] object.
          */
         @Suppress("SpellCheckingInspection")
-        val NAMES = listOf(
+        val NAMES: List<String> = listOf(
             "Abbaye de Belloc", "Abbaye du Mont des Cats", "Abertam", "Abondance", "Ackawi",
             "Acorn", "Adelost", "Affidelice au Chablis", "Afuega'l Pitu", "Airag", "Airedale",
             "Aisy Cendre", "Allgauer Emmentaler", "Alverca", "Ambert", "American Cheese",

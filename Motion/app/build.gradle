@@ -51,7 +51,7 @@ android {
 
 dependencies {
     implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.fragment:fragment-ktx:1.4.1'
+    implementation 'androidx.fragment:fragment-ktx:1.5.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.transition:transition:1.4.1'
     implementation 'androidx.dynamicanimation:dynamicanimation:1.1.0-alpha03'
@@ -59,7 +59,7 @@ dependencies {
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-    def lifecycle_version = '2.4.1'
+    def lifecycle_version = '2.5.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 

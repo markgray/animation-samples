@@ -42,7 +42,7 @@ import com.google.android.material.appbar.AppBarLayout
  *  three methods of [EdgeToEdgeImpl] with api's introduced with SDK 30 (or will eventually)
  */
 @SuppressLint("ObsoleteSdkInt")
-object EdgeToEdge: EdgeToEdgeImpl by when {
+object EdgeToEdge : EdgeToEdgeImpl by when {
     Build.VERSION.SDK_INT >= 30 -> EdgeToEdgeApi30()
     Build.VERSION.SDK_INT >= 21 -> EdgeToEdgeApi21()
     else -> EdgeToEdgeBase()

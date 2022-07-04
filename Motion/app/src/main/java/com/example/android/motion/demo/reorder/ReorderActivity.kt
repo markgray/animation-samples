@@ -156,9 +156,9 @@ class ReorderActivity : AppCompatActivity() {
             return makeMovementFlags(
                 // We allow items to be dragged in any direction.
                 ItemTouchHelper.UP
-                        or ItemTouchHelper.DOWN
-                        or ItemTouchHelper.LEFT
-                        or ItemTouchHelper.RIGHT,
+                    or ItemTouchHelper.DOWN
+                    or ItemTouchHelper.LEFT
+                    or ItemTouchHelper.RIGHT,
                 // But not swiped away.
                 0
             )
@@ -189,6 +189,7 @@ class ReorderActivity : AppCompatActivity() {
         ): Boolean {
             // Reorder the items in the ViewModel. The ViewModel will then notify the UI through the
             // LiveData.
+            @Suppress("DEPRECATION")
             viewModel.move(viewHolder.adapterPosition, target.adapterPosition)
             return true
         }

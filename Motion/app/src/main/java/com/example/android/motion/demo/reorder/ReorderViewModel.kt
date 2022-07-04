@@ -16,6 +16,7 @@
 
 package com.example.android.motion.demo.reorder
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
@@ -48,7 +49,7 @@ class ReorderViewModel : ViewModel() {
      * lambda submits the [List] to the [CheeseGridAdapter] supplying data to the [RecyclerView] in
      * the UI whenever the [_cheeses] backing field changes value.
      */
-    val cheeses = _cheeses.map { it.toList() }
+    val cheeses: LiveData<List<Cheese>> = _cheeses.map { it.toList() }
 
     /**
      * Called to move the [Cheese] object in position [from] in our [MutableLiveData] wrapped

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 @file:Suppress("KotlinDeprecation", "DEPRECATION")
+
 package com.example.android.motion.demo.loading
 
 import androidx.lifecycle.LiveData

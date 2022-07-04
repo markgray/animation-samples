@@ -72,7 +72,7 @@ class CheeseDetailFragment : Fragment() {
          * that was clicked in the `RecyclerView` of [CheeseGridFragment] to transition to the
          * [CheeseDetailFragment].
          */
-        const val TRANSITION_NAME_IMAGE = "image"
+        const val TRANSITION_NAME_IMAGE: String = "image"
 
         /**
          * The transition name used for the [TextView] displaying the [Cheese.name] field of the
@@ -82,7 +82,7 @@ class CheeseDetailFragment : Fragment() {
          * which is only used for transitioning (the "real" [TextView] displaying the [Cheese.name]
          * field in [CheeseDetailFragment] is its own view with ID [R.id.name]).
          */
-        const val TRANSITION_NAME_NAME = "name"
+        const val TRANSITION_NAME_NAME: String = "name"
 
         /**
          * The transition name used for the [Toolbar] with ID [R.id.toolbar] in our UI and the
@@ -90,7 +90,7 @@ class CheeseDetailFragment : Fragment() {
          * of [CheeseGridFragment] to transition to the [CheeseDetailFragment] (used for transitioning
          * between real [Toolbar] and the place holder [MirrorView] in the `itemView`)
          */
-        const val TRANSITION_NAME_TOOLBAR = "toolbar"
+        const val TRANSITION_NAME_TOOLBAR: String = "toolbar"
 
         /**
          * The transition name used for the [CoordinatorLayout] with ID [R.id.detail] in our UI and
@@ -98,7 +98,7 @@ class CheeseDetailFragment : Fragment() {
          * `RecyclerView` of [CheeseGridFragment] to transition to the [CheeseDetailFragment]. Used
          * as the epicenter of all the fragment transitions, including Explode for non-shared elements.
          */
-        const val TRANSITION_NAME_BACKGROUND = "background"
+        const val TRANSITION_NAME_BACKGROUND: String = "background"
 
         /**
          * The transition name used for the [MirrorView] with ID [R.id.favorite] in our UI and
@@ -107,7 +107,7 @@ class CheeseDetailFragment : Fragment() {
          * Used for transitioning between the real [ImageView] in the `itemView` and the place
          * holder [MirrorView] in our UI.
          */
-        const val TRANSITION_NAME_FAVORITE = "favorite"
+        const val TRANSITION_NAME_FAVORITE: String = "favorite"
 
         /**
          * The transition name used for the [MirrorView] with ID [R.id.bookmark] in our UI and
@@ -116,7 +116,7 @@ class CheeseDetailFragment : Fragment() {
          * Used for transitioning between the real [ImageView] in the `itemView` and the place
          * holder [MirrorView] in our UI.
          */
-        const val TRANSITION_NAME_BOOKMARK = "bookmark"
+        const val TRANSITION_NAME_BOOKMARK: String = "bookmark"
 
         /**
          * The transition name used for the [MirrorView] with ID [R.id.share] in our UI and
@@ -125,7 +125,7 @@ class CheeseDetailFragment : Fragment() {
          * Used for transitioning between the real [ImageView] in the `itemView` and the place holder
          * [MirrorView] in our UI.
          */
-        const val TRANSITION_NAME_SHARE = "share"
+        const val TRANSITION_NAME_SHARE: String = "share"
 
         /**
          * The transition name used for the [NestedScrollView] with ID [R.id.scroll] in our UI and
@@ -135,7 +135,7 @@ class CheeseDetailFragment : Fragment() {
          * [MirrorView] in our UI. Used for transitioning between our real [NestedScrollView] and
          * the place holder [MirrorView] in the `itemView`.
          */
-        const val TRANSITION_NAME_BODY = "body"
+        const val TRANSITION_NAME_BODY: String = "body"
     }
 
     /**
@@ -348,6 +348,7 @@ class CheeseDetailFragment : Fragment() {
         ViewGroupCompat.setTransitionGroup(scroll, true)
 
         // Adjust the edge-to-edge display.
+        @Suppress("DEPRECATION")
         ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
             toolbar.updateLayoutParams<CollapsingToolbarLayout.LayoutParams> {
                 topMargin = insets.systemWindowInsetTop

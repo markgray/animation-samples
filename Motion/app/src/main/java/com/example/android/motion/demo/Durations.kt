@@ -28,7 +28,7 @@ package com.example.android.motion.demo
  * Duration used in `FadeThroughActivity` for the `fadeThrough` transition of the layout
  * change caused by changing the visibility of `contact` to invisible and `cheese` to visible.
  */
-const val MEDIUM_EXPAND_DURATION = 250L
+const val MEDIUM_EXPAND_DURATION: Long = 250L
 
 /**
  * Material design suggests that this be used as the collapse duration for Animated elements that
@@ -37,7 +37,7 @@ const val MEDIUM_EXPAND_DURATION = 250L
  * Duration used in `FadeThroughActivity` for the `fadeThrough` transition of the layout
  * change caused by changing the visibility of `contact` to visible and `cheese` to invisible.
  */
-const val MEDIUM_COLLAPSE_DURATION = 200L
+const val MEDIUM_COLLAPSE_DURATION: Long = 200L
 
 /**
  * Material design suggests that this be used as the expansion duration for Animated elements that
@@ -49,7 +49,7 @@ const val MEDIUM_COLLAPSE_DURATION = 200L
  * `LoadingActivity` demo, and as the duration of the `Stagger` delayed Fade in animation used in the
  * `StaggerActivity` demo.
  */
-const val LARGE_EXPAND_DURATION = 300L
+const val LARGE_EXPAND_DURATION: Long = 300L
 
 /**
  * Material design suggests that this be used as the collapse duration for Animated elements that
@@ -59,4 +59,4 @@ const val LARGE_EXPAND_DURATION = 300L
  * in the `NavFadeThroughActivity` demo, and the transition between `CheeseDetailFragment` and
  * `CheeseGridFragment` in the `SharedElementActivity` demo.
  */
-const val LARGE_COLLAPSE_DURATION = 250L
+const val LARGE_COLLAPSE_DURATION: Long = 250L

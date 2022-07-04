@@ -175,6 +175,7 @@ class CheeseCardFragment : Fragment() {
         val name: TextView = view.findViewById(R.id.name)
         val mirror: MirrorView = view.findViewById(R.id.article_mirror)
 
+        @Suppress("DEPRECATION")
         ViewCompat.setOnApplyWindowInsetsListener(view.parent as View) { _, insets ->
             toolbar.updateLayoutParams<AppBarLayout.LayoutParams> {
                 topMargin = insets.systemWindowInsetTop
@@ -192,9 +193,9 @@ class CheeseCardFragment : Fragment() {
         ViewCompat.setTransitionName(mirror, "article")
         ViewGroupCompat.setTransitionGroup(cardContent, true)
 
-        viewModel.cheese.observe(viewLifecycleOwner) { cheese ->
-            name.text = cheese.name
-            image.setImageResource(cheese.image)
+        viewModel.cheese.observe(viewLifecycleOwner) { (_, name1, image1) ->
+            name.text = name1
+            image.setImageResource(image1)
         }
 
         card.setOnClickListener { v ->
