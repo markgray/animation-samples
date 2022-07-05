@@ -207,7 +207,7 @@ class MainActivity : AppCompatActivity() {
      * [ProgressBar] field [empty] to [View.GONE].
      */
     private fun populateGrid() {
-        grid.adapter = PhotoAdapter(this, relevantPhotos!!)
+        grid.adapter = PhotoAdapter(this, relevantPhotos ?: return)
         grid.addOnItemTouchListener(object : OnItemSelectedListener(this@MainActivity) {
             /**
              * Our custom [RecyclerView.OnItemTouchListener] calls this method from its
@@ -345,7 +345,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun setupRecyclerView() {
         val gridLayoutManager = grid.layoutManager as GridLayoutManager?
-        gridLayoutManager!!.spanSizeLookup = object : SpanSizeLookup() {
+        (gridLayoutManager ?: return).spanSizeLookup = object : SpanSizeLookup() {
             /**
              * Returns the number of span occupied by the item at [position]. We return 3 different
              * number of spans that each item occupies depending on the value of the `position` of
@@ -417,6 +417,7 @@ class MainActivity : AppCompatActivity() {
             statusBackground,
             statusBackground.transitionName
         )
+
         @Suppress("UnnecessaryVariable")
         val options: ActivityOptions = if (navBackground == null) {
             ActivityOptions.makeSceneTransitionAnimation(

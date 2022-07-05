@@ -61,7 +61,7 @@ open class ForegroundImageView(
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         if (foreground != null) {
-            foreground!!.setBounds(0, 0, w, h)
+            (foreground ?: return).setBounds(0, 0, w, h)
         }
     }
 
@@ -113,7 +113,7 @@ open class ForegroundImageView(
      */
     override fun jumpDrawablesToCurrentState() {
         super.jumpDrawablesToCurrentState()
-        if (foreground != null) foreground!!.jumpToCurrentState()
+        if (foreground != null) (foreground ?: return).jumpToCurrentState()
     }
 
     /**
@@ -127,8 +127,8 @@ open class ForegroundImageView(
      */
     override fun drawableStateChanged() {
         super.drawableStateChanged()
-        if (foreground != null && foreground!!.isStateful) {
-            foreground!!.state = drawableState
+        if (foreground != null && (foreground ?: return).isStateful) {
+            (foreground ?: return).state = drawableState
         }
     }
 
@@ -168,16 +168,16 @@ open class ForegroundImageView(
     override fun setForeground(drawable: Drawable) {
         if (foreground !== drawable) {
             if (foreground != null) {
-                foreground!!.callback = null
+                (foreground ?: return).callback = null
                 unscheduleDrawable(foreground)
             }
             foreground = drawable
             if (foreground != null) {
-                foreground!!.setBounds(0, 0, width, height)
+                (foreground ?: return).setBounds(0, 0, width, height)
                 setWillNotDraw(false)
-                foreground!!.callback = this
-                if (foreground!!.isStateful) {
-                    foreground!!.state = drawableState
+                (foreground ?: return).callback = this
+                if ((foreground ?: return).isStateful) {
+                    (foreground ?: return).state = drawableState
                 }
             } else {
                 setWillNotDraw(true)
@@ -196,7 +196,7 @@ open class ForegroundImageView(
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
         if (foreground != null) {
-            foreground!!.draw(canvas)
+            (foreground ?: return).draw(canvas)
         }
     }
 
@@ -214,7 +214,7 @@ open class ForegroundImageView(
     override fun drawableHotspotChanged(x: Float, y: Float) {
         super.drawableHotspotChanged(x, y)
         if (foreground != null) {
-            foreground!!.setHotspot(x, y)
+            (foreground ?: return).setHotspot(x, y)
         }
     }
 

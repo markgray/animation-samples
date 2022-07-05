@@ -32,28 +32,28 @@ object IntentUtil {
      * the `author` property of the [Photo] that the user selected in the [Intent] it uses to launch
      * [DetailActivity].
      */
-    const val FONT_SIZE = "fontSize"
+    const val FONT_SIZE: String = "fontSize"
 
     /**
      * The key for the extra in which [MainActivity] stores a [Rect] holding the padding of the
      * `TextView` holding the `author` property of the [Photo] that the user selected in the
      * [Intent] it uses to launch [DetailActivity].
      */
-    const val PADDING = "padding"
+    const val PADDING: String = "padding"
 
     /**
      * The key for the extra in which [MainActivity] stores a `ParcelableArrayList` holding all of
      * the [Photo] objects in the [ArrayList] of [Photo] objects used as the shared dataset in the
      * [Intent] it uses to launch [DetailActivity].
      */
-    const val PHOTO = "photo"
+    const val PHOTO: String = "photo"
 
     /**
      *  The key for the extra in which [MainActivity] stores the current color selected for normal
      *  text of the `TextView` holding the `author` property of the [Photo] that the user selected
      *  in the [Intent] it uses to launch [DetailActivity].
      */
-    const val TEXT_COLOR = "color"
+    const val TEXT_COLOR: String = "color"
 
     /**
      * The key in the [Bundle] passed to the `onSaveInstanceState` override of [MainActivity] which
@@ -62,7 +62,7 @@ object IntentUtil {
      * [MainActivity.relevantPhotos] from the [Bundle] passed it when the activity is being
      * re-initialized after previously being shut down.
      */
-    const val RELEVANT_PHOTOS = "relevant"
+    const val RELEVANT_PHOTOS: String = "relevant"
 
     /**
      * The key for the [Intent] extra in which both [MainActivity] and [DetailActivity] store the
@@ -72,13 +72,13 @@ object IntentUtil {
      * store the new position in an [Intent] which it returns to [MainActivity] as part of its
      * result (if the user does not move to a new [Photo] no [Intent] is included).
      */
-    const val SELECTED_ITEM_POSITION = "selected"
+    const val SELECTED_ITEM_POSITION: String = "selected"
 
     /**
      * The `requestCode` that [MainActivity] uses to launch [DetailActivity] with in its call to the
      * method `startActivityForResult`. Just an arbitrary [Int] which is ignored by both activities.
      */
-    const val REQUEST_CODE = R.id.requestCode
+    const val REQUEST_CODE: Int = R.id.requestCode
 
     /**
      * Checks if all extras are present in an intent. We loop for all of the [String] in our `vararg`

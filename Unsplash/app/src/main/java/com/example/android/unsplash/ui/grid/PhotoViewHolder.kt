@@ -30,4 +30,4 @@ import com.example.android.unsplash.databinding.PhotoItemBinding
  */
 class PhotoViewHolder(
     val binding: PhotoItemBinding
-    ) : RecyclerView.ViewHolder(binding.root)
+) : RecyclerView.ViewHolder(binding.root)

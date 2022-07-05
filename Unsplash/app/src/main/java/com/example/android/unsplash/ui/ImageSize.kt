@@ -24,7 +24,11 @@ object ImageSize {
      * The width in pixels and the height in pixels for `Glide` to use to load the jpeg.
      */
     @JvmField
-    val NORMAL = intArrayOf(480, 400)
+    val NORMAL: IntArray = intArrayOf(480, 400)
+
+    /**
+     * The width in pixels and the height in pixels for `Glide` to use to load a large jpeg.
+     */
     @Suppress("unused")
-    val LARGE = intArrayOf(960, 800)
+    val LARGE: IntArray = intArrayOf(960, 800)
 }

@@ -130,7 +130,7 @@ class DetailViewPagerAdapter(
      */
     private fun onViewBound(binding: DetailViewBinding) {
         Glide.with(host)
-            .load(binding.data!!.getPhotoUrl(photoWidth))
+            .load((binding.data ?: return).getPhotoUrl(photoWidth))
             .placeholder(R.color.placeholder)
             .override(ImageSize.NORMAL[0], ImageSize.NORMAL[1])
             .into(binding.photo)

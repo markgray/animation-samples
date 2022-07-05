@@ -295,7 +295,7 @@ class TextResize : Transition {
         }
         val startData = startValues.values[DATA] as TextResizeData?
         val endData = endValues.values[DATA] as TextResizeData?
-        if (startData!!.gravity != endData!!.gravity) {
+        if ((startData ?: return null).gravity != (endData ?: return null).gravity) {
             return null // Can't deal with changes in gravity
         }
         val textView = endValues.view as TextView
@@ -710,7 +710,7 @@ class TextResize : Transition {
                     horizontalGravity,
                     left,
                     right,
-                    startBitmap!!.width.toFloat(),
+                    (startBitmap ?: return).width.toFloat(),
                     scale
                 )
                 val ty = getTranslationPoint(
@@ -730,7 +730,7 @@ class TextResize : Transition {
                     horizontalGravity,
                     left,
                     right,
-                    endBitmap!!.width.toFloat(),
+                    (endBitmap ?: return).width.toFloat(),
                     scale
                 )
                 val ty = getTranslationPoint(
@@ -889,7 +889,12 @@ class TextResize : Transition {
          */
         private fun setTextViewData(view: TextView, data: TextResizeData?, fontSize: Float) {
             view.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
-            view.setPadding(data!!.paddingLeft, data.paddingTop, data.paddingRight, data.paddingBottom)
+            view.setPadding(
+                (data ?: return).paddingLeft,
+                data.paddingTop,
+                data.paddingRight,
+                data.paddingBottom
+            )
             view.right = view.left + data.width
             view.bottom = view.top + data.height
             view.setTextColor(data.textColor)

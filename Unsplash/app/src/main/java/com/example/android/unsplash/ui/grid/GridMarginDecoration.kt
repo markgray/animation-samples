@@ -30,7 +30,7 @@ import com.example.android.unsplash.R
  */
 class GridMarginDecoration(
     private val space: Int
-    ) : ItemDecoration() {
+) : ItemDecoration() {
     /**
      * Retrieve any offsets for the given item. Each field of [outRect] specifies the number of
      * pixels that the item view should be inset by, similar to padding or margin. The default

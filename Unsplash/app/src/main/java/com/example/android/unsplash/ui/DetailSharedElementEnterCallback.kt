@@ -49,7 +49,7 @@ import java.util.ArrayList
  */
 class DetailSharedElementEnterCallback(
     private val intent: Intent
-    ) : SharedElementCallback() {
+) : SharedElementCallback() {
 
     /**
      * The text size of the [TextView] used to display the [Photo.author] property of the [Photo]
@@ -151,7 +151,7 @@ class DetailSharedElementEnterCallback(
             val textSize = intent.getFloatExtra(IntentUtil.FONT_SIZE, targetTextSize)
             author.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
             val padding = intent.getParcelableExtra<Rect>(IntentUtil.PADDING)
-            author.setPadding(padding!!.left, padding.top, padding.right, padding.bottom)
+            author.setPadding((padding ?: return).left, padding.top, padding.right, padding.bottom)
         }
     }
 
@@ -188,14 +188,14 @@ class DetailSharedElementEnterCallback(
         }
         if (targetPadding != null) {
             author.setPadding(
-                targetPadding!!.left,
-                targetPadding!!.top,
-                targetPadding!!.right,
-                targetPadding!!.bottom
+                (targetPadding ?: return).left,
+                (targetPadding ?: return).top,
+                (targetPadding ?: return).right,
+                (targetPadding ?: return).bottom
             )
         }
         if (currentDetailBinding != null) {
-            forceSharedElementLayout(currentDetailBinding!!.description)
+            forceSharedElementLayout((currentDetailBinding ?: return).description)
         }
     }
 

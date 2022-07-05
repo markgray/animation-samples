@@ -42,7 +42,7 @@ import java.util.ArrayList
 class PhotoAdapter(
     context: Context,
     private val photos: ArrayList<Photo?>
-    ) : RecyclerView.Adapter<PhotoViewHolder>() {
+) : RecyclerView.Adapter<PhotoViewHolder>() {
     /**
      * The requested width in pixels of the image we download, which is the absolute width of the
      * available display size in pixels in our case. The [Photo.getPhotoUrl] method uses the string
@@ -105,10 +105,10 @@ class PhotoAdapter(
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
         val binding: PhotoItemBinding = holder.binding
         val data: Photo? = photos[position]
-        binding.data = data!!
+        binding.data = (data ?: return)
         binding.executePendingBindings()
         Glide.with(layoutInflater.context)
-            .load(holder.binding.data!!
+            .load((holder.binding.data ?: return)
                 .getPhotoUrl(requestedPhotoWidth))
             .placeholder(R.color.placeholder)
             .override(ImageSize.NORMAL[0], ImageSize.NORMAL[1])

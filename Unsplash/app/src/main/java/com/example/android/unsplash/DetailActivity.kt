@@ -150,7 +150,7 @@ class DetailActivity : AppCompatActivity() {
      */
     private fun setUpViewPager(photos: ArrayList<Photo>?) {
         viewPager = findViewById<View>(R.id.pager) as ViewPager
-        viewPager.adapter = DetailViewPagerAdapter(this, photos!!, sharedElementCallback)
+        viewPager.adapter = DetailViewPagerAdapter(this, photos ?: return, sharedElementCallback)
         viewPager.currentItem = initialItem
         viewPager.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
             override fun onLayoutChange(
