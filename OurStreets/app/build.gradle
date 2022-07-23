@@ -50,7 +50,7 @@ android {
 
 ext {
     firebaseVersion = '2.5.2'
-    mapsVersion = '18.0.2'
+    mapsVersion = '18.1.0'
     mapsUtilsVersion = '2.3.0'
     hamcrestVersion = '2.2'
 }
