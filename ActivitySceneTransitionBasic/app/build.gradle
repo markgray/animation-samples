@@ -18,12 +18,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId 'com.example.android.activityscenetransitionbasic'
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 1
         versionName '1.0'
     }
@@ -36,10 +36,10 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     //noinspection GradleDependency
     implementation 'com.squareup.picasso:picasso:2.4.0' // 2.71828 removes Picasso.with(Context)
-    implementation "androidx.core:core-ktx:1.8.0"
+    implementation "androidx.core:core-ktx:1.9.0"
 }
 repositories {
     mavenCentral()
