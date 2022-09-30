@@ -20,9 +20,7 @@ the Views in the hierarchy. If you want to skip some Views, simply return null.
 The instantiated custom Transition can be applied by passing it as the second
 parameter of [TransitionManager.go][4].
 
-```java
 TransitionManager.go(mScenes[mCurrentScene], mTransition);
-```
 
 [1]: https://developer.android.com/reference/android/transition/Transition.html#captureStartValues(android.transition.TransitionValues)
 [2]: https://developer.android.com/reference/android/transition/Transition.html#captureEndValues(android.transition.TransitionValues)
