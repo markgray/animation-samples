@@ -124,6 +124,7 @@ class DetailActivity : AppCompatActivity() {
         sharedElementCallback = DetailSharedElementEnterCallback(intent)
         setEnterSharedElementCallback(sharedElementCallback)
         initialItem = intent.getIntExtra(IntentUtil.SELECTED_ITEM_POSITION, 0)
+        @Suppress("DEPRECATION")
         setUpViewPager(intent.getParcelableArrayListExtra(IntentUtil.PHOTO))
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         toolbar.setNavigationOnClickListener(navigationOnClickListener)
@@ -202,6 +203,8 @@ class DetailActivity : AppCompatActivity() {
      * invoked. First we call our method [setActivityResult] to have it set the result that our
      * activity will return to its caller, then we call our super's implementation of `onBackPressed`.
      */
+    @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         setActivityResult()
         super.onBackPressed()
