@@ -193,7 +193,7 @@ class CheeseCardFragment : Fragment() {
         ViewCompat.setTransitionName(mirror, "article")
         ViewGroupCompat.setTransitionGroup(cardContent, true)
 
-        viewModel.cheese.observe(viewLifecycleOwner) { (_, name1, image1) ->
+        viewModel.cheese.observe(viewLifecycleOwner) { (_, name1, image1, _, _) ->
             name.text = name1
             image.setImageResource(image1)
         }

@@ -65,6 +65,7 @@ class DemoListViewModel(application: Application) : AndroidViewModel(application
          * activities whose `intent-filter` has an `action` [Intent] of `ACTION_MAIN` and `category`
          * of [Demo.CATEGORY] including the `meta-data` Bundles that are associated with them.
          */
+        @Suppress("DEPRECATION") // TODO: Fix queryIntentActivities deprecation
         val resolveInfoList: MutableList<ResolveInfo> = packageManager.queryIntentActivities(
             Intent(Intent.ACTION_MAIN).addCategory(Demo.CATEGORY),
             PackageManager.GET_META_DATA

@@ -205,13 +205,19 @@ class FabTransformationActivity : AppCompatActivity() {
         val fabMargin = resources.getDimensionPixelSize(R.dimen.spacing_medium)
         ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
             fab.updateLayoutParams<CoordinatorLayout.LayoutParams> {
+                @Suppress("DEPRECATION") // TODO: Fix getSystemWindowInsetLeft deprecation
                 leftMargin = fabMargin + insets.systemWindowInsetLeft
+                @Suppress("DEPRECATION") // TODO: Fix systemWindowInsetRight deprecation
                 rightMargin = fabMargin + insets.systemWindowInsetRight
+                @Suppress("DEPRECATION") // TODO: Fix systemWindowInsetBottom deprecation
                 bottomMargin = fabMargin + insets.systemWindowInsetBottom
             }
             sheet.updateLayoutParams<CoordinatorLayout.LayoutParams> {
+                @Suppress("DEPRECATION") // TODO: Fix getSystemWindowInsetLeft deprecation
                 leftMargin = fabMargin + insets.systemWindowInsetLeft
+                @Suppress("DEPRECATION") // TODO: Fix systemWindowInsetRight deprecation
                 rightMargin = fabMargin + insets.systemWindowInsetRight
+                @Suppress("DEPRECATION") // TODO: Fix systemWindowInsetBottom deprecation
                 bottomMargin = fabMargin + insets.systemWindowInsetBottom
             }
             insets
@@ -253,10 +259,12 @@ class FabTransformationActivity : AppCompatActivity() {
      * field [fab] is expanded we set its `isExpanded` property to `false`, otherwise we just call our
      * super's implementation of `onBackPressed`.
      */
+    @Deprecated("Deprecated in Java") // TODO: Fix onBackPressed deprecation
     override fun onBackPressed() {
         if (fab.isExpanded) {
             fab.isExpanded = false
         } else {
+            @Suppress("DEPRECATION") // TODO: Fix onBackPressed deprecation
             super.onBackPressed()
         }
     }

@@ -226,8 +226,10 @@ class CheeseGridFragment : Fragment() {
         val gridPadding = resources.getDimensionPixelSize(R.dimen.spacing_tiny)
         ViewCompat.setOnApplyWindowInsetsListener(view.parent as View) { _, insets ->
             toolbar.updateLayoutParams<AppBarLayout.LayoutParams> {
+                @Suppress("DEPRECATION") // TODO: Fix systemWindowInsetTop deprecation
                 topMargin = insets.systemWindowInsetTop
             }
+            @Suppress("DEPRECATION") // TODO: Fix systemWindowInset* deprecations
             grid.updatePadding(
                 left = gridPadding + insets.systemWindowInsetLeft,
                 right = gridPadding + insets.systemWindowInsetRight,
