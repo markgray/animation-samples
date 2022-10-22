@@ -172,6 +172,7 @@ open class ForegroundImageView(
                 unscheduleDrawable(foreground)
             }
             foreground = drawable
+            @Suppress("KotlinConstantConditions") // TODO Fix nullability confusion
             if (foreground != null) {
                 (foreground ?: return).setBounds(0, 0, width, height)
                 setWillNotDraw(false)

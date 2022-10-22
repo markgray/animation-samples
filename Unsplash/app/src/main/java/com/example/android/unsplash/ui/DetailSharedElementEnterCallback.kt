@@ -150,6 +150,7 @@ class DetailSharedElementEnterCallback(
             author.setTextColor(intent.getIntExtra(IntentUtil.TEXT_COLOR, Color.BLACK))
             val textSize = intent.getFloatExtra(IntentUtil.FONT_SIZE, targetTextSize)
             author.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
+            @Suppress("DEPRECATION") // TODO: Fix deprecation for SDK 33+
             val padding = intent.getParcelableExtra<Rect>(IntentUtil.PADDING)
             author.setPadding((padding ?: return).left, padding.top, padding.right, padding.bottom)
         }

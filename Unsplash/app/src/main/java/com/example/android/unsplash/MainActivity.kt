@@ -130,6 +130,7 @@ class MainActivity : AppCompatActivity() {
         empty = findViewById<View>(android.R.id.empty) as ProgressBar
         setupRecyclerView()
         if (savedInstanceState != null) {
+            @Suppress("DEPRECATION") // TODO: Fix deprecation for SDK 33+
             relevantPhotos = savedInstanceState.getParcelableArrayList(IntentUtil.RELEVANT_PHOTOS)
         }
         displayData()
