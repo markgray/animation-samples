@@ -15,13 +15,10 @@
  */
 package com.example.android.activityscenetransitionbasic
 
-import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.transition.Transition
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import com.squareup.picasso.Picasso
@@ -97,11 +94,10 @@ class DetailActivity : AppCompatActivity() {
      * when the transition is complete), otherwise we call our method [loadFullSizeImage] to just
      * load the full-size image of [mItem] now.
      */
-    @SuppressLint("ObsoleteSdkInt")
     private fun loadItem() {
         // Set the title TextView to the item's name and author
         mHeaderTitle.text = getString(R.string.image_header, mItem.name, mItem.author)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && addTransitionListener()) {
+        if (addTransitionListener()) {
             // If we're running on Lollipop and we have added a listener to the shared element
             // transition, load the thumbnail. The listener will load the full-size image when
             // the transition is complete.
@@ -149,8 +145,6 @@ class DetailActivity : AppCompatActivity() {
      *
      * @return `true` if we were successful in adding a listener to the enter transition
      */
-    @SuppressLint("SupportAnnotationUsage", "ObsoleteSdkInt")
-    @RequiresApi(21)
     private fun addTransitionListener(): Boolean {
         val transition = window.sharedElementEnterTransition
         if (transition != null) {

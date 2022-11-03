@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.BaseAdapter
 import android.widget.GridView
@@ -80,40 +81,41 @@ class MainActivity : AppCompatActivity() {
      * start the activity that `intent` is intended to start ([DetailActivity]) with `activityOptions`
      * converted to a [Bundle] and passed to the activity as its option [Bundle].
      */
-    @Suppress("UNUSED_ANONYMOUS_PARAMETER")
-    private val mOnItemClickListener = OnItemClickListener { adapterView, view, position, id ->
+    private val mOnItemClickListener =
+        OnItemClickListener { adapterView: AdapterView<*>, view: View, position: Int, _: Long ->
 
-        /**
-         * Called when an item in the [android.widget.GridView] is clicked. Here will launch
-         * the [DetailActivity], using the Scene Transition animation functionality.
-         */
-        /**
-         * Called when an item in the [android.widget.GridView] is clicked. Here will launch
-         * the [DetailActivity], using the Scene Transition animation functionality.
-         */
-        val item = adapterView.getItemAtPosition(position) as Item
+            /**
+             * Called when an item in the [android.widget.GridView] is clicked. Here will launch
+             * the [DetailActivity], using the Scene Transition animation functionality.
+             */
+            /**
+             * Called when an item in the [android.widget.GridView] is clicked. Here will launch
+             * the [DetailActivity], using the Scene Transition animation functionality.
+             */
+            val item = adapterView.getItemAtPosition(position) as Item
 
-        // Construct an Intent as normal
-        val intent = Intent(this@MainActivity, DetailActivity::class.java)
-        intent.putExtra(DetailActivity.EXTRA_PARAM_ID, item.id)
+            // Construct an Intent as normal
+            val intent = Intent(this@MainActivity, DetailActivity::class.java)
+            intent.putExtra(DetailActivity.EXTRA_PARAM_ID, item.id)
 
-        // BEGIN_INCLUDE(start_activity)
-        /*
+            // BEGIN_INCLUDE(start_activity)
+            /*
          * Now create an {@link android.app.ActivityOptions} instance using the
          * {@link ActivityOptionsCompat#makeSceneTransitionAnimation(Activity, Pair[])} factory
          * method.
          */
-        val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
-            this@MainActivity,  // Now we provide a list of Pair items which contain the view we can transitioning
-            // from, and the name of the view it is transitioning to, in the launched activity
-            Pair(view.findViewById(R.id.imageview_item), DetailActivity.VIEW_NAME_HEADER_IMAGE),
-            Pair(view.findViewById(R.id.textview_name), DetailActivity.VIEW_NAME_HEADER_TITLE)
-        )
+            val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this@MainActivity,
+                // Now we provide a list of Pair items which contain the view we can transitioning
+                // from, and the name of the view it is transitioning to, in the launched activity
+                Pair(view.findViewById(R.id.imageview_item), DetailActivity.VIEW_NAME_HEADER_IMAGE),
+                Pair(view.findViewById(R.id.textview_name), DetailActivity.VIEW_NAME_HEADER_TITLE)
+            )
 
-        // Now we can start the Activity, providing the activity options as a bundle
-        ActivityCompat.startActivity(this@MainActivity, intent, activityOptions.toBundle())
-        // END_INCLUDE(start_activity)
-    }
+            // Now we can start the Activity, providing the activity options as a bundle
+            ActivityCompat.startActivity(this@MainActivity, intent, activityOptions.toBundle())
+            // END_INCLUDE(start_activity)
+        }
 
     /**
      * [android.widget.BaseAdapter] which displays items.
