@@ -84,7 +84,7 @@ class BasicTransitionFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
      * from a previous saved state as given here.
      * @return Return the [View] for the fragment's UI, or null.
      */
-    @Suppress("RedundantNullableReturnType")
+    @Suppress("RedundantNullableReturnType") // The method we override returns nullable
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -177,7 +177,7 @@ class BasicTransitionFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
         /**
          * Factory method to create and return a new instance of [BasicTransitionFragment]
          */
-        @Suppress("unused")
+        @Suppress("unused") // Unused but instructional
         fun newInstance(): BasicTransitionFragment {
             return BasicTransitionFragment()
         }

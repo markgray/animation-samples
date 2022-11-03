@@ -83,7 +83,7 @@ class LogView : androidx.appcompat.widget.AppCompatTextView, LogNode {
      * for instance.
      * @return The fully concatenated String as a StringBuilder
      */
-    @Suppress("SameParameterValue")
+    @Suppress("SameParameterValue") // Suggested change would make method less reusable
     private fun appendIfNotNull(source: StringBuilder, addStr: String?, delimiter: String): StringBuilder {
         var delimiterLocal: String? = delimiter
         if (addStr != null) {

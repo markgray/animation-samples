@@ -29,7 +29,7 @@ open class SampleActivityBase : FragmentActivity() {
      *
      * @param savedInstanceState we do not override [onSaveInstanceState] so do not use
      */
-    @Suppress("RedundantOverride")
+    @Suppress("RedundantOverride") // The method we override returns nullable
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

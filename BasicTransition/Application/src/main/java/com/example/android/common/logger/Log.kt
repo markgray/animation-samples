@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
+@file:Suppress("unused") // Contains unused methods in order to be complete
 
 package com.example.android.common.logger
 
@@ -38,33 +39,33 @@ object Log {
     /**
      * Highest level of verbosity, use Log.v()
      */
-    const val VERBOSE: Int = Log.VERBOSE
+    private const val VERBOSE: Int = Log.VERBOSE
 
     /**
      * Second highest level of verbosity, use Log.d()
      */
-    const val DEBUG: Int = Log.DEBUG
+    private const val DEBUG: Int = Log.DEBUG
 
     /**
      * Third highest level of verbosity, use Log.i()
      */
-    const val INFO: Int = Log.INFO
+    private const val INFO: Int = Log.INFO
 
     /**
      * Fourth highest level of verbosity, use Log.w()
      */
-    const val WARN: Int = Log.WARN
+    private const val WARN: Int = Log.WARN
 
     /**
      * Lowest highest level of verbosity, use Log.e()
      */
-    const val ERROR: Int = Log.ERROR
+    private const val ERROR: Int = Log.ERROR
 
     /**
      * Priority constant for the println method, use Log.wtf(). The doc say: Log.wtf() might call
      * onTerribleFailure() and can cause termination of your application.
      */
-    const val ASSERT: Int = Log.ASSERT
+    private const val ASSERT: Int = Log.ASSERT
 
     /**
      * Stores the beginning of the LogNode topology.
