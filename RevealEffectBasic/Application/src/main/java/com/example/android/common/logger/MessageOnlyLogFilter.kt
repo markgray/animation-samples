@@ -34,7 +34,7 @@ class MessageOnlyLogFilter : LogNode {
      *
      * @param next The next LogNode in the pipeline.
      */
-    @Suppress("unused")
+    @Suppress("unused") // Suggested change would make class less reusable
     constructor(next: LogNode?) {
         this.next = next
     }
