@@ -24,7 +24,7 @@ import android.util.Log
  * for [android.util.Log]. Most of the methods in this class serve only to map a method call in
  * `Log` to its equivalent in [LogNode].
  */
-@Suppress("unused")
+@Suppress("unused") // Suggested change would make class less reusable
 object Log {
     /**
      * Grabbing the native values from Android's native logging facilities, to make for easy

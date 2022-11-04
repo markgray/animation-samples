@@ -102,7 +102,7 @@ class LogFragment : Fragment() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             logView.setTextAppearance(android.R.style.TextAppearance_Holo_Medium)
         } else {
-            @Suppress("DEPRECATION")
+            @Suppress("DEPRECATION") // Needed for Build.VERSION.SDK_INT < Build.VERSION_CODES.M
             logView.setTextAppearance(activity, android.R.style.TextAppearance_Holo_Medium)
         }
         mScrollView.addView(logView)
@@ -127,7 +127,7 @@ class LogFragment : Fragment() {
      * from a previous saved state as given here.
      * @return Return the [View] for the fragment's UI, or `null`.
      */
-    @Suppress("RedundantNullableReturnType")
+    @Suppress("RedundantNullableReturnType") // The method we override returns nullable
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

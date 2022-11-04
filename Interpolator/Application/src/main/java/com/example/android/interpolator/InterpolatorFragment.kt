@@ -16,7 +16,6 @@
 package com.example.android.interpolator
 
 import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
 import android.graphics.Path
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -62,18 +61,21 @@ class InterpolatorFragment : Fragment() {
      * The array of Interpolators available to be used for animation, the one used is selected by
      * the [Spinner] field [mInterpolatorSpinner].
      */
+    @Suppress("MemberVisibilityCanBePrivate") // I like to use kdoc [] references
     lateinit var interpolators: Array<Interpolator>
         private set
 
     /**
      * Path for in (shrinking) animation, from 100% scale to 20%.
      */
+    @Suppress("MemberVisibilityCanBePrivate") // I like to use kdoc [] references
     lateinit var pathIn: Path
         private set
 
     /**
      * Path for out (growing) animation, from 20% to 100%.
      */
+    @Suppress("MemberVisibilityCanBePrivate") // I like to use kdoc [] references
     lateinit var pathOut: Path
         private set
 
@@ -203,48 +205,27 @@ class InterpolatorFragment : Fragment() {
      *
      * @param view The view holding the button.
      */
-    @Suppress("ObjectLiteralToLambda")
     private fun initAnimateButton(view: View) {
         val button = view.findViewById<View>(R.id.animateButton)
-        button.setOnClickListener(object : View.OnClickListener {
-            /**
-             * Called when the button with ID [R.id.animateButton] is clicked. First we initialize
-             * our [Int] variable `val selectedItemPosition` to the position of the currently selected
-             * item within the adapter's data set of our [Spinner] field [mInterpolatorSpinner]. Then
-             * we initialize our [Interpolator] variable `val interpolator` to the entry in our array
-             * [interpolators] with index `selectedItemPosition`. We then set our [Long] variable
-             * `val duration` to the current level of progress of our [SeekBar] field [mDurationSeekbar].
-             * We set [Path] variable `val path` to [pathIn] if [mIsOut] is `true` or to [pathOut] if
-             * it is `false`. We then log that we are starting the animation and call our method
-             * [startAnimation] to have it start the animation using `interpolator` as the interpolator
-             * to use for the animation, `duration` as the duration of the animation in ms, and
-             * `path` as the [Path] of the animation. Finally we toggle the value of [mIsOut] to
-             * toggle the direction of the animation (the [Path] used).
-             *
-             * @param view the [View] that was clicked.
-             */
-            @SuppressLint("DefaultLocale")
-            override fun onClick(view: View) {
-                // Interpolator selected in the spinner
-                val selectedItemPosition = mInterpolatorSpinner.selectedItemPosition
-                val interpolator = interpolators[selectedItemPosition]
-                // Duration selected in SeekBar
-                val duration = mDurationSeekbar.progress.toLong()
-                // Animation path is based on whether animating in or out
-                val path: Path = if (mIsOut) pathIn else pathOut
+        button.setOnClickListener { // Interpolator selected in the spinner
+            val selectedItemPosition = mInterpolatorSpinner.selectedItemPosition
+            val interpolator = interpolators[selectedItemPosition]
+            // Duration selected in SeekBar
+            val duration = mDurationSeekbar.progress.toLong()
+            // Animation path is based on whether animating in or out
+            val path: Path = if (mIsOut) pathIn else pathOut
 
-                // Log animation details
-                Log.i(TAG, String.format("Starting animation: [%d ms, %s, %s]",
-                    duration, mInterpolatorSpinner.selectedItem as String,
-                    if (mIsOut) "Out (growing)" else "In (shrinking)"))
+            // Log animation details
+            Log.i(TAG, String.format("Starting animation: [%d ms, %s, %s]",
+                duration, mInterpolatorSpinner.selectedItem as String,
+                if (mIsOut) "Out (growing)" else "In (shrinking)"))
 
-                // Start the animation with the selected options
-                startAnimation(interpolator, duration, path)
+            // Start the animation with the selected options
+            startAnimation(interpolator, duration, path)
 
-                // Toggle direction of animation (path)
-                mIsOut = !mIsOut
-            }
-        })
+            // Toggle direction of animation (path)
+            mIsOut = !mIsOut
+        }
     }
 
     /**
@@ -290,6 +271,7 @@ class InterpolatorFragment : Fragment() {
      * @return The ObjectAnimator used for this animation
      * @see android.animation.ObjectAnimator.ofFloat
      */
+    @Suppress("MemberVisibilityCanBePrivate") // I like to use kdoc [] references
     fun startAnimation(interpolator: Interpolator?, duration: Long, path: Path?): ObjectAnimator {
         // This ObjectAnimator uses the path to change the x and y scale of the mView object.
         val animator = ObjectAnimator.ofFloat(mView, View.SCALE_X, View.SCALE_Y, path)
