@@ -56,7 +56,7 @@ class Dissolve : Transition() {
          * This transition depends on [ViewOverlay] to show the animation. On older devices that
          * don't support it, this transition doesn't do anything.
          */
-        @SuppressLint("ObsoleteSdkInt")
+        @SuppressLint("ObsoleteSdkInt") // The statement will serve to remind one if reusing code
         private val SUPPORTS_VIEW_OVERLAY = Build.VERSION.SDK_INT >= 18
     }
 

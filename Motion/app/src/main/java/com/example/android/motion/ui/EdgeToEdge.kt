@@ -41,7 +41,7 @@ import com.google.android.material.appbar.AppBarLayout
  *  - when the SDK is greater than or equal to 30 we use [EdgeToEdgeApi30] which overrides all
  *  three methods of [EdgeToEdgeImpl] with api's introduced with SDK 30 (or will eventually)
  */
-@SuppressLint("ObsoleteSdkInt")
+@SuppressLint("ObsoleteSdkInt") // The code reminds one if you are trying to reuse the code
 object EdgeToEdge : EdgeToEdgeImpl by when {
     Build.VERSION.SDK_INT >= 30 -> EdgeToEdgeApi30()
     Build.VERSION.SDK_INT >= 21 -> EdgeToEdgeApi21()
@@ -100,7 +100,7 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
      * @param root A root view of an Activity.
      */
     override fun setUpRoot(root: ViewGroup) {
-        @Suppress("DEPRECATION")
+        @Suppress("DEPRECATION") // TODO: Use WindowInsetsController instead
         root.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
     }
@@ -121,9 +121,9 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
     override fun setUpAppBar(appBar: AppBarLayout, toolbar: Toolbar) {
         val toolbarPadding = toolbar.resources.getDimensionPixelSize(R.dimen.spacing_medium)
         appBar.setOnApplyWindowInsetsListener { _, windowInsets ->
-            @Suppress("DEPRECATION")
+            @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
             appBar.updatePadding(top = windowInsets.systemWindowInsetTop)
-            @Suppress("DEPRECATION")
+            @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
             toolbar.updatePadding(
                 left = toolbarPadding + windowInsets.systemWindowInsetLeft,
                 right = windowInsets.systemWindowInsetRight
@@ -152,7 +152,7 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
         val originalPaddingRight = scrollingContent.paddingRight
         val originalPaddingBottom = scrollingContent.paddingBottom
         scrollingContent.setOnApplyWindowInsetsListener { _, windowInsets ->
-            @Suppress("DEPRECATION")
+            @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
             scrollingContent.updatePadding(
                 left = originalPaddingLeft + windowInsets.systemWindowInsetLeft,
                 right = originalPaddingRight + windowInsets.systemWindowInsetRight,
@@ -203,9 +203,9 @@ private class EdgeToEdgeApi30 : EdgeToEdgeImpl {
     override fun setUpAppBar(appBar: AppBarLayout, toolbar: Toolbar) {
         val toolbarPadding = toolbar.resources.getDimensionPixelSize(R.dimen.spacing_medium)
         appBar.setOnApplyWindowInsetsListener { _, windowInsets ->
-            @Suppress("DEPRECATION")
+            @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
             appBar.updatePadding(top = windowInsets.systemWindowInsetTop)
-            @Suppress("DEPRECATION")
+            @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
             toolbar.updatePadding(
                 left = toolbarPadding + windowInsets.systemWindowInsetLeft,
                 right = windowInsets.systemWindowInsetRight
@@ -235,7 +235,7 @@ private class EdgeToEdgeApi30 : EdgeToEdgeImpl {
         val originalPaddingRight = scrollingContent.paddingRight
         val originalPaddingBottom = scrollingContent.paddingBottom
         scrollingContent.setOnApplyWindowInsetsListener { _, windowInsets ->
-            @Suppress("DEPRECATION")
+            @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
             scrollingContent.updatePadding(
                 left = originalPaddingLeft + windowInsets.systemWindowInsetLeft,
                 right = originalPaddingRight + windowInsets.systemWindowInsetRight,

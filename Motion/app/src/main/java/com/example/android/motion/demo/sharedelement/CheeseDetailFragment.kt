@@ -348,7 +348,7 @@ class CheeseDetailFragment : Fragment() {
         ViewGroupCompat.setTransitionGroup(scroll, true)
 
         // Adjust the edge-to-edge display.
-        @Suppress("DEPRECATION")
+        @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
         ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
             toolbar.updateLayoutParams<CollapsingToolbarLayout.LayoutParams> {
                 topMargin = insets.systemWindowInsetTop

@@ -175,7 +175,7 @@ class CheeseCardFragment : Fragment() {
         val name: TextView = view.findViewById(R.id.name)
         val mirror: MirrorView = view.findViewById(R.id.article_mirror)
 
-        @Suppress("DEPRECATION")
+        @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
         ViewCompat.setOnApplyWindowInsetsListener(view.parent as View) { _, insets ->
             toolbar.updateLayoutParams<AppBarLayout.LayoutParams> {
                 topMargin = insets.systemWindowInsetTop

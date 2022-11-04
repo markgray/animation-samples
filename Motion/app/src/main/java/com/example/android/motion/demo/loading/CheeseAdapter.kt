@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("KotlinDeprecation", "DEPRECATION")
+@file:Suppress("DEPRECATION") // TODO: PagedListAdapter replaced by PagingDataAdapter, PositionalDataSource replaced by PagingSource
 
 package com.example.android.motion.demo.loading
 
@@ -26,8 +26,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.animation.doOnEnd
-import androidx.paging.PagedListAdapter
-import androidx.paging.PositionalDataSource
+import androidx.paging.PagedListAdapter // TODO: replaced by PagingDataAdapter
+import androidx.paging.PositionalDataSource // TODO: replaced by PagingSource
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop

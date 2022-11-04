@@ -189,8 +189,7 @@ class ReorderActivity : AppCompatActivity() {
         ): Boolean {
             // Reorder the items in the ViewModel. The ViewModel will then notify the UI through the
             // LiveData.
-            @Suppress("DEPRECATION")
-            viewModel.move(viewHolder.adapterPosition, target.adapterPosition)
+            viewModel.move(viewHolder.absoluteAdapterPosition, target.absoluteAdapterPosition)
             return true
         }
 

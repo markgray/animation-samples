@@ -13,13 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:Suppress("KotlinDeprecation", "DEPRECATION")
+@file:Suppress(
+    "KotlinDeprecation",
+    "DEPRECATION"
+) // TODO: replace PositionalDataSource by PagingSource
 
 package com.example.android.motion.demo.loading
 
 import android.os.SystemClock
 import androidx.paging.DataSource
-import androidx.paging.PositionalDataSource
+import androidx.paging.PositionalDataSource // TODO: replaced by PagingSource
 import com.example.android.motion.model.Cheese
 
 /**

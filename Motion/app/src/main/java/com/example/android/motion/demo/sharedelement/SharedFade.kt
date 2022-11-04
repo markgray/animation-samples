@@ -71,7 +71,7 @@ class SharedFade : Transition() {
      * @return An array of property names as described in the class documentation for
      * [TransitionValues]. The default implementation returns `null`.
      */
-    @Suppress("RedundantNullableReturnType")
+    @Suppress("RedundantNullableReturnType") // The method we override returns nullable
     override fun getTransitionProperties(): Array<String>? {
         return MIRROR_PROPERTIES
     }
