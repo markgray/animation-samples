@@ -23,6 +23,8 @@ import android.animation.PropertyValuesHolder
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.ColorFilter
@@ -30,6 +32,7 @@ import android.graphics.Paint
 import android.graphics.PixelFormat
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.transition.Transition
 import android.transition.TransitionSet
 import android.transition.TransitionValues
@@ -68,7 +71,7 @@ class TextResize : Transition {
      * constrains the Transition to only listen for, and act on, views with these classes. Views with
      * different classes will be ignored.
      */
-    @Suppress("unused")
+    @Suppress("unused") // Unused but instructional
     constructor() {
         addTarget(TextView::class.java)
     }
@@ -80,7 +83,7 @@ class TextResize : Transition {
      * into. Setting targetTypes constrains the Transition to only listen for, and act on, views with
      * these classes. Views with different classes will be ignored.
      */
-    @Suppress("unused")
+    @Suppress("unused") // Unused but instructional
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
         addTarget(TextView::class.java)
     }
@@ -548,8 +551,12 @@ class TextResize : Transition {
              */
             set(textColor) {
                 field = textColor
-                @Suppress("DEPRECATION")
-                setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    colorFilter = BlendModeColorFilter(textColor, BlendMode.SRC_IN)
+                } else {
+                    @Suppress("DEPRECATION") // Needed for Build.VERSION.SDK_INT < Build.VERSION_CODES.Q
+                    setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
+                }
                 invalidateSelf()
             }
 
@@ -572,7 +579,7 @@ class TextResize : Transition {
          *
          * @param left The left side of the text in pixels.
          */
-        @Suppress("unused")
+        @Suppress("unused") // Unused but instructional
         fun setLeft(left: Float) {
             this.left = left
             invalidateSelf()
@@ -583,7 +590,7 @@ class TextResize : Transition {
          *
          * @param top The top of the text in pixels.
          */
-        @Suppress("unused")
+        @Suppress("unused") // Unused but instructional
         fun setTop(top: Float) {
             this.top = top
             invalidateSelf()
@@ -594,7 +601,7 @@ class TextResize : Transition {
          *
          * @param right The right pixel of the drawn area.
          */
-        @Suppress("unused")
+        @Suppress("unused") // Unused but instructional
         fun setRight(right: Float) {
             this.right = right
             invalidateSelf()
@@ -605,7 +612,7 @@ class TextResize : Transition {
          *
          * @param bottom The bottom pixel of the drawn area.
          */
-        @Suppress("unused")
+        @Suppress("unused") // Unused but instructional
         fun setBottom(bottom: Float) {
             this.bottom = bottom
             invalidateSelf()
@@ -628,7 +635,7 @@ class TextResize : Transition {
         /**
          * @return The right side of the text.
          */
-        @Suppress("unused")
+        @Suppress("unused") // Unused but instructional
         fun getRight(): Float {
             return right
         }
@@ -636,7 +643,7 @@ class TextResize : Transition {
         /**
          * @return The bottom of the text.
          */
-        @Suppress("unused")
+        @Suppress("unused") // Unused but instructional
         fun getBottom(): Float {
             return bottom
         }
@@ -811,7 +818,7 @@ class TextResize : Transition {
          * @param scale the scale that the [Canvas] is going to be scaled by before drawing the
          * [Bitmap] to it.
          */
-        @SuppressLint("RtlHardcoded")
+        @SuppressLint("RtlHardcoded") // This is a US only app
         private fun getTranslationPoint(
             gravity: Int,
             start: Float,

@@ -29,6 +29,6 @@ object ImageSize {
     /**
      * The width in pixels and the height in pixels for `Glide` to use to load a large jpeg.
      */
-    @Suppress("unused")
+    @Suppress("unused") // Unused but instructional
     val LARGE: IntArray = intArrayOf(960, 800)
 }

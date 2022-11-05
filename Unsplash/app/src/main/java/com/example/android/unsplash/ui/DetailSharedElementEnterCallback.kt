@@ -19,6 +19,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Rect
+import android.os.Build
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
@@ -150,8 +151,12 @@ class DetailSharedElementEnterCallback(
             author.setTextColor(intent.getIntExtra(IntentUtil.TEXT_COLOR, Color.BLACK))
             val textSize = intent.getFloatExtra(IntentUtil.FONT_SIZE, targetTextSize)
             author.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
-            @Suppress("DEPRECATION") // TODO: Fix deprecation for SDK 33+
-            val padding = intent.getParcelableExtra<Rect>(IntentUtil.PADDING)
+            val padding: Rect? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                intent.getParcelableExtra(IntentUtil.PADDING, Rect::class.java)
+            } else {
+                @Suppress("DEPRECATION") // Needed for Build.VERSION.SDK_INT < Build.VERSION_CODES.T
+                intent.getParcelableExtra(IntentUtil.PADDING)
+            }
             author.setPadding((padding ?: return).left, padding.top, padding.right, padding.bottom)
         }
     }
@@ -354,7 +359,6 @@ class DetailSharedElementEnterCallback(
      * @param sharedElements The mapping of the shared element names in [names] to their [View].
      * @param elementsToRemove The names of the elements that should be removed.
      */
-    @Suppress("ConvertArgumentToSet")
     private fun removeObsoleteElements(
         names: MutableList<String>,
         sharedElements: MutableMap<String, View>,

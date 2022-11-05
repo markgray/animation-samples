@@ -22,7 +22,7 @@ import java.util.Locale
 /**
  * Model class representing data returned from unsplash.it
  */
-@Suppress("MemberVisibilityCanBePrivate")
+@Suppress("MemberVisibilityCanBePrivate") // I like to use kdoc [] references
 open class Photo : Parcelable {
     /*{
         "format": "jpeg",
@@ -179,7 +179,7 @@ open class Photo : Parcelable {
          * Interface that must be implemented and provided as a public [CREATOR]
          * field that generates instances of your [Parcelable] class from a [Parcel].
          */
-        @Suppress("unused")
+        @Suppress("unused") // Unused but instructional
         @JvmField
         val CREATOR: Parcelable.Creator<Photo> = object : Parcelable.Creator<Photo> {
             /**

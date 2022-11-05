@@ -19,6 +19,7 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.transition.Transition
@@ -130,8 +131,12 @@ class MainActivity : AppCompatActivity() {
         empty = findViewById<View>(android.R.id.empty) as ProgressBar
         setupRecyclerView()
         if (savedInstanceState != null) {
-            @Suppress("DEPRECATION") // TODO: Fix deprecation for SDK 33+
-            relevantPhotos = savedInstanceState.getParcelableArrayList(IntentUtil.RELEVANT_PHOTOS)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                relevantPhotos = savedInstanceState.getParcelableArrayList(IntentUtil.RELEVANT_PHOTOS, Photo::class.java)
+            } else {
+                @Suppress("DEPRECATION") // Needed for Build.VERSION.SDK_INT < Build.VERSION_CODES.T
+                relevantPhotos = savedInstanceState.getParcelableArrayList(IntentUtil.RELEVANT_PHOTOS)
+            }
         }
         displayData()
     }
@@ -242,7 +247,7 @@ class MainActivity : AppCompatActivity() {
                 val activityOptions: ActivityOptions = getActivityOptions(binding)
                 // TODO: use registerForActivityResult(ActivityResultContract, ActivityResultCallback
                 // TODO: passing in a StartActivityForResult object for the ActivityResultContract.
-                @Suppress("DEPRECATION")
+                @Suppress("DEPRECATION") // TODO: replacce with registerForActivityResult
                 this@MainActivity.startActivityForResult(
                     intent,
                     IntentUtil.REQUEST_CODE,
@@ -419,7 +424,7 @@ class MainActivity : AppCompatActivity() {
             statusBackground.transitionName
         )
 
-        @Suppress("UnnecessaryVariable")
+        @Suppress("UnnecessaryVariable") // Easier to breakpoint with variable
         val options: ActivityOptions = if (navBackground == null) {
             ActivityOptions.makeSceneTransitionAnimation(
                 this,

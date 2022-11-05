@@ -116,7 +116,7 @@ object IntentUtil {
      * @param extras The extras to check for.
      * @return `true` if any checked extra is present, else `false`.
      */
-    @Suppress("unused")
+    @Suppress("unused") // Unused but instructional
     fun hasAny(intent: Intent, vararg extras: String?): Boolean {
         for (extra in extras) {
             if (intent.hasExtra(extra)) {
