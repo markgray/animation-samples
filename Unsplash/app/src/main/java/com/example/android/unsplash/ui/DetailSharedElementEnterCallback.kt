@@ -365,6 +365,7 @@ class DetailSharedElementEnterCallback(
         elementsToRemove: List<String>
     ) {
         if (elementsToRemove.isNotEmpty()) {
+            @Suppress("ConvertArgumentToSet") // TODO: Investigate converting to `set`
             names.removeAll(elementsToRemove)
             for (elementToRemove in elementsToRemove) {
                 sharedElements.remove(elementToRemove)
