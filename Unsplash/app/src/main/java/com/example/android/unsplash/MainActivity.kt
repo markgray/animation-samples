@@ -247,7 +247,7 @@ class MainActivity : AppCompatActivity() {
                 val activityOptions: ActivityOptions = getActivityOptions(binding)
                 // TODO: use registerForActivityResult(ActivityResultContract, ActivityResultCallback
                 // TODO: passing in a StartActivityForResult object for the ActivityResultContract.
-                @Suppress("DEPRECATION") // TODO: replacce with registerForActivityResult
+                @Suppress("DEPRECATION") // TODO: replace with registerForActivityResult
                 this@MainActivity.startActivityForResult(
                     intent,
                     IntentUtil.REQUEST_CODE,
