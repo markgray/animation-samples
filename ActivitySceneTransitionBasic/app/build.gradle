@@ -36,11 +36,12 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
     //noinspection GradleDependency
     implementation 'com.squareup.picasso:picasso:2.4.0' // 2.71828 removes Picasso.with(Context)
     implementation "androidx.core:core-ktx:1.9.0"
 }
 repositories {
+    google()
     mavenCentral()
 }
