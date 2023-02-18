@@ -21,6 +21,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -252,20 +254,26 @@ class FabTransformationActivity : AppCompatActivity() {
             // Shrink the menu sheet back into the FAB.
             fab.isExpanded = false
         }
+        addOurOnBackPressedCallback()
     }
 
     /**
-     * Called when the activity has detected the user's press of the back key. If our [FloatingActionButton]
-     * field [fab] is expanded we set its `isExpanded` property to `false`, otherwise we just call our
-     * super's implementation of `onBackPressed`.
+     * This method adds an [OnBackPressedCallback] to the [OnBackPressedDispatcher] that replaces the
+     * old `onBackPressed` override. The [OnBackPressedCallback] will be called when the activity has
+     * detected the user's press of the back key. If our [FloatingActionButton] field [fab] is
+     * expanded we set its `isExpanded` property to `false`, otherwise we just call the [finish]
+     * method to close the Activity.
      */
-    @Deprecated("Deprecated in Java") // TODO: Fix onBackPressed deprecation
-    override fun onBackPressed() {
-        if (fab.isExpanded) {
-            fab.isExpanded = false
-        } else {
-            @Suppress("DEPRECATION") // TODO: Fix onBackPressed deprecation
-            super.onBackPressed()
+    private fun addOurOnBackPressedCallback() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (fab.isExpanded) {
+                    fab.isExpanded = false
+                } else {
+                    finish()
+                }
+            }
         }
+        onBackPressedDispatcher.addCallback(this, callback)
     }
 }
