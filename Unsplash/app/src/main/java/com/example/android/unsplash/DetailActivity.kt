@@ -28,6 +28,7 @@ import android.view.View
 import android.view.Window
 import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.SharedElementCallback
@@ -102,7 +103,9 @@ class DetailActivity : AppCompatActivity() {
      *
      * Next we initialize our [Toolbar] variable `val toolbar` to the view in our UI with resource
      * ID [R.id.toolbar] and set its listener that responds to navigation events to our [View.OnClickListener]
-     * field [navigationOnClickListener]. Finally we call our super's implementation of `onCreate`.
+     * field [navigationOnClickListener]. Then we call our super's implementation of `onCreate` and
+     * finally we call our [addOurOnBackPressedCallback] method to add an [OnBackPressedCallback] to
+     * the [OnBackPressedDispatcher] that replaes the deprecated onBackPressed` override.
      *
      * @param savedInstanceState If the activity is being re-initialized after previously being shut
      * down then this [Bundle] contains the data it most recently supplied in [onSaveInstanceState].
@@ -134,6 +137,25 @@ class DetailActivity : AppCompatActivity() {
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         toolbar.setNavigationOnClickListener(navigationOnClickListener)
         super.onCreate(savedInstanceState)
+        addOurOnBackPressedCallback()
+    }
+
+    /**
+     * This method adds an [OnBackPressedCallback] to the [OnBackPressedDispatcher] that replaces the
+     * old `onBackPressed` override. The [OnBackPressedCallback] will be called when the activity has
+     * detected the user's press of the back key. We call the [setActivityResult] method then  call
+     * the [finishAfterTransition] method which Reverses the Activity Scene entry Transition and
+     * triggers the calling Activity to reverse its exit Transition. When the exit Transition
+     * completes, [finish] is called.
+     */
+    private fun addOurOnBackPressedCallback() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                setActivityResult()
+                finishAfterTransition()
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, callback)
     }
 
     /**
@@ -199,20 +221,6 @@ class DetailActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         initialItem = savedInstanceState.getInt(STATE_INITIAL_ITEM, 0)
         super.onRestoreInstanceState(savedInstanceState)
-    }
-
-    /**
-     * Called when the activity has detected the user's press of the back key. All of the
-     * [OnBackPressedCallback]'s added will be given a chance to handle the back button (including
-     * our [navigationOnClickListener] field) before the default behavior of `onBackPressed` is
-     * invoked. First we call our method [setActivityResult] to have it set the result that our
-     * activity will return to its caller, then we call our super's implementation of `onBackPressed`.
-     */
-    @Suppress("DEPRECATION") // TODO: Fix onBackPressed deprecation
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        setActivityResult()
-        super.onBackPressed()
     }
 
     /**
