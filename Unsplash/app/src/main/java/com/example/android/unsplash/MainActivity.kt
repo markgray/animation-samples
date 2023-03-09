@@ -227,8 +227,8 @@ class MainActivity : AppCompatActivity() {
              * method intended to launch [DetailActivity] with all the information it needs to create
              * its UI and set our [ActivityOptions] variable `val activityOptions` to the [ActivityOptions]
              * instance that our [getActivityOptions] method constructs for `binding`. Finally we launch
-             * `intent` for a result with the request code [IntentUtil.REQUEST_CODE] and a "bundled"
-             * up `activityOptions` as additional options for how the Activity should be started.
+             * `intent` with a "bundled" up `activityOptions` as additional options for how the
+             * Activity should be started.
              *
              * @param holder the [RecyclerView.ViewHolder] that contains the view that was touched
              * @param position the adapter position that the touched view corresponds to
@@ -245,12 +245,8 @@ class MainActivity : AppCompatActivity() {
                     binding
                 )
                 val activityOptions: ActivityOptions = getActivityOptions(binding)
-                // TODO: use registerForActivityResult(ActivityResultContract, ActivityResultCallback
-                // TODO: passing in a StartActivityForResult object for the ActivityResultContract.
-                @Suppress("DEPRECATION") // TODO: replace with registerForActivityResult
-                this@MainActivity.startActivityForResult(
+                this@MainActivity.startActivity(
                     intent,
-                    IntentUtil.REQUEST_CODE,
                     activityOptions.toBundle()
                 )
             }
