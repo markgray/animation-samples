@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.LiveData
@@ -207,20 +208,14 @@ class FabTransformationActivity : AppCompatActivity() {
         val fabMargin = resources.getDimensionPixelSize(R.dimen.spacing_medium)
         ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
             fab.updateLayoutParams<CoordinatorLayout.LayoutParams> {
-                @Suppress("DEPRECATION") // TODO: Fix getSystemWindowInsetLeft deprecation
-                leftMargin = fabMargin + insets.systemWindowInsetLeft
-                @Suppress("DEPRECATION") // TODO: Fix systemWindowInsetRight deprecation
-                rightMargin = fabMargin + insets.systemWindowInsetRight
-                @Suppress("DEPRECATION") // TODO: Fix systemWindowInsetBottom deprecation
-                bottomMargin = fabMargin + insets.systemWindowInsetBottom
+                leftMargin = fabMargin + insets.getInsets(systemBars()).left
+                rightMargin = fabMargin + insets.getInsets(systemBars()).right
+                bottomMargin = fabMargin + insets.getInsets(systemBars()).bottom
             }
             sheet.updateLayoutParams<CoordinatorLayout.LayoutParams> {
-                @Suppress("DEPRECATION") // TODO: Fix getSystemWindowInsetLeft deprecation
-                leftMargin = fabMargin + insets.systemWindowInsetLeft
-                @Suppress("DEPRECATION") // TODO: Fix systemWindowInsetRight deprecation
-                rightMargin = fabMargin + insets.systemWindowInsetRight
-                @Suppress("DEPRECATION") // TODO: Fix systemWindowInsetBottom deprecation
-                bottomMargin = fabMargin + insets.systemWindowInsetBottom
+                leftMargin = fabMargin + insets.getInsets(systemBars()).left
+                rightMargin = fabMargin + insets.getInsets(systemBars()).right
+                bottomMargin = fabMargin + insets.getInsets(systemBars()).bottom
             }
             insets
         }
