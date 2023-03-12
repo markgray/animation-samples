@@ -30,6 +30,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.ViewGroupCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
@@ -243,21 +244,20 @@ class CheeseArticleFragment : Fragment() {
         ViewGroupCompat.setTransitionGroup(coordinator, true)
 
         // Adjust the edge-to-edge display.
-        @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
         ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
             toolbar.updateLayoutParams<CollapsingToolbarLayout.LayoutParams> {
-                topMargin = insets.systemWindowInsetTop
+                topMargin = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top
             }
             // The collapsed app bar gets taller by the toolbar's top margin. The CoordinatorLayout
             // has to have a bottom margin of the same amount so that the scrolling content is
             // completely visible.
             scroll.updateLayoutParams<CoordinatorLayout.LayoutParams> {
-                bottomMargin = insets.systemWindowInsetTop
+                bottomMargin = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top
             }
             content.updatePadding(
-                left = insets.systemWindowInsetLeft,
-                right = insets.systemWindowInsetRight,
-                bottom = insets.systemWindowInsetBottom
+                left = insets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
+                right = insets.getInsets(WindowInsetsCompat.Type.systemBars()).right,
+                bottom = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
             )
             insets
         }

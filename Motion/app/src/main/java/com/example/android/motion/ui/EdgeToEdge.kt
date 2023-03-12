@@ -24,6 +24,7 @@ import android.view.WindowInsets
 import android.view.WindowInsetsController
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import com.example.android.motion.R
 import com.google.android.material.appbar.AppBarLayout
@@ -122,13 +123,24 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
     override fun setUpAppBar(appBar: AppBarLayout, toolbar: Toolbar) {
         val toolbarPadding = toolbar.resources.getDimensionPixelSize(R.dimen.spacing_medium)
         appBar.setOnApplyWindowInsetsListener { _, windowInsets ->
-            @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
-            appBar.updatePadding(top = windowInsets.systemWindowInsetTop)
-            @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
-            toolbar.updatePadding(
-                left = toolbarPadding + windowInsets.systemWindowInsetLeft,
-                right = windowInsets.systemWindowInsetRight
-            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                appBar.updatePadding(top = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).top)
+            } else {
+                @Suppress("DEPRECATION") // Needed for SDK_INT < Build.VERSION_CODES.R
+                appBar.updatePadding(top = windowInsets.systemWindowInsetTop)
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                toolbar.updatePadding(
+                    left = toolbarPadding + windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
+                    right = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).right
+                )
+            } else {
+                @Suppress("DEPRECATION") // Needed for SDK_INT < Build.VERSION_CODES.R
+                toolbar.updatePadding(
+                    left = toolbarPadding + windowInsets.systemWindowInsetLeft,
+                    right = windowInsets.systemWindowInsetRight
+                )
+            }
             windowInsets
         }
     }
@@ -153,12 +165,20 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
         val originalPaddingRight = scrollingContent.paddingRight
         val originalPaddingBottom = scrollingContent.paddingBottom
         scrollingContent.setOnApplyWindowInsetsListener { _, windowInsets ->
-            @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
-            scrollingContent.updatePadding(
-                left = originalPaddingLeft + windowInsets.systemWindowInsetLeft,
-                right = originalPaddingRight + windowInsets.systemWindowInsetRight,
-                bottom = originalPaddingBottom + windowInsets.systemWindowInsetBottom
-            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                scrollingContent.updatePadding(
+                    left = originalPaddingLeft + windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
+                    right = originalPaddingRight + windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).right,
+                    bottom = originalPaddingBottom + windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+                )
+            } else {
+                @Suppress("DEPRECATION") // Needed for SDK_INT < Build.VERSION_CODES.R
+                scrollingContent.updatePadding(
+                    left = originalPaddingLeft + windowInsets.systemWindowInsetLeft,
+                    right = originalPaddingRight + windowInsets.systemWindowInsetRight,
+                    bottom = originalPaddingBottom + windowInsets.systemWindowInsetBottom
+                )
+            }
             windowInsets
         }
     }
@@ -204,12 +224,10 @@ private class EdgeToEdgeApi30 : EdgeToEdgeImpl {
     override fun setUpAppBar(appBar: AppBarLayout, toolbar: Toolbar) {
         val toolbarPadding = toolbar.resources.getDimensionPixelSize(R.dimen.spacing_medium)
         appBar.setOnApplyWindowInsetsListener { _, windowInsets ->
-            @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
-            appBar.updatePadding(top = windowInsets.systemWindowInsetTop)
-            @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
+            appBar.updatePadding(top = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).top)
             toolbar.updatePadding(
-                left = toolbarPadding + windowInsets.systemWindowInsetLeft,
-                right = windowInsets.systemWindowInsetRight
+                left = toolbarPadding + windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
+                right = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).right
             )
             windowInsets
         }
@@ -236,11 +254,10 @@ private class EdgeToEdgeApi30 : EdgeToEdgeImpl {
         val originalPaddingRight = scrollingContent.paddingRight
         val originalPaddingBottom = scrollingContent.paddingBottom
         scrollingContent.setOnApplyWindowInsetsListener { _, windowInsets ->
-            @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
             scrollingContent.updatePadding(
-                left = originalPaddingLeft + windowInsets.systemWindowInsetLeft,
-                right = originalPaddingRight + windowInsets.systemWindowInsetRight,
-                bottom = originalPaddingBottom + windowInsets.systemWindowInsetBottom
+                left = originalPaddingLeft + windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
+                right = originalPaddingRight + windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).right,
+                bottom = originalPaddingBottom + windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
             )
             windowInsets
         }

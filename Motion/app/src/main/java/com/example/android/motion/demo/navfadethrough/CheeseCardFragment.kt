@@ -28,6 +28,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.ViewGroupCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -175,15 +176,14 @@ class CheeseCardFragment : Fragment() {
         val name: TextView = view.findViewById(R.id.name)
         val mirror: MirrorView = view.findViewById(R.id.article_mirror)
 
-        @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
         ViewCompat.setOnApplyWindowInsetsListener(view.parent as View) { _, insets ->
             toolbar.updateLayoutParams<AppBarLayout.LayoutParams> {
-                topMargin = insets.systemWindowInsetTop
+                topMargin = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top
             }
             content.updatePadding(
-                left = insets.systemWindowInsetLeft,
-                right = insets.systemWindowInsetRight,
-                bottom = insets.systemWindowInsetBottom
+                left = insets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
+                right = insets.getInsets(WindowInsetsCompat.Type.systemBars()).right,
+                bottom = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
             )
             insets
         }

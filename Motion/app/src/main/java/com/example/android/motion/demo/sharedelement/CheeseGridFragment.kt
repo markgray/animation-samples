@@ -24,6 +24,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -226,14 +227,12 @@ class CheeseGridFragment : Fragment() {
         val gridPadding = resources.getDimensionPixelSize(R.dimen.spacing_tiny)
         ViewCompat.setOnApplyWindowInsetsListener(view.parent as View) { _, insets ->
             toolbar.updateLayoutParams<AppBarLayout.LayoutParams> {
-                @Suppress("DEPRECATION") // TODO: Fix systemWindowInsetTop deprecation
-                topMargin = insets.systemWindowInsetTop
+                topMargin = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top
             }
-            @Suppress("DEPRECATION") // TODO: Fix systemWindowInset* deprecations
             grid.updatePadding(
-                left = gridPadding + insets.systemWindowInsetLeft,
-                right = gridPadding + insets.systemWindowInsetRight,
-                bottom = gridPadding + insets.systemWindowInsetBottom
+                left = gridPadding + insets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
+                right = gridPadding + insets.getInsets(WindowInsetsCompat.Type.systemBars()).right,
+                bottom = gridPadding + insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
             )
             insets
         }

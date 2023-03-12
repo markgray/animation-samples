@@ -28,6 +28,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.ViewGroupCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
@@ -348,15 +349,14 @@ class CheeseDetailFragment : Fragment() {
         ViewGroupCompat.setTransitionGroup(scroll, true)
 
         // Adjust the edge-to-edge display.
-        @Suppress("DEPRECATION") // TODO: Use getInsets(int) with WindowInsetsCompat.Type.systemBars() instead of systemWindowInset*
         ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
             toolbar.updateLayoutParams<CollapsingToolbarLayout.LayoutParams> {
-                topMargin = insets.systemWindowInsetTop
+                topMargin = insets.getInsets(WindowInsetsCompat.Type.systemBars()).top
             }
             content.updatePadding(
-                left = insets.systemWindowInsetLeft,
-                right = insets.systemWindowInsetRight,
-                bottom = insets.systemWindowInsetBottom
+                left = insets.getInsets(WindowInsetsCompat.Type.systemBars()).left,
+                right = insets.getInsets(WindowInsetsCompat.Type.systemBars()).right,
+                bottom = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
             )
             insets
         }
