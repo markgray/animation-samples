@@ -47,11 +47,11 @@ public final class DetailClusterManager extends ClusterManager<Detail> {
         setOnClusterItemClickListener(onClusterItemClickListener);
     }
 
-    @Override
-    public void onCameraChange(CameraPosition cameraPosition) {
-        if (mOnCameraPositionUpdateListener != null) {
-            mOnCameraPositionUpdateListener.onCameraPositionUpdate(cameraPosition);
-        }
-        super.onCameraChange(cameraPosition);
-    }
+//    @Override // TODO: Figure out what to replace this with markgray
+//    public void onCameraChange(CameraPosition cameraPosition) {
+//        if (mOnCameraPositionUpdateListener != null) {
+//            mOnCameraPositionUpdateListener.onCameraPositionUpdate(cameraPosition);
+//        }
+//        super.onCameraChange(cameraPosition);
+//    }
 }

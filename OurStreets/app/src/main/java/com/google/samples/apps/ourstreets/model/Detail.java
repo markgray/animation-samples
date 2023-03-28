@@ -19,6 +19,7 @@ package com.google.samples.apps.ourstreets.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
@@ -42,6 +43,7 @@ public class Detail implements Parcelable, ClusterItem {
         mBearing = bearing;
     }
 
+    @NonNull
     @Override
     public LatLng getPosition() {
         return mLocation;
@@ -53,6 +55,12 @@ public class Detail implements Parcelable, ClusterItem {
 
     public String getTitle() {
         return mTitle;
+    }
+
+    @Nullable
+    @Override
+    public String getSnippet() {
+        return null;
     }
 
     public float getTilt() {
