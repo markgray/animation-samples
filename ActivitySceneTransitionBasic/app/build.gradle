@@ -29,8 +29,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     namespace 'com.example.android.activityscenetransitionbasic'
 }
@@ -39,7 +39,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     //noinspection GradleDependency
     implementation 'com.squareup.picasso:picasso:2.4.0' // 2.71828 removes Picasso.with(Context)
-    implementation "androidx.core:core-ktx:1.9.0"
+    implementation "androidx.core:core-ktx:1.10.0"
 }
 repositories {
     google()
