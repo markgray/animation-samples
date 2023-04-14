@@ -84,7 +84,6 @@ class BasicTransitionFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
      * from a previous saved state as given here.
      * @return Return the [View] for the fragment's UI, or null.
      */
-    @Suppress("RedundantNullableReturnType") // The method we override returns nullable
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -147,15 +146,18 @@ class BasicTransitionFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
                 // You can start an automatic transition with TransitionManager.go().
                 TransitionManager.go(mScene1)
             }
+
             R.id.select_scene_2 -> {
                 TransitionManager.go(mScene2)
             }
+
             R.id.select_scene_3 -> {
 
                 // BEGIN_INCLUDE(transition_custom)
                 // You can also start a transition with a custom TransitionManager.
                 mTransitionManagerForScene3.transitionTo(mScene3)
             }
+
             R.id.select_scene_4 -> {
 
                 // BEGIN_INCLUDE(transition_dynamic)
