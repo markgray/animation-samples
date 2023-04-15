@@ -177,6 +177,7 @@ class StaggerActivity : AppCompatActivity() {
                 viewModel.refresh()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

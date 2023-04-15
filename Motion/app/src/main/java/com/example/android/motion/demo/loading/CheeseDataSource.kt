@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 @file:Suppress(
-    "KotlinDeprecation",
     "DEPRECATION"
 ) // TODO: replace PositionalDataSource by PagingSource
 

@@ -127,7 +127,6 @@ data class Cheese(
         /**
          * The list of cheese names used to generate the [ALL] list of [Cheese] object.
          */
-        @Suppress("SpellCheckingInspection") // Now there's a laugh
         val NAMES: List<String> = listOf(
             "Abbaye de Belloc", "Abbaye du Mont des Cats", "Abertam", "Abondance", "Ackawi",
             "Acorn", "Adelost", "Affidelice au Chablis", "Afuega'l Pitu", "Airag", "Airedale",

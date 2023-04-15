@@ -202,6 +202,7 @@ class LoadingActivity : AppCompatActivity() {
                 viewModel.refresh()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
