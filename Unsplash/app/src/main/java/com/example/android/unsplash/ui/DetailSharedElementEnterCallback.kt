@@ -286,9 +286,11 @@ class DetailSharedElementEnterCallback(
             currentPhotoBinding != null -> {
                 currentPhotoBinding!!.author
             }
+
             currentDetailBinding != null -> {
                 currentDetailBinding!!.author
             }
+
             else -> {
                 throw NullPointerException("Must set a binding before transitioning.")
             }
@@ -316,9 +318,11 @@ class DetailSharedElementEnterCallback(
             currentPhotoBinding != null -> {
                 currentPhotoBinding!!.photo
             }
+
             currentDetailBinding != null -> {
                 currentDetailBinding!!.photo
             }
+
             else -> {
                 throw NullPointerException("Must set a binding before transitioning.")
             }

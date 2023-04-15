@@ -420,7 +420,7 @@ class MainActivity : AppCompatActivity() {
             statusBackground.transitionName
         )
 
-        @Suppress("UnnecessaryVariable") // Easier to breakpoint with variable
+        // Easier to breakpoint with variable
         val options: ActivityOptions = if (navBackground == null) {
             ActivityOptions.makeSceneTransitionAnimation(
                 this,

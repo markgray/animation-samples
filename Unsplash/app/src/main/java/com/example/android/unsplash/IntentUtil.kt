@@ -78,7 +78,7 @@ object IntentUtil {
      * The `requestCode` that [MainActivity] uses to launch [DetailActivity] with in its call to the
      * method `startActivityForResult`. Just an arbitrary [Int] which is ignored by both activities.
      */
-    const val REQUEST_CODE: Int = R.id.requestCode
+    const val REQUEST_CODE: Int = 42
 
     /**
      * Checks if all extras are present in an intent. We loop for all of the [String] in our `vararg`
