@@ -60,7 +60,9 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:3.2.0"
     implementation 'com.google.android.material:material:1.9.0'
 
+    //noinspection GradleDependency TODO: Newer version requires SDK34
     implementation "androidx.navigation:navigation-fragment-ktx:2.6.0"
+    //noinspection GradleDependency TODO: Newer version requires SDK34
     implementation "androidx.navigation:navigation-ui-ktx:2.6.0"
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
