@@ -82,7 +82,7 @@ class MirrorView @JvmOverloads constructor(
      *
      * @param canvas the [Canvas] on which the background will be drawn
      */
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         _substance?.draw(canvas)
     }
 }
