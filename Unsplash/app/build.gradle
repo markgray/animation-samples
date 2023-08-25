@@ -19,7 +19,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     dataBinding {
         enabled = true
@@ -28,7 +28,8 @@ android {
     defaultConfig {
         applicationId "com.example.android.unsplash"
         minSdkVersion 21
-        targetSdkVersion 33
+        //noinspection EditedTargetSdkVersion
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
     }
