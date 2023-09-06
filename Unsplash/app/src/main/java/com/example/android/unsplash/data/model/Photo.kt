@@ -88,6 +88,7 @@ open class Photo : Parcelable {
      * the class during runtime in order to figure out how to perform the conversion from JSON to
      * [Photo] objects.
      */
+    @Suppress("LocalVariableName")
     constructor(
         format: String?,
         width: Int,
