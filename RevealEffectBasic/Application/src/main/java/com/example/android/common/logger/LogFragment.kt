@@ -107,7 +107,6 @@ class LogFragment : Fragment() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             logView!!.setTextAppearance(TextAppearance_Holo_Medium)
         } else {
-            @Suppress("DEPRECATION") // Needed for Build.VERSION.SDK_INT < Build.VERSION_CODES.M
             logView!!.setTextAppearance(context, TextAppearance_Holo_Medium)
         }
         mScrollView!!.addView(logView)
