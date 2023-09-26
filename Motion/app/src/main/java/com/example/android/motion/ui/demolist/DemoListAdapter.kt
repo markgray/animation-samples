@@ -77,6 +77,7 @@ internal class DemoListAdapter(
 /**
  * Callback for calculating the diff between two non-null items in a list.
  */
+@Suppress("PrivatePropertyName") // It is a constant of sorts
 private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Demo>() {
 
     /**

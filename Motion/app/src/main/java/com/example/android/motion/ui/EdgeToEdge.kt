@@ -87,7 +87,7 @@ private class EdgeToEdgeBase : EdgeToEdgeImpl
  * than 30. It overrides all three methods of its [EdgeToEdgeImpl] super using api's introduced with
  * SDK 21.
  */
-@SuppressLint("ObsoleteSdkInt")
+@SuppressLint("ObsoleteSdkInt") // The statement will serve to remind one if reusing code
 @RequiresApi(21)
 private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
 
