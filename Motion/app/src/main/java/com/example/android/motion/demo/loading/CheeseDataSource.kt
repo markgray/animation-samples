@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:Suppress(    "DEPRECATION") // TODO: replace PositionalDataSource by PagingSource
+@file:Suppress("DEPRECATION") // TODO: replace PositionalDataSource by PagingSource
 
 package com.example.android.motion.demo.loading
 
