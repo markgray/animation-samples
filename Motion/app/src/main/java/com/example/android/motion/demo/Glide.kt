@@ -59,7 +59,7 @@ fun <T> RequestBuilder<T>.doOnEnd(body: () -> Unit): RequestBuilder<T> {
         override fun onLoadFailed(
             e: GlideException?,
             model: Any?,
-            target: Target<T>?,
+            target: Target<T>,
             isFirstResource: Boolean
         ): Boolean {
             body()
@@ -84,9 +84,9 @@ fun <T> RequestBuilder<T>.doOnEnd(body: () -> Unit): RequestBuilder<T> {
          */
         override fun onResourceReady(
             resource: T,
-            model: Any?,
-            target: Target<T>?,
-            dataSource: DataSource?,
+            model: Any,
+            target: Target<T>,
+            dataSource: DataSource,
             isFirstResource: Boolean
         ): Boolean {
             body()

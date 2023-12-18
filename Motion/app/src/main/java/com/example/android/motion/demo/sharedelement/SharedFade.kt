@@ -37,7 +37,7 @@ private const val PROPNAME_IS_MIRROR: String = "com.example.android.motion.demo:
  * The set of property names that this transition cares about for the purposes of canceling
  * overlapping animations. It is returned by the `getTransitionProperties` override of [SharedFade]
  */
-@Suppress("PrivatePropertyName") // It is a constant of sorts
+// It is a constant of sorts
 private val MIRROR_PROPERTIES: Array<String> = arrayOf(PROPNAME_IS_MIRROR)
 
 /**
