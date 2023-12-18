@@ -279,7 +279,7 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
                      */
                     override fun onLoadFailed(
                         e: GlideException?,
-                        model: Any,
+                        model: Any?,
                         target: Target<Drawable?>,
                         isFirstResource: Boolean
                     ): Boolean {
@@ -309,7 +309,7 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
                      * method of [Target] parameter [target] to be called.
                      */
                     override fun onResourceReady(
-                        resource: Drawable?,
+                        resource: Drawable,
                         model: Any,
                         target: Target<Drawable?>,
                         dataSource: DataSource,
