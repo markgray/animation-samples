@@ -40,7 +40,7 @@ import com.bumptech.glide.request.target.Target
  * @return the same [RequestBuilder] we were invoked on which [RequestBuilder.addListener] returns
  * in order to allow chaining.
  */
-fun <T> RequestBuilder<T>.doOnEnd(body: () -> Unit): RequestBuilder<T> {
+fun <T : Any> RequestBuilder<T>.doOnEnd(body: () -> Unit): RequestBuilder<T> {
     return addListener(object : RequestListener<T> {
         /**
          * Called when an exception occurs during a load, immediately before [Target.onLoadFailed].
@@ -85,7 +85,7 @@ fun <T> RequestBuilder<T>.doOnEnd(body: () -> Unit): RequestBuilder<T> {
         override fun onResourceReady(
             resource: T,
             model: Any,
-            target: Target<T>,
+            target: Target<T>?,
             dataSource: DataSource,
             isFirstResource: Boolean
         ): Boolean {
