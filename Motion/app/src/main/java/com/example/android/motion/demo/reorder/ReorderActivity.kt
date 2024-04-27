@@ -21,7 +21,6 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -223,7 +222,7 @@ class ReorderActivity : AppCompatActivity() {
             val view: View = viewHolder?.itemView ?: return
             when (actionState) {
                 ItemTouchHelper.ACTION_STATE_DRAG -> {
-                    ViewCompat.animate(view).setDuration(150L).translationZ(pickUpElevation)
+                    view.animate().setDuration(150L).translationZ(pickUpElevation)
                 }
             }
         }
@@ -239,7 +238,7 @@ class ReorderActivity : AppCompatActivity() {
          */
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
             super.clearView(recyclerView, viewHolder)
-            ViewCompat.animate(viewHolder.itemView).setDuration(150L).translationZ(0f)
+            viewHolder.itemView.animate().setDuration(150L).translationZ(0f)
         }
 
         /**
