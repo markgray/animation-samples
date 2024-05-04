@@ -30,6 +30,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.android.common.logger.Log
+import java.util.Locale
 
 /**
  * This sample demonstrates the use of animation interpolators and path animations for Material
@@ -216,7 +217,7 @@ class InterpolatorFragment : Fragment() {
             val path: Path = if (mIsOut) pathIn else pathOut
 
             // Log animation details
-            Log.i(TAG, String.format("Starting animation: [%d ms, %s, %s]",
+            Log.i(TAG, String.format(Locale.getDefault(), "Starting animation: [%d ms, %s, %s]",
                 duration, mInterpolatorSpinner.selectedItem as String,
                 if (mIsOut) "Out (growing)" else "In (shrinking)"))
 
