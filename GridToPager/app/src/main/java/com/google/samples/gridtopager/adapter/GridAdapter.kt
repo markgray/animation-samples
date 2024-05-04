@@ -78,6 +78,7 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
      * The [ViewHolderListener] that every [ImageViewHolder] we create will use. In our case it is
      * an instance of [ViewHolderListenerImpl] which is constructed in our `init` block.
      */
+    @Suppress("JoinDeclarationAndAssignment") // Separate assingment allows breakpointing.
     private val viewHolderListener: ViewHolderListener
 
     /**
