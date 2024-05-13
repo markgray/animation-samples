@@ -23,8 +23,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.SharedElementCallback
 import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener
+import androidx.viewpager2.widget.ViewPager2
 import com.google.samples.gridtopager.MainActivity
 import com.google.samples.gridtopager.R
 import com.google.samples.gridtopager.adapter.ImagePagerAdapter
@@ -34,16 +34,16 @@ import com.google.samples.gridtopager.adapter.ImagePagerAdapter
  */
 class ImagePagerFragment : Fragment() {
     /**
-     * The [ViewPager] we use for our UI, our [onCreateView] override inflates it from the layout
+     * The [ViewPager2] we use for our UI, our [onCreateView] override inflates it from the layout
      * file with ID [R.layout.fragment_pager] (the file layout/fragment_pager.xml). Its ID in that
      * file is [R.id.view_pager]
      */
-    private lateinit var viewPager: ViewPager
+    private lateinit var viewPager: ViewPager2
 
     /**
      * Called to have the fragment instantiate its user interface view. We use our [LayoutInflater]
      * parameter [inflater] to inflate the layout file with ID [R.layout.fragment_pager] using our
-     * [ViewGroup] parameter [container] for its LayoutParams and set our [ViewPager] field
+     * [ViewGroup] parameter [container] for its LayoutParams and set our [ViewPager2] field
      * [viewPager] to the [View] it creates. We then set the `adapter` of [viewPager] to a new
      * instance of [ImagePagerAdapter], set its current item to [MainActivity.currentPosition],
      * and add a [SimpleOnPageChangeListener] to it whose `onPageSelected` override sets
@@ -72,12 +72,12 @@ class ImagePagerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewPager = inflater.inflate(R.layout.fragment_pager, container, false) as ViewPager
+        viewPager = inflater.inflate(R.layout.fragment_pager, container, false) as ViewPager2
         viewPager.adapter = ImagePagerAdapter(this)
         // Set the current position and add a listener that will update the selection coordinator when
         // paging the images.
         viewPager.currentItem = MainActivity.currentPosition
-        viewPager.addOnPageChangeListener(object : SimpleOnPageChangeListener() {
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 MainActivity.currentPosition = position
             }
@@ -118,7 +118,7 @@ class ImagePagerFragment : Fragment() {
                 /**
                  * Lets the SharedElementCallback adjust the mapping of shared element names to
                  * Views. We initialize our [Fragment] variable `val currentFragment` by having
-                 * the `adapter` of our [ViewPager] field [viewPager] create the page for the
+                 * the `adapter` of our [ViewPager2] field [viewPager] create the page for the
                  * position [MainActivity.currentPosition]. If the view of `currentFragment` is
                  * `null` we return having done nothing, otherwise we set the first shared element
                  * name in our [names] parameter to the `ImageView` with ID [R.id.image] in `view`.
@@ -133,8 +133,8 @@ class ImagePagerFragment : Fragment() {
                     // visible). To locate the fragment, call instantiateItem with the selection position.
                     // At this stage, the method will simply return the fragment at the position and will
                     // not create a new one.
-                    val currentFragment = (viewPager.adapter ?: return)
-                        .instantiateItem(viewPager, MainActivity.currentPosition) as Fragment
+                    val currentFragment = (viewPager.adapter as ImagePagerAdapter? ?: return)
+                        .latestFragment as Fragment
                     val view = currentFragment.view ?: return
 
                     // Map the first shared element name to the child ImageView.

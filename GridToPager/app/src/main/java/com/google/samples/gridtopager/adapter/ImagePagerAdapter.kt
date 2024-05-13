@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:Suppress("DEPRECATION") // TODO: Switch to androidx.viewpager2.widget.ViewPager2 and use androidx.viewpager2.adapter.FragmentStateAdapter instead.
 
 package com.google.samples.gridtopager.adapter
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.samples.gridtopager.adapter.ImageData.IMAGE_DRAWABLES
+import com.google.samples.gridtopager.fragment.ImageFragment
 import com.google.samples.gridtopager.fragment.ImageFragment.Companion.newInstance
 
 /**
- * The Adapter used by the [Fragment] `ImagePagerFragment` for its [ViewPager]. We call our super's
+ * The Adapter used by the [Fragment] `ImagePagerFragment` for its [ViewPager2]. We call our super's
  * constructor with the flag `BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT` to indicate that only the current
  * fragment will be in the Lifecycle.State.RESUMED state. All other Fragments are capped at
  * Lifecycle.State.STARTED.
@@ -35,14 +35,14 @@ import com.google.samples.gridtopager.fragment.ImageFragment.Companion.newInstan
  */
 class ImagePagerAdapter(
     fragment: Fragment
-) : FragmentStatePagerAdapter(fragment.childFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+) : FragmentStateAdapter(fragment) {
     /**
      * Return the number of views available. We just return the size of the [IMAGE_DRAWABLES] array
      * of resource IDs.
      *
      * @return the number of views that are available.
      */
-    override fun getCount(): Int {
+    override fun getItemCount(): Int {
         return IMAGE_DRAWABLES.size
     }
 
@@ -54,7 +54,13 @@ class ImagePagerAdapter(
      * @param position the position in our dataset of the `ImageFragment` we are to display.
      * @return a new instance of `ImageFragment` which will display the correct drawable.
      */
-    override fun getItem(position: Int): Fragment {
-        return newInstance(IMAGE_DRAWABLES[position])
+    override fun createFragment(position: Int): Fragment {
+        latestFragment = newInstance(IMAGE_DRAWABLES[position])
+        return latestFragment as ImageFragment
     }
+
+    /**
+     * Last fragment loaded.
+     */
+    var latestFragment: ImageFragment? = null
 }
