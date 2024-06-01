@@ -48,6 +48,7 @@ class RevealEffectBasicFragment : Fragment() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        @Suppress("DEPRECATION") // TODO: Replace wuth MenuProvider to provide a Menu to your activity
         setHasOptionsMenu(true)
     }
 
