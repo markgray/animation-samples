@@ -15,15 +15,15 @@
  */
 
 buildscript {
-    ext.kotlin_version = '1.9.24'
+    ext.kotlin_version = "1.9.24"
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.4.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.7.7"
+        classpath ("com.android.tools.build:gradle:8.4.1")
+        classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
+        (classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.7.7")
     }
 }
 
@@ -34,6 +34,6 @@ allprojects {
     }
 }
 
-tasks.register('clean', Delete) {
-    delete rootProject.layout.buildDir
+tasks.register("clean", Delete) {
+    delete (rootProject.layout.buildDir)
 }
