@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-apply plugin: "com.android.application"
-apply plugin: "kotlin-android"
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+}
 
 android {
-    compileSdk (34)
+    compileSdk = 34
 
     defaultConfig {
-        applicationId ("com.example.android.activityscenetransitionbasic")
-        minSdkVersion (21)
-        targetSdkVersion (34)
-        versionCode (1)
-        versionName ("1.0")
+        applicationId = "com.example.android.activityscenetransitionbasic"
+        minSdk = 21
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -35,16 +36,12 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    namespace ("com.example.android.activityscenetransitionbasic")
+    namespace = "com.example.android.activityscenetransitionbasic"
 }
 
 dependencies {
-    implementation ("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.appcompat:appcompat:1.7.0")
     //noinspection GradleDependency
-    implementation ("com.squareup.picasso:picasso:2.4.0") // 2.71828 removes Picasso.with(Context)
-    implementation ("androidx.core:core-ktx:1.13.1")
-}
-repositories {
-    google()
-    mavenCentral()
+    implementation("com.squareup.picasso:picasso:2.4.0") // 2.71828 removes Picasso.with(Context)
+    implementation("androidx.core:core-ktx:1.13.1")
 }
