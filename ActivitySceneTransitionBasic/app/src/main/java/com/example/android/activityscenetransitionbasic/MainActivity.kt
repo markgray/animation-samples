@@ -164,7 +164,7 @@ class MainActivity : AppCompatActivity() {
          * it. We initialize our [Item] variable `val item` by using our [getItem] method to retrieve
          * the [Item] at positon [position] in our dataset, and initialize our [ImageView] variable
          * `val image` by finding the view with ID [R.id.imageview_item] in `viewLocal`. We then use
-         * global default [Picasso] instance to start an image request using the path given by the
+         * global default `Picasso` instance to start an image request using the path given by the
          * `thumbnailUrl` property URL and asynchronously fulfills the request into the [ImageView]
          * `image`. We initialize our [TextView] variable `val name` by finding the [TextView] in
          * `viewLocal` with ID [R.id.textview_name] and set its text to the `name` property of `item`.
