@@ -54,8 +54,8 @@ android {
 }
 
 dependencies {
-    implementation("androidx.activity:activity-ktx:1.9.0")
-    implementation("androidx.fragment:fragment-ktx:1.8.1")
+    implementation("androidx.activity:activity-ktx:1.9.1")
+    implementation("androidx.fragment:fragment-ktx:1.8.2")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -66,6 +66,6 @@ dependencies {
     androidTestImplementation("com.google.truth:truth:1.4.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
-    debugImplementation("androidx.fragment:fragment-testing:1.8.1")
+    debugImplementation("androidx.fragment:fragment-testing:1.8.2")
     androidTestImplementation("androidx.core:core-animation-testing:1.0.0")
 }
