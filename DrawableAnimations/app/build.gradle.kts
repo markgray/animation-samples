@@ -63,7 +63,7 @@ dependencies {
     implementation("androidx.vectordrawable:vectordrawable-seekable:1.0.0")
 
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("com.google.truth:truth:1.4.2")
+    androidTestImplementation("com.google.truth:truth:1.4.4")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     debugImplementation("androidx.fragment:fragment-testing:1.8.3")

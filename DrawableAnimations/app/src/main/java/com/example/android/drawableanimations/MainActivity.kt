@@ -17,7 +17,13 @@
 package com.example.android.drawableanimations
 
 import android.os.Bundle
+import android.view.ViewGroup
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.commitNow
 import com.example.android.drawableanimations.ui.home.HomeFragment
 
@@ -47,6 +53,23 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
+        val rootView = findViewById<FragmentContainerView>(R.id.main)
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // Apply the insets as a margin to the view.
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = insets.left
+                bottomMargin = insets.bottom
+                rightMargin = insets.right
+                topMargin = insets.top
+            }
+
+            // Return CONSUMED if you don't want want the window insets to keep passing
+            // down to descendant views.
+            WindowInsetsCompat.CONSUMED
+        }
         if (savedInstanceState == null) {
             supportFragmentManager.commitNow {
                 replace(R.id.main, HomeFragment())
