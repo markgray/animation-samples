@@ -52,7 +52,7 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var mItem: Item
 
     /**
-     * Called when the activity is starting. First we call our super's implementation of `onCreate`,
+     * Called when the activity is starting. First we call our super's implementation of `(onCreate)`,
      * then we set our content view to our layout file [R.layout.details]. First we initialize our
      * [Item] field [mItem] by calling the [Item.getItem] static method to retrieve the [Item] in
      * the dataset [Item.ITEMS] which has the ID that was passed us as an extra in the `Intent` that
@@ -69,8 +69,8 @@ class DetailActivity : AppCompatActivity() {
      * @param savedInstanceState We do not call [onSaveInstanceState] so do not use.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.details)
         val rootView = findViewById<ScrollView>(R.id.root_view)
         ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, windowInsets ->

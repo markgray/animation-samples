@@ -52,8 +52,8 @@ class MainActivity : AppCompatActivity() {
      * @param savedInstanceState We do not call [onSaveInstanceState] so do not use.
      */
     public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.grid)
 
         // Setup the GridView and set the adapter
