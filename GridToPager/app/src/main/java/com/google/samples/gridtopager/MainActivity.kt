@@ -50,8 +50,8 @@ class MainActivity : AppCompatActivity() {
      * been called.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val rootView = findViewById<FrameLayout>(R.id.fragment_container)
         ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, windowInsets ->
