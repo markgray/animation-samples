@@ -52,9 +52,9 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
      * otherwise it is null.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        enableEdgeToEdge()
         val rootView = findViewById<FragmentContainerView>(R.id.main)
         ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
