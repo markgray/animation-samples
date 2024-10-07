@@ -33,6 +33,6 @@ proguard-project.txt
 
 # Android Studio/IDEA
 *.iml
-.idea
+.idea/
 .kotlin/
 
