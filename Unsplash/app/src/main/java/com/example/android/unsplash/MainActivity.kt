@@ -132,7 +132,10 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView()
         if (savedInstanceState != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                relevantPhotos = savedInstanceState.getParcelableArrayList(IntentUtil.RELEVANT_PHOTOS, Photo::class.java)
+                relevantPhotos = savedInstanceState.getParcelableArrayList(
+                    IntentUtil.RELEVANT_PHOTOS,
+                    Photo::class.java
+                )
             } else {
                 @Suppress("DEPRECATION") // Needed for Build.VERSION.SDK_INT < Build.VERSION_CODES.T
                 relevantPhotos = savedInstanceState.getParcelableArrayList(IntentUtil.RELEVANT_PHOTOS)
@@ -412,23 +415,19 @@ class MainActivity : AppCompatActivity() {
         val authorPair: Pair<View, String> = Pair.create(binding.author, binding.author.transitionName)
         val photoPair: Pair<View, String> = Pair.create(binding.photo, binding.photo.transitionName)
         val decorView: View = window.decorView
-        val statusBackground: View = decorView.findViewById(android.R.id.statusBarBackground)
+        val statusBackground: View? = decorView.findViewById(android.R.id.statusBarBackground)
         val navBackground: View? = decorView.findViewById(android.R.id.navigationBarBackground)
-        // statusBackground.transitionName is "android:status:background"
-        val statusPair: Pair<View, String> = Pair.create(
-            statusBackground,
-            statusBackground.transitionName
-        )
 
         // Easier to breakpoint with variable
-        val options: ActivityOptions = if (navBackground == null) {
+        val options: ActivityOptions = if (navBackground == null || statusBackground == null) {
             ActivityOptions.makeSceneTransitionAnimation(
                 this,
                 authorPair,
-                photoPair,
-                statusPair
+                photoPair
             )
         } else {
+            val statusPair: Pair<View, String> = Pair.create(statusBackground, statusBackground.transitionName)
+            // statusBackground.transitionName is "android:status:background"
             val navPair: Pair<View, String> = Pair.create(navBackground, navBackground.transitionName)
             // navBackground.transitionName is "android:navigation:background"
             ActivityOptions.makeSceneTransitionAnimation(
@@ -490,7 +489,8 @@ class MainActivity : AppCompatActivity() {
             intent.putParcelableArrayListExtra(IntentUtil.PHOTO, photos)
             intent.putExtra(IntentUtil.SELECTED_ITEM_POSITION, position)
             intent.putExtra(IntentUtil.FONT_SIZE, binding.author.textSize)
-            intent.putExtra(IntentUtil.PADDING,
+            intent.putExtra(
+                IntentUtil.PADDING,
                 Rect(
                     binding.author.paddingLeft,
                     binding.author.paddingTop,
