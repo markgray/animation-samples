@@ -59,16 +59,16 @@ class StaggerActivity : AppCompatActivity() {
 
     /**
      * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file [R.layout.stagger_activity] which consists of
+     * then we set our content view to our layout file `R.layout.stagger_activity` which consists of
      * a `CoordinatorLayout` root view holding an `AppBarLayout` which holds a [Toolbar] child, and
      * a [RecyclerView] with a vertical scrollbar and a `LinearLayoutManager` as its layoutManager.
      *
-     * We initialize our [Toolbar] variable `val toolbar` by finding the view with ID [R.id.toolbar]
-     * and our [RecyclerView] variable `val list` by finding the view with ID [R.id.list]. We then
+     * We initialize our [Toolbar] variable `val toolbar` by finding the view with ID `R.id.toolbar`
+     * and our [RecyclerView] variable `val list` by finding the view with ID `R.id.list`. We then
      * set `toolbar` to act as the `ActionBar` for this Activity window. We call our method
-     * [EdgeToEdge.setUpRoot] to configure the view with ID [R.id.root] (our root view) for edge to
+     * [EdgeToEdge.setUpRoot] to configure the view with ID `R.id.root` (our root view) for edge to
      * edge display, call our method [EdgeToEdge.setUpAppBar] configure our app bar (whose ID is
-     * [R.id.app_bar]) and our `toolbar` [Toolbar] for edge-to-edge display, and call our method
+     * `R.id.app_bar`) and our `toolbar` [Toolbar] for edge-to-edge display, and call our method
      * [EdgeToEdge.setUpScrollingContent] to configure the scrolling content in `list` for edge to
      * edge display.
      *
@@ -140,8 +140,8 @@ class StaggerActivity : AppCompatActivity() {
     /**
      * Initialize the contents of the Activity's standard options menu. You should place your menu
      * items in to the [Menu] parameter [menu]. We retrieve a [MenuInflater] for this context and
-     * use it to inflate our menu layout file [R.menu.stagger] into our [Menu] parameter [menu]
-     * (the layout file consists of a single [MenuItem] titled "Refresh", ID [R.id.action_refresh]).
+     * use it to inflate our menu layout file `R.menu.stagger` into our [Menu] parameter [menu]
+     * (the layout file consists of a single [MenuItem] titled "Refresh", ID `R.id.action_refresh`).
      * Finally we return the value returned by our super's implementation of [onCreateOptionsMenu]
      * to our caller.
      *
@@ -156,7 +156,7 @@ class StaggerActivity : AppCompatActivity() {
 
     /**
      * This hook is called whenever an item in your options menu is selected. When the `itemId` of
-     * our [MenuItem] parameter [item] is for our "Refresh" item ID [R.id.action_refresh] we call
+     * our [MenuItem] parameter [item] is for our "Refresh" item ID `R.id.action_refresh` we call
      * the [CheeseListViewModel.empty] method of [viewModel] to have it clear its list of [Cheese]
      * objects then call its [CheeseListViewModel.refresh] method to have it simulate a network
      * reload of the list to demonstrate the stagger effect again, and return `true` to consume the

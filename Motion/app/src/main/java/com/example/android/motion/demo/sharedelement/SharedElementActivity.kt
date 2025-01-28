@@ -36,7 +36,7 @@ class SharedElementActivity : AppCompatActivity() {
 
     /**
      * Called when the activity is starting. First we call our super's implementatin of `onCreate`,
-     * then we set our content view to our layout file [R.layout.shared_element_activity]. Its top
+     * then we set our content view to our layout file `R.layout.shared_element_activity`. Its top
      * level view group is a `FragmentContainerView` holding a `NavHostFragment` with the attributes
      * app:defaultNavHost="true" (ensures that this `NavHostFragment` intercepts the system Back
      * button) and app:navGraph="@navigation/shared_element" (associates the `NavHostFragment` with
@@ -47,7 +47,7 @@ class SharedElementActivity : AppCompatActivity() {
      * [CheeseGridFragment].
      *
      * Having set our content view we call our [EdgeToEdge.setUpRoot] method to setup the view with
-     * ID [R.id.nav_host] (the root `FragmentContainerView` of our layout file) for edge to edge
+     * ID `R.id.nav_host` (the root `FragmentContainerView` of our layout file) for edge to edge
      * display.
      *
      * @param savedInstanceState we do not override [onSaveInstanceState] so do not use.

@@ -48,7 +48,7 @@ import java.util.ArrayList
  */
 class DetailActivity : AppCompatActivity() {
     /**
-     * The [ViewPager] in our UI with ID [R.id.pager] which we use to display the dataset of [Photo]
+     * The [ViewPager] in our UI with ID `R.id.pager` which we use to display the dataset of [Photo]
      * objects which is passed to us in the [Intent] used to launch us as a Parcelable ArrayList
      * Extra with the key [IntentUtil.PHOTO]. The selected photo from [MainActivity] set as the
      * currently selected page in our [ViewPager].
@@ -79,7 +79,7 @@ class DetailActivity : AppCompatActivity() {
 
     /**
      * Called when the activity is starting. First we set our content view to our layout file
-     * [R.layout.activity_detail] (it consists of a `FrameLayout` which holds a [ViewPager] and
+     * `R.layout.activity_detail` (it consists of a `FrameLayout` which holds a [ViewPager] and
      * a [Toolbar]). Then we call the [postponeEnterTransition] method to postpone the entering
      * activity shared element transitions until all our data is loaded. We initialize our
      * [TransitionSet] variable `val transitions` to a new instance and our [Slide] variable
@@ -102,7 +102,7 @@ class DetailActivity : AppCompatActivity() {
      * up the [ViewPager] in our UI to display the [Photo] objects.
      *
      * Next we initialize our [Toolbar] variable `val toolbar` to the view in our UI with resource
-     * ID [R.id.toolbar] and set its listener that responds to navigation events to our [View.OnClickListener]
+     * ID `R.id.toolbar` and set its listener that responds to navigation events to our [View.OnClickListener]
      * field [navigationOnClickListener]. Then we call our super's implementation of `onCreate` and
      * finally we call our [addOurOnBackPressedCallback] method to add an [OnBackPressedCallback] to
      * the [OnBackPressedDispatcher] that replaes the deprecated onBackPressed` override.
@@ -161,7 +161,7 @@ class DetailActivity : AppCompatActivity() {
     /**
      * Sets up our [ViewPager] field [viewPager] to display our [ArrayList] of [Photo] objects
      * [photos]. First we initialize our [ViewPager] field [viewPager] to the [ViewPager] in our
-     * UI with ID [R.id.pager], we set its adapter to a new instance of [DetailViewPagerAdapter]
+     * UI with ID `R.id.pager`, we set its adapter to a new instance of [DetailViewPagerAdapter]
      * constructed to use [photos] as its dataset and our field [sharedElementCallback] as its
      * [DetailSharedElementEnterCallback] (it will be called to handle shared elements on our
      * launched Activity), and we set the currently selected page of [viewPager] to [initialItem].
@@ -169,10 +169,10 @@ class DetailActivity : AppCompatActivity() {
      * if the `childCount` of [viewPager] is greater than 0 -- remove itself from [viewPager] as
      * an [View.OnLayoutChangeListener] and then call the [startPostponedEnterTransition] method
      * to begin the postponed enter transitions now that we have a [View] to transition into.
-     * We then set the margin between pages of [viewPager] to the resource [R.dimen.padding_mini]
+     * We then set the margin between pages of [viewPager] to the resource `R.dimen.padding_mini`
      * (4dp) in pixels, and set the drawable that will be used to fill the margin between pages to
-     * our drawable [R.drawable.page_margin] (a rectangle `shape` drawn using using our color
-     * [R.color.page_margin] -- a light gray).
+     * our drawable `R.drawable.page_margin` (a rectangle `shape` drawn using using our color
+     * `R.color.page_margin` -- a light gray).
      *
      * @param photos the [ArrayList] of [Photo] objects we use as the dataset for our [ViewPager].
      */

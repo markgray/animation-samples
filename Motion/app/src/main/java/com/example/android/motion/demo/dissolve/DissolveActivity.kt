@@ -52,31 +52,31 @@ class DissolveActivity : AppCompatActivity() {
      * is being displayed in its private [MutableLiveData] property `position`, and the resource ID
      * of the image corresponding to that position in its [LiveData] wrapped property `image`. Our
      * [onCreate] override adds an `Observer` to `image` which transitions the image in the
-     * [MaterialCardView] with ID [R.id.card] to the new image whenever the value of `image` changes.
+     * [MaterialCardView] with ID `R.id.card` to the new image whenever the value of `image` changes.
      */
     private val viewModel: DissolveViewModel by viewModels()
 
     /**
      * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file [R.layout.dissolve_activity]. It consists of
+     * then we set our content view to our layout file `R.layout.dissolve_activity`. It consists of
      * a `CoordinatorLayout` holding an `AppBarLayout` and a `ConstraintLayout` which holds a
-     * `MaterialCardView` with the [ImageView] with ID [R.id.card] with a [MaterialButton] with ID
-     * [R.id.next] below it.
+     * `MaterialCardView` with the [ImageView] with ID `R.id.card` with a [MaterialButton] with ID
+     * `R.id.next` below it.
      *
-     * We initialize our [Toolbar] variable `val toolbar` by finding the view with ID [R.id.toolbar],
-     * our [ImageView] variable `val image` by finding the view with ID [R.id.image], our
-     * [MaterialCardView] variable `val card` by finding the view with ID [R.id.card], and our
-     * [MaterialButton] variable `val next` by finding the view with ID [R.id.next]. We call the
+     * We initialize our [Toolbar] variable `val toolbar` by finding the view with ID `R.id.toolbar`,
+     * our [ImageView] variable `val image` by finding the view with ID `R.id.image`, our
+     * [MaterialCardView] variable `val card` by finding the view with ID `R.id.card`, and our
+     * [MaterialButton] variable `val next` by finding the view with ID `R.id.next`. We call the
      * method [setSupportActionBar] to set `toolbar` to act as the `ActionBar` for our activities
      * window. We call our [EdgeToEdge.setUpRoot] method to set the `systemUiVisibility` of the
-     * [ViewGroup] with ID [R.id.root] (the "root' `CoordinatorLayout` of our layout file) to
+     * [ViewGroup] with ID `R.id.root` (the "root' `CoordinatorLayout` of our layout file) to
      * [View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION] (requests that the system navigation be hidden)
      * and [View.SYSTEM_UI_FLAG_LAYOUT_STABLE] (we would like a stable view of the content insets
      * given, ie. the insets seen there will always represent the worst case that the application
      * can expect as a continuous state). We call the [EdgeToEdge.setUpAppBar] with the view with
-     * ID [R.id.app_bar] (the `AppBarLayout` in our layout file) and `toolbar` to have it apply
+     * ID `R.id.app_bar` (the `AppBarLayout` in our layout file) and `toolbar` to have it apply
      * padding to the `AppBarLayout` and [Toolbar] variable `toolbar`. We call our method
-     * [EdgeToEdge.setUpScrollingContent] with the view with ID [R.id.content] (the `ConstraintLayout`
+     * [EdgeToEdge.setUpScrollingContent] with the view with ID `R.id.content` (the `ConstraintLayout`
      * in our layout file) to have it apply padding to the [ViewGroup].
      *
      * Next we initialize our [Dissolve] variable `val dissolve` to an instance configured using the

@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * The [RecyclerView] in our layout file with ID [R.id.image_grid] which displays our [Photo]'s
+     * The [RecyclerView] in our layout file with ID `R.id.image_grid` which displays our [Photo]'s
      */
     private lateinit var grid: RecyclerView
 
@@ -99,14 +99,14 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file [R.layout.activity_main]. Our layout file
+     * then we set our content view to our layout file `R.layout.activity_main`. Our layout file
      * consists of a `FrameLayout` which holds an indeterminate [ProgressBar] and a [RecyclerView]
      * whose app:layoutManager is a [GridLayoutManager]. We then call the [postponeEnterTransition]
      * method to have it delay starting the entering and shared element transitions until all data
      * is loaded. We add our [Transition.TransitionListener] field [sharedExitListener] to the
      * exit [Transition] of our activity's [Window] (it will reset shared element exit transition
      * callbacks when that [Transition] completes). We initialize our [RecyclerView] field [grid] by
-     * finding the [View] in our UI with ID [R.id.image_grid] and our [ProgressBar] field [empty] by
+     * finding the [View] in our UI with ID `R.id.image_grid` and our [ProgressBar] field [empty] by
      * finding the [View] in our UI with ID [android.R.id.empty]. We call our method [setupRecyclerView]
      * to have it configure the [GridLayoutManager] of our [RecyclerView] field [grid] as we want it
      * (using span sizes of 3, 2, or 1 depending on the modulo 6 of the position in the grid to get
@@ -343,7 +343,7 @@ class MainActivity : AppCompatActivity() {
      * other values.
      *
      * Then we add a new instance of [GridMarginDecoration] constructed to produce a space of
-     * [R.dimen.grid_item_spacing] (2dp) as an [RecyclerView.ItemDecoration] to [grid], and set
+     * `R.dimen.grid_item_spacing` (2dp) as an [RecyclerView.ItemDecoration] to [grid], and set
      * the fixed size property of [grid] to `true` (this allows [RecyclerView] to perform several
      * optimizations when it knows in advance that the [RecyclerView]'s size is not affected by the
      * adapter contents).

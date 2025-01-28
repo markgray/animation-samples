@@ -115,7 +115,7 @@ class CheeseGridAdapter(
  * The [RecyclerView.ViewHolder] that is used to display [Cheese] objects from our dataset in our
  * [RecyclerView]. Our constructor just calls our super's constructor with the `View` that the
  * [LayoutInflater] of the context of our [ViewGroup] parameter `parent` inflates from our layout
- * file [R.layout.cheese_staggered_grid_item] when it uses `parent` for the layout params without
+ * file `R.layout.cheese_staggered_grid_item` when it uses `parent` for the layout params without
  * attaching to it (that `View` becomes our [CheeseViewHolder.itemView]).
  *
  * @param parent the [ViewGroup] that we will be attached to (our [RecyclerView] in our case).
@@ -128,7 +128,7 @@ class CheeseViewHolder(
 ) {
 
     /**
-     * The [ConstraintLayout] in our [itemView] with ID [R.id.cheese], it holds an [ImageView] that
+     * The [ConstraintLayout] in our [itemView] with ID `R.id.cheese`, it holds an [ImageView] that
      * displays a picture of a cheese loaded from the resource ID given in the [Cheese.image] property
      * of the [Cheese] we display (one of only 5 available, none of which are likely to actually look
      * like our [Cheese]), and a [TextView] that displays the name of the [Cheese] stored in the
@@ -137,14 +137,14 @@ class CheeseViewHolder(
     private val constraintLayout: ConstraintLayout = itemView.findViewById(R.id.cheese)
 
     /**
-     * The [ImageView] in our [itemView] with ID [R.id.image], it displays a picture of a cheese
+     * The [ImageView] in our [itemView] with ID `R.id.image`, it displays a picture of a cheese
      * loaded from the resource ID given in the [Cheese.image] property of the [Cheese] we display
      * (one of only 5 available, none of which are likely to actually look like our [Cheese]).
      */
     private val image: ImageView = itemView.findViewById(R.id.image)
 
     /**
-     * The [TextView] in our [itemView] with ID [R.id.name], it displays the name of the [Cheese]
+     * The [TextView] in our [itemView] with ID `R.id.name`, it displays the name of the [Cheese]
      * stored in the [Cheese.name] property of our [Cheese].
      */
     private val name: TextView = itemView.findViewById(R.id.name)
@@ -160,7 +160,7 @@ class CheeseViewHolder(
     /**
      * Called by the `onBindViewHolder` method of [CheeseGridAdapter] to display our [Cheese]
      * parameter [cheese] in our [itemView]. We configure our [ConstraintSet] field [constraintSet]
-     * to set the aspect ratio of the view with ID [R.id.image] (the picture of our [Cheese]) to a
+     * to set the aspect ratio of the view with ID `R.id.image` (the picture of our [Cheese]) to a
      * ratio that constrains its height (the "H" in the ratio) to the [Cheese.imageWidth] by
      * [Cheese.imageHeight] aspect ratio, then apply [constraintSet] to our [ConstraintLayout] field
      * [constraintLayout]. We then begin a load with [Glide] tied to the lifecycle of our [ImageView]

@@ -142,9 +142,9 @@ private const val FADE_DURATION = 1000L
  * can "bind" to display a [Cheese] object, or just be used to display a flashing empty placeholder
  * view while "waiting" for the [Cheese] objects to be "downloaded" by the [CheeseDataSource]
  * internet simulator. The constructor uses the [LayoutInflater] from the context of our [ViewGroup]
- * parameter `parent` to inflate our layout file [R.layout.cheese_list_item] to be used as the
+ * parameter `parent` to inflate our layout file `R.layout.cheese_list_item` to be used as the
  * item view for our [RecyclerView.ViewHolder]. This layout file consists of a `LinearLayout` holding
- * an [ImageView] with ID [R.id.image] and a [TextView] with ID [R.id.name].
+ * an [ImageView] with ID `R.id.image` and a [TextView] with ID [R.id.name].
  */
 internal class CheeseViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater
@@ -178,9 +178,9 @@ internal class CheeseViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
      * shift the timing of fade-in/out [animation] for our item depending on its adapter position
      * by setting the position of the [animation] `currentPlayTime` to a time calculated from the
      * `adapterPosition` of our cell. Then we start [animation], set the drawable with resource ID
-     * [R.drawable.image_placeholder] to be the content of [ImageView] field [image], set the text
+     * `R.drawable.image_placeholder` to be the content of [ImageView] field [image], set the text
      * of [TextView] field [name] to `null` and its background to the drawable with resource ID
-     * [R.drawable.text_placeholder].
+     * `R.drawable.text_placeholder`.
      */
     fun showPlaceholder() {
         // Shift the timing of fade-in/out for each item by its adapter position. We use the

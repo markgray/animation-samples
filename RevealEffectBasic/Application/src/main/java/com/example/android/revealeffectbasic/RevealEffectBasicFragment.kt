@@ -57,11 +57,11 @@ class RevealEffectBasicFragment : Fragment() {
      * [onCreate] and [onActivityCreated]. It is recommended to **only** inflate the layout in this
      * method and move logic that operates on the returned View to [onViewCreated]. We return the
      * [View] that our [LayoutInflater] parameter [inflater] inflates from our layout file
-     * [R.layout.reveal_effect_basic] when it uses our [ViewGroup] parameter [container] for its
+     * `R.layout.reveal_effect_basic` when it uses our [ViewGroup] parameter [container] for its
      * `LayoutParams` without attaching to it. Our layout file consists of a `RelativeLayout` root
-     * [ViewGroup] which hold a [View] with ID [R.id.circle] and a "Reveal" [Button] with the ID
-     * [R.id.button] which the user can click to run our animation demo in the [View] with ID
-     * [R.id.circle].
+     * [ViewGroup] which hold a [View] with ID `R.id.circle` and a "Reveal" [Button] with the ID
+     * `R.id.button` which the user can click to run our animation demo in the [View] with ID
+     * `R.id.circle`.
      *
      * @param inflater The [LayoutInflater] object that can be used to inflate
      * any views in the fragment,
@@ -85,8 +85,8 @@ class RevealEffectBasicFragment : Fragment() {
      * restored in to the view. This gives subclasses a chance to initialize themselves once they
      * know their view hierarchy has been completely created. The fragment's view hierarchy is not
      * however attached to its parent at this point. We initialize our [View] variable `val shape`
-     * by finding the [View] in our [View] parameter [view] with ID [R.id.circle] and our [Button]
-     * variable `val button` by finding the [Button] in [view] with ID [R.id.button]. We then set
+     * by finding the [View] in our [View] parameter [view] with ID `R.id.circle` and our [Button]
+     * variable `val button` by finding the [Button] in [view] with ID `R.id.button`. We then set
      * the [View.setOnClickListener] of `button` to a lambda which initializes its [Animator]
      * variable `val circularReveal` to the [Animator] which can animate a clipping circle that the
      * [ViewAnimationUtils.createCircularReveal] method constructs for `shape` with center at

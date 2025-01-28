@@ -46,7 +46,7 @@ class DemoListFragment : Fragment() {
      * method and move logic that operates on the returned [View] to [onViewCreated].
      *
      * We return the [View] which our [LayoutInflater] parameter [inflater] inflates from our layout
-     * file [R.layout.demo_list_fragment] when it uses our [ViewGroup] parameter [container] for the
+     * file `R.layout.demo_list_fragment` when it uses our [ViewGroup] parameter [container] for the
      * `LayoutParams` without attaching to it.
      *
      * @param inflater The [LayoutInflater] object that can be used to inflate
@@ -69,7 +69,7 @@ class DemoListFragment : Fragment() {
     /**
      * Called immediately after [onCreateView] has returned, but before any saved state has been
      * restored in to the [View]. We initialize our [RecyclerView] variable `val demoList` by
-     * finding the [View] in our [View] parameter [view] with ID [R.id.demo_list], and then call
+     * finding the [View] in our [View] parameter [view] with ID `R.id.demo_list`, and then call
      * the [EdgeToEdge.setUpScrollingContent] to have it set up the scrolling content of `demoList`
      * for edge-to-edge display (if the SDK version of the software currently running on the device
      * is 21 or greater). We initialize our [DemoListAdapter] variable `val adapter` to an instance

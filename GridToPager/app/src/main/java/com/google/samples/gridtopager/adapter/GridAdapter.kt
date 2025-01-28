@@ -60,7 +60,7 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
 
         /**
          * This is called by the `onClick` override of [ImageViewHolder] (it implements the
-         * [View.OnClickListener] interface) when the view with ID [R.id.card_view] in the
+         * [View.OnClickListener] interface) when the view with ID `R.id.card_view` in the
          * item view of the view holder is clicked.
          *
          * @param view the [View] that was clicked.
@@ -84,7 +84,7 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
     /**
      * Called when [RecyclerView] needs a new [ImageViewHolder] to represent an item. We initialize
      * our [View] variable `val view` by using the [LayoutInflater] of the context of our [ViewGroup]
-     * parameter [parent] to inflate our layout file [R.layout.image_card] using [parent] for its
+     * parameter [parent] to inflate our layout file `R.layout.image_card` using [parent] for its
      * layout params. Then we return a new instance of [ImageViewHolder] constructed to hold `view`,
      * use [requestManager] to fetch the correct resource drawable, and to use [viewHolderListener]
      * as its [ViewHolderListener].
@@ -166,12 +166,12 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
          * and exclude our [View] parameter [view] from the transition (e.g. the card will disappear
          * immediately instead of fading out with the rest to prevent an overlapping animation of
          * fade and move). Then we set our [ImageView] variable `val transitioningView` to the [View]
-         * in [view] with ID [R.id.card_image]. We fetch the `FragmentManager` for interacting with
+         * in [view] with ID `R.id.card_image`. We fetch the `FragmentManager` for interacting with
          * fragments associated with our [Fragment] field [fragment] and use it to start a
          * `FragmentTransaction`, enable it to optimize operations within and across transactions,
          * add the shared element [View] `transitioningView` for our disappearing [Fragment] to match
          * with the transition name of `transitioningView` for the [View] in the appearing Fragment,
-         * then have it replace our existing [Fragment] in the container with ID [R.id.fragment_container]
+         * then have it replace our existing [Fragment] in the container with ID `R.id.fragment_container`
          * with a new instance of [ImagePagerFragment] whose TAG is the simple name of the class
          * [ImagePagerFragment], add the `FragmentTransaction` to the back stack with a `null` name,
          * and then schedule a commit of this transaction.
@@ -206,7 +206,7 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
     /**
      * ViewHolder for the grid's images.
      *
-     * @param itemView the [View] inflated from our layout file [R.layout.image_card] which we use
+     * @param itemView the [View] inflated from our layout file `R.layout.image_card` which we use
      * to display our [ImageView].
      * @param requestManager the [RequestManager] we use to have [Glide] load our drawable, always
      * the [GridAdapter] field [requestManager] in our case.
@@ -220,7 +220,7 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
         private val viewHolderListener: ViewHolderListener
     ) : ViewHolder(itemView), View.OnClickListener {
         /**
-         * The [ImageView] in our [View] field [itemView] with ID [R.id.card_image] into which we
+         * The [ImageView] in our [View] field [itemView] with ID `R.id.card_image` into which we
          * load our drawable.
          */
         private val image: ImageView = itemView.findViewById(R.id.card_image)

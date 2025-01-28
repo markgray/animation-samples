@@ -24,7 +24,7 @@ import com.example.android.unsplash.R
 
 /**
  * The `setupRecyclerView` method of [MainActivity] adds an instance of this to its [RecyclerView]
- * constructed to use a [space] of [R.dimen.grid_item_spacing] (2dp) as an [RecyclerView.ItemDecoration]
+ * constructed to use a [space] of `R.dimen.grid_item_spacing` (2dp) as an [RecyclerView.ItemDecoration]
  *
  * @param space
  */

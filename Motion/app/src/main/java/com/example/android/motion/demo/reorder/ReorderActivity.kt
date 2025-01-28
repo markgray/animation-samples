@@ -52,27 +52,27 @@ class ReorderActivity : AppCompatActivity() {
 
     /**
      * The elevation that an item view is elevated when it begins its drag (needs to be long clicked
-     * first). It is set to [R.dimen.pick_up_elevation] (8dp) in our [onCreate] override.
+     * first). It is set to `R.dimen.pick_up_elevation` (8dp) in our [onCreate] override.
      */
     private var pickUpElevation: Float = 0f
 
     /**
      * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file [R.layout.reorder_activity] which consists of
+     * then we set our content view to our layout file `R.layout.reorder_activity` which consists of
      * a `CoordinatorLayout` holding an `AppBarLayout` (which holds a [Toolbar] widget) and a
      * [RecyclerView] which uses a `StaggeredGridLayoutManager` as its layout manager.
      *
-     * We initialize our [Toolbar] variable `val toolbar` by finding the view with ID [R.id.toolbar]
-     * and our [RecyclerView] variable `val list` by finding the view with ID [R.id.list]. We use the
+     * We initialize our [Toolbar] variable `val toolbar` by finding the view with ID `R.id.toolbar`
+     * and our [RecyclerView] variable `val list` by finding the view with ID `R.id.list`. We use the
      * [setSupportActionBar] method to set `toolbar` to act as the ActionBar for our activity's
-     * window, then call our [EdgeToEdge.setUpRoot] to configure the view with ID [R.id.root] (the
+     * window, then call our [EdgeToEdge.setUpRoot] to configure the view with ID `R.id.root` (the
      * root `CoordinatorLayout` of our layout file) for edge to edge display, call our [EdgeToEdge.setUpAppBar]
-     * method to configure our app bar with ID [R.id.app_bar] and our [Toolbar] toolbar for edge to
+     * method to configure our app bar with ID `R.id.app_bar` and our [Toolbar] toolbar for edge to
      * edge display, and call our [EdgeToEdge.setUpScrollingContent] method to configure our
      * [RecyclerView] `list` for edge to edge display. We then initialize our field [pickUpElevation]
-     * to the dimension stored in our resources under the ID [R.dimen.pick_up_elevation] (8dp) and
+     * to the dimension stored in our resources under the ID `R.dimen.pick_up_elevation` (8dp) and
      * add an [RecyclerView.ItemDecoration] to `list` consisting of a [SpaceDecoration] whose value
-     * is stored under the ID [R.dimen.spacing_small] in our resources (8dp).
+     * is stored under the ID `R.dimen.spacing_small` in our resources (8dp).
      *
      * Next we initialize our [ItemTouchHelper] variable `val itemTouchHelper` to a new instance that
      * will work with our [ItemTouchHelper.Callback] field [touchHelperCallback] (this handles view

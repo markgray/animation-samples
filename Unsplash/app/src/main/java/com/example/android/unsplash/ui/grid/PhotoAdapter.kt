@@ -51,7 +51,7 @@ class PhotoAdapter(
     private val requestedPhotoWidth: Int = context.resources.displayMetrics.widthPixels
 
     /**
-     * The [LayoutInflater] that we use to inflate our layout file [R.layout.photo_item] into a
+     * The [LayoutInflater] that we use to inflate our layout file `R.layout.photo_item` into a
      * [PhotoItemBinding] to use in constructing a new instance of [PhotoViewHolder] in our override
      * of [onCreateViewHolder]
      */
@@ -61,7 +61,7 @@ class PhotoAdapter(
      * Called when RecyclerView needs a new [PhotoViewHolder] to represent a [Photo] item. The new
      * [PhotoViewHolder] will be used to display items of the adapter using [onBindViewHolder]. We
      * have the [DataBindingUtil.inflate] method use our [LayoutInflater] field [layoutInflater] to
-     * inflate our layout file [R.layout.photo_item] using our [ViewGroup] parameter [parent] for
+     * inflate our layout file `R.layout.photo_item` using our [ViewGroup] parameter [parent] for
      * its layout parameters without attaching to it into a [PhotoItemBinding] and return a
      * [PhotoViewHolder] constructed to use that view binding to the caller.
      *
@@ -93,7 +93,7 @@ class PhotoAdapter(
      * [layoutInflater] which will load the URL that the [Photo.getPhotoUrl] method of the `data`
      * [Photo] variable of the `binding` property of [holder] constructs for that [Photo] and for
      * our [requestedPhotoWidth] requested photo width, using the [Drawable] with resource ID
-     * [R.color.placeholder] to display while the image is downloaded, overriding the `Target` width
+     * `R.color.placeholder` to display while the image is downloaded, overriding the `Target` width
      * and height with the two entries in the [ImageSize.NORMAL] array, and setting the [ImageView]
      * that the jpeg downloaded will be loaded into to the `photo` [ImageView] of the `binding`
      * property of [holder].

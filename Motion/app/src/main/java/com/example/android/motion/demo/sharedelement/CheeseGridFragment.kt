@@ -65,7 +65,7 @@ class CheeseGridFragment : Fragment() {
     private val viewModel: CheeseGridViewModel by viewModels()
 
     /**
-     * The [CheeseGridAdapter] used to feed data to the [RecyclerView] in our UI with ID [R.id.grid]
+     * The [CheeseGridAdapter] used to feed data to the [RecyclerView] in our UI with ID `R.id.grid`
      * whose app:layoutManager is a `GridLayoutManager` with a app:spanCount of 3. We initialize
      * with a new instance constructed with a `onReadyToTransition` callback consisting of a lambda
      * which calls [startPostponedEnterTransition] to begin postponed transitions when [Glide]
@@ -82,20 +82,20 @@ class CheeseGridFragment : Fragment() {
      * back stack) to a [TransitionSet] whose duration is [LARGE_EXPAND_DURATION] divided by 2, whose
      * interpolator is [FAST_OUT_LINEAR_IN], to which we add a [Slide] transition whose slide edge
      * direction is [Gravity.TOP], whose mode is [Slide.MODE_OUT] (makes the transition operate on
-     * targets that are disappearing) and whose target is the [AppBarLayout] with ID [R.id.app_bar].
+     * targets that are disappearing) and whose target is the [AppBarLayout] with ID `R.id.app_bar`.
      * We also add an [Explode] transition whose mode is [Explode.MODE_OUT] (makes the transition
      * operate on targets that are disappearing) which excludes the [AppBarLayout] with ID
-     * [R.id.app_bar] (ie only the grid items are exploded out).
+     * `R.id.app_bar` (ie only the grid items are exploded out).
      *
      * Finally we set the `reenterTransition` (the [androidx.transition.Transition] for non-shared
      * elements when we are return back from the detail screen) to a [TransitionSet] whose duration
      * is [LARGE_COLLAPSE_DURATION] divided by 2, whose interpolator is [LINEAR_OUT_SLOW_IN], to
      * which we add a [Slide] transition whose slide edge direction is [Gravity.TOP], whose mode is
      * [Slide.MODE_IN] (makes the transition operate on targets that are appearing) and whose target
-     * is the [AppBarLayout] with ID [R.id.app_bar]. We also add an [Explode] transition with a start
+     * is the [AppBarLayout] with ID `R.id.app_bar`. We also add an [Explode] transition with a start
      * delay of [LARGE_COLLAPSE_DURATION] divided by 2, whose mode is [Explode.MODE_IN] (makes the
      * transition operate on targets that are appearing) which excludes the [AppBarLayout] with ID
-     * [R.id.app_bar] (ie only the grid items are "imploded" in).
+     * `R.id.app_bar` (ie only the grid items are "imploded" in).
      *
      * @param savedInstanceState we do not use this here, but it is used by our [onViewCreated].
      */
@@ -144,7 +144,7 @@ class CheeseGridFragment : Fragment() {
      * [onCreate] and [onActivityCreated]. It is recommended to <**only** inflate the layout in this
      * method and move logic that operates on the returned [View] to [onViewCreated]. We just return
      * the [View] that our [LayoutInflater] parameter [inflater] inflates from our layout file
-     * [R.layout.cheese_grid_fragment] when it uses our [ViewGroup] parameter [container] for its
+     * `R.layout.cheese_grid_fragment` when it uses our [ViewGroup] parameter [container] for its
      * LayoutParams without attaching to it. This [View] consists of a `CoordinatorLayout` holding
      * an [AppBarLayout] (for its scrolling effects) holding a [Toolbar] and a [RecyclerView] whose
      * app:layoutManager is a `GridLayoutManager` with an app:spanCount of 3.
@@ -182,9 +182,9 @@ class CheeseGridFragment : Fragment() {
      * [startPostponedEnterTransition].
      *
      * We initialize our [Toolbar] variable `val toolbar` by finding the view in [view] with the ID
-     * [R.id.toolbar] and initialize our [RecyclerView] variable `val grid` by finding the view in
-     * [view] with ID [R.id.grid]. We initialize our variable `val gridPadding` to the value of the
-     * dimension stored in our `Resources` under the ID [R.dimen.spacing_tiny] (4dp) converted to
+     * `R.id.toolbar` and initialize our [RecyclerView] variable `val grid` by finding the view in
+     * [view] with ID `R.id.grid`. We initialize our variable `val gridPadding` to the value of the
+     * dimension stored in our `Resources` under the ID `R.dimen.spacing_tiny` (4dp) converted to
      * pixels, and then we set the `OnApplyWindowInsetsListener` of the parent of [view] to a lambda
      * which:
      *  - Updates the `LayoutParams` of `toolbar` to set its `topMargin` to the top system window
@@ -194,7 +194,7 @@ class CheeseGridFragment : Fragment() {
      *  - Updates the `bottom` padding to `gridPadding` plus the bottom system window inset in pixels
      *
      * We next add an `ItemDecoration` to `grid` consisting of a [SpaceDecoration] of the value in
-     * pixels of the dimension stored under ID [R.dimen.spacing_tiny] in our resources (4dp).
+     * pixels of the dimension stored under ID `R.dimen.spacing_tiny` in our resources (4dp).
      *
      * We set the `adapter` of `grid` to our [CheeseGridAdapter] field [adapter], then add an observer
      * to the [CheeseGridViewModel.cheeses] field of our [CheeseGridViewModel] field [viewModel] that

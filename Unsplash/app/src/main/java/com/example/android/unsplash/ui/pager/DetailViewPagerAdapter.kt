@@ -50,7 +50,7 @@ class DetailViewPagerAdapter(
 
     /**
      * The [LayoutInflater] from the [Context] of the [AppCompatActivity] parameter `activity` of
-     * our constructor which we use to inflate our layout file [R.layout.detail_view] into a
+     * our constructor which we use to inflate our layout file `R.layout.detail_view` into a
      * [DetailViewBinding] binding object.
      */
     private val layoutInflater: LayoutInflater = LayoutInflater.from(activity)
@@ -86,7 +86,7 @@ class DetailViewPagerAdapter(
      * container given here, although it only must ensure this is done by the time it returns from
      * [finishUpdate]. We initialize our [DetailViewBinding] variable `val binding` by having the
      * [DataBindingUtil.inflate] method use our [LayoutInflater] field [layoutInflater] to inflate
-     * our layout file [R.layout.detail_view] using our [ViewGroup] parameter [container] for layout
+     * our layout file `R.layout.detail_view` using our [ViewGroup] parameter [container] for layout
      * params without attaching to it. We set the `data` variable of `binding` to the [Photo] in
      * position [position] in our dataset [allPhotos], call our [onViewBound] method with `binding`
      * to have it start a [Glide] load of the image of the [Photo], and then call the method
@@ -121,7 +121,7 @@ class DetailViewPagerAdapter(
      * begin a load with [Glide] that will tied to the lifecycle of our [AppCompatActivity] field
      * [host] and that uses its default options, and have it load the URL that the [Photo.getPhotoUrl]
      * method constructs of the `data` variable [Photo] of [binding] given our field [photoWidth].
-     * We set the [R.color.placeholder] color as the Drawable resource to display while the image is
+     * We set the `R.color.placeholder` color as the Drawable resource to display while the image is
      * loading, override the target width and height with the two values in the [ImageSize.NORMAL]
      * array, and specify the `photo` [ImageView] of [binding] to be the [ImageView] that the image
      * will be loaded into.

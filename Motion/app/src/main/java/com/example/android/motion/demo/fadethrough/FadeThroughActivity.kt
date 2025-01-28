@@ -48,18 +48,18 @@ class FadeThroughActivity : AppCompatActivity() {
 
     /**
      * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file [R.layout.fade_through_activity]. Next we
+     * then we set our content view to our layout file `R.layout.fade_through_activity`. Next we
      * locate the various widgets in our UI:
-     *  - [Toolbar] variable `val toolbar` with ID [R.id.toolbar]
-     *  - [MaterialCardView] variable `val card` with ID [R.id.card]
-     *  - [ConstraintLayout] variable `val contact` with ID [R.id.card_contact]
-     *  - [ConstraintLayout] variable `val cheese` with ID [R.id.card_cheese]
-     *  - [MaterialButton] variable `val toggle` with ID [R.id.toggle]
-     *  - [ImageView] variable `val icon` with ID [R.id.contact_icon]
+     *  - [Toolbar] variable `val toolbar` with ID `R.id.toolbar`
+     *  - [MaterialCardView] variable `val card` with ID `R.id.card`
+     *  - [ConstraintLayout] variable `val contact` with ID `R.id.card_contact`
+     *  - [ConstraintLayout] variable `val cheese` with ID `R.id.card_cheese`
+     *  - [MaterialButton] variable `val toggle` with ID `R.id.toggle`
+     *  - [ImageView] variable `val icon` with ID `R.id.contact_icon`
      *
      * We then call the [setSupportActionBar] method to set `toolbar` to act as the ActionBar for
      * this Activity's window, and call the various [EdgeToEdge] methods to set up our UI for
-     * edge to edge display. We begin a load with [Glide] that will load our [R.drawable.cheese_2]
+     * edge to edge display. We begin a load with [Glide] that will load our `R.drawable.cheese_2`
      * drawable into `icon` after applying a circle crop transformation.
      *
      * We initialize our [Transition] variable `val fadeThrough` with a new instance of our

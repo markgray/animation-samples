@@ -68,19 +68,19 @@ class CheeseArticleFragment : Fragment() {
     companion object {
         /**
          * The transition name used for the root [FrameLayout] in our layout file whose ID is
-         * [R.id.background].
+         * `R.id.background`.
          */
         const val TRANSITION_NAME_BACKGROUND: String = "background"
 
         /**
          * The transition name used for the [CoordinatorLayout] in our layout file whose ID is
-         * [R.id.coordinator].
+         * `R.id.coordinator`.
          */
         const val TRANSITION_NAME_CARD_CONTENT: String = "card_content"
 
         /**
          * The transition name used for the [MirrorView] in our layout file whose ID is
-         * [R.id.card_mirror].
+         * `R.id.card_mirror`.
          */
         const val TRANSITION_NAME_ARTICLE_CONTENT: String = "article_content"
     }
@@ -107,11 +107,11 @@ class CheeseArticleFragment : Fragment() {
      * [onCreateView]. First we call our super's implementation of `onCreate`. Then we set the
      * [Transition] that will be used for shared elements transferred into our content Scene to
      * the [TransitionSet] returned from our [createSharedElementTransition] method with the duration
-     * [LARGE_EXPAND_DURATION] while excluding the target whose ID is [R.id.article_mirror] (the
+     * [LARGE_EXPAND_DURATION] while excluding the target whose ID is `R.id.article_mirror` (the
      * [MirrorView] in the layout file for [CheeseCardFragment]), and the [Transition] that will be
      * used for shared elements transferred back during a pop of the back stack to the [TransitionSet]
      * returned from our [createSharedElementTransition] method with the duration [LARGE_COLLAPSE_DURATION]
-     * while excluding the target whose ID is [R.id.card_mirror] (the [MirrorView] in our layout file).
+     * while excluding the target whose ID is `R.id.card_mirror` (the [MirrorView] in our layout file).
      * Finally we set the [CheeseArticleViewModel.cheeseId] field of our [CheeseArticleViewModel]
      * field [viewModel] to the `cheeseId` field of our safe args [CheeseArticleFragmentArgs] field
      * [args] which causing the private backing field `_cheese` of the `cheese` field of [viewModel]
@@ -164,7 +164,7 @@ class CheeseArticleFragment : Fragment() {
      * [onCreate] and [onActivityCreated]. It is recommended to **only** inflate the layout in this
      * method and move logic that operates on the returned View to [onViewCreated]. We just return
      * the [View] that our [LayoutInflater] parameter [inflater] inflates from our layout file
-     * [R.layout.cheese_article_fragment] using our [ViewGroup] parameter [container] for its
+     * `R.layout.cheese_article_fragment` using our [ViewGroup] parameter [container] for its
      * `LayoutParams` without attaching to that [ViewGroup].
      *
      * @param inflater The [LayoutInflater] object that can be used to inflate
@@ -189,14 +189,14 @@ class CheeseArticleFragment : Fragment() {
      * restored in to the view. The fragment's view hierarchy is not however attached to its parent
      * at this point. First we initialize some [View] variables by finding the views in our [View]
      * parameter [view]:
-     *  - `val toolbar` the [Toolbar] with ID [R.id.toolbar].
-     *  - `val name` the [TextView] with ID [R.id.name].
-     *  - `val image` the [ImageView] with ID [R.id.image].
-     *  - `val scroll` the [NestedScrollView] with ID [R.id.scroll].
-     *  - `val content` the [LinearLayout] with ID [R.id.content].
-     *  - `val background` the [FrameLayout] with ID [R.id.background].
-     *  - `val coordinator` the [CoordinatorLayout] with ID [R.id.coordinator].
-     *  - `val mirror` the [MirrorView] with ID [R.id.card_mirror].
+     *  - `val toolbar` the [Toolbar] with ID `R.id.toolbar`.
+     *  - `val name` the [TextView] with ID `R.id.name`.
+     *  - `val image` the [ImageView] with ID `R.id.image`.
+     *  - `val scroll` the [NestedScrollView] with ID `R.id.scroll`.
+     *  - `val content` the [LinearLayout] with ID `R.id.content`.
+     *  - `val background` the [FrameLayout] with ID `R.id.background`.
+     *  - `val coordinator` the [CoordinatorLayout] with ID `R.id.coordinator`.
+     *  - `val mirror` the [MirrorView] with ID `R.id.card_mirror`.
      *
      * We now proceed to set the transiton names we use for some of these views:
      *  - `background` is named [TRANSITION_NAME_BACKGROUND]

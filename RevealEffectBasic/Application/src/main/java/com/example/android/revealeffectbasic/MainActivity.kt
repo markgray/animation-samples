@@ -52,18 +52,18 @@ class MainActivity : SampleActivityBase() {
 
     /**
      * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file [R.layout.activity_main]. On devices narrower
+     * then we set our content view to our layout file `R.layout.activity_main`. On devices narrower
      * than 720dp our layout file consists of a vertical `LinearLayout` root holding a [ViewAnimator]
      * (a `FrameLayout` container that will perform animations when switching between its views) which
      * holds a `ScrollView` holding a `TextView` describing our demo and a `fragment` which can hold
-     * a [LogFragment] displaying our log (these two are toggled by the [R.id.menu_toggle_log] menu
+     * a [LogFragment] displaying our log (these two are toggled by the `R.id.menu_toggle_log` menu
      * item in our [Menu]). Below this [ViewAnimator] is a separator and a `FrameLayout` with ID
-     * [R.id.sample_content_fragment] which is used to hold our [RevealEffectBasicFragment]. On
+     * `R.id.sample_content_fragment` which is used to hold our [RevealEffectBasicFragment]. On
      * devices with a width of 720dp or greater the layout file consists of a horizontal `LinearLayout`
      * root holding a vertical `LinearLayout` which holding a `TextView` describing our demo, followed
      * by a separator and a `fragment` which holds a [LogFragment] displaying our log. To the right
      * of this section in the horizontal `LinearLayout` is a separator and a `FrameLayout` with ID
-     * [R.id.sample_content_fragment] which is used to hold our [RevealEffectBasicFragment].
+     * `R.id.sample_content_fragment` which is used to hold our [RevealEffectBasicFragment].
      *
      * Having set our content view we check if [savedInstanceState] is `null` and if it is we have
      * just been launched so we need to create and add a [RevealEffectBasicFragment] to our UI (if
@@ -72,7 +72,7 @@ class MainActivity : SampleActivityBase() {
      * [FragmentManager] for interacting with fragments associated with this activity to begin a
      * new [FragmentTransaction], initialize our variable `val fragment` with a new instance of
      * [RevealEffectBasicFragment], use `transaction` to add `fragment` to the container with ID
-     * [R.id.sample_content_fragment] and then we `commit` the `transaction`.
+     * `R.id.sample_content_fragment` and then we `commit` the `transaction`.
      *
      * @param savedInstanceState If the activity is being re-initialized after previously being shut
      * down then this Bundle contains the data it most recently supplied in [onSaveInstanceState].
@@ -113,7 +113,7 @@ class MainActivity : SampleActivityBase() {
      * Initialize the contents of the Activity's standard options menu. You should place your menu
      * items in to [menu]. This is only called once, the first time the options menu is displayed.
      * To update the menu every time it is displayed, see [onPrepareOptionsMenu]. We use a
-     * [MenuInflater] for this context to inflate our menu layout file [R.menu.main] into our [Menu]
+     * [MenuInflater] for this context to inflate our menu layout file `R.menu.main` into our [Menu]
      * parameter [menu], then return `true` so that our menu will be displayed.
      *
      * @param menu The options menu in which you place your items.
@@ -129,10 +129,10 @@ class MainActivity : SampleActivityBase() {
      * Prepare the Screen's standard options menu to be displayed. This is called right before the
      * menu is shown, every time it is shown. You can use this method to efficiently enable/disable
      * items or otherwise dynamically modify the contents. We initialize our [MenuItem] variable
-     * `val logToggle` by finding the item with ID [R.id.menu_toggle_log], set it to visible if
-     * the view in our UI with [R.id.sample_output] is a [ViewAnimator] (narrow layout file), and
-     * set its title to [R.string.sample_hide_log] ("Hide Log") if [mLogShown] is `true` or to
-     * [R.string.sample_show_log] ("Show Log") if it is `false`. Finally we return the value that
+     * `val logToggle` by finding the item with ID `R.id.menu_toggle_log`, set it to visible if
+     * the view in our UI with `R.id.sample_output` is a [ViewAnimator] (narrow layout file), and
+     * set its title to `R.string.sample_hide_log` ("Hide Log") if [mLogShown] is `true` or to
+     * `R.string.sample_show_log` ("Show Log") if it is `false`. Finally we return the value that
      * is returned by our super's implementation of `onPrepareOptionsMenu` to the caller.
      *
      * @param menu The options menu as last shown or first initialized by [onCreateOptionsMenu].
@@ -148,9 +148,9 @@ class MainActivity : SampleActivityBase() {
 
     /**
      * This hook is called whenever an item in your options menu is selected. When the `itemId` of
-     * our [MenuItem] parameter [item] is [R.id.menu_toggle_log] we toggle the value of [mLogShown],
+     * our [MenuItem] parameter [item] is `R.id.menu_toggle_log` we toggle the value of [mLogShown],
      * then initialize our [ViewAnimator] variable `val output` by finding the view in our UI with
-     * ID [R.id.sample_output]. If [mLogShown] is now `true` we have `output` display child view 1
+     * ID `R.id.sample_output`. If [mLogShown] is now `true` we have `output` display child view 1
      * (the `fragment` containing the `LogFragment`), and if it is `false` we have it display child
      * view 0 (the `TextView` describing this demo). We then call [invalidateOptionsMenu] to declare
      * that the options menu has changed, so should be recreated ([onCreateOptionsMenu] will be

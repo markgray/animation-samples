@@ -44,8 +44,8 @@ import com.squareup.picasso.Picasso
 class MainActivity : AppCompatActivity() {
     /**
      * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file [R.layout.grid]. We initialize our [GridView]
-     * variable `val grid` by finding the view with ID [R.id.grid], and set its `onItemClickListener`
+     * then we set our content view to our layout file `R.layout.grid`. We initialize our [GridView]
+     * variable `val grid` by finding the view with ID `R.id.grid`, and set its `onItemClickListener`
      * to our [OnItemClickListener] field [mOnItemClickListener]. We initialize our [GridAdapter]
      * variable `val adapter` to a new instance, and set the `adapter` of `grid` to it.
      *
@@ -93,9 +93,9 @@ class MainActivity : AppCompatActivity() {
      * which holds the `id` property of `item`. We initialize our [ActivityOptionsCompat] variable
      * `val activityOptions` with an instance designed to transition between Activities using cross
      * Activity scene animations with the shared elements to transfer to the called Activity being
-     * the view with ID [R.id.imageview_item] of the clicked [View] used as the [View] against which
+     * the view with ID `R.id.imageview_item` of the clicked [View] used as the [View] against which
      * to invoke the transition with the unique name [DetailActivity.VIEW_NAME_HEADER_IMAGE] and the
-     * view with ID [R.id.textview_name] of the clicked [View] used as the [View] against which to
+     * view with ID `R.id.textview_name` of the clicked [View] used as the [View] against which to
      * invoke the transition with the unique name [DetailActivity.VIEW_NAME_HEADER_TITLE]. We then
      * start the activity that `intent` is intended to start ([DetailActivity]) with `activityOptions`
      * converted to a [Bundle] and passed to the activity as its option [Bundle].
@@ -179,15 +179,15 @@ class MainActivity : AppCompatActivity() {
          * Get a View that displays the data at the specified position in the data set. We initialize
          * our nullable [View] variable `var viewLocal` to our nullable parameter [view], and if
          * `viewLocal` is `null` we set it to the [View] which the [LayoutInflater] instance that we
-         * retrieve from our Context creates when it inflates the layout file [R.layout.grid_item]
+         * retrieve from our Context creates when it inflates the layout file `R.layout.grid_item`
          * using our [ViewGroup] parameter [viewGroup] for the layout params without attaching to
          * it. We initialize our [Item] variable `val item` by using our [getItem] method to retrieve
          * the [Item] at positon [position] in our dataset, and initialize our [ImageView] variable
-         * `val image` by finding the view with ID [R.id.imageview_item] in `viewLocal`. We then use
+         * `val image` by finding the view with ID `R.id.imageview_item` in `viewLocal`. We then use
          * global default `Picasso` instance to start an image request using the path given by the
          * `thumbnailUrl` property URL and asynchronously fulfills the request into the [ImageView]
          * `image`. We initialize our [TextView] variable `val name` by finding the [TextView] in
-         * `viewLocal` with ID [R.id.textview_name] and set its text to the `name` property of `item`.
+         * `viewLocal` with ID `R.id.textview_name` and set its text to the `name` property of `item`.
          * Finally we return `viewLocal` to the caller.
          *
          * @param position The position of the item within the adapter's dataset of the item whose

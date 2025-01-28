@@ -68,7 +68,7 @@ class CheeseListAdapter : ListAdapter<Cheese, CheeseViewHolder>(Cheese.DIFF_CALL
  * Our custom [RecyclerView.ViewHolder], designed to display a [Cheese] object in a [RecyclerView].
  * Our constructor just calls our super's constructor with the [View] that the [LayoutInflater] from
  * context of our [ViewGroup] parameter `parent` inflates from the layout file with resource ID
- * [R.layout.cheese_list_item] when it uses `parent` for its `LayoutParams` without attaching to it.
+ * `R.layout.cheese_list_item` when it uses `parent` for its `LayoutParams` without attaching to it.
  *
  * @param parent the [ViewGroup] that we will be attached to.
  */
@@ -81,13 +81,13 @@ class CheeseViewHolder(
 ) {
 
     /**
-     * The [ImageView] in our [itemView] whose resource ID is [R.id.image]. It is used to display
+     * The [ImageView] in our [itemView] whose resource ID is `R.id.image`. It is used to display
      * the [Drawable] whose resource ID is in the [Cheese.image] field of the [Cheese] we display.
      */
     private val image: ImageView = itemView.findViewById(R.id.image)
 
     /**
-     * The [TextView] in our [itemView] whose resource ID is [R.id.name]. It is used to display
+     * The [TextView] in our [itemView] whose resource ID is `R.id.name`. It is used to display
      * the [String] in the [Cheese.name] field of the [Cheese] we display.
      */
     private val name: TextView = itemView.findViewById(R.id.name)

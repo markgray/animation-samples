@@ -31,7 +31,7 @@ import com.example.android.drawableanimations.viewBindings
  * This is the starting [Fragment] of our demo, its UI consists of just a `RecyclerView` whose
  * child view's `ViewHolder` loads either [AnimatedFragment] or [SeekableFragment] when the view
  * is clicked. We used the alternate constructor of our [Fragment] super class to have it inflate
- * our layout file [R.layout.home_fragment] in its [onCreateView] method and set it to be our
+ * our layout file `R.layout.home_fragment` in its [onCreateView] method and set it to be our
  * content view.
  */
 class HomeFragment : Fragment(R.layout.home_fragment) {
@@ -53,7 +53,7 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
      * item view held by the `DemoViewHolder` class. When the item is clicked the lambda uses the
      * `FragmentActivity` this fragment is currently associated with to fetch the `FragmentManager`
      * for interacting with fragments associated with the activity to commit a `FragmentTransaction`
-     * with the [Fragment] operations to replace the fragment in the container with ID [R.id.main]
+     * with the [Fragment] operations to replace the fragment in the container with ID `R.id.main`
      * with the [Fragment] that the `createFragment` field of the [Demo] object held by the
      * `DemoViewHolder` that was clicked (either [AnimatedFragment], or [SeekableFragment] in our
      * case), and adds the `FragmentTransaction` to the back stack. Then the lambda sets the title

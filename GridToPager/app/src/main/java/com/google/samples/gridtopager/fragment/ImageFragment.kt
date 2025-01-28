@@ -37,12 +37,12 @@ class ImageFragment : Fragment() {
     /**
      * Called to have the fragment instantiate its user interface view. We initialize our [View]
      * variable `val view` by using our [LayoutInflater] parameter [inflater] to inflate our layout
-     * file [R.layout.fragment_image] with our [ViewGroup] parameter [container] supplying the
-     * `LayoutParams` (the [View] consists of a single [ImageView] with ID [R.id.image]). We
+     * file `R.layout.fragment_image` with our [ViewGroup] parameter [container] supplying the
+     * `LayoutParams` (the [View] consists of a single [ImageView] with ID `R.id.image`). We
      * initialize our [Bundle] variable `val arguments` to the arguments supplied when the fragment
      * was instantiated. We initialize our variable `val imageRes` to the [Int] stored under the key
      * [KEY_IMAGE_RES] in `arguments`. We set the name of the View to be used to identify Views in
-     * Transitions of the [View] in `view` with ID [R.id.image] to be the string value of the image
+     * Transitions of the [View] in `view` with ID `R.id.image` to be the string value of the image
      * resource value `imageRes` (name of the View to uniquely identify it for Transitions, which is
      * the same name used when binding views in the grid).
      *
@@ -56,7 +56,7 @@ class ImageFragment : Fragment() {
      * transition going in case of a failure and returns `false` to to allow `onLoadFailed`` to be
      * called on the target [Drawable]. The final method called in the [Glide] is `into` which
      * will set the [ImageView] that the resource will be loaded into to be the [View] in `view`
-     * with ID [R.id.image].
+     * with ID `R.id.image`.
      *
      * Finally we return `view` to the caller.
      *

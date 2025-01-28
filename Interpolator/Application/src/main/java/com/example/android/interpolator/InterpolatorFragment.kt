@@ -101,7 +101,7 @@ class InterpolatorFragment : Fragment() {
      * First we call our super's implementation of `onCreate` then we call our [initInterpolators]
      * method to have it load our [interpolators] array with [Interpolator] objects loaded from
      * `android.R.interpolator.*` resource IDs. We load our array of strings [mInterpolatorNames]
-     * from our resource string array [R.array.interpolator_names], with each string naming the
+     * from our resource string array `R.array.interpolator_names`, with each string naming the
      * corresponding entry in [interpolators]. Finally we call our method [initPaths] to have it
      * initialize the paths ([pathIn] and [pathOut]) that are used by the [ObjectAnimator] to scale
      * the view.
@@ -122,7 +122,7 @@ class InterpolatorFragment : Fragment() {
      * method and move logic that operates on the returned [View] to [onViewCreated].
      *
      * We just return the [View] that our [LayoutInflater] parameter [inflater] inflates from our
-     * layout file [R.layout.interpolator_fragment] with our [ViewGroup] parameter [container]
+     * layout file `R.layout.interpolator_fragment` with our [ViewGroup] parameter [container]
      * supplying the LayoutParams of the view.
      *
      * @param inflater The [LayoutInflater] object that can be used to inflate
@@ -133,7 +133,7 @@ class InterpolatorFragment : Fragment() {
      * @param savedInstanceState If non-null, this fragment is being re-constructed
      * from a previous saved state as given here.
      * @return Return the [View] for the fragment's UI, or `null`. In our case we always
-     * return a [View] inflated from our layout file [R.layout.interpolator_fragment].
+     * return a [View] inflated from our layout file `R.layout.interpolator_fragment`.
      */
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -153,18 +153,18 @@ class InterpolatorFragment : Fragment() {
      * up the 'animate' button so that when it is clicked the [View] field [mView] is animated with
      * the options currently selected (the Interpolator, duration and animation path). Then we
      * initialize our [TextView] field [mDurationLabel] by finding the [View] in [view] with ID
-     * [R.id.durationLabel] (displays the duration selected by the [SeekBar]), and initialize our
+     * `R.id.durationLabel` (displays the duration selected by the [SeekBar]), and initialize our
      * [Spinner] field [mInterpolatorSpinner] by finding the [View] in [view] with ID
-     * [R.id.interpolatorSpinner] (allows the user to select which kind of [Interpolator] is used
+     * `R.id.interpolatorSpinner` (allows the user to select which kind of [Interpolator] is used
      * to animate our [View] field [mView]). We initialize our [ArrayAdapter] variable
      * `val spinnerAdapter` to an instance constructed to display our string array [mInterpolatorNames]
      * using the system layout file [android.R.layout.simple_spinner_dropdown_item] for each of the
      * strings in [mInterpolatorNames]. We then set the adapter of [mInterpolatorSpinner] to
      * `spinnerAdapter`. We call our method [initSeekbar] with [view] to have it set up the [SeekBar]
-     * in [view] with ID [R.id.durationSeek] (our field [mDurationSeekbar]) to use an
+     * in [view] with ID `R.id.durationSeek` (our field [mDurationSeekbar]) to use an
      * [OnSeekBarChangeListener] which updates the text in [mDurationLabel] when the user uses the
      * [SeekBar] to change the duration of the animation. Finally we initialize our [View] field
-     * [mView] (the [View] that is animated) by finding the [View] in [view] with ID [R.id.square],
+     * [mView] (the [View] that is animated) by finding the [View] in [view] with ID `R.id.square`,
      * and then call our super's implementation of `onViewCreated`.
      *
      * @param view The [View] returned by [onCreateView].
@@ -198,7 +198,7 @@ class InterpolatorFragment : Fragment() {
      * (selected by the [SeekBar] field [mDurationSeekbar]) and animation path (toggles between
      * the [Path] field [pathOut] and the [Path] field [pathIn] depending on the current value of
      * the [Boolean] field [mIsOut]). First we initialize our [View] variable `val button` by finding
-     * the [View] in our [View] parameter [view] with ID [R.id.animateButton] then we set the
+     * the [View] in our [View] parameter [view] with ID `R.id.animateButton` then we set the
      * [View.OnClickListener] of `button` to an anonymous class whose `onClick` override animates
      * our [View] field [mView] according to the current setting of [mInterpolatorSpinner],
      * [mDurationSeekbar], and our in/out toggle field [mIsOut] then toggles the value of [mIsOut]
@@ -232,7 +232,7 @@ class InterpolatorFragment : Fragment() {
     /**
      * Set up [SeekBar] that defines the duration of the animation. We initialize our [SeekBar] field
      * [mDurationSeekbar] by finding the [View] in our [View] parameter [view] with the resource ID
-     * [R.id.durationSeek] and set its [OnSeekBarChangeListener] to an anonymous class whose override
+     * `R.id.durationSeek` and set its [OnSeekBarChangeListener] to an anonymous class whose override
      * of `onProgressChanged` updates the text of the [TextView] field [mDurationLabel] depending on
      * current progress level (which runs from 0 to 5,000 milliseconds), and whose overrides of
      * `onStartTrackingTouch` and `onStopTrackingTouch` do nothing.

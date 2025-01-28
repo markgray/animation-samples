@@ -46,19 +46,19 @@ class OscillationActivity : AppCompatActivity() {
 
     /**
      * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file [R.layout.oscillation_activity] which consists
+     * then we set our content view to our layout file `R.layout.oscillation_activity` which consists
      * of a `CoordinatorLayout` (`CoordinatorLayout` is a super-powered `FrameLayout` which will
      * coordinate the animations and transitions of the views within it) holding a `MaterialToolbar`
      * as its `AppBarLayout` and a [RecyclerView] with an `app:layout_behavior` attribute which
      * uses `AppBarLayout.ScrollingViewBehavior` to automatically scroll its AppBarLayout sibling.
      *
-     * Next we initialize our [Toolbar] variable `val toolbar` to the View with ID [R.id.toolbar],
-     * and our [RecyclerView] variable `val list` to the View with ID [R.id.list]. We set `toolbar`
+     * Next we initialize our [Toolbar] variable `val toolbar` to the View with ID `R.id.toolbar`,
+     * and our [RecyclerView] variable `val list` to the View with ID `R.id.list`. We set `toolbar`
      * to act as the ActionBar for our Activity window.
      *
-     * We use our [EdgeToEdge.setUpRoot] method to set up the view with ID [R.id.root] (it is the
+     * We use our [EdgeToEdge.setUpRoot] method to set up the view with ID `R.id.root` (it is the
      * outermost `CoordinatorLayout` holding the rest of our UI) for edge to edge display, use our
-     * [EdgeToEdge.setUpAppBar] method to configure the app bar with ID [R.id.app_bar] and the
+     * [EdgeToEdge.setUpAppBar] method to configure the app bar with ID `R.id.app_bar` and the
      * toolbar `toolbar` for edge-to-edge display, and use our method [EdgeToEdge.setUpScrollingContent]
      * to set up our scrolling ViewGroup `list` for edge-to-edge display.
      *

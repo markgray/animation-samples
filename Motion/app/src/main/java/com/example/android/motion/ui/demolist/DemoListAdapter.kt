@@ -28,7 +28,7 @@ import com.example.android.motion.R
 import com.example.android.motion.model.Demo
 
 /**
- * This is the [ListAdapter] used by `DemoListFragment` for the [RecyclerView] with ID [R.id.demo_list]
+ * This is the [ListAdapter] used by `DemoListFragment` for the [RecyclerView] with ID `R.id.demo_list`
  *
  * @param onDemoSelected lambda which will be called with the [Demo] held by the [DemoViewHolder] of
  * the item in the [RecyclerView] which has been clicked.
@@ -121,7 +121,7 @@ private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Demo>() {
 /**
  * The [RecyclerView.ViewHolder] used to hold each of the items displayed by our [RecyclerView].
  * We call our super's constructor with the [ViewGroup] that the [LayoutInflater] from the context
- * of our [ViewGroup] parameter `parent` inflates from our layout file [R.layout.demo_item] using
+ * of our [ViewGroup] parameter `parent` inflates from our layout file `R.layout.demo_item` using
  * `parent` for the layout params.
  *
  * @param parent the [ViewGroup] which our item view will be added to.

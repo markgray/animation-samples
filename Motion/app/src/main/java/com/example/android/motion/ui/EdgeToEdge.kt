@@ -109,7 +109,7 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
 
     /**
      * Configures an app bar and a toolbar for edge-to-edge display. First we initialize our variable
-     * `val toolbarPadding` to the pixel value of the dimension stored as [R.dimen.spacing_medium] in
+     * `val toolbarPadding` to the pixel value of the dimension stored as `R.dimen.spacing_medium` in
      * the resources associated with our [Toolbar] parameter [toolbar] (16dp). The we set the
      * [View.OnApplyWindowInsetsListener] of [AppBarLayout] parameter [appBar] to have a lambda take
      * over the policy for applying window insets to this view. This lambda will update the padding
@@ -209,7 +209,7 @@ private class EdgeToEdgeApi30 : EdgeToEdgeImpl {
 
     /**
      * Configures an app bar and a toolbar for edge-to-edge display. First we initialize our variable
-     * `val toolbarPadding` to the pixel value of the dimension stored as [R.dimen.spacing_medium] in
+     * `val toolbarPadding` to the pixel value of the dimension stored as `R.dimen.spacing_medium` in
      * the resources associated with our [Toolbar] parameter [toolbar] (16dp). The we set the
      * [View.OnApplyWindowInsetsListener] of [AppBarLayout] parameter [appBar] to have a lambda take
      * over the policy for applying window insets to this view. This lambda will update the padding

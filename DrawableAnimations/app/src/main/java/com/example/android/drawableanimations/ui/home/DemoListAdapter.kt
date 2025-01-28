@@ -108,7 +108,7 @@ internal val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Demo>() {
 
 /**
  * Our custom [RecyclerView.ViewHolder], our super's constructor sets its `itemView` to the `View`
- * which our [LayoutInflater] parameter `inflater` inflates from our [R.layout.demo_list_item]
+ * which our [LayoutInflater] parameter `inflater` inflates from our `R.layout.demo_list_item`
  * layout file using our [ViewGroup] parameter `parent` for its layout params.
  *
  * @param inflater the [LayoutInflater] appropriate for our parent's context
@@ -121,7 +121,7 @@ internal class DemoViewHolder(
     inflater.inflate(R.layout.demo_list_item, parent, false)
 ) {
     /**
-     * The [DemoListItemBinding] binding object to our [R.layout.demo_list_item] layout file, whose
+     * The [DemoListItemBinding] binding object to our `R.layout.demo_list_item` layout file, whose
      * `bind` extension function we call to bind the `itemView` of our [RecyclerView.ViewHolder]
      * super to it.
      */

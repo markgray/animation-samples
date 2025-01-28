@@ -49,7 +49,7 @@ class CustomTransitionFragment : Fragment(), View.OnClickListener {
     /**
      * Called to have the fragment instantiate its user interface view. We just return the [View]
      * that our [LayoutInflater] parameter [inflater] returns when it inflates our layout file
-     * [R.layout.fragment_custom_transition] using our [ViewGroup] parameter [container] for the
+     * `R.layout.fragment_custom_transition` using our [ViewGroup] parameter [container] for the
      * LayoutParams without attaching to [container].
      *
      * @param inflater The [LayoutInflater] object that can be used to inflate
@@ -77,13 +77,13 @@ class CustomTransitionFragment : Fragment(), View.OnClickListener {
      * is not however attached to its parent at this point. We initialize our [Context] variable
      * `val context` to the [Context] of the FragmentActivity this fragment is currently associated
      * with, and we initialize our [FrameLayout] variable `val container` to the [FrameLayout] in
-     * our [View] parameter [view] with ID [R.id.container]. We find the [View] in [view] with ID
-     * [R.id.show_next_scene] (the "Show next scene" `Button`) and set its `OnClickListener` to
+     * our [View] parameter [view] with ID `R.id.container`. We find the [View] in [view] with ID
+     * `R.id.show_next_scene` (the "Show next scene" `Button`) and set its `OnClickListener` to
      * `this`. If our [Bundle] parameter [savedInstanceState] is not `null` we set our [Int] field
      * [mCurrentScene] to the [Int] stored in [savedInstanceState] under the key [STATE_CURRENT_SCENE].
      * We initialize each of the [Scene] entries in our [Array] field [mScenes] with instances that
-     * are created by the [Scene.getSceneForLayout] method from the layout files [R.layout.scene1],
-     * [R.layout.scene2], and [R.layout.scene3]. We initialize our custom [Transition] field
+     * are created by the [Scene.getSceneForLayout] method from the layout files `R.layout.scene1`,
+     * `R.layout.scene2`, and [R.layout.scene3]. We initialize our custom [Transition] field
      * [mTransition] to an instance of [ChangeColor]. Finally we call the [TransitionManager.go]
      * method to have it show the initial [Scene] which is the [Scene] in [mScenes] whose index is
      * [mCurrentScene] modulo the size of [mScenes].
@@ -127,8 +127,8 @@ class CustomTransitionFragment : Fragment(), View.OnClickListener {
     }
 
     /**
-     * Called when the `Button` with ID [R.id.show_next_scene] ("Show next scene") is clicked. When
-     * the ID of our [View] parameter [v] is [R.id.show_next_scene] we add 1 to our [Int] field
+     * Called when the `Button` with ID `R.id.show_next_scene` ("Show next scene") is clicked. When
+     * the ID of our [View] parameter [v] is `R.id.show_next_scene` we add 1 to our [Int] field
      * [mCurrentScene] and set it to that value modulo the size of our [Array] field [mScenes].
      * We log a message announcing the transition to [mCurrentScene], then use the method
      * [TransitionManager.go] to have it use our custom [Transition] field [mTransition] to change

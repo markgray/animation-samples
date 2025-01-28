@@ -29,8 +29,8 @@ import com.example.android.motion.R
  * in the order they were added, before the item views
  *
  * Put spaces between items. Used in the `onViewCreated` override of `CheeseGridFragment` to add the
- * spacing [R.dimen.spacing_tiny] to the item views in its [RecyclerView], and in the `onCreate`
- * override of `ReorderActivity` to add the spacing [R.dimen.spacing_small] to its [RecyclerView].
+ * spacing `R.dimen.spacing_tiny` to the item views in its [RecyclerView], and in the `onCreate`
+ * override of `ReorderActivity` to add the spacing `R.dimen.spacing_small` to its [RecyclerView].
  *
  *  @param spacing The width of spaces in pixels.
  */

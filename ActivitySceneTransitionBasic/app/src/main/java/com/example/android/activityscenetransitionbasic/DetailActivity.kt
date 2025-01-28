@@ -34,13 +34,13 @@ import com.squareup.picasso.Picasso
  */
 class DetailActivity : AppCompatActivity() {
     /**
-     * The [ImageView] with ID [R.id.imageview_header] in our layout file layout/details.xml which
+     * The [ImageView] with ID `R.id.imageview_header` in our layout file layout/details.xml which
      * holds the large banner image.
      */
     private lateinit var mHeaderImageView: ImageView
 
     /**
-     * The [TextView] with ID [R.id.textview_title] in our layout file layout/details.xml which
+     * The [TextView] with ID `R.id.textview_title` in our layout file layout/details.xml which
      * holds the title.
      */
     private lateinit var mHeaderTitle: TextView
@@ -53,12 +53,12 @@ class DetailActivity : AppCompatActivity() {
 
     /**
      * Called when the activity is starting. First we call our super's implementation of `(onCreate)`,
-     * then we set our content view to our layout file [R.layout.details]. First we initialize our
+     * then we set our content view to our layout file `R.layout.details`. First we initialize our
      * [Item] field [mItem] by calling the [Item.getItem] static method to retrieve the [Item] in
      * the dataset [Item.ITEMS] which has the ID that was passed us as an extra in the `Intent` that
      * launched us stored under the key [EXTRA_PARAM_ID] ("detail:_id"). We then initialize our
-     * [ImageView] field [mHeaderImageView] by finding the view with ID [R.id.imageview_header], and
-     * initialize our [TextView] field [mHeaderTitle] by finding the view with ID [R.id.textview_title].
+     * [ImageView] field [mHeaderImageView] by finding the view with ID `R.id.imageview_header`, and
+     * initialize our [TextView] field [mHeaderTitle] by finding the view with ID `R.id.textview_title`.
      * We then set the name of [mHeaderImageView] to be used to identify Views in Transitions to
      * [VIEW_NAME_HEADER_IMAGE] ("detail:header:image"), and set the name of [mHeaderTitle] to be
      * used to identify Views in Transitions to [VIEW_NAME_HEADER_TITLE] ("detail:header:title").

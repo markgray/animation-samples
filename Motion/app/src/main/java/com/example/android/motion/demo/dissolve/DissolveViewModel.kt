@@ -38,18 +38,18 @@ class DissolveViewModel : ViewModel() {
     /**
      * Resource ID of the drawable to be displayed. An `Observer` is added to it in the `onCreate`
      * override of [DissolveActivity] whose lambda causes the `TransitionManager` to transition to
-     * display the drawable with the new resource ID in the [ImageView] with ID [R.id.image] whenever
+     * display the drawable with the new resource ID in the [ImageView] with ID `R.id.image` whenever
      * this property changes value. It is incremented by our [nextImage] method which is called from
-     * the `OnClickListener` of both the `MaterialCardView` with ID [R.id.card] and the `MaterialButton`
-     * with ID [R.id.next].
+     * the `OnClickListener` of both the `MaterialCardView` with ID `R.id.card` and the `MaterialButton`
+     * with ID `R.id.next`.
      */
     val image: LiveData<Int> = position.map { p -> Cheese.IMAGES[p % Cheese.IMAGES.size] }
 
     /**
      * Increments our [position] property so that it points to the next drawable resource ID in the
      * [Cheese.IMAGES] array to be displayed in the UI of [DissolveActivity]. It is called by the
-     * `OnClickListener` of both the `MaterialCardView` with ID [R.id.card] and the `MaterialButton`
-     * with ID [R.id.next].
+     * `OnClickListener` of both the `MaterialCardView` with ID `R.id.card` and the `MaterialButton`
+     * with ID `R.id.next`.
      */
     fun nextImage() {
         position.value?.let { position.value = it + 1 }

@@ -94,7 +94,7 @@ class CheeseCardFragment : Fragment() {
      * non-graphical fragments can return `null`. This will be called between [onCreate] and
      * [onActivityCreated]. It is recommended to **only** inflate the layout in this method and
      * move logic that operates on the returned View to [onViewCreated]. We just return the [View]
-     * that our [LayoutInflater] parameter [inflater] inflates from our [R.layout.cheese_card_fragment]
+     * that our [LayoutInflater] parameter [inflater] inflates from our `R.layout.cheese_card_fragment`
      * layout file using our [ViewGroup] parameter [container] for its `LayoutParams`.
      *
      * @param inflater The [LayoutInflater] object that can be used to inflate
@@ -120,20 +120,20 @@ class CheeseCardFragment : Fragment() {
      * restored in to the view. First we locate all of the important widgets in our [View] parameter
      * [view]:
      *
-     *  - `val toolbar` the [Toolbar] in our UI with ID [R.id.toolbar] used for our `ActionBar`.
-     *  - `val content` the [FrameLayout] in our UI with ID [R.id.content] fills the rest of our
+     *  - `val toolbar` the [Toolbar] in our UI with ID `R.id.toolbar` used for our `ActionBar`.
+     *  - `val content` the [FrameLayout] in our UI with ID `R.id.content` fills the rest of our
      *  screen holding the [MaterialCardView] (subclass of [FrameLayout]) which holds our [MirrorView]
      *  (used for transitioning) and the [ConstraintLayout] which displays our [Cheese].
-     *  - `val card` the [MaterialCardView] in our UI with ID [R.id.card] which holds our [MirrorView]
+     *  - `val card` the [MaterialCardView] in our UI with ID `R.id.card` which holds our [MirrorView]
      *  (used for transitioning) and the [ConstraintLayout] which displays our [Cheese].
-     *  - `val cardContent` the [ConstraintLayout] in our UI with ID [R.id.card_content] which holds
+     *  - `val cardContent` the [ConstraintLayout] in our UI with ID `R.id.card_content` which holds
      *  an [ImageView] displaying a picture of our [Cheese], a [TextView] holding the name of the
      *  [Cheese], and a [TextView] holding some fake "caption" text "describing" the [Cheese].
-     *  - `val image` the [ImageView] in our UI with ID [R.id.image] which holds a picture of our
+     *  - `val image` the [ImageView] in our UI with ID `R.id.image` which holds a picture of our
      *  [Cheese]. It is at left side of the [ConstraintLayout] `val cardContent` mentioned above.
-     *  - `val name` the [TextView] in our UI with ID [R.id.name] which holds the name of our [Cheese].
+     *  - `val name` the [TextView] in our UI with ID `R.id.name` which holds the name of our [Cheese].
      *  It is at right top side of the [ConstraintLayout] `val cardContent` mentioned above.
-     *  - `val mirror` the [MirrorView] in our UI with ID [R.id.article_mirror] which occupies the
+     *  - `val mirror` the [MirrorView] in our UI with ID `R.id.article_mirror` which occupies the
      *  same space as the above [ConstraintLayout] `val cardContent` inside of our [MaterialCardView]
      *  `val card`. It is used for the shared element transition to the [CheeseArticleFragment] UI.
      *
@@ -143,9 +143,9 @@ class CheeseCardFragment : Fragment() {
      * `content`.
      *
      * Now we proceed to set the names of the views to be used to identify Views in Transitions:
-     *  - `card` [MaterialCardView] with ID [R.id.card] is named "card"
-     *  - `cardContent` [ConstraintLayout] with ID [R.id.card_content] is named "card_content"
-     *  - `mirror` [MirrorView] with ID [R.id.article_mirror] is named "article"
+     *  - `card` [MaterialCardView] with ID `R.id.card` is named "card"
+     *  - `cardContent` [ConstraintLayout] with ID `R.id.card_content` is named "card_content"
+     *  - `mirror` [MirrorView] with ID `R.id.article_mirror` is named "article"
      *
      * Then we change `cardContent` to be treated as a single entity during Activity Transitions.
      * We add an observer to the [LiveData] wrapped `cheese` property of our [CheeseCardViewModel]

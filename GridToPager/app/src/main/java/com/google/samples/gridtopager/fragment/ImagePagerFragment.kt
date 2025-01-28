@@ -35,14 +35,14 @@ import com.google.samples.gridtopager.adapter.ImagePagerAdapter
 class ImagePagerFragment : Fragment() {
     /**
      * The [ViewPager2] we use for our UI, our [onCreateView] override inflates it from the layout
-     * file with ID [R.layout.fragment_pager] (the file layout/fragment_pager.xml). Its ID in that
-     * file is [R.id.view_pager]
+     * file with ID `R.layout.fragment_pager` (the file layout/fragment_pager.xml). Its ID in that
+     * file is `R.id.view_pager`
      */
     private lateinit var viewPager: ViewPager2
 
     /**
      * Called to have the fragment instantiate its user interface view. We use our [LayoutInflater]
-     * parameter [inflater] to inflate the layout file with ID [R.layout.fragment_pager] using our
+     * parameter [inflater] to inflate the layout file with ID `R.layout.fragment_pager` using our
      * [ViewGroup] parameter [container] for its LayoutParams and set our [ViewPager2] field
      * [viewPager] to the [View] it creates. We then set the `adapter` of [viewPager] to a new
      * instance of [ImagePagerAdapter], set its current item to [MainActivity.currentPosition],
@@ -95,7 +95,7 @@ class ImagePagerFragment : Fragment() {
      * Prepares the shared element transition from and back to the grid fragment. We initialize our
      * [Transition] variable `val transition` to the instance that the [TransitionInflater] from the
      * the `Context` this fragment is currently associated with inflates from the resource file
-     * [R.transition.image_shared_element_transition]. It is a `transitionSet` with a duration of
+     * `R.transition.image_shared_element_transition`. It is a `transitionSet` with a duration of
      * 375, a fast out slow in interpolator which runs together a `changeClipBounds` (captures the
      * View.getClipBounds() before and after the scene change and animates those changes during the
      * transition), `changeTransform` (captures scale and rotation for Views before and after the
@@ -121,7 +121,7 @@ class ImagePagerFragment : Fragment() {
                  * the `adapter` of our [ViewPager2] field [viewPager] create the page for the
                  * position [MainActivity.currentPosition]. If the view of `currentFragment` is
                  * `null` we return having done nothing, otherwise we set the first shared element
-                 * name in our [names] parameter to the `ImageView` with ID [R.id.image] in `view`.
+                 * name in our [names] parameter to the `ImageView` with ID `R.id.image` in `view`.
                  *
                  * @param names The names of all shared elements transferred from the calling Activity
                  * or Fragment in the order they were provided.

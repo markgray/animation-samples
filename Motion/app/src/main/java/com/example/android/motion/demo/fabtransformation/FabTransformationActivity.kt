@@ -57,13 +57,13 @@ class FabTransformationActivity : AppCompatActivity() {
     private val viewModel: FabTransformationViewModel by viewModels()
 
     /**
-     * The [FloatingActionButton] in our UI with ID [R.id.fab]. Its `OnClickListener` is set in our
+     * The [FloatingActionButton] in our UI with ID `R.id.fab`. Its `OnClickListener` is set in our
      * `onCreate` override, and sets its expanded state to `true`.
      */
     private lateinit var fab: FloatingActionButton
 
     /**
-     * The [TextView] in our UI with ID [R.id.message]. The [View.OnClickListener] field
+     * The [TextView] in our UI with ID `R.id.message`. The [View.OnClickListener] field
      * [cheeseOnClick] which is used on each of the cheeses displayed in our "sheet" sets its
      * text to display the `name` of the cheese when the cheese item is clicked.
      */
@@ -96,7 +96,7 @@ class FabTransformationActivity : AppCompatActivity() {
     /**
      * This is the [View.OnClickListener] that is used as the `OnClickListener` for each of the 4
      * `Cheese` items in our "sheet". We initialize our [String] variable `val name` to the tag
-     * associated with the [View] clicked that has the key [R.id.tag_name] (it is set to the `name`
+     * associated with the [View] clicked that has the key `R.id.tag_name` (it is set to the `name`
      * property of the cheese being displayed the the clicked [View] in our [onCreate] override).
      * We then set the text of our [TextView] field [message] to a string informing the user that
      * "You selected" `name`. Finally we set the expanded state of [FloatingActionButton] field
@@ -110,7 +110,7 @@ class FabTransformationActivity : AppCompatActivity() {
 
     /**
      * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file [R.layout.fab_transformation_activity]. It
+     * then we set our content view to our layout file `R.layout.fab_transformation_activity`. It
      * consists of a `CoordinatorLayout` (ID "root") holding an `AppBarLayout` (ID "app_bar") with a
      * `MaterialToolbar` child (ID "toolbar"), a `NestedScrollView` (ID "scroll") holding a
      * `FrameLayout` (ID "content") with a `TextView` child (ID "message"). The `CoordinatorLayout`
@@ -125,29 +125,29 @@ class FabTransformationActivity : AppCompatActivity() {
      * Having set up our UI we now proceed to fetch references to all the ViewGroups in the UI in
      * order to configure them:
      *  - We initialize our [CoordinatorLayout] variable `val root` by finding the view with ID
-     *  [R.id.root]
-     *  - We initialize our [Toolbar] variable `val toolbar` by finding the view with ID [R.id.toolbar]
+     *  `R.id.root`
+     *  - We initialize our [Toolbar] variable `val toolbar` by finding the view with ID `R.id.toolbar`
      *  - We initialize our [CircularRevealCardView] variable `val sheet` by finding the view with
-     *  ID [R.id.sheet]
-     *  - We initialize our [View] variable `val scrim` by finding the view with ID [R.id.scrim]
+     *  ID `R.id.sheet`
+     *  - We initialize our [View] variable `val scrim` by finding the view with ID `R.id.scrim`
      *
      * We initialize our [List] of [CheeseItemHolder] variable `val cheeseHolders` to 4 instances
-     * constructed to be associated with the views with IDs [R.id.cheese_1], [R.id.cheese_2],
-     * [R.id.cheese_3] and [R.id.cheese_4] respectively and to use our [View.OnClickListener] field
+     * constructed to be associated with the views with IDs `R.id.cheese_1`, [R.id.cheese_2],
+     * `R.id.cheese_3` and [R.id.cheese_4] respectively and to use our [View.OnClickListener] field
      * [cheeseOnClick] as its `OnClickListener`.
      *
-     * We initialize our [TextView] field [message] to the view with ID [R.id.message] and our
-     * [FloatingActionButton] field [fab] to the view with ID [R.id.fab] then call the method
+     * We initialize our [TextView] field [message] to the view with ID `R.id.message` and our
+     * [FloatingActionButton] field [fab] to the view with ID `R.id.fab` then call the method
      * [setSupportActionBar] to have it set `toolbar` to act as the ActionBar for our Activity's
      * window.
      *
      * We next proceed to do what is necessary to set up for edge-to-edge display:
      *  - We call our [EdgeToEdge.setUpRoot] method to configure our Acitiviy root view `root` to
      *  use edge-to-edge display.
-     *  - We call our [EdgeToEdge.setUpAppBar] method to configure the app bar with ID [R.id.app_bar]
+     *  - We call our [EdgeToEdge.setUpAppBar] method to configure the app bar with ID `R.id.app_bar`
      *  and our [Toolbar] in that app bar `toolbar` for edge-to-edge display.
      *  - We initialize our variable `val fabMargin` to the resource value with ID
-     *  [R.dimen.spacing_medium] (16dp).
+     *  `R.dimen.spacing_medium` (16dp).
      *  - We set an `OnApplyWindowInsetsListener` on `root` to take over the policy for applying
      *  window insets to `root` whose lambda adds `fabMargin` to the current system window insets
      *  for the left, right and bottom margins of both [FloatingActionButton] field [fab] and
@@ -162,7 +162,7 @@ class FabTransformationActivity : AppCompatActivity() {
      * so the remaining ones should be invisible) otherwise:
      *  - We set our `Cheese` variable `val cheese` to the `Cheese` at index `i`
      *  - We set the `parent` [LinearLayout] property of the current `holder` to visible.
-     *  - We set the tag with the key [R.id.tag_name] of the `parent` of the current `holder` to the
+     *  - We set the tag with the key `R.id.tag_name` of the `parent` of the current `holder` to the
      *  `name` property of `cheese`
      *  - We set the text of the `name` [TextView] of of the current `holder` to the `name` property
      *  of `cheese`.
@@ -174,8 +174,8 @@ class FabTransformationActivity : AppCompatActivity() {
      * sets the `isExpanded` property of [fab] to `true` which causes the CoordinatorLayout to
      * transform the FAB into the view whose "app:layout_behavior" is the  string (resource ID
      * string/fab_transformation_sheet_behavior) FabTransformationSheetBehavior (the view in our
-     * layout with ID [R.id.sheet]). Also the view marked with FabTransformationScrimBehavior as
-     * its "app:layout_behavior" is faded in as a content scrim (our view with ID [R.id.scrim]
+     * layout with ID `R.id.sheet`). Also the view marked with FabTransformationScrimBehavior as
+     * its "app:layout_behavior" is faded in as a content scrim (our view with ID `R.id.scrim`
      * uses string/fab_transformation_scrim_behavior for this). And we also set the `OnClickListener`
      * of our [View] variable `scrim` to a lambda which sets the `isExpanded` property of [fab] to
      * `false` which will shrink the menu sheet back into the FAB.

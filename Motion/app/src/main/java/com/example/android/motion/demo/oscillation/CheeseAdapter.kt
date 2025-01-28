@@ -252,7 +252,7 @@ internal class CheeseAdapter : ListAdapter<Cheese, CheeseViewHolder>(Cheese.DIFF
  * [Cheese] object in its [ViewGroup] parameter [parent] (which is a [RecyclerView] using
  * `StaggeredGridLayoutManager` as its layout manager in our case). Our constructor uses the
  * [LayoutInflater] from the context of our [ViewGroup] parameter [parent] to inflate our layout
- * file [R.layout.cheese_board_item] using [parent] for its layout params without attaching to it
+ * file `R.layout.cheese_board_item` using [parent] for its layout params without attaching to it
  * and passes that [View] to our super's constructor for it to use as our item view.
  *
  * @param parent the [ViewGroup] that our item view will be attached to.

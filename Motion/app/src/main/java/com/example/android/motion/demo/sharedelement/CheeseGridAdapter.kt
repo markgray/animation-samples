@@ -80,7 +80,7 @@ internal class CheeseGridAdapter(
      *  - Sets our [lastSelectedId] field to the [Cheese.id] property of `cheese` to record the
      *  selected item so that we can make the item ready before starting the reenter transition.
      *  - Finds a `NavController` associated with the [View] clicked and use it to navigate to the
-     *  destination ID [R.id.cheeseDetailFragment] (the [CheeseDetailFragment]) passing it the `id`
+     *  destination ID `R.id.cheeseDetailFragment` (the [CheeseDetailFragment]) passing it the `id`
      *  property of `cheese` as its [CheeseDetailFragmentArgs] safe args, `null` for its `navOptions`
      *  (special options for this navigation operation), and for its `navigatorExtras` an instance
      *  of [FragmentNavigatorExtras] which maps the views in our [CheeseViewHolder.itemView] to
@@ -88,29 +88,29 @@ internal class CheeseGridAdapter(
      *
      * The [FragmentNavigatorExtras] mentioned above maps the views in the [CheeseViewHolder] to the
      * string constants defined in [CheeseDetailFragment] as follows:
-     *  - [CheeseViewHolder.card] the [MaterialCardView] with ID [R.id.card] in the `itemView` of
+     *  - [CheeseViewHolder.card] the [MaterialCardView] with ID `R.id.card` in the `itemView` of
      *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_BACKGROUND] (the `card`
      *  is expanded into the background, the fragment will use this first element as the epicenter
      *  of all the fragment transitions, including Explode for non-shared elements.
-     *  - [CheeseViewHolder.image] the [ImageView] with ID [R.id.image] in the `itemView` of
+     *  - [CheeseViewHolder.image] the [ImageView] with ID `R.id.image` in the `itemView` of
      *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_IMAGE] (the `image` is
      *  the focal element in this shared element transition).
-     *  - [CheeseViewHolder.name] the [TextView] with ID [R.id.name] in the `itemView` of
+     *  - [CheeseViewHolder.name] the [TextView] with ID `R.id.name` in the `itemView` of
      *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_NAME] (this element is
      *  only on the grid item, but needs to be a shared element so it can be animated with the card)
-     *  - [CheeseViewHolder.favorite] the [ImageView] with ID [R.id.favorite] in the `itemView` of
+     *  - [CheeseViewHolder.favorite] the [ImageView] with ID `R.id.favorite` in the `itemView` of
      *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_FAVORITE] (this element is
      *  only on the grid item, but needs to be a shared element so it can be animated with the card)
-     *  - [CheeseViewHolder.bookmark] the [ImageView] with ID [R.id.bookmark] in the `itemView` of
+     *  - [CheeseViewHolder.bookmark] the [ImageView] with ID `R.id.bookmark` in the `itemView` of
      *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_BOOKMARK] (this element is
      *  only on the grid item, but needs to be a shared element so it can be animated with the card)
-     *  - [CheeseViewHolder.share] the [ImageView] with ID [R.id.share] in the `itemView` of
+     *  - [CheeseViewHolder.share] the [ImageView] with ID `R.id.share` in the `itemView` of
      *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_SHARE] (this element is
      *  only on the grid item, but needs to be a shared element so it can be animated with the card)
-     *  - [CheeseViewHolder.toolbar] the [MirrorView] with ID [R.id.toolbar] in the `itemView` of
+     *  - [CheeseViewHolder.toolbar] the [MirrorView] with ID `R.id.toolbar` in the `itemView` of
      *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_TOOLBAR] (this element
      *  is only on the detail fragment)
-     *  - [CheeseViewHolder.body] the [MirrorView] with ID [R.id.body] in the `itemView` of
+     *  - [CheeseViewHolder.body] the [MirrorView] with ID `R.id.body` in the `itemView` of
      *  [CheeseViewHolder] is mapped to [CheeseDetailFragment.TRANSITION_NAME_BODY] (this element
      *  is only on the detail fragment)
      *
@@ -256,7 +256,7 @@ internal class CheeseGridAdapter(
  * The [RecyclerView.ViewHolder] which holds all the information needed to display a [Cheese] object
  * in the [RecyclerView] used in the [CheeseGridFragment] UI. Our constructor just calls our super's
  * constructor with the [View] that the [LayoutInflater] for the context of our [ViewGroup] parameter
- * `parent` inflates from our layout file [R.layout.cheese_grid_item] when it uses `parent` for its
+ * `parent` inflates from our layout file `R.layout.cheese_grid_item` when it uses `parent` for its
  * layout params without attaching to it.
  *
  * @param parent the [ViewGroup] that our [itemView] will be attached to.
@@ -267,7 +267,7 @@ internal class CheeseViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.cheese_grid_item, parent, false)
 ) {
     /**
-     * The root [MaterialCardView] of our [itemView] with ID [R.id.card] holds all the other views.
+     * The root [MaterialCardView] of our [itemView] with ID `R.id.card` holds all the other views.
      * Used as the epicenter of all the fragment transitions, including Explode for non-shared elements.
      * Its shared element name is [CheeseDetailFragment.TRANSITION_NAME_BACKGROUND] and its unique
      * transition name is formed by appending the string value of the [Cheese.id] property of the
@@ -276,7 +276,7 @@ internal class CheeseViewHolder(
     val card: MaterialCardView = itemView.findViewById(R.id.card)
 
     /**
-     * The [ImageView] in our [itemView] with ID [R.id.image] which holds the [Drawable] picture of
+     * The [ImageView] in our [itemView] with ID `R.id.image` which holds the [Drawable] picture of
      * the [Cheese] whose resource ID is found in its [Cheese.image] property. Used as the focal
      * element in the shared element transition to [CheeseDetailFragment]. Its shared element name
      * is [CheeseDetailFragment.TRANSITION_NAME_IMAGE] and its unique transition name is formed by
@@ -286,7 +286,7 @@ internal class CheeseViewHolder(
     val image: ImageView = itemView.findViewById(R.id.image)
 
     /**
-     * The [TextView] in our [itemView] with ID [R.id.name] which displays the [Cheese.name] field
+     * The [TextView] in our [itemView] with ID `R.id.name` which displays the [Cheese.name] field
      * of the [Cheese] we hold. This element is only on the grid item, but it needs to be a shared
      * element so it can be animated with the card. Its shared element name is
      * [CheeseDetailFragment.TRANSITION_NAME_NAME] and its unique transition name is formed by
@@ -296,7 +296,7 @@ internal class CheeseViewHolder(
     val name: TextView = itemView.findViewById(R.id.name)
 
     /**
-     * The [MirrorView] in our [itemView] with ID [R.id.toolbar] which exists only in the detail
+     * The [MirrorView] in our [itemView] with ID `R.id.toolbar` which exists only in the detail
      * fragment [CheeseDetailFragment]. Its shared element name is
      * [CheeseDetailFragment.TRANSITION_NAME_TOOLBAR] and its unique transition name is formed by
      * appending the string value of the [Cheese.id] property of the [Cheese] we hold to the string:
@@ -305,8 +305,8 @@ internal class CheeseViewHolder(
     val toolbar: MirrorView = itemView.findViewById(R.id.toolbar)
 
     /**
-     * The [ImageView] in our [itemView] with ID [R.id.favorite] which holds the [Drawable] with
-     * resource ID [R.drawable.ic_favorite] (a heart icon). This element is only on the grid item,
+     * The [ImageView] in our [itemView] with ID `R.id.favorite` which holds the [Drawable] with
+     * resource ID `R.drawable.ic_favorite` (a heart icon). This element is only on the grid item,
      * but it needs to be a shared element so it can be animated with the card. Its shared element
      * name is [CheeseDetailFragment.TRANSITION_NAME_FAVORITE] and its unique transition name is
      * formed by appending the string value of the [Cheese.id] property of the [Cheese] we hold to
@@ -315,8 +315,8 @@ internal class CheeseViewHolder(
     val favorite: ImageView = itemView.findViewById(R.id.favorite)
 
     /**
-     * The [ImageView] in our [itemView] with ID [R.id.bookmark] which holds the [Drawable] with
-     * resource ID [R.drawable.ic_bookmark] (a book icon). This element is only on the grid item,
+     * The [ImageView] in our [itemView] with ID `R.id.bookmark` which holds the [Drawable] with
+     * resource ID `R.drawable.ic_bookmark` (a book icon). This element is only on the grid item,
      * but it needs to be a shared element so it can be animated with the card. Its shared element
      * name is [CheeseDetailFragment.TRANSITION_NAME_SHARE] and its unique transition name is
      * formed by appending the string value of the [Cheese.id] property of the [Cheese] we hold to
@@ -325,8 +325,8 @@ internal class CheeseViewHolder(
     val bookmark: ImageView = itemView.findViewById(R.id.bookmark)
 
     /**
-     * The [ImageView] in our [itemView] with ID [R.id.share] which holds the [Drawable] with
-     * resource ID [R.drawable.ic_share] (a share icon). This element is only on the grid item,
+     * The [ImageView] in our [itemView] with ID `R.id.share` which holds the [Drawable] with
+     * resource ID `R.drawable.ic_share` (a share icon). This element is only on the grid item,
      * but it needs to be a shared element so it can be animated with the card. Its shared element
      * name is [CheeseDetailFragment.TRANSITION_NAME_BOOKMARK] and its unique transition name is
      * formed by appending the string value of the [Cheese.id] property of the [Cheese] we hold to
@@ -335,7 +335,7 @@ internal class CheeseViewHolder(
     val share: ImageView = itemView.findViewById(R.id.share)
 
     /**
-     * The [MirrorView] in our [itemView] with ID [R.id.body] which exists only in the detail
+     * The [MirrorView] in our [itemView] with ID `R.id.body` which exists only in the detail
      * fragment [CheeseDetailFragment]. Its shared element name is
      * [CheeseDetailFragment.TRANSITION_NAME_BODY] and its unique transition name is formed by
      * appending the string value of the [Cheese.id] property of the [Cheese] we hold to the string:

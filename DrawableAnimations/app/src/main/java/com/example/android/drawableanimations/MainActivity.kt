@@ -29,9 +29,9 @@ import com.example.android.drawableanimations.ui.home.HomeFragment
 
 /**
  * This is our `MainActivity`. It uses the alternate [AppCompatActivity] constructor to provide
- * the layout file [R.layout.main_activity] that will be inflated when we call our super's
+ * the layout file `R.layout.main_activity` that will be inflated when we call our super's
  * implementation of `onCreate`. That layout file holds only a `FragmentContainerView` with the
- * ID [R.id.main] which we will replace with one of our three fragments: `HomeFragment`,
+ * ID `R.id.main` which we will replace with one of our three fragments: `HomeFragment`,
  * `AnimatedFragment`, or `SeekableFragment` depending on the state of the app. We start out by
  * adding an instance of `HomeFragment` to it in our `onCreate` override if we are not being
  * recreated after a configuration change (after a configuration change the system takes care to
@@ -41,11 +41,11 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
 
     /**
      * Called when the activity is starting. First we call our super's implementation of `onCreate`
-     * (since we passed our layout file [R.layout.main_activity] to our super's constructor it will
+     * (since we passed our layout file `R.layout.main_activity` to our super's constructor it will
      * inflate that file and set it to be our content view at this point). If our [Bundle] parameter
      * [savedInstanceState] this is the first time we have been called, so we use the `commitNow`
      * method of the `FragmentManager` for interacting with fragments associated with this activity
-     * to have it replace (add) an instance of [HomeFragment] to the container with ID [R.id.main].
+     * to have it replace (add) an instance of [HomeFragment] to the container with ID `R.id.main`.
      *
      * @param savedInstanceState If the activity is being re-initialized after previously being shut
      * down then this Bundle contains the data it most recently supplied in [onSaveInstanceState],

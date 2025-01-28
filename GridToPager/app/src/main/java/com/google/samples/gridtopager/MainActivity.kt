@@ -32,15 +32,15 @@ import com.google.samples.gridtopager.fragment.GridFragment
 class MainActivity : AppCompatActivity() {
     /**
      * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file [R.layout.activity_main] (it contains only a
-     * `FrameLayout` with ID [R.id.fragment_container]). If our [Bundle] parameter [savedInstanceState]
+     * then we set our content view to our layout file `R.layout.activity_main` (it contains only a
+     * `FrameLayout` with ID `R.id.fragment_container`). If our [Bundle] parameter [savedInstanceState]
      * is not `null` we are being recreated after a configuration change so we set our static field
      * [currentPosition] to the [Int] stored under the key [KEY_CURRENT_POSITION] in [savedInstanceState]
      * and return (the system will take care of restoring the proper fragment to our UI). On the other
      * hand if [savedInstanceState] is `null` this is the first time we have been called so we initialize
      * our [FragmentManager] variable `val fragmentManager` to the [FragmentManager] for interacting
      * with fragments associated with this activity then use it to begin a `FragmentTransaction`
-     * which adds an instance of [GridFragment] to the container with ID [R.id.fragment_container]
+     * which adds an instance of [GridFragment] to the container with ID `R.id.fragment_container`
      * using the simple name of the [GridFragment] class as the tag name, then commit that transaction.
      *
      * @param savedInstanceState If the activity is being re-initialized after previously being shut

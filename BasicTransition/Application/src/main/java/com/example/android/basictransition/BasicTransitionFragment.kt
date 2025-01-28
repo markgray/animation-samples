@@ -38,12 +38,12 @@ class BasicTransitionFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
     private lateinit var mScene1: Scene
 
     /**
-     * [Scene] inflated from the layout resource file [R.layout.scene2]
+     * [Scene] inflated from the layout resource file `R.layout.scene2`
      */
     private var mScene2: Scene? = null
 
     /**
-     * [Scene] inflated from the layout resource file [R.layout.scene3]
+     * [Scene] inflated from the layout resource file `R.layout.scene3`
      */
     private lateinit var mScene3: Scene
 
@@ -60,19 +60,19 @@ class BasicTransitionFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
     /**
      * Called to have the fragment instantiate its user interface view. First we initialize our [View]
      * variable `val view` by using our [LayoutInflater] parameter [inflater] in flate our layout file
-     * [R.layout.fragment_basic_transition], using our [ViewGroup] parameter [container] for its
+     * `R.layout.fragment_basic_transition`, using our [ViewGroup] parameter [container] for its
      * LayoutParams without attaching to it. We initialize our [RadioGroup] variable `val radioGroup`
-     * by finding the [View] in `view` with ID [R.id.select_scene] and set its `OnCheckedChangeListener`
+     * by finding the [View] in `view` with ID `R.id.select_scene` and set its `OnCheckedChangeListener`
      * to `this`. We initialize our [ViewGroup] field [mSceneRoot] by finding the [View] in `view` with
-     * ID [R.id.select_scene]. We then initialize our [Scene] field [mScene1] with an instance which
+     * ID `R.id.select_scene`. We then initialize our [Scene] field [mScene1] with an instance which
      * when entered, will remove any children from the [mSceneRoot] container and add the view in
-     * [mSceneRoot] with ID [R.id.container] as a new child of [mSceneRoot]. We initialize our [Scene]
-     * field [mScene2] with an instance described by the resource file [R.layout.scene2] with
+     * [mSceneRoot] with ID `R.id.container` as a new child of [mSceneRoot]. We initialize our [Scene]
+     * field [mScene2] with an instance described by the resource file `R.layout.scene2` with
      * [mSceneRoot] as root of the hierarchy in which scene changes and transitions will take place,
-     * and our [Scene] field [mScene3] with an instance described by the resource file [R.layout.scene3]
+     * and our [Scene] field [mScene3] with an instance described by the resource file `R.layout.scene3`
      * with [mSceneRoot] as root of the hierarchy in which scene changes and transitions will take
      * place. We initialize our [TransitionManager] field [mTransitionManagerForScene3] with a custom
-     * TransitionManager for Scene 3 inflated from the file [R.transition.scene3_transition_manager]
+     * TransitionManager for Scene 3 inflated from the file `R.transition.scene3_transition_manager`
      * in which ChangeBounds and Fade take place at the same time. Finally we return `view` to our
      * caller.
      *
@@ -123,17 +123,17 @@ class BasicTransitionFragment : Fragment(), RadioGroup.OnCheckedChangeListener {
     /**
      * Called when the checked radio button has changed. When the selection is cleared, [checkedId]
      * is -1. We switch on the value of our parameter [checkedId]:
-     *  - [R.id.select_scene_1] we use the [TransitionManager.go] method to start an automatic
+     *  - `R.id.select_scene_1` we use the [TransitionManager.go] method to start an automatic
      *  transition to [Scene] field [mScene1] using the default transition for TransitionManager.
-     *  - [R.id.select_scene_2] we use the [TransitionManager.go] method to start an automatic
+     *  - `R.id.select_scene_2` we use the [TransitionManager.go] method to start an automatic
      *  transition to [Scene] field [mScene2] using the default transition for TransitionManager.
-     *  - [R.id.select_scene_3] we use our custom [TransitionManager] field [mTransitionManagerForScene3]
+     *  - `R.id.select_scene_3` we use our custom [TransitionManager] field [mTransitionManagerForScene3]
      *  to change to [Scene] field [mScene3], using the appropriate transition for this particular
      *  scene change.
-     *  - [R.id.select_scene_4] we dynamically invoke a transition without a [Scene]. To do this we
+     *  - `R.id.select_scene_4` we dynamically invoke a transition without a [Scene]. To do this we
      *  first call the [TransitionManager.beginDelayedTransition] using [mSceneRoot] as the root of
      *  the View hierarchy to run the transition on. and then we just change view properties of the
-     *  view with ID [R.id.transition_square] to change its size to 100dp by 100dp.
+     *  view with ID `R.id.transition_square` to change its size to 100dp by 100dp.
      *
      * @param group the [RadioGroup] in which the checked radio button has changed
      * @param checkedId the unique identifier of the newly checked radio button

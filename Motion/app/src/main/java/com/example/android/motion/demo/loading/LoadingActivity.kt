@@ -44,8 +44,8 @@ import com.example.android.motion.ui.EdgeToEdge
  *
  * Shows a list of cheeses. We use the Paging Library to load the list. Motion provides timely
  * feedback and the status of user actions. An animated placeholder UI can indicate that content
- * is loading. [PlaceholderAdapter] is used to animate the alpha of its [R.drawable.image_placeholder]
- * drawable and the alpha of its [R.drawable.text_placeholder] text view background while it pretends
+ * is loading. [PlaceholderAdapter] is used to animate the alpha of its `R.drawable.image_placeholder`
+ * drawable and the alpha of its `R.drawable.text_placeholder` text view background while it pretends
  * to be delayed loading due to network delay.
  */
 class LoadingActivity : AppCompatActivity() {
@@ -57,7 +57,7 @@ class LoadingActivity : AppCompatActivity() {
     private val viewModel: LoadingViewModel by viewModels()
 
     /**
-     * The [RecyclerView] in our layout file with ID [R.id.list] which is used to display our list
+     * The [RecyclerView] in our layout file with ID `R.id.list` which is used to display our list
      * of cheeses.
      */
     private lateinit var list: RecyclerView
@@ -110,12 +110,12 @@ class LoadingActivity : AppCompatActivity() {
 
     /**
      * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file [R.layout.loading_activity] which consists of
-     * a `CoordinatorLayout` holding an `AppBarLayout` (ID [R.id.app_bar]) which holds a
-     * `MaterialToolbar` (ID [R.id.toolbar]) and a [RecyclerView] (ID [R.id.list]) which will
+     * then we set our content view to our layout file `R.layout.loading_activity` which consists of
+     * a `CoordinatorLayout` holding an `AppBarLayout` (ID `R.id.app_bar`) which holds a
+     * `MaterialToolbar` (ID `R.id.toolbar`) and a [RecyclerView] (ID [R.id.list]) which will
      * display our list of [Cheese] objects. We initialize our [Toolbar] variable `val toolbar` by
-     * finding the view with ID [R.id.toolbar], and our [RecyclerView] field [list] by finding the
-     * view with ID [R.id.list]. We call the [setSupportActionBar] method to set `toolbar` to act as
+     * finding the view with ID `R.id.toolbar`, and our [RecyclerView] field [list] by finding the
+     * view with ID `R.id.list`. We call the [setSupportActionBar] method to set `toolbar` to act as
      * the `ActionBar` for our Activity window. Then we call the various methods of [EdgeToEdge] to
      * set up our UI for edge to edge display.
      *
@@ -164,9 +164,9 @@ class LoadingActivity : AppCompatActivity() {
      * Initialize the contents of the Activity's standard options menu. You should place your menu
      * items in [menu]. This is only called once, the first time the options menu is displayed.
      * To update the menu every time it is displayed, see [onPrepareOptionsMenu]. We use a
-     * [MenuInflater] for this context to inflate our [Menu] layout file [R.menu.loading] into our
+     * [MenuInflater] for this context to inflate our [Menu] layout file `R.menu.loading` into our
      * [Menu] parameter [menu] (it consists of a single [MenuItem] with the title "Refresh" and
-     * ID [R.id.action_refresh]). Then we return the value returned by our super's implementation
+     * ID `R.id.action_refresh`). Then we return the value returned by our super's implementation
      * of `onCreateOptionsMenu`.
      *
      * @param menu The options [Menu] in which you place your items.
@@ -180,7 +180,7 @@ class LoadingActivity : AppCompatActivity() {
 
     /**
      * This hook is called whenever an item in your options menu is selected. When the item ID of
-     * our [MenuItem] parameter [item] is our [R.id.action_refresh] menu item we use the
+     * our [MenuItem] parameter [item] is our `R.id.action_refresh` menu item we use the
      * [TransitionManager.beginDelayedTransition] method to have it begin to animate to the new
      * scene which is caused by our subsequent adapter change using our [SequentialTransitionSet]
      * field [fade] as the transition to use for this change, set the adapter of our [RecyclerView]

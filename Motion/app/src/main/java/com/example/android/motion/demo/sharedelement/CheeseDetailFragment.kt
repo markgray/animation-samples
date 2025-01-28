@@ -69,7 +69,7 @@ class CheeseDetailFragment : Fragment() {
         /**
          * The transition name used for the [ImageView] loaded from the [Drawable] whose resource ID
          * is in the [Cheese.image] field of the [Cheese] displayed in the UI of [CheeseDetailFragment]
-         * in the view with ID [R.id.image] and in the view with ID [R.id.image] of the `itemView`
+         * in the view with ID `R.id.image` and in the view with ID [R.id.image] of the `itemView`
          * that was clicked in the `RecyclerView` of [CheeseGridFragment] to transition to the
          * [CheeseDetailFragment].
          */
@@ -77,33 +77,33 @@ class CheeseDetailFragment : Fragment() {
 
         /**
          * The transition name used for the [TextView] displaying the [Cheese.name] field of the
-         * [Cheese] in the view with ID [R.id.name] of the `itemView` that was clicked in the
+         * [Cheese] in the view with ID `R.id.name` of the `itemView` that was clicked in the
          * `RecyclerView` of [CheeseGridFragment] to transition to the [CheeseDetailFragment] and
-         * the [MirrorView] with ID [R.id.dummy_name] "displayed" in the UI of [CheeseDetailFragment]
+         * the [MirrorView] with ID `R.id.dummy_name` "displayed" in the UI of [CheeseDetailFragment]
          * which is only used for transitioning (the "real" [TextView] displaying the [Cheese.name]
-         * field in [CheeseDetailFragment] is its own view with ID [R.id.name]).
+         * field in [CheeseDetailFragment] is its own view with ID `R.id.name`).
          */
         const val TRANSITION_NAME_NAME: String = "name"
 
         /**
-         * The transition name used for the [Toolbar] with ID [R.id.toolbar] in our UI and the
-         * [MirrorView] with ID [R.id.toolbar] in the `itemView` that was clicked in the `RecyclerView`
+         * The transition name used for the [Toolbar] with ID `R.id.toolbar` in our UI and the
+         * [MirrorView] with ID `R.id.toolbar` in the `itemView` that was clicked in the `RecyclerView`
          * of [CheeseGridFragment] to transition to the [CheeseDetailFragment] (used for transitioning
          * between real [Toolbar] and the place holder [MirrorView] in the `itemView`)
          */
         const val TRANSITION_NAME_TOOLBAR: String = "toolbar"
 
         /**
-         * The transition name used for the [CoordinatorLayout] with ID [R.id.detail] in our UI and
-         * the [MaterialCardView] with ID [R.id.card] in the `itemView` that was clicked in the
+         * The transition name used for the [CoordinatorLayout] with ID `R.id.detail` in our UI and
+         * the [MaterialCardView] with ID `R.id.card` in the `itemView` that was clicked in the
          * `RecyclerView` of [CheeseGridFragment] to transition to the [CheeseDetailFragment]. Used
          * as the epicenter of all the fragment transitions, including Explode for non-shared elements.
          */
         const val TRANSITION_NAME_BACKGROUND: String = "background"
 
         /**
-         * The transition name used for the [MirrorView] with ID [R.id.favorite] in our UI and
-         * the [ImageView] with ID [R.id.favorite] in the `itemView` that was clicked in the
+         * The transition name used for the [MirrorView] with ID `R.id.favorite` in our UI and
+         * the [ImageView] with ID `R.id.favorite` in the `itemView` that was clicked in the
          * `RecyclerView` of [CheeseGridFragment] to transition to the [CheeseDetailFragment].
          * Used for transitioning between the real [ImageView] in the `itemView` and the place
          * holder [MirrorView] in our UI.
@@ -111,8 +111,8 @@ class CheeseDetailFragment : Fragment() {
         const val TRANSITION_NAME_FAVORITE: String = "favorite"
 
         /**
-         * The transition name used for the [MirrorView] with ID [R.id.bookmark] in our UI and
-         * the [ImageView] with ID [R.id.bookmark] in the `itemView` that was clicked in the
+         * The transition name used for the [MirrorView] with ID `R.id.bookmark` in our UI and
+         * the [ImageView] with ID `R.id.bookmark` in the `itemView` that was clicked in the
          * `RecyclerView` of [CheeseGridFragment] to transition to the [CheeseDetailFragment].
          * Used for transitioning between the real [ImageView] in the `itemView` and the place
          * holder [MirrorView] in our UI.
@@ -120,8 +120,8 @@ class CheeseDetailFragment : Fragment() {
         const val TRANSITION_NAME_BOOKMARK: String = "bookmark"
 
         /**
-         * The transition name used for the [MirrorView] with ID [R.id.share] in our UI and
-         * the [ImageView] with ID [R.id.share] in the `itemView` that was clicked in the
+         * The transition name used for the [MirrorView] with ID `R.id.share` in our UI and
+         * the [ImageView] with ID `R.id.share` in the `itemView` that was clicked in the
          * `RecyclerView` of [CheeseGridFragment] to transition to the [CheeseDetailFragment].
          * Used for transitioning between the real [ImageView] in the `itemView` and the place holder
          * [MirrorView] in our UI.
@@ -129,8 +129,8 @@ class CheeseDetailFragment : Fragment() {
         const val TRANSITION_NAME_SHARE: String = "share"
 
         /**
-         * The transition name used for the [NestedScrollView] with ID [R.id.scroll] in our UI and
-         * the [MirrorView] with ID [R.id.body] in the `itemView` that was clicked in the
+         * The transition name used for the [NestedScrollView] with ID `R.id.scroll` in our UI and
+         * the [MirrorView] with ID `R.id.body` in the `itemView` that was clicked in the
          * `RecyclerView` of [CheeseGridFragment] to transition to the [CheeseDetailFragment].
          * Used for transitioning from the real [ImageView] in the `itemView` to the place holder
          * [MirrorView] in our UI. Used for transitioning between our real [NestedScrollView] and
@@ -226,7 +226,7 @@ class CheeseDetailFragment : Fragment() {
      * [onCreate] and [onActivityCreated]. It is recommended to **only** inflate the layout in this
      * method and move logic that operates on the returned View to [onViewCreated]. We just return
      * the [View] that our [LayoutInflater] parameter [inflater] creates when it inflates our layout
-     * file [R.layout.cheese_detail_fragment] using our [ViewGroup] parameter [container] for its
+     * file `R.layout.cheese_detail_fragment` using our [ViewGroup] parameter [container] for its
      * `LayoutParams` without attaching to it.
      *
      * @param inflater The [LayoutInflater] object that can be used to inflate
@@ -252,50 +252,50 @@ class CheeseDetailFragment : Fragment() {
      * we call the [postponeEnterTransition] method to have it postpone the entering Fragment
      * transition for 500 milliseconds. Then we initialize some variables to views in our [View]
      * parameter [view]:
-     *  - `val toolbar`: [Toolbar] in [view] with ID [R.id.toolbar] holds the menu [R.menu.cheese_detail]
-     *  and is paired with the placeholder [MirrorView] with ID [R.id.toolbar] for transition purposes
+     *  - `val toolbar`: [Toolbar] in [view] with ID `R.id.toolbar` holds the menu [R.menu.cheese_detail]
+     *  and is paired with the placeholder [MirrorView] with ID `R.id.toolbar` for transition purposes
      *  only.
-     *  - `val dummyName`: [View] in [view] with ID [R.id.dummy_name] is actually a [MirrorView] which
-     *  is paired with the [TextView] with ID [R.id.name] in the `itemView` clicked in the grid fragment
+     *  - `val dummyName`: [View] in [view] with ID `R.id.dummy_name` is actually a [MirrorView] which
+     *  is paired with the [TextView] with ID `R.id.name` in the `itemView` clicked in the grid fragment
      *  for transition purposes only.
-     *  - `val name`: [TextView] in [view] with ID [R.id.name] displays the `name` property of our
+     *  - `val name`: [TextView] in [view] with ID `R.id.name` displays the `name` property of our
      *  [Cheese] object.
-     *  - `val image`: [ImageView] in [view] with ID [R.id.image] displays the [Drawable] whose resource
+     *  - `val image`: [ImageView] in [view] with ID `R.id.image` displays the [Drawable] whose resource
      *  ID is the `image` property of our [Cheese] object.
-     *  - `val scroll`: [NestedScrollView] in [view] with ID [R.id.scroll] which holds a [LinearLayout]
+     *  - `val scroll`: [NestedScrollView] in [view] with ID `R.id.scroll` which holds a [LinearLayout]
      *  which in turn holds our `name` [TextView] as well as 4 other [TextView] which display some
      *  nonsense "description" text.
-     *  - `val content`: [LinearLayout] in [view] with ID [R.id.content] mentioned above which holds
+     *  - `val content`: [LinearLayout] in [view] with ID `R.id.content` mentioned above which holds
      *  our `name` [TextView] as well as 4 other [TextView] which display some nonsense "description"
      *  text.
-     *  - `val coordinator`: [CoordinatorLayout] in [view] with ID [R.id.detail] the root [View] of
+     *  - `val coordinator`: [CoordinatorLayout] in [view] with ID `R.id.detail` the root [View] of
      *  our layout file.
-     *  - `val favorite`: [View] in [view] with ID [R.id.favorite] is actually a [MirrorView] which
-     *  is paired with the [ImageView] with ID [R.id.favorite] in the `itemView` clicked in the grid
+     *  - `val favorite`: [View] in [view] with ID `R.id.favorite` is actually a [MirrorView] which
+     *  is paired with the [ImageView] with ID `R.id.favorite` in the `itemView` clicked in the grid
      *  fragment for transition purposes only.
-     *  - `val bookmark`: [View] in [view] with ID [R.id.bookmark] is actually a [MirrorView] which
-     *  is paired with the [ImageView] with ID [R.id.bookmark] in the `itemView` clicked in the grid
+     *  - `val bookmark`: [View] in [view] with ID `R.id.bookmark` is actually a [MirrorView] which
+     *  is paired with the [ImageView] with ID `R.id.bookmark` in the `itemView` clicked in the grid
      *  fragment for transition purposes only.
-     *  - `val share`: [View] in [view] with ID [R.id.share] is actually a [MirrorView] which
-     *  is paired with the [ImageView] with ID [R.id.share] in the `itemView` clicked in the grid
+     *  - `val share`: [View] in [view] with ID `R.id.share` is actually a [MirrorView] which
+     *  is paired with the [ImageView] with ID `R.id.share` in the `itemView` clicked in the grid
      *  fragment for transition purposes only.
      *
      * We now set the transition names of the above views:
-     *  - `image` is [TRANSITION_NAME_IMAGE] which pairs with the [ImageView] with ID [R.id.image]
+     *  - `image` is [TRANSITION_NAME_IMAGE] which pairs with the [ImageView] with ID `R.id.image`
      *  in the `itemView`.
-     *  - `dummyName` is [TRANSITION_NAME_NAME] which pairs with the [TextView] with ID [R.id.name]
+     *  - `dummyName` is [TRANSITION_NAME_NAME] which pairs with the [TextView] with ID `R.id.name`
      *  in the `itemView`.
      *  - `toolbar` is [TRANSITION_NAME_TOOLBAR] which pairs with the [MirrorView] with ID
-     *  [R.id.toolbar] in the `itemView`.
+     *  `R.id.toolbar` in the `itemView`.
      *  - `coordinator` is [TRANSITION_NAME_BACKGROUND] which pairs with the [MaterialCardView] with
-     *  ID [R.id.card] in the `itemView`.
+     *  ID `R.id.card` in the `itemView`.
      *  - `favorite` is [TRANSITION_NAME_FAVORITE] which pairs with the [ImageView] with ID
-     *  [R.id.favorite] in the `itemView`.
+     *  `R.id.favorite` in the `itemView`.
      *  - `bookmark` is [TRANSITION_NAME_BOOKMARK] which pairs with the [ImageView] with ID
-     *  [R.id.bookmark] in the `itemView`.
-     *  - `share` is [TRANSITION_NAME_SHARE] which pairs with the [ImageView] with ID [R.id.share]
+     *  `R.id.bookmark` in the `itemView`.
+     *  - `share` is [TRANSITION_NAME_SHARE] which pairs with the [ImageView] with ID `R.id.share`
      *  in the `itemView`.
-     *  - `scroll` is [TRANSITION_NAME_BODY] which pairs with the [MirrorView] with ID [R.id.body]
+     *  - `scroll` is [TRANSITION_NAME_BODY] which pairs with the [MirrorView] with ID `R.id.body`
      *  in the `itemView`. In addition we call [ViewGroupCompat.setTransitionGroup] to indicate that
      *  `scroll` should be treated as a single entity during Activity Transitions.
      *

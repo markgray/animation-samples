@@ -48,13 +48,13 @@ class MainActivity : SampleActivityBase() {
 
     /**
      * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file [R.layout.activity_main]. If our [Bundle]
+     * then we set our content view to our layout file `R.layout.activity_main`. If our [Bundle]
      * parameter [savedInstanceState] is `null` this is the first time we have been called so we
      * initialize our [FragmentTransaction] variable `val transaction` by using the `FragmentManager`
      * for interacting with fragments associated with this activity to start a series of edit
      * operations on the Fragments associated it. We initialize our [CustomTransitionFragment]
      * variable `val fragment` to a new instance, use `transaction` to replace any existing fragment
-     * that was added to the container with ID [R.id.sample_content_fragment] with `fragment`.
+     * that was added to the container with ID `R.id.sample_content_fragment` with `fragment`.
      * We then schedule a commit of `transaction`.
      *
      * @param savedInstanceState If this is non-null we are being re-created after a configuration
@@ -93,7 +93,7 @@ class MainActivity : SampleActivityBase() {
     /**
      * Initialize the contents of the Activity's standard options menu. You should place your menu
      * items in to [menu]. We use a `MenuInflater` with our context to inflate our menu layout file
-     * [R.menu.main] into our [Menu] parameter [menu] and return `true` to the caller so that the
+     * `R.menu.main` into our [Menu] parameter [menu] and return `true` to the caller so that the
      * [Menu] will be displayed.
      *
      * @param menu The options [Menu] in which you place your items.
@@ -109,8 +109,8 @@ class MainActivity : SampleActivityBase() {
      * Prepare the Screen's standard options menu to be displayed. This is called right before the
      * menu is shown, every time it is shown. You can use this method to efficiently enable/disable
      * items or otherwise dynamically modify the contents. We initialize our [MenuItem] variable
-     * `val logToggle` by finding the [MenuItem] with ID [R.id.menu_toggle_log] and set the
-     * visibility of `logToggle` to visible if the [View] with ID [R.id.sample_output] is a
+     * `val logToggle` by finding the [MenuItem] with ID `R.id.menu_toggle_log` and set the
+     * visibility of `logToggle` to visible if the [View] with ID `R.id.sample_output` is a
      * [ViewAnimator] (as it is for screens with a width less than 720dp, for screens 720dp or wider
      * it is a `LinearLayout`), and to invisible if it is not (no need to toggle the log on wide
      * screens since it is always displayed). We then set the title of `logToggle` to "Hide Log"
@@ -130,9 +130,9 @@ class MainActivity : SampleActivityBase() {
 
     /**
      * This hook is called whenever an item in your options menu is selected. When the identifier
-     * of our [MenuItem] parameter [item] is [R.id.menu_toggle_log] we first toggle the value of our
+     * of our [MenuItem] parameter [item] is `R.id.menu_toggle_log` we first toggle the value of our
      * field [mLogShown]. We initialize our [ViewAnimator] variable `val output` by finding the
-     * view with ID [R.id.sample_output] and then branch on the new value of [mLogShown]:
+     * view with ID `R.id.sample_output` and then branch on the new value of [mLogShown]:
      *  - `true`: we set the child view to be displayed of `output` to 1.
      *  - `false`: we set the child view to be displayed of `output` to 0.
      *

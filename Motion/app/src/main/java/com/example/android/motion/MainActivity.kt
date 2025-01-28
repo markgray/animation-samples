@@ -26,8 +26,8 @@ import com.example.android.motion.ui.demolist.DemoListFragment
 import com.google.android.material.appbar.AppBarLayout
 
 /**
- * Our main activity. Just sets up our UI which consists of an `AppBarLayout` with ID [R.id.app_bar]
- * holding our [Toolbar], and a `FrameLayout` with ID [R.id.container] holding the various fragments
+ * Our main activity. Just sets up our UI which consists of an `AppBarLayout` with ID `R.id.app_bar`
+ * holding our [Toolbar], and a `FrameLayout` with ID `R.id.container` holding the various fragments
  * of our app starting with a [DemoListFragment] which is used to switch between the different demo
  * fragments.
  */
@@ -35,18 +35,18 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file [R.layout.main_activity]. We initialize our
-     * [Toolbar] variable `val toolbar` by finding the view with ID [R.id.toolbar] in our UI and
+     * then we set our content view to our layout file `R.layout.main_activity`. We initialize our
+     * [Toolbar] variable `val toolbar` by finding the view with ID `R.id.toolbar` in our UI and
      * set it to act as the `ActionBar` for our Activity window. We then call [EdgeToEdge.setUpRoot]
-     * with the view with ID [R.id.main] (the `CoordinatorLayout` root view of our UI) which
+     * with the view with ID `R.id.main` (the `CoordinatorLayout` root view of our UI) which
      * configures the view for edge-to-edge display, and call [EdgeToEdge.setUpAppBar] with the
-     * [AppBarLayout]  with ID [R.id.app_bar] and our [Toolbar] variable `toolbar` to configure the
+     * [AppBarLayout]  with ID `R.id.app_bar` and our [Toolbar] variable `toolbar` to configure the
      * [AppBarLayout] and [Toolbar] for edge-to-edge display. If our parameter [savedInstanceState]
      * is not `null` we are being recreated after a configuration change and the system will take
      * care of restoring whichever fragment is running in our UI and we are done. If it is `null`
      * this is the first time we are being called to we call the `commitNow` extension function of
      * the [FragmentManager] for interacting with fragments associated with this activity to replace
-     * the contents of the container with ID [R.id.container] (the `FrameLayout` in our layout file)
+     * the contents of the container with ID `R.id.container` (the `FrameLayout` in our layout file)
      * with a new instance of [DemoListFragment] automatically committing it if completes without
      * exception.
      *
