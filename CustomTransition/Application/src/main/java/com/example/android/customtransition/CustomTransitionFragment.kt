@@ -83,7 +83,7 @@ class CustomTransitionFragment : Fragment(), View.OnClickListener {
      * [mCurrentScene] to the [Int] stored in [savedInstanceState] under the key [STATE_CURRENT_SCENE].
      * We initialize each of the [Scene] entries in our [Array] field [mScenes] with instances that
      * are created by the [Scene.getSceneForLayout] method from the layout files `R.layout.scene1`,
-     * `R.layout.scene2`, and [R.layout.scene3]. We initialize our custom [Transition] field
+     * `R.layout.scene2`, and `R.layout.scene3`. We initialize our custom [Transition] field
      * [mTransition] to an instance of [ChangeColor]. Finally we call the [TransitionManager.go]
      * method to have it show the initial [Scene] which is the [Scene] in [mScenes] whose index is
      * [mCurrentScene] modulo the size of [mScenes].
