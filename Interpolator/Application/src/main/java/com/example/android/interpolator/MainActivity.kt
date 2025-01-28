@@ -116,7 +116,7 @@ class MainActivity : SampleActivityBase() {
      * menu is shown, every time it is shown. You can use this method to efficiently enable/disable
      * items or otherwise dynamically modify the contents. We initialize our [MenuItem] variable
      * `val logToggle` by finding the item in our [Menu] parameter [menu] with the resource ID
-     * `R.id.menu_toggle_log`. We set it to visible if the [View] with ID [R.id.sample_output] in
+     * `R.id.menu_toggle_log`. We set it to visible if the [View] with ID `R.id.sample_output` in
      * our UI is a [ViewAnimator] (as it is only for the displays whose width is less than 720dp
      * which use layout/activity_main.xml as their content view, it is a `LinearLayout` for displays
      * 720dp or wider which use layout-w720dp/activity_main.xml as their content view) and to

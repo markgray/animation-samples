@@ -69,7 +69,7 @@ class CheeseDetailFragment : Fragment() {
         /**
          * The transition name used for the [ImageView] loaded from the [Drawable] whose resource ID
          * is in the [Cheese.image] field of the [Cheese] displayed in the UI of [CheeseDetailFragment]
-         * in the view with ID `R.id.image` and in the view with ID [R.id.image] of the `itemView`
+         * in the view with ID `R.id.image` and in the view with ID `R.id.image` of the `itemView`
          * that was clicked in the `RecyclerView` of [CheeseGridFragment] to transition to the
          * [CheeseDetailFragment].
          */
@@ -252,7 +252,7 @@ class CheeseDetailFragment : Fragment() {
      * we call the [postponeEnterTransition] method to have it postpone the entering Fragment
      * transition for 500 milliseconds. Then we initialize some variables to views in our [View]
      * parameter [view]:
-     *  - `val toolbar`: [Toolbar] in [view] with ID `R.id.toolbar` holds the menu [R.menu.cheese_detail]
+     *  - `val toolbar`: [Toolbar] in [view] with ID `R.id.toolbar` holds the menu `R.menu.cheese_detail`
      *  and is paired with the placeholder [MirrorView] with ID `R.id.toolbar` for transition purposes
      *  only.
      *  - `val dummyName`: [View] in [view] with ID `R.id.dummy_name` is actually a [MirrorView] which

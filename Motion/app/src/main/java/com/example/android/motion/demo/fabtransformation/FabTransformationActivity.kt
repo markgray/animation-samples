@@ -132,8 +132,8 @@ class FabTransformationActivity : AppCompatActivity() {
      *  - We initialize our [View] variable `val scrim` by finding the view with ID `R.id.scrim`
      *
      * We initialize our [List] of [CheeseItemHolder] variable `val cheeseHolders` to 4 instances
-     * constructed to be associated with the views with IDs `R.id.cheese_1`, [R.id.cheese_2],
-     * `R.id.cheese_3` and [R.id.cheese_4] respectively and to use our [View.OnClickListener] field
+     * constructed to be associated with the views with IDs `R.id.cheese_1`, `R.id.cheese_2`,
+     * `R.id.cheese_3` and `R.id.cheese_4` respectively and to use our [View.OnClickListener] field
      * [cheeseOnClick] as its `OnClickListener`.
      *
      * We initialize our [TextView] field [message] to the view with ID `R.id.message` and our

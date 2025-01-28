@@ -144,7 +144,7 @@ private const val FADE_DURATION = 1000L
  * internet simulator. The constructor uses the [LayoutInflater] from the context of our [ViewGroup]
  * parameter `parent` to inflate our layout file `R.layout.cheese_list_item` to be used as the
  * item view for our [RecyclerView.ViewHolder]. This layout file consists of a `LinearLayout` holding
- * an [ImageView] with ID `R.id.image` and a [TextView] with ID [R.id.name].
+ * an [ImageView] with ID `R.id.image` and a [TextView] with ID `R.id.name`.
  */
 internal class CheeseViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater
