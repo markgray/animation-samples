@@ -20,7 +20,6 @@ import android.graphics.Rect
 import android.view.View
 import androidx.annotation.Px
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android.motion.R
 
 /**
  * A [RecyclerView.ItemDecoration] allows the application to add a special drawing and layout offset
