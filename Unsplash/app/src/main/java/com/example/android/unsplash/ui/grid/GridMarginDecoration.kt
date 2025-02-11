@@ -20,7 +20,6 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.example.android.unsplash.MainActivity
-import com.example.android.unsplash.R
 
 /**
  * The `setupRecyclerView` method of [MainActivity] adds an instance of this to its [RecyclerView]
