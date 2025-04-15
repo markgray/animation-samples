@@ -57,7 +57,7 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.10.1")
     implementation("androidx.fragment:fragment-ktx:1.8.6")
     implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("androidx.core:core-ktx:1.15.0")
+    implementation("androidx.core:core-ktx:1.16.0")
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation("androidx.vectordrawable:vectordrawable-seekable:1.0.0")
