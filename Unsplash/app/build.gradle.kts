@@ -56,5 +56,5 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation("com.squareup.retrofit:retrofit:1.9.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    implementation("androidx.core:core-ktx:1.15.0")
+    implementation("androidx.core:core-ktx:1.16.0")
 }
