@@ -79,10 +79,12 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
             }
         }
         binding.list.adapter = adapter
-        adapter.submitList(listOf(
-            Demo("AnimatedVectorDrawableCompat") { AnimatedFragment() },
-            Demo("SeekableAnimatedVectorDrawable") { SeekableFragment() }
-        ))
+        adapter.submitList(
+            listOf(
+                Demo("AnimatedVectorDrawableCompat") { AnimatedFragment() },
+                Demo("SeekableAnimatedVectorDrawable") { SeekableFragment() }
+            )
+        )
     }
 
     /**
