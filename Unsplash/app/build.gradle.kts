@@ -51,7 +51,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.google.android.material:material:1.12.0")
-    implementation("androidx.fragment:fragment-ktx:1.8.6")
+    implementation("androidx.fragment:fragment-ktx:1.8.7")
     implementation("androidx.annotation:annotation:1.9.1")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation("com.squareup.retrofit:retrofit:1.9.0")
