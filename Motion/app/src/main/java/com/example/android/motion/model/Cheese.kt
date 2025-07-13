@@ -35,7 +35,7 @@ import com.example.android.motion.R
 data class Cheese(
     val id: Long,
     val name: String,
-    @DrawableRes
+    @param:DrawableRes
     val image: Int,
     val imageWidth: Int,
     val imageHeight: Int

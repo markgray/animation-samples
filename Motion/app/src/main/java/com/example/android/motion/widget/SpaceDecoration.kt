@@ -34,7 +34,7 @@ import androidx.recyclerview.widget.RecyclerView
  *  @param spacing The width of spaces in pixels.
  */
 class SpaceDecoration(
-    @Px
+    @param:Px
     private val spacing: Int
 ) : RecyclerView.ItemDecoration() {
 
