@@ -50,10 +50,10 @@ dependencies {
     implementation("androidx.paging:paging-runtime-ktx:3.3.6")
     implementation("com.google.android.material:material:1.12.0")
 
-    implementation("androidx.navigation:navigation-fragment-ktx:2.9.1")
-    implementation("androidx.navigation:navigation-ui-ktx:2.9.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.1")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.9.2")
+    implementation("androidx.navigation:navigation-ui-ktx:2.9.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.2")
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
