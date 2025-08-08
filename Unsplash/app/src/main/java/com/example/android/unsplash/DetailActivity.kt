@@ -38,6 +38,7 @@ import com.example.android.unsplash.data.model.Photo
 import com.example.android.unsplash.ui.DetailSharedElementEnterCallback
 import com.example.android.unsplash.ui.pager.DetailViewPagerAdapter
 import java.util.ArrayList
+import androidx.core.view.isNotEmpty
 
 /**
  * Displays the [Photo] selected from the [RecyclerView] of [MainActivity] in a [ViewPager] along
@@ -185,7 +186,7 @@ class DetailActivity : AppCompatActivity() {
                 v: View, left: Int, top: Int, right: Int, bottom: Int,
                 oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int
             ) {
-                if (viewPager.childCount > 0) {
+                if (viewPager.isNotEmpty()) {
                     viewPager.removeOnLayoutChangeListener(this)
                     startPostponedEnterTransition()
                 }

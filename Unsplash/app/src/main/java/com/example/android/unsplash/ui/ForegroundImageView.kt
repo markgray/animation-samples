@@ -24,6 +24,7 @@ import android.view.View
 import android.view.ViewOutlineProvider
 import androidx.appcompat.widget.AppCompatImageView
 import com.example.android.unsplash.R
+import androidx.core.content.withStyledAttributes
 
 /**
  * A custom [AppCompatImageView] which allows a drawable to be set which will be always drawn on top
@@ -172,7 +173,6 @@ open class ForegroundImageView(
                 unscheduleDrawable(foreground)
             }
             foreground = drawable
-            @Suppress("KotlinConstantConditions") // TODO: Fix nullability confusion
             if (foreground != null) {
                 (foreground ?: return).setBounds(0, 0, width, height)
                 setWillNotDraw(false)
@@ -220,29 +220,24 @@ open class ForegroundImageView(
     }
 
     init {
-        /**
-         * We retrieve the styled attribute information for our `R.styleable.ForegroundImageView`
-         * custom attributes into our `TypedArray` variable `val a` using our field `attrs`
-         * (attributes from the xml we are inflated from) as the base set of attribute values.
-         */
-        val a = context.obtainStyledAttributes(attrs, R.styleable.ForegroundImageView)
+        context.withStyledAttributes(attrs, R.styleable.ForegroundImageView) {
 
-        /**
-         * We initialize our `Drawable` variable `val d` by retrieving the `Drawable` for the attribute
-         * in `a` for `R.styleable.ForegroundImageView_android_foreground` (defined in the file
-         * values/attrs_foreground_view.xml by: attr name="android:foreground"). This will be `null`
-         * if there is no such attribute used in the xml that we are inflated from.
-         */
-        val d: Drawable? = a.getDrawable(R.styleable.ForegroundImageView_android_foreground)
-        /**
-         * If `d` is not `null` we use our method `setForeground` to set our `Drawable` field
-         * `foreground` to `d`
-         */
-        d?.let { setForeground(it) }
-        /**
-         * Recycles the `TypedArray` variable `a` so it may be re-used by a later caller.
-         */
-        a.recycle()
+            /**
+             * We initialize our `Drawable` variable `val d` by retrieving the `Drawable` for the attribute
+             * in `a` for `R.styleable.ForegroundImageView_android_foreground` (defined in the file
+             * values/attrs_foreground_view.xml by: attr name="android:foreground"). This will be `null`
+             * if there is no such attribute used in the xml that we are inflated from.
+             */
+            val d: Drawable? = getDrawable(R.styleable.ForegroundImageView_android_foreground)
+            /**
+             * If `d` is not `null` we use our method `setForeground` to set our `Drawable` field
+             * `foreground` to `d`
+             */
+            d?.let { setForeground(it) }
+            /**
+             * Recycles the `TypedArray` variable `a` so it may be re-used by a later caller.
+             */
+        }
         /**
          * Sets the `ViewOutlineProvider` of our view, which generates the Outline that defines the
          * shape of the shadow it casts, and enables outline clipping to `ViewOutlineProvider.BOUNDS`
