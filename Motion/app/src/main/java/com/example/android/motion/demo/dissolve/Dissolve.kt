@@ -30,6 +30,7 @@ import androidx.core.animation.doOnEnd
 import androidx.core.view.drawToBitmap
 import androidx.transition.Transition
 import androidx.transition.TransitionValues
+import androidx.core.graphics.drawable.toDrawable
 
 /**
  * Dissolve animation pattern implemented as a [Transition].
@@ -156,7 +157,7 @@ class Dissolve : Transition() {
         }
 
         val view: View = endValues.view
-        val startDrawable = BitmapDrawable(view.resources, startBitmap).apply {
+        val startDrawable = startBitmap.toDrawable(view.resources).apply {
             setBounds(0, 0, startBitmap.width, startBitmap.height)
         }
 

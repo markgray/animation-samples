@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("UnusedImport") // It is used in kdoc
+
 package com.example.android.motion.demo.dissolve
 
 import android.animation.TimeInterpolator
