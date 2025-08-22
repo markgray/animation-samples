@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:Suppress("DEPRECATION") // TODO: replace PositionalDataSource by PagingSource
 
 package com.example.android.motion.demo.loading
 
 import android.os.SystemClock
 import androidx.paging.DataSource
 import androidx.paging.PositionalDataSource // TODO: replaced by PagingSource
+import androidx.paging.PagingSource
 import com.example.android.motion.model.Cheese
 
 /**

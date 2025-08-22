@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:Suppress("DEPRECATION") // TODO: replace PositionalDataSource by PagingSource
 
 package com.example.android.motion.demo.loading
 
@@ -22,7 +21,9 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
+import androidx.paging.PagingData
 import androidx.paging.PositionalDataSource // TODO: replaced by PagingSource
+import androidx.paging.PagingSource
 import androidx.paging.toLiveData
 import com.example.android.motion.model.Cheese
 
