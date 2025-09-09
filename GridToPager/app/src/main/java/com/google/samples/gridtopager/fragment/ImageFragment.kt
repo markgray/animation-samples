@@ -102,10 +102,10 @@ class ImageFragment : Fragment() {
                 }
 
                 override fun onResourceReady(
-                    resource: Drawable,
-                    model: Any,
-                    target: Target<Drawable?>,
-                    dataSource: DataSource,
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable?>?,
+                    dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
                     // The postponeEnterTransition is called on the parent ImagePagerFragment, so the

@@ -310,10 +310,10 @@ class GridAdapter(fragment: Fragment) : RecyclerView.Adapter<ImageViewHolder>() 
                      * method of [Target] parameter [target] to be called.
                      */
                     override fun onResourceReady(
-                        resource: Drawable,
-                        model: Any,
-                        target: Target<Drawable?>,
-                        dataSource: DataSource,
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable?>?,
+                        dataSource: DataSource?,
                         isFirstResource: Boolean
                     ): Boolean {
                         viewHolderListener.onLoadCompleted(image, adapterPosition)
