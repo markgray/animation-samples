@@ -21,8 +21,28 @@ import androidx.paging.PagingState
 import com.example.android.motion.model.Cheese
 import kotlinx.coroutines.delay
 
+/**
+ * A [PagingSource] that loads pages of cheeses from a static list [Cheese.ALL].
+ *
+ * This class simulates a slow network by delaying for 3 seconds in the [load] method.
+ * It uses integer page numbers as keys for pagination.
+ */
 class CheeseDataSource : PagingSource<Int, Cheese>() {
 
+    /**
+     * Loads a page of data for the [PagingSource].
+     *
+     * This function is called by the Paging library to fetch a page of data. It simulates a
+     * network delay of 3 seconds. It calculates the sublist of cheeses to be fetched based on
+     * the page key and page size provided in [params].
+     *
+     * TODO: Continue here.
+     *
+     * @param params Parameters for the load request, including the key for the page to be loaded
+     * and the requested load size. The key is an integer representing the page number.
+     * @return A [LoadResult.Page] containing the list of cheeses for the requested page, along with
+     * keys for the previous and next pages. If an error occurs, it returns a [LoadResult.Error].
+     */
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Cheese> {
         val page = params.key ?: 0 // Start from page 0 if no key is provided
         val pageSize = params.loadSize
