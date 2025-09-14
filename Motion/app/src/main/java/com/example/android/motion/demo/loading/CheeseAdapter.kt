@@ -25,9 +25,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.animation.doOnEnd
 import androidx.paging.PagedListAdapter // TODO: replaced by PagingDataAdapter
-import androidx.paging.PagingDataAdapter
 import androidx.paging.PositionalDataSource // TODO: replaced by PagingSource
-import androidx.paging.PagingSource
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop

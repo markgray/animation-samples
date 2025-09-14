@@ -19,7 +19,6 @@ package com.example.android.motion.demo.loading
 import android.os.SystemClock
 import androidx.paging.DataSource
 import androidx.paging.PositionalDataSource // TODO: replaced by PagingSource
-import androidx.paging.PagingSource
 import com.example.android.motion.model.Cheese
 
 /**
