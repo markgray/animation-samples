@@ -30,6 +30,11 @@ import kotlinx.coroutines.flow.Flow
  */
 class LoadingViewModel : ViewModel() {
 
+    /**
+     * A [Flow] of [PagingData] representing a stream of paged cheese data from the [CheeseDataSource].
+     * The data is configured to be fetched in pages of 15 items. The stream is cached in the
+     * [viewModelScope] to survive configuration changes.
+     */
     val cheeses: Flow<PagingData<Cheese>> = Pager(
         config = PagingConfig(
             pageSize = 15,
