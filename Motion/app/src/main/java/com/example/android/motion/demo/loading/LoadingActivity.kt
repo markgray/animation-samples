@@ -66,11 +66,11 @@ class LoadingActivity : AppCompatActivity() {
     private val cheeseAdapter = CheeseAdapter()
 
     /**
-     * Called when the activity is first created. This is where we do all of our normal static set up:
-     * create views, bind data to lists, etc.
+     * Called when the activity is first created. This is where we do all of our normal static set
+     * up: create views, bind data to lists, etc.
      *
      * This method sets up the UI, including the toolbar and edge-to-edge display. It initializes the
-     * [RecyclerView] with a [CheeseAdapter] and observes the [LoadingViewModel.cheeses] LiveData.
+     * [RecyclerView] with a [CheeseAdapter] and observes the [LoadingViewModel.cheeses] flow.
      * When new paged data is available, it's submitted to the adapter. It also sets up a coroutine
      * to collect the loading state from the adapter, which can be used to display loading indicators.
      *
@@ -80,7 +80,7 @@ class LoadingActivity : AppCompatActivity() {
      *
      * We initialize our [RecyclerView] property [list] to the view with ID `R.id.list` in the
      * content view. We set the toolbar as the support action bar for our activity. We call
-     * [EdgeToEdge.setUpRoot] to set up the root view of the activity for edge-to-edge display tp
+     * [EdgeToEdge.setUpRoot] to set up the root view of the activity for edge-to-edge display to
      * the view with ID `R.id.coordinator`. We call [EdgeToEdge.setUpAppBar] to set up the app bar
      * for edge-to-edge display to the view with ID `R.id.app_bar` and the [Toolbar] variable
      * `toolbar`. We call [EdgeToEdge.setUpScrollingContent] to set up the scrolling content for
@@ -138,10 +138,10 @@ class LoadingActivity : AppCompatActivity() {
     }
 
     /**
-     * Initialize the contents of the Activity's standard options menu. You should place your menu items
-     * in to [menu]. This is only called once, the first time the options menu is displayed.
+     * Initialize the contents of the Activity's standard options menu. You should place your menu
+     * items in to [menu]. This is only called once, the first time the options menu is displayed.
      *
-     * We use a [menuInflater] to inflate our menu resource file [R.menu.loading] into the [Menu]
+     * We use a [menuInflater] to inflate our menu resource file `R.menu.loading` into the [Menu]
      * parameter [menu]. This adds a "Refresh" button to the app bar. Finally we call our super's
      * implementation of `onCreateOptionsMenu` and return the value it returns.
      *
@@ -155,7 +155,7 @@ class LoadingActivity : AppCompatActivity() {
     }
 
     /**
-     * This hook is called whenever an item in your options menu is selected.
+     * This hook is called whenever an item in our options menu is selected.
      *
      * We check if the [MenuItem.getItemId] of the [MenuItem] parameter [item] is [R.id.action_refresh].
      * If it is, we call the `refresh` method of our [CheeseAdapter] field [cheeseAdapter].
