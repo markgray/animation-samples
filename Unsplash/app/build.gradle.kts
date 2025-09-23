@@ -43,6 +43,6 @@ dependencies {
     implementation("androidx.annotation:annotation:1.9.1")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation("com.squareup.retrofit:retrofit:1.9.0")
-    implementation("com.github.bumptech.glide:glide:5.0.4")
+    implementation("com.github.bumptech.glide:glide:5.0.5")
     implementation("androidx.core:core-ktx:1.17.0")
 }
