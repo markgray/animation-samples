@@ -102,6 +102,7 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
      * @param root A root view of an Activity.
      */
     override fun setUpRoot(root: ViewGroup) {
+        @Suppress("DEPRECATION") // TODO: Replace with WindowInsetsController
         root.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
     }
