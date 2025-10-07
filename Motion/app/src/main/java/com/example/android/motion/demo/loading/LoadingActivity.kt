@@ -193,6 +193,7 @@ class LoadingActivity : AppCompatActivity() {
                 TransitionManager.beginDelayedTransition(list, fade)
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

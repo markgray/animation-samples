@@ -66,7 +66,8 @@ class CheeseDataSource : PagingSource<Int, Cheese>() {
         delay(timeMillis = 3_000L)
 
         val startPosition: Int = page * pageSize
-        val endPosition: Int = (startPosition + pageSize).coerceAtMost(maximumValue = Cheese.ALL.size)
+        val endPosition: Int =
+            (startPosition + pageSize).coerceAtMost(maximumValue = Cheese.ALL.size)
 
         val cheeses: List<Cheese> = if (startPosition < Cheese.ALL.size) {
             Cheese.ALL.subList(startPosition, endPosition)

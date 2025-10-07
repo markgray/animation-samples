@@ -50,8 +50,8 @@ dependencies {
     implementation("androidx.paging:paging-runtime-ktx:3.3.6")
     implementation("com.google.android.material:material:1.13.0")
 
-    implementation("androidx.navigation:navigation-fragment-ktx:2.9.4")
-    implementation("androidx.navigation:navigation-ui-ktx:2.9.4")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.9.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.9.5")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.4")
 
