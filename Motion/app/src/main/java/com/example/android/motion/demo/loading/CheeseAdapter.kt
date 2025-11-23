@@ -80,7 +80,6 @@ internal class CheeseAdapter : PagingDataAdapter<Cheese, CheeseViewHolder>(
             // Optionally, handle the case where item is null, though with placeholders disabled
             // this path should ideally not be hit for actual list items.
             // If you still want placeholder UI for loading states, consider using LoadStateAdapter.
-            // TODO: Switch to LoadStateAdapter
             holder.showPlaceholder() // Kept for consistency if needed, but review usage.
         }
     }

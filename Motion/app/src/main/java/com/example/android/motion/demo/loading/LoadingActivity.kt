@@ -125,7 +125,7 @@ class LoadingActivity : AppCompatActivity() {
         }
 
         // Optional: Add a LoadStateListener to show/hide a progress bar or other indicators
-        // based on the load state. TODO: Add a LoadStateListener
+        // based on the load state.
         lifecycleScope.launch {
             cheeseAdapter.loadStateFlow.collectLatest { loadStates: CombinedLoadStates ->
                 // You can use loadStates.refresh, loadStates.append, loadStates.prepend

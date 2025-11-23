@@ -109,7 +109,6 @@ inline fun TransitionSet.forEachIndexed(action: (index: Int, transition: Transit
 /**
  * Our factory method to produce a [MutableIterator] for a mutable [TransitionSet] collection.
  * Provides the ability to remove elements while iterating.
- * TODO: This does not seem to be used but use could be hidden in koltin syntax -- verify this
  */
 operator fun TransitionSet.iterator(): MutableIterator<Transition> =
     object : MutableIterator<Transition> {

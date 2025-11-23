@@ -102,7 +102,7 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
      * @param root A root view of an Activity.
      */
     override fun setUpRoot(root: ViewGroup) {
-        @Suppress("DEPRECATION") // TODO: Replace with WindowInsetsController
+        @Suppress("DEPRECATION") // Needed for SDK < 30
         root.systemUiVisibility =
             View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
     }
@@ -188,7 +188,6 @@ private class EdgeToEdgeApi21 : EdgeToEdgeImpl {
  * This is the super class of [EdgeToEdge] that is used for SDK greater than or equal to 30. It will
  * eventually override all three methods of its [EdgeToEdgeImpl] super using api's introduced with
  * SDK 30.
- * TODO: Update to latest methods and constants for API 30
  */
 @RequiresApi(30)
 private class EdgeToEdgeApi30 : EdgeToEdgeImpl {
@@ -216,7 +215,6 @@ private class EdgeToEdgeApi30 : EdgeToEdgeImpl {
      * of [appBar] to have its `top` padding be the top system window inset in pixels, and update
      * the `left` padding of [toolbar] to add `toolbarPadding` to the left system window inset in
      * pixels, and the `right` padding to be the right system window inset in pixels.
-     * TODO: Solve DEPRECATION warnings (yawn).
      *
      * @param appBar An [AppBarLayout].
      * @param toolbar A [Toolbar] in the [appBar].
@@ -243,7 +241,6 @@ private class EdgeToEdgeApi30 : EdgeToEdgeImpl {
      * window inset to `originalPaddingRight` to set its `right` padding, and adding the bottom
      * system window inset to `originalPaddingBottom` to set its `bottom` padding. The lambda then
      * returns its [WindowInsets] argument `windowInsets` to its caller.
-     * TODO: Solve DEPRECATION warnings (yawn).
      *
      * @param scrollingContent A scrolling [ViewGroup]. This is typically a `RecyclerView` or a
      * `ScrollView`. It should be as wide as the screen, and should touch the bottom edge of
