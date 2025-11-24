@@ -21,16 +21,15 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.ViewAnimator
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import com.example.android.common.activities.SampleActivityBase
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import com.example.android.common.activities.SampleActivityBase
 import com.example.android.common.logger.Log
 import com.example.android.common.logger.LogFragment
 import com.example.android.common.logger.LogWrapper
@@ -80,12 +79,13 @@ class MainActivity : SampleActivityBase() {
      * a [RevealEffectBasicFragment] fragment ([savedInstanceState] is `null`) or if we are being
      * re-created after a configuration change in which case the OS will have restored our old
      * fragment.
+     * TODO: Add kdoc
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val rootView = findViewById<LinearLayout>(R.id.sample_main_layout)
+        val rootView: View = findViewById(android.R.id.content)
         ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             // Apply the insets as a margin to the view.
