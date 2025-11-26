@@ -30,6 +30,7 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.graphics.Insets
 import androidx.core.util.Pair
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -43,11 +44,25 @@ import com.squareup.picasso.Picasso
  */
 class MainActivity : AppCompatActivity() {
     /**
-     * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file `R.layout.grid`. We initialize our [GridView]
+     * Called when the activity is starting. First we call [enableEdgeToEdge] to enable edge-to-edge
+     * mode, then we call our super's implementation of `onCreate`, and set our content view to our
+     * layout file `R.layout.grid`. We initialize our [GridView]
      * variable `val grid` by finding the view with ID `R.id.grid`, and set its `onItemClickListener`
      * to our [OnItemClickListener] field [mOnItemClickListener]. We initialize our [GridAdapter]
      * variable `val adapter` to a new instance, and set the `adapter` of `grid` to it.
+     *
+     * We then call [ViewCompat.setOnApplyWindowInsetsListener] to
+     * take over the policy for applying window insets to `grid`, with the listener
+     * argument a lambda that accepts the [View] passed the lambda in variable `v` and
+     * the [WindowInsetsCompat] passed the lambda in variable `windowInsets`. It
+     * initializes its [Insets] variable `insets` to the [WindowInsetsCompat.getInsets]
+     * of `windowInsets` with [WindowInsetsCompat.Type.systemBars] as the
+     * argument, then it updates the layout parameters of `v` to be a
+     * [ViewGroup.MarginLayoutParams] with the left margin set to `insets.left`,
+     * the right margin set to `insets.right`, the top margin set to `insets.top`,
+     * and the bottom margin set to `insets.bottom`. Finally it returns
+     * [WindowInsetsCompat.CONSUMED] to the caller (so that the window insets
+     * will not keep passing down to descendant views).
      *
      * @param savedInstanceState We do not call [onSaveInstanceState] so do not use.
      */
@@ -58,8 +73,12 @@ class MainActivity : AppCompatActivity() {
 
         // Setup the GridView and set the adapter
         val grid = findViewById<GridView>(R.id.grid)
-        ViewCompat.setOnApplyWindowInsetsListener(grid) { v, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+        grid.onItemClickListener = mOnItemClickListener
+        val adapter = GridAdapter()
+        grid.adapter = adapter
+
+        ViewCompat.setOnApplyWindowInsetsListener(grid) { v: View, windowInsets: WindowInsetsCompat ->
+            val insets: Insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             // Apply the insets as a margin to the view.
             v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 leftMargin = insets.left
@@ -72,9 +91,6 @@ class MainActivity : AppCompatActivity() {
             // down to descendant views.
             WindowInsetsCompat.CONSUMED
         }
-        grid.onItemClickListener = mOnItemClickListener
-        val adapter = GridAdapter()
-        grid.adapter = adapter
     }
 
     /**
@@ -104,11 +120,11 @@ class MainActivity : AppCompatActivity() {
         OnItemClickListener { adapterView: AdapterView<*>, view: View, position: Int, _: Long ->
 
             /**
-             * Called when an item in the [android.widget.GridView] is clicked. Here will launch
+             * Called when an item in the [GridView] is clicked. Here will launch
              * the [DetailActivity], using the Scene Transition animation functionality.
              */
             /**
-             * Called when an item in the [android.widget.GridView] is clicked. Here will launch
+             * Called when an item in the [GridView] is clicked. Here will launch
              * the [DetailActivity], using the Scene Transition animation functionality.
              */
             val item = adapterView.getItemAtPosition(position) as Item
@@ -138,7 +154,7 @@ class MainActivity : AppCompatActivity() {
         }
 
     /**
-     * [android.widget.BaseAdapter] which displays items.
+     * [BaseAdapter] which displays items.
      */
     private inner class GridAdapter : BaseAdapter() {
         /**
