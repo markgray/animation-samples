@@ -25,6 +25,8 @@ import android.widget.ViewAnimator
 import androidx.fragment.app.FragmentTransaction
 import com.example.android.common.activities.SampleActivityBase
 import androidx.activity.enableEdgeToEdge
+import androidx.core.graphics.Insets
+import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -47,15 +49,30 @@ class MainActivity : SampleActivityBase() {
     private var mLogShown = false
 
     /**
-     * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to our layout file `R.layout.activity_main`. If our [Bundle]
-     * parameter [savedInstanceState] is `null` this is the first time we have been called so we
-     * initialize our [FragmentTransaction] variable `val transaction` by using the `FragmentManager`
-     * for interacting with fragments associated with this activity to start a series of edit
-     * operations on the Fragments associated it. We initialize our [CustomTransitionFragment]
-     * variable `val fragment` to a new instance, use `transaction` to replace any existing fragment
-     * that was added to the container with ID `R.id.sample_content_fragment` with `fragment`.
-     * We then schedule a commit of `transaction`.
+     * Called when the activity is starting. First we call [enableEdgeToEdge] to enable edge to edge
+     * mode, then we call our super's implementation of `onCreate`, and set our content view to our
+     * layout file `R.layout.activity_main`.
+     *
+     * We initialize our [LinearLayout] variable `rootView` by finding the view with ID
+     * `R.id.sample_main_layout`, then we use the [ViewCompat.setOnApplyWindowInsetsListener]
+     * method to set an [OnApplyWindowInsetsListener] to take over the policy for applying window
+     * insets to `rootView`, with the `listener` argument a lambda that accepts the [View] passed
+     * the lambda in variable `v` and the [WindowInsetsCompat] passed the lambda in variable
+     * `windowInsets`. It initializes its [Insets] variable `insets` to the
+     * [WindowInsetsCompat.getInsets] of `windowInsets` with [WindowInsetsCompat.Type.systemBars]
+     * as the argument, then it updates the layout parameters of `v` to be a
+     * [ViewGroup.MarginLayoutParams] with the left margin set to `insets.left`, the right margin set
+     * to `insets.right`, the top margin set to `insets.top`, and the bottom margin set to
+     * `insets.bottom`. Finally it returns [WindowInsetsCompat.CONSUMED] to the caller (so that the
+     * window insets will not keep passing down to descendant views).
+     *
+     * If our [Bundle] parameter [savedInstanceState] is `null` this is the first time we have
+     * been called so we initialize our [FragmentTransaction] variable `val transaction` by using
+     * the `FragmentManager` for interacting with fragments associated with this activity to start
+     * a series of edit operations on the Fragments associated it. We initialize our
+     * [CustomTransitionFragment] variable `val fragment` to a new instance, use `transaction`
+     * to replace any existing fragment that was added to the container with ID
+     * `R.id.sample_content_fragment` with `fragment`. We then schedule a commit of `transaction`.
      *
      * @param savedInstanceState If this is non-null we are being re-created after a configuration
      * change and the state of our [CustomTransitionFragment] has been saved by the system. If it is
@@ -66,8 +83,8 @@ class MainActivity : SampleActivityBase() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val rootView = findViewById<LinearLayout>(R.id.sample_main_layout)
-        ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { v: View, windowInsets: WindowInsetsCompat ->
+            val insets: Insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             // Apply the insets as a margin to the view.
             v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 leftMargin = insets.left
