@@ -27,6 +27,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.android.common.activities.SampleActivityBase
 import androidx.activity.enableEdgeToEdge
+import androidx.core.graphics.Insets
+import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
@@ -49,18 +51,35 @@ class MainActivity : SampleActivityBase() {
     private var mLogShown = false
 
     /**
-     * Called when the activity is starting. First we call our super's implementation of `onCreate`,
-     * then we set our content view to the layout file with resource ID `R.layout.activity_main`
-     * (either layout/activity_main.xml, or layout-w720dp/activity_main.xml for devices 720dp wide
-     * or wider). If our [Bundle] parameter [savedInstanceState] is `null` this is the first time
-     * we are being called we need to create and add an [InterpolatorFragment] to our UI (if it is
-     * not `null` we are being called after a configuration change and the system will take care of
-     * our [InterpolatorFragment] for us). To add the [InterpolatorFragment] the first time we
-     * initialize our [FragmentTransaction] variable `val transaction` by using the FragmentManager
-     * for interacting with fragments associated with this activity to begin a new transaction. We
-     * initialize our [InterpolatorFragment] variable `val fragment` with a new instance, call the
-     * `replace` method of `transaction` to replace the [Fragment] in the container with resource
-     * ID `R.id.sample_content_fragment` with `fragment` and then we commit `transaction`.
+     *
+     * Called when the activity is starting. First we call [enableEdgeToEdge] to enable edge to edge
+     * mode, then we call our super's implementation of `onCreate`, and set our content view to our
+     * layout file `R.layout.activity_main` (either layout/activity_main.xml, or
+     * layout-w720dp/activity_main.xml for devices 720dp wide or wider).
+     *
+     * We initialize our [LinearLayout] variable `rootView` by finding the view with ID
+     * `R.id.sample_main_layout`, then we use the [ViewCompat.setOnApplyWindowInsetsListener]
+     * method to set an [OnApplyWindowInsetsListener] to take over the policy for applying window
+     * insets to `rootView`, with the `listener` argument a lambda that accepts the [View] passed
+     * the lambda in variable `v` and the [WindowInsetsCompat] passed the lambda in variable
+     * `windowInsets`. It initializes its [Insets] variable `insets` to the
+     * [WindowInsetsCompat.getInsets] of `windowInsets` with [WindowInsetsCompat.Type.systemBars]
+     * as the argument, then it updates the layout parameters of `v` to be a
+     * [ViewGroup.MarginLayoutParams] with the left margin set to `insets.left`, the right margin set
+     * to `insets.right`, the top margin set to `insets.top`, and the bottom margin set to
+     * `insets.bottom`. Finally it returns [WindowInsetsCompat.CONSUMED] to the caller (so that the
+     * window insets will not keep passing down to descendant views).
+     *
+     * If our [Bundle] parameter [savedInstanceState] is `null` this is the first time
+     * we are being called so we need to create and add an [InterpolatorFragment] to our UI
+     * (if it is not `null` we are being called after a configuration change and the system
+     * will take care of our [InterpolatorFragment] for us). To add the [InterpolatorFragment] the
+     * first time we initialize our [FragmentTransaction] variable `val transaction` by using the
+     * FragmentManager for interacting with fragments associated with this activity to begin a new
+     * transaction. We initialize our [InterpolatorFragment] variable `val fragment` with a new
+     * instance, call the `replace` method of `transaction` to replace the [Fragment] in the
+     * container with resource ID `R.id.sample_content_fragment` with `fragment` and then we
+     * commit `transaction`.
      *
      * @param savedInstanceState If the activity is being re-initialized after previously being shut
      * down then this Bundle contains the data it most recently supplied in {[onSaveInstanceState].
@@ -70,8 +89,8 @@ class MainActivity : SampleActivityBase() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val rootView = findViewById<LinearLayout>(R.id.sample_main_layout)
-        ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { v: View, windowInsets: WindowInsetsCompat ->
+            val insets: Insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             // Apply the insets as a margin to the view.
             v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 leftMargin = insets.left
