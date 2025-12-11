@@ -73,18 +73,16 @@ class MainActivity : SampleActivityBase() {
      * `android.R.id.content`, then we use the [ViewCompat.setOnApplyWindowInsetsListener]
      * method to set an [OnApplyWindowInsetsListener] to take over the policy for applying window
      * insets to `rootView`, with the `listener` argument a lambda that accepts the [View] passed
-     * the lambda in variable `v` and the [WindowInsetsCompat] passed the lambda
-     * in variable `windowInsets`. It initializes its [Insets] variable
-     * `systemBars` to the [WindowInsetsCompat.getInsets] of `windowInsets` with
-     * [WindowInsetsCompat.Type.systemBars] as the argument. It then gets the insets for the
-     * IME (keyboard) using [WindowInsetsCompat.Type.ime]. It then updates
-     * the layout parameters of `v` to be a [ViewGroup.MarginLayoutParams]
-     * with the left margin set to `systemBars.left`, the right margin set to
-     * `systemBars.right`, the top margin set to `systemBars.top`, and the bottom margin
-     * set to the maximum of the system bars bottom inset and the IME bottom inset.
-     * Finally it returns [WindowInsetsCompat.CONSUMED]
-     * to the caller (so that the window insets will not keep passing down to
-     * descendant views).
+     * the lambda in variable `v` and the [WindowInsetsCompat] passed the lambda in variable
+     * `windowInsets`. It initializes its [Insets] variable `systemBars` to the
+     * [WindowInsetsCompat.getInsets] of `windowInsets` with [WindowInsetsCompat.Type.systemBars]
+     * as the argument. It then gets the insets for the IME (keyboard) using
+     * [WindowInsetsCompat.Type.ime]. It then updates the layout parameters of `v` to be a
+     * [ViewGroup.MarginLayoutParams] with the left margin set to `systemBars.left`, the right
+     * margin set to `systemBars.right`, the top margin set to `systemBars.top`, and the bottom
+     * margin set to the maximum of the system bars bottom inset and the IME bottom inset.
+     * Finally it returns [WindowInsetsCompat.CONSUMED] to the caller (so that the window insets
+     * will not keep passing down to descendant views).
      *
      * Having configured our content view we check if [savedInstanceState] is `null` and if it is
      * we have just been launched so we need to create and add a [RevealEffectBasicFragment] to our
